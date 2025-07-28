@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#f0f9ff"/>
+  <rect x="50" y="100" width="200" height="120" rx="20" fill="#0369a1"/>
+  <text x="150" y="140" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="20" font-weight="bold">ZINC</text>
+  <text x="150" y="165" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">PICOLINATE</text>
+  <text x="150" y="190" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">15-30mg</text>
+  <rect x="130" y="60" width="40" height="20" rx="5" fill="#0284c7"/>
+  <circle cx="110" cy="240" r="4" fill="#0ea5e9"/>
+  <circle cx="140" cy="250" r="4" fill="#0ea5e9"/>
+  <circle cx="160" cy="250" r="4" fill="#0ea5e9"/>
+  <circle cx="190" cy="240" r="4" fill="#0ea5e9"/>
+</svg>

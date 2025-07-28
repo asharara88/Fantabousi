@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#fefce8"/>
+  <rect x="50" y="100" width="200" height="120" rx="20" fill="#ca8a04"/>
+  <text x="150" y="130" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">CURCUMIN</text>
+  <text x="150" y="155" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">WITH BIOPERINE</text>
+  <text x="150" y="180" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">500-1000mg</text>
+  <text x="150" y="200" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">Anti-Inflammatory</text>
+  <path d="M120 60 Q150 40 180 60 Q150 80 120 60" fill="#fbbf24" opacity="0.7"/>
+  <circle cx="95" cy="240" r="4" fill="#eab308"/>
+  <circle cx="125" cy="250" r="4" fill="#eab308"/>
+  <circle cx="175" cy="250" r="4" fill="#eab308"/>
+  <circle cx="205" cy="240" r="4" fill="#eab308"/>
+</svg>

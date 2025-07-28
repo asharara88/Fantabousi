@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#f0f9ff"/>
+  <rect x="50" y="100" width="200" height="120" rx="20" fill="#0284c7"/>
+  <text x="150" y="125" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">IRON</text>
+  <text x="150" y="150" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">BISGLYCINATE</text>
+  <text x="150" y="175" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">18-25mg</text>
+  <text x="150" y="195" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">Blood Health</text>
+  <path d="M120 70 L180 70 L175 85 L125 85 Z" fill="#0ea5e9" opacity="0.7"/>
+  <path d="M135 55 L165 55 L160 70 L140 70 Z" fill="#0ea5e9" opacity="0.7"/>
+  <circle cx="100" cy="240" r="3" fill="#0284c7"/>
+  <circle cx="130" cy="255" r="3" fill="#0284c7"/>
+  <circle cx="150" cy="265" r="3" fill="#0284c7"/>
+  <circle cx="170" cy="255" r="3" fill="#0284c7"/>
+  <circle cx="200" cy="240" r="3" fill="#0284c7"/>
+</svg>

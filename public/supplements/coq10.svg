@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#fdf2f8"/>
+  <rect x="50" y="100" width="200" height="120" rx="20" fill="#be185d"/>
+  <text x="150" y="125" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">COENZYME Q10</text>
+  <text x="150" y="150" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">UBIQUINOL</text>
+  <text x="150" y="175" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">100-200mg</text>
+  <text x="150" y="195" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">Heart Health</text>
+  <path d="M150 50 L160 70 L175 70 L165 85 L170 100 L150 90 L130 100 L135 85 L125 70 L140 70 Z" fill="#ec4899" opacity="0.7"/>
+  <circle cx="80" cy="240" r="4" fill="#be185d"/>
+  <circle cx="110" cy="250" r="4" fill="#be185d"/>
+  <circle cx="150" cy="255" r="4" fill="#be185d"/>
+  <circle cx="190" cy="250" r="4" fill="#be185d"/>
+  <circle cx="220" cy="240" r="4" fill="#be185d"/>
+</svg>

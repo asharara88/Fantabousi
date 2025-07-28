@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#fef7f0"/>
+  <rect x="50" y="100" width="200" height="120" rx="20" fill="#ea580c"/>
+  <text x="150" y="140" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">OMEGA-3</text>
+  <text x="150" y="165" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">EPA/DHA</text>
+  <text x="150" y="190" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">1000-2000mg</text>
+  <ellipse cx="120" cy="60" rx="15" ry="8" fill="#fb923c" opacity="0.7"/>
+  <ellipse cx="180" cy="70" rx="18" ry="10" fill="#fb923c" opacity="0.7"/>
+  <ellipse cx="100" cy="240" rx="12" ry="6" fill="#f97316"/>
+  <ellipse cx="150" cy="250" rx="15" ry="8" fill="#f97316"/>
+  <ellipse cx="200" cy="240" rx="12" ry="6" fill="#f97316"/>
+</svg>

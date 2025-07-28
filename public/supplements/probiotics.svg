@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#ecfdf5"/>
+  <rect x="50" y="100" width="200" height="120" rx="20" fill="#059669"/>
+  <text x="150" y="130" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">PROBIOTICS</text>
+  <text x="150" y="155" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">MULTI-STRAIN</text>
+  <text x="150" y="180" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">10-50 Billion CFU</text>
+  <text x="150" y="200" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">Digestive Health</text>
+  <circle cx="100" cy="70" r="6" fill="#10b981" opacity="0.7"/>
+  <circle cx="130" cy="55" r="5" fill="#10b981" opacity="0.7"/>
+  <circle cx="170" cy="55" r="5" fill="#10b981" opacity="0.7"/>
+  <circle cx="200" cy="70" r="6" fill="#10b981" opacity="0.7"/>
+  <circle cx="85" cy="250" r="3" fill="#059669"/>
+  <circle cx="115" cy="260" r="3" fill="#059669"/>
+  <circle cx="145" cy="270" r="3" fill="#059669"/>
+  <circle cx="175" cy="260" r="3" fill="#059669"/>
+  <circle cx="215" cy="250" r="3" fill="#059669"/>
+</svg>

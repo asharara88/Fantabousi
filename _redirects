@@ -1,0 +1,5 @@
+# Redirect default Netlify subdomain to primary domain
+https://biowell-app.netlify.app/* https://biowell.ai/:splat 301!
+
+# Handle SPA routing
+/*    /index.html   200

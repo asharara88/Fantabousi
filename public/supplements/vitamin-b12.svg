@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#fdf2f8"/>
+  <rect x="50" y="100" width="200" height="120" rx="20" fill="#be185d"/>
+  <text x="150" y="140" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="20" font-weight="bold">B12</text>
+  <text x="150" y="165" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">METHYLCOBALAMIN</text>
+  <text x="150" y="190" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">1000-5000mcg</text>
+  <polygon points="150,50 160,75 150,65 140,75" fill="#ec4899"/>
+  <circle cx="100" cy="240" r="5" fill="#f472b6"/>
+  <circle cx="130" cy="250" r="5" fill="#f472b6"/>
+  <circle cx="170" cy="250" r="5" fill="#f472b6"/>
+  <circle cx="200" cy="240" r="5" fill="#f472b6"/>
+</svg>
