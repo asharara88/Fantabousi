@@ -1,0 +1,1362 @@
+openapi: 3.0.3
+info:
+  title: Biowell AI API
+  description: |
+    The Biowell AI API provides comprehensive health tracking, AI-powered coaching, 
+    and personalized wellness recommendations. This API powers the Biowell health 
+    coaching platform with features for nutrition tracking, fitness monitoring, 
+    and intelligent health insights.
+    
+    ## Features
+    - 🤖 AI-powered health coaching
+    - 📊 Comprehensive health metrics tracking
+    - 🥗 Nutrition and meal logging
+    - 💪 Fitness and workout tracking
+    - 📱 Real-time data synchronization
+    - 🔗 Wearable device integration
+    
+    ## Authentication
+    This API uses JWT Bearer tokens for authentication. Include your token in the 
+    Authorization header: `Authorization: Bearer <your-token>`
+    
+    ## Rate Limiting
+    Rate limits apply based on your subscription plan. See the documentation for details.
+    
+  version: 1.0.0
+  contact:
+    name: Biowell API Support
+    email: api-support@biowell.ai
+    url: https://biowell.ai/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: https://biowell.ai/terms
+
+servers:
+  - url: https://api.biowell.ai/v1
+    description: Production server
+  - url: https://api-staging.biowell.ai/v1
+    description: Staging server
+  - url: https://api-sandbox.biowell.ai/v1
+    description: Sandbox server for testing
+
+security:
+  - BearerAuth: []
+  - ApiKeyAuth: []
+
+paths:
+  # Authentication Endpoints
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: User login
+      description: Authenticate user with email and password
+      operationId: loginUser
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            examples:
+              standard_login:
+                summary: Standard login
+                value:
+                  email: "user@example.com"
+                  password: "securepassword123"
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: User registration
+      description: Register a new user account
+      operationId: registerUser
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /auth/refresh:
+    post:
+      tags:
+        - Authentication
+      summary: Refresh access token
+      description: Get a new access token using refresh token
+      operationId: refreshToken
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # User Profile Endpoints
+  /users/profile:
+    get:
+      tags:
+        - User Profile
+      summary: Get user profile
+      description: Retrieve the authenticated user's profile information
+      operationId: getUserProfile
+      responses:
+        '200':
+          description: Profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - User Profile
+      summary: Update user profile
+      description: Update the authenticated user's profile information
+      operationId: updateUserProfile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileRequest'
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # Health Metrics Endpoints
+  /health-metrics:
+    get:
+      tags:
+        - Health Metrics
+      summary: Get health metrics
+      description: Retrieve health metrics for the authenticated user
+      operationId: getHealthMetrics
+      parameters:
+        - name: type
+          in: query
+          description: Type of health metric to filter by
+          schema:
+            type: string
+            enum: [weight, height, body_fat, blood_pressure, heart_rate, sleep, steps]
+        - name: from
+          in: query
+          description: Start date for metrics (ISO 8601)
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          description: End date for metrics (ISO 8601)
+          schema:
+            type: string
+            format: date
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+      responses:
+        '200':
+          description: Health metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthMetricsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags:
+        - Health Metrics
+      summary: Log health metric
+      description: Log a new health metric for the authenticated user
+      operationId: logHealthMetric
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogHealthMetricRequest'
+      responses:
+        '201':
+          description: Health metric logged successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthMetricResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /health-metrics/summary:
+    get:
+      tags:
+        - Health Metrics
+      summary: Get health summary
+      description: Get aggregated health metrics summary
+      operationId: getHealthSummary
+      parameters:
+        - name: period
+          in: query
+          description: Time period for summary
+          schema:
+            type: string
+            enum: [day, week, month, quarter, year]
+            default: week
+      responses:
+        '200':
+          description: Health summary retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthSummaryResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # Nutrition Endpoints
+  /nutrition/foods/search:
+    get:
+      tags:
+        - Nutrition
+      summary: Search foods
+      description: Search for food items in the nutrition database
+      operationId: searchFoods
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search query for food items
+          schema:
+            type: string
+            minLength: 2
+            example: "chicken breast"
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        '200':
+          description: Food search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoodSearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /nutrition/meals:
+    get:
+      tags:
+        - Nutrition
+      summary: Get meal logs
+      description: Retrieve meal logs for the authenticated user
+      operationId: getMealLogs
+      parameters:
+        - name: date
+          in: query
+          description: Date for meal logs (ISO 8601 date)
+          schema:
+            type: string
+            format: date
+        - name: from
+          in: query
+          description: Start date for meal logs (ISO 8601)
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          description: End date for meal logs (ISO 8601)
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Meal logs retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MealLogsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags:
+        - Nutrition
+      summary: Log meal
+      description: Log a new meal for the authenticated user
+      operationId: logMeal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogMealRequest'
+      responses:
+        '201':
+          description: Meal logged successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MealResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # Fitness Endpoints
+  /fitness/workouts:
+    get:
+      tags:
+        - Fitness
+      summary: Get workout history
+      description: Retrieve workout history for the authenticated user
+      operationId: getWorkoutHistory
+      parameters:
+        - name: from
+          in: query
+          description: Start date for workouts (ISO 8601)
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          description: End date for workouts (ISO 8601)
+          schema:
+            type: string
+            format: date
+        - name: type
+          in: query
+          description: Type of workout to filter by
+          schema:
+            type: string
+            enum: [strength_training, cardio, yoga, running, cycling, swimming]
+      responses:
+        '200':
+          description: Workout history retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkoutHistoryResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags:
+        - Fitness
+      summary: Log workout
+      description: Log a new workout session
+      operationId: logWorkout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogWorkoutRequest'
+      responses:
+        '201':
+          description: Workout logged successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkoutResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # AI Coach Endpoints
+  /ai/chat:
+    post:
+      tags:
+        - AI Coach
+      summary: Chat with AI coach
+      description: Send a message to the AI health coach
+      operationId: chatWithAI
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+      responses:
+        '200':
+          description: AI response generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /ai/insights:
+    get:
+      tags:
+        - AI Coach
+      summary: Get AI insights
+      description: Get personalized health insights from AI
+      operationId: getAIInsights
+      parameters:
+        - name: period
+          in: query
+          description: Time period for insights
+          schema:
+            type: string
+            enum: [day, week, month]
+            default: week
+      responses:
+        '200':
+          description: AI insights retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIInsightsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # Supplement Endpoints
+  /supplements/recommendations:
+    get:
+      tags:
+        - Supplements
+      summary: Get supplement recommendations
+      description: Get personalized supplement recommendations
+      operationId: getSupplementRecommendations
+      responses:
+        '200':
+          description: Supplement recommendations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplementRecommendationsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # Health Check
+  /health:
+    get:
+      tags:
+        - System
+      summary: Health check
+      description: Check API health status
+      operationId: healthCheck
+      security: []
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResponse'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from login endpoint
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for server-to-server authentication
+
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      description: Page number for pagination
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PerPageParam:
+      name: per_page
+      in: query
+      description: Number of items per page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
+  schemas:
+    # Authentication Schemas
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        password:
+          type: string
+          minLength: 8
+          example: "securepassword123"
+
+    LoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            access_token:
+              type: string
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            refresh_token:
+              type: string
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            expires_in:
+              type: integer
+              example: 3600
+            token_type:
+              type: string
+              example: "Bearer"
+            user:
+              $ref: '#/components/schemas/User'
+
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+        - name
+        - terms_accepted
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+        name:
+          type: string
+          minLength: 2
+        terms_accepted:
+          type: boolean
+
+    RegisterResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/User'
+            message:
+              type: string
+
+    RefreshTokenRequest:
+      type: object
+      required:
+        - refresh_token
+      properties:
+        refresh_token:
+          type: string
+
+    TokenResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            access_token:
+              type: string
+            expires_in:
+              type: integer
+
+    # User Schemas
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        email_verified:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    UserProfile:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            date_of_birth:
+              type: string
+              format: date
+            gender:
+              type: string
+              enum: [male, female, other, prefer_not_to_say]
+            height:
+              type: number
+              description: Height in centimeters
+            weight:
+              type: number
+              description: Weight in kilograms
+            activity_level:
+              type: string
+              enum: [sedentary, lightly_active, moderately_active, very_active, extremely_active]
+            health_goals:
+              type: array
+              items:
+                type: string
+                enum: [weight_loss, weight_gain, muscle_gain, improve_fitness, better_sleep, stress_management]
+            dietary_restrictions:
+              type: array
+              items:
+                type: string
+            allergies:
+              type: array
+              items:
+                type: string
+            preferences:
+              $ref: '#/components/schemas/UserPreferences'
+
+    UserPreferences:
+      type: object
+      properties:
+        units:
+          type: string
+          enum: [metric, imperial]
+        timezone:
+          type: string
+        notifications:
+          type: object
+          properties:
+            email:
+              type: boolean
+            push:
+              type: boolean
+            meal_reminders:
+              type: boolean
+            workout_reminders:
+              type: boolean
+
+    UserProfileResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/UserProfile'
+
+    UpdateProfileRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        date_of_birth:
+          type: string
+          format: date
+        height:
+          type: number
+        weight:
+          type: number
+        activity_level:
+          type: string
+          enum: [sedentary, lightly_active, moderately_active, very_active, extremely_active]
+        health_goals:
+          type: array
+          items:
+            type: string
+        preferences:
+          $ref: '#/components/schemas/UserPreferences'
+
+    # Health Metrics Schemas
+    HealthMetric:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [weight, height, body_fat, blood_pressure, heart_rate, sleep, steps]
+        value:
+          type: number
+        unit:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        notes:
+          type: string
+        user_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+
+    LogHealthMetricRequest:
+      type: object
+      required:
+        - type
+        - value
+        - unit
+      properties:
+        type:
+          type: string
+          enum: [weight, height, body_fat, blood_pressure, heart_rate, sleep, steps]
+        value:
+          type: number
+        unit:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        notes:
+          type: string
+
+    HealthMetricResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/HealthMetric'
+
+    HealthMetricsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthMetric'
+        analytics:
+          type: object
+          properties:
+            average:
+              type: number
+            min:
+              type: number
+            max:
+              type: number
+            trend:
+              type: string
+              enum: [increasing, decreasing, stable]
+            change_percent:
+              type: number
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    HealthSummaryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            period:
+              type: string
+            health_score:
+              type: integer
+              minimum: 0
+              maximum: 100
+            metrics:
+              type: object
+            insights:
+              type: array
+              items:
+                type: string
+
+    # Nutrition Schemas
+    Food:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        brand:
+          type: string
+        serving_size:
+          type: string
+        nutrition:
+          $ref: '#/components/schemas/NutritionInfo'
+        verified:
+          type: boolean
+
+    NutritionInfo:
+      type: object
+      properties:
+        calories:
+          type: number
+        protein:
+          type: number
+        carbs:
+          type: number
+        fat:
+          type: number
+        fiber:
+          type: number
+        sugar:
+          type: number
+        sodium:
+          type: number
+
+    FoodSearchResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Food'
+
+    MealFood:
+      type: object
+      properties:
+        food_id:
+          type: string
+        quantity:
+          type: number
+        serving_size:
+          type: string
+
+    LogMealRequest:
+      type: object
+      required:
+        - meal_type
+        - foods
+      properties:
+        meal_type:
+          type: string
+          enum: [breakfast, lunch, dinner, snack]
+        foods:
+          type: array
+          items:
+            $ref: '#/components/schemas/MealFood'
+        timestamp:
+          type: string
+          format: date-time
+        notes:
+          type: string
+
+    Meal:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        meal_type:
+          type: string
+          enum: [breakfast, lunch, dinner, snack]
+        foods:
+          type: array
+          items:
+            $ref: '#/components/schemas/MealFood'
+        nutrition_total:
+          $ref: '#/components/schemas/NutritionInfo'
+        timestamp:
+          type: string
+          format: date-time
+        notes:
+          type: string
+
+    MealResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Meal'
+
+    MealLogsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+            meals:
+              type: array
+              items:
+                $ref: '#/components/schemas/Meal'
+            daily_total:
+              $ref: '#/components/schemas/NutritionInfo'
+            goals:
+              $ref: '#/components/schemas/NutritionInfo'
+            progress:
+              type: object
+              properties:
+                calories:
+                  type: number
+                protein:
+                  type: number
+                carbs:
+                  type: number
+                fat:
+                  type: number
+
+    # Fitness Schemas
+    Exercise:
+      type: object
+      properties:
+        name:
+          type: string
+        sets:
+          type: integer
+        reps:
+          type: integer
+        weight:
+          type: number
+        duration:
+          type: integer
+        rest_time:
+          type: integer
+
+    LogWorkoutRequest:
+      type: object
+      required:
+        - name
+        - type
+        - duration
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [strength_training, cardio, yoga, running, cycling, swimming]
+        duration:
+          type: integer
+          description: Duration in minutes
+        calories_burned:
+          type: integer
+        exercises:
+          type: array
+          items:
+            $ref: '#/components/schemas/Exercise'
+        timestamp:
+          type: string
+          format: date-time
+        notes:
+          type: string
+
+    Workout:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+        duration:
+          type: integer
+        calories_burned:
+          type: integer
+        exercises:
+          type: array
+          items:
+            $ref: '#/components/schemas/Exercise'
+        timestamp:
+          type: string
+          format: date-time
+        notes:
+          type: string
+
+    WorkoutResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Workout'
+
+    WorkoutHistoryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Workout'
+
+    # AI Coach Schemas
+    ChatRequest:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+        context:
+          type: object
+          description: Additional context for the AI
+        session_id:
+          type: string
+          description: Session ID for conversation continuity
+
+    Recommendation:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        priority:
+          type: string
+          enum: [low, medium, high]
+
+    ChatResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+            recommendations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Recommendation'
+            follow_up_questions:
+              type: array
+              items:
+                type: string
+            session_id:
+              type: string
+
+    AIInsight:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        impact:
+          type: string
+          enum: [positive, negative, neutral]
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    AIInsightsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            health_score:
+              type: integer
+              minimum: 0
+              maximum: 100
+            insights:
+              type: array
+              items:
+                $ref: '#/components/schemas/AIInsight'
+            recommendations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Recommendation'
+
+    # Supplement Schemas
+    Supplement:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        dosage:
+          type: string
+        frequency:
+          type: string
+        reason:
+          type: string
+        evidence_level:
+          type: string
+          enum: [strong, moderate, limited, insufficient]
+        potential_benefits:
+          type: array
+          items:
+            type: string
+        price_range:
+          type: string
+        confidence_score:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    SupplementRecommendationsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Supplement'
+
+    # Common Schemas
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        per_page:
+          type: integer
+        total:
+          type: integer
+        total_pages:
+          type: integer
+        has_next:
+          type: boolean
+        has_prev:
+          type: boolean
+        next_page:
+          type: integer
+          nullable: true
+        prev_page:
+          type: integer
+          nullable: true
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "VALIDATION_ERROR"
+            message:
+              type: string
+              example: "The provided data is invalid"
+            details:
+              type: object
+              additionalProperties: true
+            request_id:
+              type: string
+              example: "req_123456789"
+            timestamp:
+              type: string
+              format: date-time
+
+    HealthCheckResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "healthy"
+        version:
+          type: string
+          example: "1.0.0"
+        timestamp:
+          type: string
+          format: date-time
+        services:
+          type: object
+          properties:
+            database:
+              type: string
+              example: "healthy"
+            ai:
+              type: string
+              example: "healthy"
+            cache:
+              type: string
+              example: "healthy"
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            error:
+              code: "VALIDATION_ERROR"
+              message: "The provided data is invalid"
+              details:
+                email: ["Email is required"]
+
+    Unauthorized:
+      description: Unauthorized - invalid authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            error:
+              code: "AUTHENTICATION_ERROR"
+              message: "Invalid or missing authentication token"
+
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            error:
+              code: "RESOURCE_NOT_FOUND"
+              message: "The requested resource was not found"
+
+    Conflict:
+      description: Conflict - resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            error:
+              code: "DUPLICATE_RESOURCE"
+              message: "A user with this email already exists"
+
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            error:
+              code: "RATE_LIMIT_EXCEEDED"
+              message: "Rate limit exceeded. Try again in 3600 seconds"
+
+    ServiceUnavailable:
+      description: Service temporarily unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            error:
+              code: "AI_SERVICE_ERROR"
+              message: "AI service is temporarily unavailable"
+
+tags:
+  - name: Authentication
+    description: User authentication and authorization
+  - name: User Profile
+    description: User profile management
+  - name: Health Metrics
+    description: Health data tracking and analytics
+  - name: Nutrition
+    description: Nutrition tracking and meal logging
+  - name: Fitness
+    description: Fitness tracking and workout logging
+  - name: AI Coach
+    description: AI-powered health coaching and insights
+  - name: Supplements
+    description: Supplement recommendations
+  - name: System
+    description: System health and status
