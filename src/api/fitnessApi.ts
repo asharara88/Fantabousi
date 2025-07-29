@@ -173,7 +173,9 @@ export const fitnessApi = {
         .eq('workout_id', workoutId)
         .order('id');
       
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
       
       return data.map(item => ({
         id: item.id,
@@ -263,7 +265,9 @@ function mockWorkoutHistory(userId: string, days: number): WorkoutSession[] {
   
   for (let i = 0; i < Math.min(days, 14); i++) {
     // Skip some days to make it realistic
-    if (Math.random() > 0.7) continue;
+    if (Math.random() > 0.7) {
+      continue;
+    }
     
     const date = new Date();
     date.setDate(now.getDate() - i);
