@@ -27,7 +27,6 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
   const [isLoading, setIsLoading] = useState(true);
   const [showAddWorkout, setShowAddWorkout] = useState(false);
   const [timeRange, setTimeRange] = useState(7); // days
-  const [showMuscleVisualization, setShowMuscleVisualization] = useState(false);
   
   // New workout form state
   const [newWorkout, setNewWorkout] = useState({
