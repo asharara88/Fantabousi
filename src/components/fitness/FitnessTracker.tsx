@@ -186,7 +186,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
           boxWidth: 8,
           font: {
             size: 13,
-            weight: '500'
+            weight: 'normal' as const
           },
           color: '#6B7280'
         }
@@ -215,7 +215,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
           color: 'rgba(107, 114, 128, 0.8)',
           font: {
             size: 11,
-            weight: '500'
+            weight: 'normal' as const
           }
         }
       },
@@ -228,7 +228,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
           color: 'rgba(107, 114, 128, 0.8)',
           font: {
             size: 11,
-            weight: '500'
+            weight: 'normal' as const
           }
         },
         title: {
@@ -237,7 +237,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
           color: 'rgba(107, 114, 128, 0.8)',
           font: {
             size: 12,
-            weight: '600'
+            weight: 'bold' as const
           }
         }
       },
@@ -250,7 +250,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
           color: 'rgba(107, 114, 128, 0.8)',
           font: {
             size: 11,
-            weight: '500'
+            weight: 'normal' as const
           }
         },
         title: {
@@ -259,7 +259,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
           color: 'rgba(107, 114, 128, 0.8)',
           font: {
             size: 12,
-            weight: '600'
+            weight: 'bold' as const
           }
         }
       }
@@ -277,7 +277,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
           usePointStyle: true,
           font: {
             size: 12,
-            weight: '500'
+            weight: 'normal' as const
           },
           color: '#6B7280'
         }
