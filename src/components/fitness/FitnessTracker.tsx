@@ -332,8 +332,8 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
       {(activeTab === 'dashboard' || !activeTab) && (
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Fitness Overview</h2>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">Comprehensive insights into your fitness journey</p>
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Fitness Overview</h2>
+            <p className="mt-1 text-gray-600 dark:text-gray-400">Comprehensive insights into your fitness journey</p>
           </div>
           <div className="flex items-center space-x-3">
             <select
@@ -347,7 +347,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
             </select>
             <Button
               onClick={() => setShowAddWorkout(true)}
-              className="flex items-center shadow-lg hover:shadow-xl transition-all duration-300"
+              className="flex items-center transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               <Plus className="w-4 h-4 mr-2" />
               Log Workout
@@ -358,7 +358,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
 
       {isLoading ? (
         <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          <div className="w-12 h-12 border-b-2 rounded-full animate-spin border-primary"></div>
         </div>
       ) : (
         <>
@@ -366,25 +366,25 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
           {(activeTab === 'dashboard' || !activeTab) && (
             <>
               {/* Sophisticated Fitness Summary Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <Card className="p-6 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border-blue-200 dark:border-blue-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  <Card className="p-6 transition-all duration-300 transform border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 dark:border-blue-700 hover:shadow-xl hover:-translate-y-1">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="p-3 rounded-xl bg-blue-500 shadow-lg">
+                      <div className="p-3 bg-blue-500 shadow-lg rounded-xl">
                         <Activity className="w-6 h-6 text-white" />
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+                        <p className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                           {fitnessSummary?.totalWorkouts || 0}
                         </p>
-                        <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">This period</p>
+                        <p className="text-sm font-medium text-blue-600 dark:text-blue-400">This period</p>
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Workouts</h3>
+                    <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Workouts</h3>
                     <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
                       <TrendingUp className="w-4 h-4 mr-1 text-green-500" />
                       <span>+12% from last period</span>
@@ -397,19 +397,19 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
                 >
-                  <Card className="p-6 bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 border-red-200 dark:border-red-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  <Card className="p-6 transition-all duration-300 transform border-red-200 bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 dark:border-red-700 hover:shadow-xl hover:-translate-y-1">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="p-3 rounded-xl bg-red-500 shadow-lg">
+                      <div className="p-3 bg-red-500 shadow-lg rounded-xl">
                         <Flame className="w-6 h-6 text-white" />
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+                        <p className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                           {fitnessSummary?.totalCaloriesBurned || 0}
                         </p>
-                        <p className="text-sm text-red-600 dark:text-red-400 font-medium">Calories</p>
+                        <p className="text-sm font-medium text-red-600 dark:text-red-400">Calories</p>
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Calories Burned</h3>
+                    <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Calories Burned</h3>
                     <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
                       <TrendingUp className="w-4 h-4 mr-1 text-green-500" />
                       <span>+8% from last period</span>
@@ -422,19 +422,19 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  <Card className="p-6 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 border-green-200 dark:border-green-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  <Card className="p-6 transition-all duration-300 transform border-green-200 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 dark:border-green-700 hover:shadow-xl hover:-translate-y-1">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="p-3 rounded-xl bg-green-500 shadow-lg">
+                      <div className="p-3 bg-green-500 shadow-lg rounded-xl">
                         <Clock className="w-6 h-6 text-white" />
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+                        <p className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                           {Math.round((fitnessSummary?.totalActiveMinutes || 0) / 60)}h
                         </p>
-                        <p className="text-sm text-green-600 dark:text-green-400 font-medium">Active time</p>
+                        <p className="text-sm font-medium text-green-600 dark:text-green-400">Active time</p>
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Active Minutes</h3>
+                    <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Active Minutes</h3>
                     <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
                       <TrendingUp className="w-4 h-4 mr-1 text-green-500" />
                       <span>+15% from last period</span>
@@ -447,19 +447,19 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  <Card className="p-6 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 border-purple-200 dark:border-purple-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  <Card className="p-6 transition-all duration-300 transform border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 dark:border-purple-700 hover:shadow-xl hover:-translate-y-1">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="p-3 rounded-xl bg-purple-500 shadow-lg">
+                      <div className="p-3 bg-purple-500 shadow-lg rounded-xl">
                         <BarChart2 className="w-6 h-6 text-white" />
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+                        <p className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                           {Math.round(fitnessSummary?.averageWorkoutDuration || 0)}
                         </p>
-                        <p className="text-sm text-purple-600 dark:text-purple-400 font-medium">Min average</p>
+                        <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Min average</p>
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Avg. Duration</h3>
+                    <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Avg. Duration</h3>
                     <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
                       <TrendingUp className="w-4 h-4 mr-1 text-green-500" />
                       <span>+3% from last period</span>
@@ -469,20 +469,20 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
               </div>
 
               {/* Advanced Analytics Grid */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                 {/* Activity Trends Chart */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <Card className="p-7 hover:shadow-xl transition-all duration-300">
+                  <Card className="transition-all duration-300 p-7 hover:shadow-xl">
                     <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center">
-                        <div className="p-2 rounded-xl bg-blue-100 dark:bg-blue-900/30 mr-3">
+                        <div className="p-2 mr-3 bg-blue-100 rounded-xl dark:bg-blue-900/30">
                           <TrendingUp className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </div>
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">Activity Trends</h3>
+                        <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Activity Trends</h3>
                       </div>
                     </div>
                     <div className="h-72">
@@ -497,16 +497,16 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <Card className="p-7 hover:shadow-xl transition-all duration-300">
+                  <Card className="transition-all duration-300 p-7 hover:shadow-xl">
                     <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center">
-                        <div className="p-2 rounded-xl bg-purple-100 dark:bg-purple-900/30 mr-3">
+                        <div className="p-2 mr-3 bg-purple-100 rounded-xl dark:bg-purple-900/30">
                           <BarChart2 className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                         </div>
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">Workout Distribution</h3>
+                        <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Workout Distribution</h3>
                       </div>
                     </div>
-                    <div className="h-72 flex items-center justify-center">
+                    <div className="flex items-center justify-center h-72">
                       <Doughnut data={workoutTypeData} options={pieChartOptions} />
                     </div>
                   </Card>
@@ -519,15 +519,15 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <Card className="p-7 hover:shadow-xl transition-all duration-300">
+                <Card className="transition-all duration-300 p-7 hover:shadow-xl">
                   <div className="flex items-center mb-6">
-                    <div className="p-2 rounded-xl bg-green-100 dark:bg-green-900/30 mr-3">
+                    <div className="p-2 mr-3 bg-green-100 rounded-xl dark:bg-green-900/30">
                       <Target className="w-5 h-5 text-green-600 dark:text-green-400" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">Weekly Goals Progress</h3>
+                    <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Weekly Goals Progress</h3>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                     <div className="text-center">
                       <div className="mb-4">
                         <ProgressRing 
@@ -589,14 +589,14 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
 
           {/* History Tab */}
           {activeTab === 'history' && (
-            <Card className="p-7 hover:shadow-xl transition-all duration-300">
+            <Card className="transition-all duration-300 p-7 hover:shadow-xl">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center">
-                  <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 mr-3">
+                  <div className="p-2 mr-3 bg-indigo-100 rounded-xl dark:bg-indigo-900/30">
                     <Calendar className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">Workout History</h3>
+                    <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Workout History</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">Your recent fitness activities</p>
                   </div>
                 </div>
@@ -612,7 +612,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                   </select>
                   <Button
                     onClick={() => setShowAddWorkout(true)}
-                    className="flex items-center shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="flex items-center transition-all duration-300 shadow-lg hover:shadow-xl"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Log Workout
@@ -621,15 +621,15 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
               </div>
               
               {workoutHistory.length === 0 ? (
-                <div className="text-center py-16">
-                  <div className="p-4 rounded-xl bg-gray-100 dark:bg-gray-800 inline-flex mb-4">
+                <div className="py-16 text-center">
+                  <div className="inline-flex p-4 mb-4 bg-gray-100 rounded-xl dark:bg-gray-800">
                     <Activity className="w-8 h-8 text-gray-400" />
                   </div>
-                  <p className="text-lg font-medium text-gray-900 dark:text-white mb-2">No workouts logged</p>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">Start tracking your fitness journey today</p>
+                  <p className="mb-2 text-lg font-medium text-gray-900 dark:text-white">No workouts logged</p>
+                  <p className="mb-6 text-gray-600 dark:text-gray-400">Start tracking your fitness journey today</p>
                   <Button 
                     onClick={() => setShowAddWorkout(true)}
-                    className="shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="transition-all duration-300 shadow-lg hover:shadow-xl"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Log Your First Workout
@@ -645,20 +645,20 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3, delay: index * 0.05 }}
-                        className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/30 dark:hover:border-primary/30"
+                        className="p-6 transition-all duration-300 bg-white border border-gray-200 shadow-sm dark:border-gray-700 rounded-xl dark:bg-gray-800 hover:shadow-md hover:border-primary/30 dark:hover:border-primary/30"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
-                            <div className="p-3 rounded-xl bg-primary/10 mr-4">
+                            <div className="p-3 mr-4 rounded-xl bg-primary/10">
                               <Activity className="w-5 h-5 text-primary" />
                             </div>
                             <div>
-                              <h4 className="font-semibold text-gray-900 dark:text-white tracking-wide">{workout.workoutType}</h4>
-                              <p className="text-sm text-gray-600 dark:text-gray-400 tracking-wide">
+                              <h4 className="font-semibold tracking-wide text-gray-900 dark:text-white">{workout.workoutType}</h4>
+                              <p className="text-sm tracking-wide text-gray-600 dark:text-gray-400">
                                 {format(parseISO(workout.timestamp), 'EEEE, MMM d, yyyy • h:mm a')}
                               </p>
                               {workout.notes && (
-                                <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 italic">{workout.notes}</p>
+                                <p className="mt-1 text-sm italic text-gray-700 dark:text-gray-300">{workout.notes}</p>
                               )}
                             </div>
                           </div>
@@ -672,7 +672,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                                 <p className="text-lg font-bold text-red-500">{workout.caloriesBurned}</p>
                                 <p className="text-xs text-gray-600 dark:text-gray-400">calories</p>
                               </div>
-                              <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900/30">
+                              <div className="p-2 bg-green-100 rounded-lg dark:bg-green-900/30">
                                 <Award className="w-4 h-4 text-green-600 dark:text-green-400" />
                               </div>
                             </div>
@@ -689,13 +689,13 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
           {/* Muscle Groups Tab */}
           {activeTab === 'muscles' && (
             <div className="space-y-8">
-              <Card className="p-7 hover:shadow-xl transition-all duration-300">
+              <Card className="transition-all duration-300 p-7 hover:shadow-xl">
                 <div className="flex items-center mb-6">
-                  <div className="p-2 rounded-xl bg-orange-100 dark:bg-orange-900/30 mr-3">
+                  <div className="p-2 mr-3 bg-orange-100 rounded-xl dark:bg-orange-900/30">
                     <Target className="w-5 h-5 text-orange-600 dark:text-orange-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">Muscle Group Recovery Status</h3>
+                    <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Muscle Group Recovery Status</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">Monitor your recovery across different muscle groups</p>
                   </div>
                 </div>
@@ -707,13 +707,13 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
               </Card>
               
               {workoutHistory.length > 0 && (
-                <Card className="p-7 hover:shadow-xl transition-all duration-300">
+                <Card className="transition-all duration-300 p-7 hover:shadow-xl">
                   <div className="flex items-center mb-6">
-                    <div className="p-2 rounded-xl bg-purple-100 dark:bg-purple-900/30 mr-3">
+                    <div className="p-2 mr-3 bg-purple-100 rounded-xl dark:bg-purple-900/30">
                       <Zap className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">Recent Workout Targeting</h3>
+                      <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Recent Workout Targeting</h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400">Muscle groups targeted in your latest session</p>
                     </div>
                   </div>
@@ -732,52 +732,52 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
           {/* Analytics Tab */}
           {activeTab === 'analytics' && (
             <div className="space-y-8">
-              <Card className="p-7 hover:shadow-xl transition-all duration-300">
+              <Card className="transition-all duration-300 p-7 hover:shadow-xl">
                 <div className="flex items-center mb-6">
-                  <div className="p-2 rounded-xl bg-blue-100 dark:bg-blue-900/30 mr-3">
+                  <div className="p-2 mr-3 bg-blue-100 rounded-xl dark:bg-blue-900/30">
                     <BarChart2 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">Detailed Analytics</h3>
+                  <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Detailed Analytics</h3>
                 </div>
                 <div className="h-80">
                   <Line data={activityChartData} options={chartOptions} />
                 </div>
               </Card>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <Card className="p-7 hover:shadow-xl transition-all duration-300">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 tracking-tight">Performance Metrics</h4>
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <Card className="transition-all duration-300 p-7 hover:shadow-xl">
+                  <h4 className="mb-6 text-lg font-semibold tracking-tight text-gray-900 dark:text-white">Performance Metrics</h4>
                   <div className="space-y-4">
-                    <div className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                      <span className="text-gray-700 dark:text-gray-300 font-medium">Favorite Exercise:</span>
+                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                      <span className="font-medium text-gray-700 dark:text-gray-300">Favorite Exercise:</span>
                       <span className="font-semibold text-gray-900 dark:text-white">{fitnessSummary?.favoriteWorkoutType || 'None'}</span>
                     </div>
-                    <div className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                      <span className="text-gray-700 dark:text-gray-300 font-medium">Total Workouts:</span>
+                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                      <span className="font-medium text-gray-700 dark:text-gray-300">Total Workouts:</span>
                       <span className="font-semibold text-gray-900 dark:text-white">{fitnessSummary?.totalWorkouts || 0}</span>
                     </div>
-                    <div className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                      <span className="text-gray-700 dark:text-gray-300 font-medium">Total Calories:</span>
+                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                      <span className="font-medium text-gray-700 dark:text-gray-300">Total Calories:</span>
                       <span className="font-semibold text-gray-900 dark:text-white">{fitnessSummary?.totalCaloriesBurned || 0}</span>
                     </div>
-                    <div className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                      <span className="text-gray-700 dark:text-gray-300 font-medium">Active Time:</span>
+                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                      <span className="font-medium text-gray-700 dark:text-gray-300">Active Time:</span>
                       <span className="font-semibold text-gray-900 dark:text-white">{Math.round((fitnessSummary?.totalActiveMinutes || 0) / 60)} hours</span>
                     </div>
                   </div>
                 </Card>
                 
-                <Card className="p-7 hover:shadow-xl transition-all duration-300">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 tracking-tight">Weekly Goals</h4>
+                <Card className="transition-all duration-300 p-7 hover:shadow-xl">
+                  <h4 className="mb-6 text-lg font-semibold tracking-tight text-gray-900 dark:text-white">Weekly Goals</h4>
                   <div className="space-y-6">
                     <div>
-                      <div className="flex justify-between text-sm mb-2">
+                      <div className="flex justify-between mb-2 text-sm">
                         <span className="font-medium text-gray-700 dark:text-gray-300">Workouts</span>
                         <span className="font-semibold text-gray-900 dark:text-white">{fitnessSummary?.totalWorkouts || 0}/5</span>
                       </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner">
+                      <div className="w-full h-3 bg-gray-200 rounded-full shadow-inner dark:bg-gray-700">
                         <motion.div 
-                          className="h-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 shadow-sm"
+                          className="h-3 rounded-full shadow-sm bg-gradient-to-r from-blue-500 to-blue-600"
                           initial={{ width: 0 }}
                           animate={{ width: `${Math.min(100, ((fitnessSummary?.totalWorkouts || 0) / 5) * 100)}%` }}
                           transition={{ duration: 1, ease: "easeOut" }}
@@ -786,13 +786,13 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                     </div>
                     
                     <div>
-                      <div className="flex justify-between text-sm mb-2">
+                      <div className="flex justify-between mb-2 text-sm">
                         <span className="font-medium text-gray-700 dark:text-gray-300">Active Minutes</span>
                         <span className="font-semibold text-gray-900 dark:text-white">{fitnessSummary?.totalActiveMinutes || 0}/150</span>
                       </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner">
+                      <div className="w-full h-3 bg-gray-200 rounded-full shadow-inner dark:bg-gray-700">
                         <motion.div 
-                          className="h-3 rounded-full bg-gradient-to-r from-green-500 to-green-600 shadow-sm"
+                          className="h-3 rounded-full shadow-sm bg-gradient-to-r from-green-500 to-green-600"
                           initial={{ width: 0 }}
                           animate={{ width: `${Math.min(100, ((fitnessSummary?.totalActiveMinutes || 0) / 150) * 100)}%` }}
                           transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
@@ -801,13 +801,13 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                     </div>
 
                     <div>
-                      <div className="flex justify-between text-sm mb-2">
+                      <div className="flex justify-between mb-2 text-sm">
                         <span className="font-medium text-gray-700 dark:text-gray-300">Calories Burned</span>
                         <span className="font-semibold text-gray-900 dark:text-white">{fitnessSummary?.totalCaloriesBurned || 0}/2000</span>
                       </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 shadow-inner">
+                      <div className="w-full h-3 bg-gray-200 rounded-full shadow-inner dark:bg-gray-700">
                         <motion.div 
-                          className="h-3 rounded-full bg-gradient-to-r from-red-500 to-red-600 shadow-sm"
+                          className="h-3 rounded-full shadow-sm bg-gradient-to-r from-red-500 to-red-600"
                           initial={{ width: 0 }}
                           animate={{ width: `${Math.min(100, ((fitnessSummary?.totalCaloriesBurned || 0) / 2000) * 100)}%` }}
                           transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
@@ -824,7 +824,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
           <AnimatePresence>
             {showAddWorkout && (
               <motion.div
-                className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+                className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -835,22 +835,23 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                   exit={{ scale: 0.95, opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Card className="w-full max-w-md p-7 shadow-2xl">
+                  <Card className="w-full max-w-md shadow-2xl p-7">
                     <div className="flex items-center mb-6">
-                      <div className="p-2 rounded-xl bg-primary/10 mr-3">
+                      <div className="p-2 mr-3 rounded-xl bg-primary/10">
                         <Plus className="w-5 h-5 text-primary" />
                       </div>
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white tracking-tight">Log a Workout</h3>
+                      <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Log a Workout</h3>
                     </div>
                     
                     <div className="space-y-5">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Workout Type</label>
+                        <label htmlFor="workoutType" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Workout Type</label>
                         <select
+                          id="workoutType"
                           name="workoutType"
                           value={newWorkout.workoutType}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200"
+                          className="w-full px-4 py-3 text-gray-900 transition-all duration-200 bg-white border border-gray-300 dark:border-gray-700 rounded-xl dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary"
                         >
                           {workoutTypes.map((type) => (
                             <option key={type} value={type}>{type}</option>
@@ -860,7 +861,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                       
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Duration (min)</label>
+                          <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Duration (min)</label>
                           <Input
                             type="number"
                             name="duration"
@@ -871,7 +872,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Calories</label>
+                          <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Calories</label>
                           <Input
                             type="number"
                             name="caloriesBurned"
@@ -884,19 +885,19 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes (optional)</label>
+                        <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Notes (optional)</label>
                         <textarea
                           name="notes"
                           value={newWorkout.notes}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 resize-none"
+                          className="w-full px-4 py-3 text-gray-900 transition-all duration-200 bg-white border border-gray-300 resize-none dark:border-gray-700 rounded-xl dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary"
                           rows={3}
                           placeholder="How did the workout feel?"
                         />
                       </div>
                     </div>
                     
-                    <div className="flex space-x-3 mt-8">
+                    <div className="flex mt-8 space-x-3">
                       <Button 
                         variant="outline" 
                         onClick={() => setShowAddWorkout(false)}
@@ -906,7 +907,7 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                       </Button>
                       <Button 
                         onClick={handleAddWorkout}
-                        className="flex-1 shadow-lg hover:shadow-xl transition-all duration-300"
+                        className="flex-1 transition-all duration-300 shadow-lg hover:shadow-xl"
                       >
                         Save Workout
                       </Button>
