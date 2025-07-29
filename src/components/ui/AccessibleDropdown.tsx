@@ -113,10 +113,14 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
 
   // Get selected option(s) display text
   const getDisplayValue = () => {
-    if (!value) return placeholder;
+    if (!value) {
+      return placeholder;
+    }
 
     if (multiple && Array.isArray(value)) {
-      if (value.length === 0) return placeholder;
+      if (value.length === 0) {
+        return placeholder;
+      }
       if (value.length === 1) {
         const option = options.find(opt => opt.value === value[0]);
         return option?.label || value[0];
@@ -400,7 +404,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
             )}
 
             {/* Options List */}
-            <ul
+            <div
               ref={listRef}
               id={listId}
               role="listbox"
