@@ -294,7 +294,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
                   checked={selectedIds.length === paginatedData.length && paginatedData.length > 0}
                   onChange={(e) => handleSelectAll(e.target.checked)}
                   aria-label="Select all rows"
-                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                  className="border-gray-300 rounded text-primary focus:ring-primary"
                 />
               </th>
             )}
@@ -347,7 +347,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
                     checked={selectedIds.includes(item.id)}
                     onChange={(e) => handleRowSelect(item.id, e.target.checked)}
                     aria-label={`Select row ${rowIndex + 1}`}
-                    className="rounded border-gray-300 text-primary focus:ring-primary"
+                    className="border-gray-300 rounded text-primary focus:ring-primary"
                     onClick={(e) => e.stopPropagation()}
                   />
                 </td>
@@ -376,7 +376,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
 
   // Render grid view
   const renderGridView = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {paginatedData.map((item) => (
         <motion.div
           key={item.id}
@@ -397,7 +397,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
                 checked={selectedIds.includes(item.id)}
                 onChange={(e) => handleRowSelect(item.id, e.target.checked)}
                 aria-label={`Select item ${item.id}`}
-                className="rounded border-gray-300 text-primary focus:ring-primary"
+                className="border-gray-300 rounded text-primary focus:ring-primary"
                 onClick={(e) => e.stopPropagation()}
               />
             </div>
@@ -441,7 +441,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
                 checked={selectedIds.includes(item.id)}
                 onChange={(e) => handleRowSelect(item.id, e.target.checked)}
                 aria-label={`Select item ${item.id}`}
-                className="rounded border-gray-300 text-primary focus:ring-primary"
+                className="border-gray-300 rounded text-primary focus:ring-primary"
                 onClick={(e) => e.stopPropagation()}
               />
             )}
@@ -468,10 +468,10 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
     return (
       <div className={`space-y-4 ${className}`}>
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
+          <div className="h-8 mb-4 bg-gray-200 rounded dark:bg-gray-700"></div>
           <div className="space-y-2">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-12 bg-gray-200 dark:bg-gray-700 rounded"></div>
+              <div key={i} className="h-12 bg-gray-200 rounded dark:bg-gray-700"></div>
             ))}
           </div>
         </div>
@@ -484,7 +484,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
       <div className={`text-center py-8 ${className}`} role="alert">
         <div className="text-red-600 dark:text-red-400">
           <p className="font-medium">Error loading data</p>
-          <p className="text-sm mt-1">{error}</p>
+          <p className="mt-1 text-sm">{error}</p>
         </div>
       </div>
     );
@@ -493,7 +493,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
   return (
     <div ref={tableRef} className={`advanced-data-table space-y-4 ${className}`}>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           {title && (
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -509,7 +509,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
 
         {/* View Mode Toggle */}
         {allowViewModeChange && (
-          <div className="flex gap-1 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+          <div className="flex gap-1 p-1 bg-gray-100 rounded-lg dark:bg-gray-800">
             <Button
               variant={viewMode === 'table' ? 'default' : 'ghost'}
               size="sm"
@@ -539,18 +539,18 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
       </div>
 
       {/* Search and Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row">
         {searchable && (
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute w-4 h-4 text-gray-400 -translate-y-1/2 left-3 top-1/2" />
               <input
                 ref={searchRef}
                 type="text"
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
                 placeholder="Search..."
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="w-full py-2 pl-10 pr-3 text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-lg dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                 aria-label="Search data"
               />
             </div>
@@ -558,7 +558,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
         )}
 
         {filterable && (
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex flex-wrap gap-2">
             {columns.filter(col => col.filterable !== false).map((column) => (
               <AccessibleDropdown
                 key={column.key}
@@ -595,18 +595,18 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
 
       {/* Data Display */}
       {filteredData.length === 0 ? (
-        <div className="text-center py-8">
+        <div className="py-8 text-center">
           {emptyState || (
             <div>
-              <p className="text-gray-500 dark:text-gray-400 text-lg mb-2">No data found</p>
-              <p className="text-gray-400 dark:text-gray-500 text-sm">
+              <p className="mb-2 text-lg text-gray-500 dark:text-gray-400">No data found</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500">
                 {searchQuery ? 'Try adjusting your search or filters' : 'No data available'}
               </p>
             </div>
           )}
         </div>
       ) : (
-        <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+        <div className="overflow-hidden border border-gray-200 rounded-lg dark:border-gray-700">
           {viewMode === 'table' && renderTableView()}
           {viewMode === 'grid' && (
             <div className="p-4">
