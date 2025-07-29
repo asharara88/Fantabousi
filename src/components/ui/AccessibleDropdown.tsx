@@ -83,7 +83,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = (props) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
   // Generate unique IDs for accessibility
   const id = useMemo(() => `dropdown-${Math.random().toString(36).substring(2, 9)}`, []);
@@ -154,26 +154,30 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = (props) => {
 
   // Handle single selection
   const handleSingleSelection = (optionValue: string) => {
-    onChange(optionValue);
-    setIsOpen(false);
-    
-    // Announce selection
-    const option = options.find(opt => opt.value === optionValue);
-    setAnnouncement(`${option?.label} selected.`);
+    if (!multiple) {
+      (onChange as SingleSelectDropdownProps['onChange'])(optionValue);
+      setIsOpen(false);
+      
+      // Announce selection
+      const option = options.find(opt => opt.value === optionValue);
+      setAnnouncement(`${option?.label} selected.`);
+    }
   };
 
   // Handle multiple selection
   const handleMultipleSelection = (optionValue: string) => {
-    const currentValues = Array.isArray(value) ? value : [];
-    const newValues = currentValues.includes(optionValue)
-      ? currentValues.filter(v => v !== optionValue)
-      : [...currentValues, optionValue];
-    onChange(newValues);
-    
-    // Announce selection change
-    const option = options.find(opt => opt.value === optionValue);
-    const action = currentValues.includes(optionValue) ? 'deselected' : 'selected';
-    setAnnouncement(`${option?.label} ${action}. ${newValues.length} items selected.`);
+    if (multiple) {
+      const currentValues = Array.isArray(value) ? value : [];
+      const newValues = currentValues.includes(optionValue)
+        ? currentValues.filter(v => v !== optionValue)
+        : [...currentValues, optionValue];
+      (onChange as MultiSelectDropdownProps['onChange'])(newValues);
+      
+      // Announce selection change
+      const option = options.find(opt => opt.value === optionValue);
+      const action = currentValues.includes(optionValue) ? 'deselected' : 'selected';
+      setAnnouncement(`${option?.label} ${action}. ${newValues.length} items selected.`);
+    }
   };
 
   // Handle option selection
@@ -188,7 +192,11 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = (props) => {
   // Handle clear selection
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onChange(multiple ? [] : '');
+    if (multiple) {
+      (onChange as MultiSelectDropdownProps['onChange'])([]);
+    } else {
+      (onChange as SingleSelectDropdownProps['onChange'])('');
+    }
     setSearchQuery('');
     setAnnouncement('Selection cleared.');
   };
