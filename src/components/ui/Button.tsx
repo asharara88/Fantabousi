@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { cn } from "../../utils/cn";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -9,7 +9,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   to?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({ 
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ 
   children, 
   variant = "default", 
   size = "default",
@@ -17,7 +17,7 @@ export const Button: React.FC<ButtonProps> = ({
   as: Component = "button",
   to,
   ...props 
-}) => {
+}, ref) => {
   const baseStyles = "inline-flex items-center justify-center rounded-xl font-medium tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none touch-target relative overflow-hidden";
   
   const variants = {
@@ -38,15 +38,15 @@ export const Button: React.FC<ButtonProps> = ({
   // Handle Link component
   if (Component !== "button" && to) {
     return (
-      <Component to={to} className={classes} {...props}>
+      <Component to={to} className={classes} {...props} ref={ref}>
         <span className="relative z-10">{children}</span>
       </Component>
     );
   }
   
   return (
-    <Component className={classes} {...props}>
+    <Component className={classes} {...props} ref={ref}>
       <span className="relative z-10">{children}</span>
     </Component>
   );
-};
+});

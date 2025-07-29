@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Search, X, Check, AlertCircle } from 'lucide-react';
 import { Button } from './Button';
@@ -74,7 +74,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
   const listRef = useRef<HTMLUListElement>(null);
 
   // Generate unique IDs for accessibility
-  const id = useMemo(() => `dropdown-${Math.random().toString(36).substr(2, 9)}`, []);
+  const id = useMemo(() => `dropdown-${Math.random().toString(36).substring(2, 9)}`, []);
   const triggerId = `${id}-trigger`;
   const listId = `${id}-list`;
   const descriptionId = description ? `${id}-description` : undefined;
@@ -82,11 +82,13 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
 
   // Filter options based on search query
   const filteredOptions = useMemo(() => {
-    if (!searchQuery) return options;
+    if (!searchQuery) {
+      return options;
+    }
     
     return options.filter(option =>
       option.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (option.description && option.description.toLowerCase().includes(searchQuery.toLowerCase()))
+      (option.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
     );
   }, [options, searchQuery]);
 

@@ -30,6 +30,7 @@
 The Biowell AI API is a RESTful API that powers the Biowell health coaching platform. It provides endpoints for managing user health data, AI-powered coaching, nutrition tracking, fitness monitoring, and personalized recommendations.
 
 ### Key Features
+
 - **AI-Powered Health Coaching**: Natural language processing for personalized health advice
 - **Comprehensive Health Tracking**: Nutrition, fitness, sleep, and biomarker monitoring
 - **Real-time Updates**: WebSocket connections for live data synchronization
@@ -37,6 +38,7 @@ The Biowell AI API is a RESTful API that powers the Biowell health coaching plat
 - **Personalized Recommendations**: ML-driven supplement and lifestyle suggestions
 
 ### API Principles
+
 - **RESTful Design**: Predictable resource-based URLs
 - **JSON-First**: All requests and responses use JSON
 - **Stateless**: Each request contains all necessary information
@@ -50,6 +52,7 @@ The Biowell AI API is a RESTful API that powers the Biowell health coaching plat
 ### Authentication Methods
 
 #### 1. JWT Bearer Token (Recommended)
+
 All API requests require authentication using JWT bearer tokens.
 
 ```http
@@ -57,6 +60,7 @@ Authorization: Bearer <jwt_token>
 ```
 
 #### 2. API Key (for Server-to-Server)
+
 For server-to-server communication, use API keys.
 
 ```http
@@ -66,6 +70,7 @@ X-API-Key: <api_key>
 ### Obtaining Tokens
 
 #### Login with Email/Password
+
 ```http
 POST /auth/login
 Content-Type: application/json
@@ -77,6 +82,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -92,6 +98,7 @@ Content-Type: application/json
 ```
 
 #### Refresh Token
+
 ```http
 POST /auth/refresh
 Content-Type: application/json
@@ -102,6 +109,7 @@ Content-Type: application/json
 ```
 
 #### OAuth2 Integration
+
 ```http
 GET /auth/oauth/google
 GET /auth/oauth/apple
@@ -109,6 +117,7 @@ GET /auth/oauth/facebook
 ```
 
 ### Token Security
+
 - **Access tokens** expire in 1 hour
 - **Refresh tokens** expire in 30 days
 - Store tokens securely (never in localStorage for sensitive apps)
@@ -119,21 +128,25 @@ GET /auth/oauth/facebook
 ## Base URLs & Environments
 
 ### Production
+
 ```
 https://api.biowell.ai/v1
 ```
 
 ### Staging
+
 ```
 https://api-staging.biowell.ai/v1
 ```
 
 ### Development
+
 ```
 https://api-dev.biowell.ai/v1
 ```
 
 ### Local Development
+
 ```
 http://localhost:54321/functions/v1
 ```
@@ -143,6 +156,7 @@ http://localhost:54321/functions/v1
 ## Request/Response Format
 
 ### Request Headers
+
 ```http
 Content-Type: application/json
 Authorization: Bearer <token>
@@ -151,9 +165,11 @@ X-Platform: web|ios|android
 ```
 
 ### Response Format
+
 All responses follow a consistent structure:
 
 #### Success Response
+
 ```json
 {
   "success": true,
@@ -169,6 +185,7 @@ All responses follow a consistent structure:
 ```
 
 #### Paginated Response
+
 ```json
 {
   "success": true,
@@ -195,16 +212,19 @@ All responses follow a consistent structure:
 ### Query Parameters
 
 #### Pagination
+
 ```
 ?page=1&per_page=20&sort=created_at&order=desc
 ```
 
 #### Filtering
+
 ```
 ?filter[status]=active&filter[date_from]=2025-01-01&filter[date_to]=2025-12-31
 ```
 
 #### Field Selection
+
 ```
 ?fields=id,name,email&include=profile,preferences
 ```
@@ -214,6 +234,7 @@ All responses follow a consistent structure:
 ## Error Handling
 
 ### Error Response Format
+
 ```json
 {
   "success": false,
@@ -274,6 +295,7 @@ All responses follow a consistent structure:
 | Enterprise | 10,000 | 100,000 |
 
 ### Rate Limit Headers
+
 ```http
 X-RateLimit-Limit: 1000
 X-RateLimit-Remaining: 999
@@ -282,6 +304,7 @@ X-RateLimit-Retry-After: 3600
 ```
 
 ### Rate Limit Response
+
 ```json
 {
   "success": false,
@@ -300,11 +323,13 @@ X-RateLimit-Retry-After: 3600
 ### Authentication Endpoints
 
 #### Register User
+
 ```http
 POST /auth/register
 ```
 
 **Request:**
+
 ```json
 {
   "email": "user@example.com",
@@ -315,6 +340,7 @@ POST /auth/register
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -332,11 +358,13 @@ POST /auth/register
 ```
 
 #### Verify Email
+
 ```http
 POST /auth/verify-email
 ```
 
 **Request:**
+
 ```json
 {
   "token": "verification_token_here"
@@ -344,11 +372,13 @@ POST /auth/verify-email
 ```
 
 #### Reset Password
+
 ```http
 POST /auth/reset-password
 ```
 
 **Request:**
+
 ```json
 {
   "email": "user@example.com"
@@ -356,11 +386,13 @@ POST /auth/reset-password
 ```
 
 #### Logout
+
 ```http
 POST /auth/logout
 ```
 
 **Request:**
+
 ```json
 {
   "refresh_token": "refresh_token_here"
@@ -372,11 +404,13 @@ POST /auth/logout
 ### User Profile Endpoints
 
 #### Get User Profile
+
 ```http
 GET /users/profile
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -409,11 +443,13 @@ GET /users/profile
 ```
 
 #### Update User Profile
+
 ```http
 PUT /users/profile
 ```
 
 **Request:**
+
 ```json
 {
   "name": "John Smith",
@@ -428,12 +464,14 @@ PUT /users/profile
 ```
 
 #### Upload Profile Picture
+
 ```http
 POST /users/profile/avatar
 Content-Type: multipart/form-data
 ```
 
 **Request:**
+
 ```
 avatar: <file>
 ```
@@ -443,11 +481,13 @@ avatar: <file>
 ### Health Metrics Endpoints
 
 #### Log Health Metric
+
 ```http
 POST /health-metrics
 ```
 
 **Request:**
+
 ```json
 {
   "type": "weight",
@@ -459,6 +499,7 @@ POST /health-metrics
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -476,11 +517,13 @@ POST /health-metrics
 ```
 
 #### Get Health Metrics
+
 ```http
 GET /health-metrics?type=weight&from=2025-07-01&to=2025-07-31
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -506,11 +549,13 @@ GET /health-metrics?type=weight&from=2025-07-01&to=2025-07-31
 ```
 
 #### Get Health Summary
+
 ```http
 GET /health-metrics/summary?period=week
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -547,11 +592,13 @@ GET /health-metrics/summary?period=week
 ### Nutrition Endpoints
 
 #### Search Foods
+
 ```http
 GET /nutrition/foods/search?q=chicken%20breast&limit=10
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -577,11 +624,13 @@ GET /nutrition/foods/search?q=chicken%20breast&limit=10
 ```
 
 #### Log Meal
+
 ```http
 POST /nutrition/meals
 ```
 
 **Request:**
+
 ```json
 {
   "meal_type": "breakfast",
@@ -598,11 +647,13 @@ POST /nutrition/meals
 ```
 
 #### Get Nutrition Log
+
 ```http
 GET /nutrition/meals?date=2025-07-29
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -649,11 +700,13 @@ GET /nutrition/meals?date=2025-07-29
 ### Fitness Endpoints
 
 #### Log Workout
+
 ```http
 POST /fitness/workouts
 ```
 
 **Request:**
+
 ```json
 {
   "name": "Upper Body Strength",
@@ -675,16 +728,19 @@ POST /fitness/workouts
 ```
 
 #### Get Workout History
+
 ```http
 GET /fitness/workouts?from=2025-07-01&to=2025-07-31
 ```
 
 #### Generate Workout Plan
+
 ```http
 POST /fitness/workout-plans/generate
 ```
 
 **Request:**
+
 ```json
 {
   "goals": ["muscle_gain", "strength"],
@@ -701,11 +757,13 @@ POST /fitness/workout-plans/generate
 ### AI Coach Endpoints
 
 #### Chat with AI Coach
+
 ```http
 POST /ai/chat
 ```
 
 **Request:**
+
 ```json
 {
   "message": "I'm feeling tired lately. What could be causing this?",
@@ -718,6 +776,7 @@ POST /ai/chat
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -741,11 +800,13 @@ POST /ai/chat
 ```
 
 #### Get AI Insights
+
 ```http
 GET /ai/insights?period=week
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -778,21 +839,25 @@ GET /ai/insights?period=week
 ### Recipe Endpoints
 
 #### Search Recipes
+
 ```http
 GET /recipes/search?q=high%20protein&diet=vegetarian&max_time=30
 ```
 
 #### Get Personalized Recipes
+
 ```http
 GET /recipes/personalized?meal_type=dinner&servings=2
 ```
 
 #### Save Recipe
+
 ```http
 POST /recipes/saved
 ```
 
 **Request:**
+
 ```json
 {
   "recipe_id": "recipe_uuid",
@@ -806,11 +871,13 @@ POST /recipes/saved
 ### Supplement Endpoints
 
 #### Get Recommendations
+
 ```http
 GET /supplements/recommendations
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -841,25 +908,30 @@ GET /supplements/recommendations
 ### Webhook Events
 
 #### User Events
+
 - `user.created`
 - `user.updated`
 - `user.deleted`
 
 #### Health Data Events
+
 - `health_metric.logged`
 - `meal.logged`
 - `workout.completed`
 
 #### AI Events
+
 - `ai_insight.generated`
 - `recommendation.created`
 
 ### Webhook Configuration
+
 ```http
 POST /webhooks
 ```
 
 **Request:**
+
 ```json
 {
   "url": "https://your-app.com/webhooks/biowell",
@@ -869,6 +941,7 @@ POST /webhooks
 ```
 
 ### Webhook Payload Example
+
 ```json
 {
   "event": "meal.logged",
@@ -891,6 +964,7 @@ POST /webhooks
 ## Real-time Features
 
 ### WebSocket Connection
+
 ```javascript
 const ws = new WebSocket('wss://api.biowell.ai/v1/ws?token=jwt_token');
 
@@ -901,6 +975,7 @@ ws.onmessage = (event) => {
 ```
 
 ### Subscriptions
+
 ```json
 {
   "type": "subscribe",
@@ -909,6 +984,7 @@ ws.onmessage = (event) => {
 ```
 
 ### Real-time Events
+
 - Health metric updates
 - AI insight notifications
 - Meal logging confirmations
@@ -921,6 +997,7 @@ ws.onmessage = (event) => {
 ### Official SDKs
 
 #### JavaScript/TypeScript
+
 ```bash
 npm install @biowell/api-client
 ```
@@ -937,6 +1014,7 @@ const profile = await client.users.getProfile();
 ```
 
 #### Python
+
 ```bash
 pip install biowell-api
 ```
@@ -949,6 +1027,7 @@ profile = client.users.get_profile()
 ```
 
 #### React Hooks
+
 ```bash
 npm install @biowell/react-hooks
 ```
@@ -967,11 +1046,13 @@ function Dashboard() {
 ### Development Tools
 
 #### API Testing
+
 - **Postman Collection**: Import our comprehensive Postman collection
 - **Insomnia Workspace**: Pre-configured requests and environments
 - **OpenAPI Spec**: Full OpenAPI 3.0 specification available
 
 #### CLI Tool
+
 ```bash
 npm install -g @biowell/cli
 
@@ -981,6 +1062,7 @@ biowell insights get
 ```
 
 #### Debugging
+
 - **Request ID Tracking**: Every request includes a unique request ID
 - **Logging**: Comprehensive request/response logging
 - **Error Monitoring**: Integration with Sentry for error tracking
@@ -992,11 +1074,13 @@ biowell insights get
 ### Test Environments
 
 #### Sandbox Environment
+
 - **URL**: `https://api-sandbox.biowell.ai/v1`
 - **Purpose**: Testing without affecting real data
 - **Features**: Mock AI responses, simulated wearable data
 
 #### Staging Environment
+
 - **URL**: `https://api-staging.biowell.ai/v1`
 - **Purpose**: Pre-production testing
 - **Features**: Real AI, limited external integrations
@@ -1004,6 +1088,7 @@ biowell insights get
 ### Test Data
 
 #### Test Users
+
 ```json
 {
   "email": "test@biowell.ai",
@@ -1013,11 +1098,13 @@ biowell insights get
 ```
 
 #### Mock Data Generation
+
 ```http
 POST /dev/generate-mock-data
 ```
 
 **Request:**
+
 ```json
 {
   "type": "health_metrics",
@@ -1041,6 +1128,7 @@ POST /dev/generate-mock-data
 ### Environment Configuration
 
 #### Environment Variables
+
 ```bash
 BIOWELL_API_URL=https://api.biowell.ai/v1
 BIOWELL_API_KEY=your-api-key
@@ -1048,6 +1136,7 @@ BIOWELL_WEBHOOK_SECRET=your-webhook-secret
 ```
 
 #### Configuration File
+
 ```json
 {
   "api": {
@@ -1066,11 +1155,13 @@ BIOWELL_WEBHOOK_SECRET=your-webhook-secret
 ### Health Checks
 
 #### API Health
+
 ```http
 GET /health
 ```
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -1087,6 +1178,7 @@ GET /health
 ### Monitoring
 
 #### Metrics to Track
+
 - Request latency
 - Error rates
 - Authentication failures
@@ -1094,6 +1186,7 @@ GET /health
 - AI service availability
 
 #### Alerting
+
 - API downtime
 - High error rates
 - Performance degradation
@@ -1104,18 +1197,21 @@ GET /health
 ## Support & Resources
 
 ### Documentation
+
 - **API Reference**: Complete endpoint documentation
 - **Guides**: Step-by-step implementation guides
 - **Examples**: Code examples in multiple languages
 - **Changelog**: API version changes and updates
 
 ### Community
+
 - **Discord**: Join our developer community
 - **Stack Overflow**: Tag questions with `biowell-api`
 - **GitHub**: Report issues and contribute
 
 ### Support Channels
-- **Email**: api-support@biowell.ai
+
+- **Email**: <api-support@biowell.ai>
 - **Slack**: #api-support (for enterprise customers)
 - **Response Time**: 24 hours (48 hours on weekends)
 
@@ -1124,9 +1220,13 @@ GET /health
 ## Appendices
 
 ### A. HTTP Status Code Reference
+
 ### B. Error Code Reference  
+
 ### C. Webhook Event Reference
+
 ### D. Rate Limiting Details
+
 ### E. SDK Migration Guides
 
 ---
