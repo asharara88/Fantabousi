@@ -281,15 +281,15 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
   // Calculate progress percentage
   const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
 
+  // Create aria-label without nested template literals
+  const playerAriaLabel = title ? `${type} player: ${title}` : `${type} player`;
+
   return (
-    <div
+    <section
       ref={containerRef}
       className={`accessible-media-player relative bg-black rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary/20 ${className}`}
       onMouseMove={handleMouseMove}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      role="region"
-      aria-label={`${type} player${title ? `: ${title}` : ''}`}
+      aria-label={playerAriaLabel}
     >
       {/* Media Element */}
       {type === 'video' ? (
@@ -309,6 +309,8 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
           onPause={handlePause}
           onEnded={handleEnded}
           onError={handleError}
+          onKeyDown={handleKeyDown}
+          tabIndex={0}
           aria-label={title}
           aria-describedby={description ? 'media-description' : undefined}
         />
@@ -327,6 +329,8 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
           onPause={handlePause}
           onEnded={handleEnded}
           onError={handleError}
+          onKeyDown={handleKeyDown}
+          tabIndex={0}
           aria-label={title}
           aria-describedby={description ? 'media-description' : undefined}
         />
@@ -334,17 +338,17 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
 
       {/* Audio Player Visual */}
       {type === 'audio' && (
-        <div className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+        <div className="flex items-center justify-center aspect-video bg-gradient-to-br from-primary/20 to-secondary/20">
           <div className="text-center">
             <motion.div
               animate={isPlaying && !isReducedMotion ? { scale: [1, 1.1, 1] } : {}}
               transition={{ duration: 1, repeat: Infinity }}
-              className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 mx-auto"
+              className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-white/20"
             >
               <Volume2 className="w-8 h-8 text-white" />
             </motion.div>
             {title && (
-              <h3 className="text-white text-lg font-medium">{title}</h3>
+              <h3 className="text-lg font-medium text-white">{title}</h3>
             )}
           </div>
         </div>
@@ -353,11 +357,11 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
       {/* Loading State */}
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <div className="text-white text-center">
+          <div className="text-center text-white">
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              className="w-8 h-8 border-2 border-white border-t-transparent rounded-full mx-auto mb-2"
+              className="w-8 h-8 mx-auto mb-2 border-2 border-white rounded-full border-t-transparent"
             />
             <p>Loading...</p>
           </div>
@@ -366,9 +370,9 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
 
       {/* Error State */}
       {error && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black text-white text-center p-4">
+        <div className="absolute inset-0 flex items-center justify-center p-4 text-center text-white bg-black">
           <div>
-            <p className="text-lg font-medium mb-2">Error</p>
+            <p className="mb-2 text-lg font-medium">Error</p>
             <p className="text-sm text-gray-300">{error}</p>
           </div>
         </div>
@@ -382,12 +386,12 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
               initial={isReducedMotion ? {} : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={isReducedMotion ? {} : { opacity: 0, y: 20 }}
-              className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4"
+              className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent"
             >
               {/* Progress Bar */}
               <div className="mb-4">
                 <div 
-                  className="w-full h-2 bg-white/20 rounded-full cursor-pointer group"
+                  className="w-full h-2 rounded-full cursor-pointer bg-white/20 group"
                   onClick={(e) => {
                     const rect = e.currentTarget.getBoundingClientRect();
                     const x = e.clientX - rect.left;
@@ -412,14 +416,14 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
                   }}
                 >
                   <div 
-                    className="h-full bg-primary rounded-full transition-all group-hover:h-3 relative"
+                    className="relative h-full transition-all rounded-full bg-primary group-hover:h-3"
                     style={{ width: `${progressPercentage}%` }}
                   >
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute right-0 w-3 h-3 transition-opacity -translate-y-1/2 bg-white rounded-full opacity-0 top-1/2 group-hover:opacity-100" />
                   </div>
                 </div>
                 
-                <div className="flex justify-between text-xs text-white/70 mt-1">
+                <div className="flex justify-between mt-1 text-xs text-white/70">
                   <span>{formatTime(currentTime)}</span>
                   <span>{formatTime(duration)}</span>
                 </div>
@@ -433,7 +437,7 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
                     variant="ghost"
                     size="sm"
                     onClick={togglePlayPause}
-                    className="text-white hover:bg-white/20 w-10 h-10"
+                    className="w-10 h-10 text-white hover:bg-white/20"
                     aria-label={isPlaying ? 'Pause' : 'Play'}
                   >
                     {isPlaying ? (
@@ -448,7 +452,7 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
                     variant="ghost"
                     size="sm"
                     onClick={restart}
-                    className="text-white hover:bg-white/20 w-10 h-10"
+                    className="w-10 h-10 text-white hover:bg-white/20"
                     aria-label="Restart"
                   >
                     <RotateCcw className="w-5 h-5" />
@@ -460,7 +464,7 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
                       variant="ghost"
                       size="sm"
                       onClick={toggleMute}
-                      className="text-white hover:bg-white/20 w-10 h-10"
+                      className="w-10 h-10 text-white hover:bg-white/20"
                       aria-label={isMuted ? 'Unmute' : 'Mute'}
                     >
                       {isMuted ? (
@@ -477,7 +481,7 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
                       step="0.01"
                       value={isMuted ? 0 : volume}
                       onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
-                      className="w-20 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-20 h-1 rounded-lg appearance-none cursor-pointer bg-white/20 slider"
                       aria-label="Volume"
                     />
                   </div>
@@ -489,7 +493,7 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
                     variant="ghost"
                     size="sm"
                     onClick={toggleFullscreen}
-                    className="text-white hover:bg-white/20 w-10 h-10"
+                    className="w-10 h-10 text-white hover:bg-white/20"
                     aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
                   >
                     {isFullscreen ? (
@@ -522,7 +526,7 @@ const AccessibleMediaPlayer: React.FC<MediaPlayerProps> = ({
         Media player controls: Space or K to play/pause, M to mute/unmute, 
         Arrow keys to seek and adjust volume, F for fullscreen (video only).
       </div>
-    </div>
+    </section>
   );
 };
 
