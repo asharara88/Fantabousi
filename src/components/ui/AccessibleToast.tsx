@@ -78,6 +78,7 @@ const Toast: React.FC<ToastProps> = ({
 
   // Auto-dismiss timer
   useEffect(() => {
+// sourcery skip: use-braces
     if (persistent || isPaused) return;
 
     timeoutRef.current = setTimeout(() => {
@@ -188,9 +189,9 @@ const Toast: React.FC<ToastProps> = ({
 
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-sm mb-1">{title}</h4>
+                <h4 className="mb-1 text-sm font-medium">{title}</h4>
                 {message && (
-                  <p className="text-sm opacity-90 leading-relaxed">{message}</p>
+                  <p className="text-sm leading-relaxed opacity-90">{message}</p>
                 )}
 
                 {/* Action Button */}
@@ -200,7 +201,7 @@ const Toast: React.FC<ToastProps> = ({
                       variant="ghost"
                       size="sm"
                       onClick={action.onClick}
-                      className="text-current hover:bg-current/10 -ml-2"
+                      className="-ml-2 text-current hover:bg-current/10"
                     >
                       {action.label}
                     </Button>
@@ -213,7 +214,7 @@ const Toast: React.FC<ToastProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={handleDismiss}
-                className="flex-shrink-0 w-8 h-8 p-0 text-current hover:bg-current/10 -mr-1 -mt-1"
+                className="flex-shrink-0 w-8 h-8 p-0 -mt-1 -mr-1 text-current hover:bg-current/10"
                 aria-label={`Dismiss ${type} notification: ${title}`}
               >
                 <X className="w-4 h-4" />

@@ -136,26 +136,36 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
     return value === optionValue;
   };
 
+  // Handle single selection
+  const handleSingleSelection = (optionValue: string) => {
+    onChange(optionValue);
+    setIsOpen(false);
+    
+    // Announce selection
+    const option = options.find(opt => opt.value === optionValue);
+    setAnnouncement(`${option?.label} selected.`);
+  };
+
+  // Handle multiple selection
+  const handleMultipleSelection = (optionValue: string) => {
+    const currentValues = Array.isArray(value) ? value : [];
+    const newValues = currentValues.includes(optionValue)
+      ? currentValues.filter(v => v !== optionValue)
+      : [...currentValues, optionValue];
+    onChange(newValues);
+    
+    // Announce selection change
+    const option = options.find(opt => opt.value === optionValue);
+    const action = currentValues.includes(optionValue) ? 'deselected' : 'selected';
+    setAnnouncement(`${option?.label} ${action}. ${newValues.length} items selected.`);
+  };
+
   // Handle option selection
   const handleOptionSelect = (optionValue: string) => {
     if (multiple) {
-      const currentValues = Array.isArray(value) ? value : [];
-      const newValues = currentValues.includes(optionValue)
-        ? currentValues.filter(v => v !== optionValue)
-        : [...currentValues, optionValue];
-      onChange(newValues);
-      
-      // Announce selection change
-      const option = options.find(opt => opt.value === optionValue);
-      const action = currentValues.includes(optionValue) ? 'deselected' : 'selected';
-      setAnnouncement(`${option?.label} ${action}. ${newValues.length} items selected.`);
+      handleMultipleSelection(optionValue);
     } else {
-      onChange(optionValue);
-      setIsOpen(false);
-      
-      // Announce selection
-      const option = options.find(opt => opt.value === optionValue);
-      setAnnouncement(`${option?.label} selected.`);
+      handleSingleSelection(optionValue);
     }
   };
 
@@ -178,62 +188,72 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
     }
   };
 
+  // Navigation helpers
+  const handleArrowDown = (e: React.KeyboardEvent) => {
+    e.preventDefault();
+    if (!isOpen) {
+      setIsOpen(true);
+    } else {
+      setFocusedIndex(prev => 
+        prev < filteredOptions.length - 1 ? prev + 1 : 0
+      );
+    }
+  };
+
+  const handleArrowUp = (e: React.KeyboardEvent) => {
+    e.preventDefault();
+    if (isOpen) {
+      setFocusedIndex(prev => 
+        prev > 0 ? prev - 1 : filteredOptions.length - 1
+      );
+    }
+  };
+
+  const handleEnterOrSpace = (e: React.KeyboardEvent) => {
+    e.preventDefault();
+    if (!isOpen) {
+      setIsOpen(true);
+    } else if (focusedIndex >= 0 && focusedIndex < filteredOptions.length) {
+      const option = filteredOptions[focusedIndex];
+      if (!option.disabled) {
+        handleOptionSelect(option.value);
+      }
+    }
+  };
+
+  const handleHomeEnd = (e: React.KeyboardEvent) => {
+    if (isOpen) {
+      e.preventDefault();
+      if (e.key === 'Home') {
+        setFocusedIndex(0);
+      } else if (e.key === 'End') {
+        setFocusedIndex(filteredOptions.length - 1);
+      }
+    }
+  };
+
   // Keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
       case 'ArrowDown':
-        e.preventDefault();
-        if (!isOpen) {
-          setIsOpen(true);
-        } else {
-          setFocusedIndex(prev => 
-            prev < filteredOptions.length - 1 ? prev + 1 : 0
-          );
-        }
+        handleArrowDown(e);
         break;
-
       case 'ArrowUp':
-        e.preventDefault();
-        if (isOpen) {
-          setFocusedIndex(prev => 
-            prev > 0 ? prev - 1 : filteredOptions.length - 1
-          );
-        }
+        handleArrowUp(e);
         break;
-
       case 'Home':
-        if (isOpen) {
-          e.preventDefault();
-          setFocusedIndex(0);
-        }
-        break;
-
       case 'End':
-        if (isOpen) {
-          e.preventDefault();
-          setFocusedIndex(filteredOptions.length - 1);
-        }
+        handleHomeEnd(e);
         break;
-
       case 'Enter':
       case ' ':
-        e.preventDefault();
-        if (!isOpen) {
-          setIsOpen(true);
-        } else if (focusedIndex >= 0 && focusedIndex < filteredOptions.length) {
-          const option = filteredOptions[focusedIndex];
-          if (!option.disabled) {
-            handleOptionSelect(option.value);
-          }
-        }
+        handleEnterOrSpace(e);
         break;
-
       case 'Escape':
         setIsOpen(false);
         setSearchQuery('');
         triggerRef.current?.focus();
         break;
-
       case 'Tab':
         setIsOpen(false);
         break;
