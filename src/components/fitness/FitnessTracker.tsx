@@ -866,8 +866,9 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                       
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Duration (min)</label>
+                          <label htmlFor="duration" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Duration (min)</label>
                           <Input
+                            id="duration"
                             type="number"
                             name="duration"
                             value={newWorkout.duration}
@@ -877,8 +878,9 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                           />
                         </div>
                         <div>
-                          <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Calories</label>
+                          <label htmlFor="caloriesBurned" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Calories</label>
                           <Input
+                            id="caloriesBurned"
                             type="number"
                             name="caloriesBurned"
                             value={newWorkout.caloriesBurned}
@@ -890,8 +892,9 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                       </div>
                       
                       <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Notes (optional)</label>
+                        <label htmlFor="notes" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Notes (optional)</label>
                         <textarea
+                          id="notes"
                           name="notes"
                           value={newWorkout.notes}
                           onChange={handleInputChange}
