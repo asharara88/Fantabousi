@@ -280,16 +280,16 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
       {label && (
         <label
           htmlFor={triggerId}
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300"
         >
           {label}
-          {required && <span className="text-red-500 ml-1" aria-label="required">*</span>}
+          {required && <span className="ml-1 text-red-500" aria-label="required">*</span>}
         </label>
       )}
 
       {/* Description */}
       {description && (
-        <p id={descriptionId} className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+        <p id={descriptionId} className="mb-2 text-sm text-gray-500 dark:text-gray-400">
           {description}
         </p>
       )}
@@ -332,7 +332,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
             <button
               type="button"
               onClick={handleClear}
-              className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+              className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
               aria-label="Clear selection"
             >
               <X className="w-3 h-3" />
@@ -356,13 +356,13 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg"
+            className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-600"
           >
             {/* Search Input */}
             {searchable && (
               <div className="p-2 border-b border-gray-200 dark:border-gray-700">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Search className="absolute w-4 h-4 text-gray-400 -translate-y-1/2 left-3 top-1/2" />
                   <input
                     ref={searchRef}
                     type="text"
@@ -370,7 +370,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                     onChange={handleSearchChange}
                     onKeyDown={handleKeyDown}
                     placeholder="Search options..."
-                    className="w-full pl-10 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    className="w-full py-2 pl-10 pr-3 text-sm text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-md dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     aria-label="Search options"
                   />
                 </div>
@@ -384,11 +384,11 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
               role="listbox"
               aria-label={label || "Options"}
               aria-multiselectable={multiple}
-              className="py-1 max-h-60 overflow-auto"
+              className="py-1 overflow-auto max-h-60"
               style={{ maxHeight }}
             >
               {filteredOptions.length === 0 ? (
-                <li className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400 text-center">
+                <li className="px-3 py-2 text-sm text-center text-gray-500 dark:text-gray-400">
                   {searchQuery ? 'No results found' : 'No options available'}
                 </li>
               ) : (
@@ -414,14 +414,14 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                       <div className="flex-1 min-w-0">
                         <div className="truncate">{option.label}</div>
                         {option.description && (
-                          <div className="text-xs text-gray-500 dark:text-gray-400 truncate mt-1">
+                          <div className="mt-1 text-xs text-gray-500 truncate dark:text-gray-400">
                             {option.description}
                           </div>
                         )}
                       </div>
                       
                       {isSelected(option.value) && (
-                        <Check className="w-4 h-4 ml-2 flex-shrink-0" />
+                        <Check className="flex-shrink-0 w-4 h-4 ml-2" />
                       )}
                     </li>
                   ))}
@@ -429,7 +429,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                   {/* Grouped options */}
                   {Object.entries(groupedOptions.groups).map(([groupName, groupOptions]) => (
                     <li key={groupName}>
-                      <div className="px-3 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-gray-50 dark:bg-gray-900/50">
+                      <div className="px-3 py-1 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400 bg-gray-50 dark:bg-gray-900/50">
                         {groupName}
                       </div>
                       {groupOptions.map((option, index) => {
@@ -458,14 +458,14 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                             <div className="flex-1 min-w-0">
                               <div className="truncate">{option.label}</div>
                               {option.description && (
-                                <div className="text-xs text-gray-500 dark:text-gray-400 truncate mt-1">
+                                <div className="mt-1 text-xs text-gray-500 truncate dark:text-gray-400">
                                   {option.description}
                                 </div>
                               )}
                             </div>
                             
                             {isSelected(option.value) && (
-                              <Check className="w-4 h-4 ml-2 flex-shrink-0" />
+                              <Check className="flex-shrink-0 w-4 h-4 ml-2" />
                             )}
                           </li>
                         );
@@ -481,7 +481,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
 
       {/* Error Message */}
       {error && (
-        <p id={errorId} className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
+        <p id={errorId} className="flex items-center gap-1 mt-1 text-sm text-red-600 dark:text-red-400">
           <AlertCircle className="w-4 h-4" />
           {error}
         </p>
