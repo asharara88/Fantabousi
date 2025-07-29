@@ -1,101 +1,264 @@
 {
-  "name": "Biowell AI - Health Coach",
+  "name": "Biowell AI - Personal Health Coach",
   "short_name": "Biowell AI",
-  "description": "Personal Digital Health Coach",
+  "description": "Your AI-powered personal health coach for nutrition, fitness, and wellness guidance",
   "theme_color": "#0c6acd",
   "background_color": "#ffffff",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
-  "categories": ["health", "lifestyle", "medical"],
+  "id": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["health", "lifestyle", "medical", "fitness", "nutrition"],
   "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 480
+  },
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "protocol_handlers": [
+    {
+      "protocol": "web+biowell",
+      "url": "/health-data?data=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/import-health-data",
+      "accept": {
+        "text/csv": [".csv"],
+        "application/json": [".json"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/share-health-data",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "health_data",
+          "accept": ["text/csv", "application/json", "image/*"]
+        }
+      ]
+    }
+  },
+  "shortcuts": [
+    {
+      "name": "AI Health Coach",
+      "short_name": "Chat",
+      "description": "Chat with your AI health coach",
+      "url": "/coach",
+      "icons": [
+        {
+          "src": "icons/shortcut-chat.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Health Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your health metrics and progress",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "icons/shortcut-dashboard.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Log Meal",
+      "short_name": "Log Food",
+      "description": "Track your nutrition intake",
+      "url": "/nutrition/log",
+      "icons": [
+        {
+          "src": "icons/shortcut-nutrition.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Workout Tracker",
+      "short_name": "Workout",
+      "description": "Log your fitness activities",
+      "url": "/fitness/log",
+      "icons": [
+        {
+          "src": "icons/shortcut-fitness.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
   "icons": [
+    {
+      "src": "icons/icon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "icons/apple-touch-icon-57x57.png",
       "sizes": "57x57",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/apple-touch-icon-60x60.png",
       "sizes": "60x60",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/icon-72x72.png",
       "sizes": "72x72",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/apple-touch-icon-76x76.png",
       "sizes": "76x76",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/icon-96x96.png",
       "sizes": "96x96",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/apple-touch-icon-114x114.png",
       "sizes": "114x114",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/apple-touch-icon-120x120.png",
       "sizes": "120x120",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/icon-128x128.png",
       "sizes": "128x128",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/icon-144x144.png",
       "sizes": "144x144",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/icon-152x152.png",
       "sizes": "152x152",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/apple-touch-icon-180x180.png",
       "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/icon-384x384.png",
       "sizes": "384x384",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "icons/icon-1024x1024.png",
       "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/monochrome-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "monochrome"
     }
   ],
   "screenshots": [
     {
-      "src": "icons/screenshot-mobile.png",
+      "src": "screenshots/mobile-home.png",
       "sizes": "390x844",
       "type": "image/png",
-      "form_factor": "narrow"
+      "form_factor": "narrow",
+      "label": "Home screen showing health dashboard and AI coach"
+    },
+    {
+      "src": "screenshots/mobile-chat.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "AI Health Coach conversation interface"
+    },
+    {
+      "src": "screenshots/mobile-nutrition.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Nutrition tracking and meal logging"
+    },
+    {
+      "src": "screenshots/desktop-dashboard.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Comprehensive health dashboard with metrics and insights"
+    },
+    {
+      "src": "screenshots/desktop-coach.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "AI Health Coach with personalized recommendations"
     }
   ]
 }

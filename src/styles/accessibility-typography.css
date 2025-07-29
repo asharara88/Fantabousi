@@ -1,0 +1,486 @@
+/* Enhanced Accessibility & Dyslexia-Friendly Typography Styles */
+
+/* Additional CSS Custom Properties for Enhanced Accessibility */
+:root {
+  /* Dyslexia-friendly typography improvements */
+  --leading-dyslexia-friendly: 1.6;
+  --leading-paragraph: 1.7;
+  --leading-list: 1.5;
+  --leading-caption: 1.4;
+  
+  /* Enhanced letter spacing for better readability */
+  --tracking-body: 0.02em;
+  --tracking-heading: -0.01em;
+  --tracking-small: 0.03em;
+  --tracking-button: 0.025em;
+  
+  /* Optimal reading widths */
+  --content-width: 65ch;
+  --narrow-content-width: 45ch;
+  --wide-content-width: 75ch;
+  
+  /* Enhanced spacing system */
+  --paragraph-spacing: 1.5em;
+  --section-spacing: 2.5em;
+  --list-spacing: 0.75em;
+  
+  /* Enhanced contrast colors for WCAG AAA compliance */
+  --color-text-primary: 222deg 84% 8%;
+  --color-text-secondary: 215deg 25% 27%;
+  --color-text-muted: 215deg 16% 35%;
+  --color-text-caption: 215deg 20% 40%;
+  
+  /* Enhanced link colors with proper contrast ratios */
+  --color-link: 220deg 100% 45%;
+  --color-link-hover: 220deg 100% 35%;
+  --color-link-visited: 250deg 100% 45%;
+  --color-link-active: 220deg 100% 25%;
+  
+  /* Enhanced status colors with better contrast */
+  --color-success-text: 142deg 71% 25%;
+  --color-warning-text: 43deg 96% 25%;
+  --color-error-text: 0deg 72% 30%;
+  --color-info-text: 200deg 100% 25%;
+  
+  /* Focus ring colors */
+  --color-focus-ring: 220deg 100% 50%;
+  --color-focus-ring-offset: 0deg 0% 100%;
+  
+  /* Reading background colors */
+  --color-reading-background: 45deg 10% 98%;
+  --color-reading-surface: 45deg 15% 96%;
+}
+
+/* Dark mode enhanced colors */
+.dark {
+  --color-text-primary: 0deg 0% 98%;
+  --color-text-secondary: 215deg 20% 75%;
+  --color-text-muted: 215deg 20% 65%;
+  --color-text-caption: 215deg 15% 60%;
+  
+  --color-link: 220deg 100% 80%;
+  --color-link-hover: 220deg 100% 90%;
+  --color-link-visited: 250deg 100% 80%;
+  --color-link-active: 220deg 100% 95%;
+  
+  --color-success-text: 142deg 71% 75%;
+  --color-warning-text: 43deg 96% 75%;
+  --color-error-text: 0deg 72% 80%;
+  --color-info-text: 200deg 100% 75%;
+  
+  --color-focus-ring-offset: 222deg 84% 5%;
+  
+  --color-reading-background: 222deg 84% 3%;
+  --color-reading-surface: 222deg 84% 5%;
+}
+
+/* Enhanced Base Typography */
+html {
+  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  letter-spacing: var(--tracking-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-size: var(--text-base);
+  line-height: var(--leading-dyslexia-friendly);
+  letter-spacing: var(--tracking-body);
+  color: hsl(var(--color-text-primary));
+  background-color: hsl(var(--color-background));
+}
+
+/* Enhanced Heading Styles */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  color: hsl(var(--color-text-primary));
+  margin-bottom: 0.5em;
+  margin-top: 1.5em;
+  scroll-margin-top: 2rem; /* For smooth anchor scrolling */
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+  margin-top: 0;
+}
+
+h1 { 
+  font-size: var(--text-4xl);
+  letter-spacing: var(--tracking-tighter);
+  margin-bottom: 0.75em;
+}
+
+h2 { 
+  font-size: var(--text-3xl);
+  margin-bottom: 0.6em;
+}
+
+h3 { 
+  font-size: var(--text-2xl);
+  margin-bottom: 0.5em;
+}
+
+h4 { 
+  font-size: var(--text-xl);
+  margin-bottom: 0.5em;
+}
+
+h5 { 
+  font-size: var(--text-lg);
+  margin-bottom: 0.4em;
+}
+
+h6 { 
+  font-size: var(--text-base);
+  margin-bottom: 0.4em;
+  font-weight: var(--font-medium);
+}
+
+/* Enhanced Paragraph and Text Styles */
+p {
+  line-height: var(--leading-paragraph);
+  margin-bottom: var(--paragraph-spacing);
+  max-width: var(--content-width);
+  color: hsl(var(--color-text-primary));
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* Enhanced emphasis styles */
+strong, b {
+  font-weight: var(--font-semibold);
+  color: hsl(var(--color-text-primary));
+}
+
+em, i {
+  font-style: italic;
+  color: hsl(var(--color-text-secondary));
+}
+
+small {
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-small);
+  color: hsl(var(--color-text-muted));
+}
+
+/* Enhanced Link Styles */
+a {
+  color: hsl(var(--color-link));
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: all 0.2s ease;
+  letter-spacing: inherit;
+}
+
+a:hover {
+  color: hsl(var(--color-link-hover));
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+
+a:visited {
+  color: hsl(var(--color-link-visited));
+}
+
+a:active {
+  color: hsl(var(--color-link-active));
+}
+
+/* Remove underline for button-like links */
+a.btn,
+a[role="button"] {
+  text-decoration: none;
+}
+
+/* Enhanced List Styles */
+ul, ol {
+  line-height: var(--leading-list);
+  padding-left: 1.5em;
+  margin-bottom: var(--list-spacing);
+  max-width: var(--content-width);
+}
+
+li {
+  margin-bottom: 0.5em;
+  color: hsl(var(--color-text-primary));
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+li > p {
+  margin-bottom: 0.5em;
+}
+
+li > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Nested list spacing */
+ul ul, ol ol, ul ol, ol ul {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+
+/* Enhanced Focus Styles */
+:focus-visible {
+  outline: none;
+  box-shadow: 
+    0 0 0 2px hsl(var(--color-focus-ring-offset)),
+    0 0 0 4px hsl(var(--color-focus-ring)),
+    0 4px 12px hsl(var(--color-focus-ring) / 0.3);
+  border-radius: 4px;
+}
+
+/* Enhanced focus for interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  box-shadow: 
+    0 0 0 2px hsl(var(--color-focus-ring-offset)),
+    0 0 0 4px hsl(var(--color-focus-ring)),
+    0 4px 16px hsl(var(--color-focus-ring) / 0.4);
+}
+
+/* Enhanced Button Typography */
+button, .btn {
+  letter-spacing: var(--tracking-button);
+  font-weight: var(--font-medium);
+}
+
+/* Content Containers with Optimal Reading Width */
+.content-container {
+  max-width: var(--content-width);
+}
+
+.content-narrow {
+  max-width: var(--narrow-content-width);
+}
+
+.content-wide {
+  max-width: var(--wide-content-width);
+}
+
+/* Reading Mode Styles */
+.reading-mode {
+  background-color: hsl(var(--color-reading-background));
+  color: hsl(var(--color-text-primary));
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px hsl(var(--color-text) / 0.1);
+}
+
+.reading-mode p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  margin-bottom: 2em;
+}
+
+.reading-mode h1,
+.reading-mode h2,
+.reading-mode h3,
+.reading-mode h4,
+.reading-mode h5,
+.reading-mode h6 {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+/* Status Text Colors */
+.text-success {
+  color: hsl(var(--color-success-text));
+}
+
+.text-warning {
+  color: hsl(var(--color-warning-text));
+}
+
+.text-error {
+  color: hsl(var(--color-error-text));
+}
+
+.text-info {
+  color: hsl(var(--color-info-text));
+}
+
+.text-muted {
+  color: hsl(var(--color-text-muted));
+}
+
+.text-secondary {
+  color: hsl(var(--color-text-secondary));
+}
+
+/* Caption and Helper Text */
+.caption {
+  font-size: var(--text-sm);
+  line-height: var(--leading-caption);
+  color: hsl(var(--color-text-caption));
+  letter-spacing: var(--tracking-small);
+}
+
+/* Responsive Typography Improvements */
+@media (max-width: 768px) {
+  body {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+  h5 { font-size: 1.125rem; }
+  h6 { font-size: 1rem; }
+  
+  p {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+  
+  .reading-mode p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+  }
+}
+
+@media (min-width: 1200px) {
+  p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+  }
+  
+  .reading-mode p {
+    font-size: 1.25rem;
+    line-height: 1.9;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-text-primary: 0deg 0% 0%;
+    --color-text-secondary: 0deg 0% 20%;
+    --color-background: 0deg 0% 100%;
+    --color-link: 240deg 100% 30%;
+  }
+  
+  .dark {
+    --color-text-primary: 0deg 0% 100%;
+    --color-text-secondary: 0deg 0% 90%;
+    --color-background: 0deg 0% 0%;
+    --color-link: 240deg 100% 80%;
+  }
+  
+  a {
+    text-decoration-thickness: 3px;
+  }
+  
+  button, .btn {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  a {
+    transition: none;
+  }
+  
+  :focus-visible {
+    transition: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: black;
+    background: white;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    break-after: avoid;
+    color: black;
+  }
+  
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+  
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+}
+
+/* Utility Classes for Enhanced Typography */
+.font-dyslexia-friendly {
+  font-family: 'OpenDyslexic', 'Poppins', sans-serif;
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+}
+
+.text-large {
+  font-size: 1.25rem;
+  line-height: 1.7;
+}
+
+.text-readable {
+  max-width: var(--content-width);
+  line-height: var(--leading-paragraph);
+  letter-spacing: var(--tracking-body);
+}
+
+.text-narrow {
+  max-width: var(--narrow-content-width);
+}
+
+.text-wide {
+  max-width: var(--wide-content-width);
+}
+
+/* Skip Link for Screen Readers */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: hsl(var(--color-primary));
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 9999;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
