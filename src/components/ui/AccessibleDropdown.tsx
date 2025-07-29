@@ -11,13 +11,10 @@ interface DropdownOption {
   group?: string;
 }
 
-interface AccessibleDropdownProps {
+interface BaseAccessibleDropdownProps {
   options: DropdownOption[];
-  value?: string | string[];
-  onChange: (value: string | string[]) => void;
   placeholder?: string;
   searchable?: boolean;
-  multiple?: boolean;
   disabled?: boolean;
   error?: string;
   label?: string;
@@ -29,6 +26,20 @@ interface AccessibleDropdownProps {
   loading?: boolean;
   onSearch?: (query: string) => void;
 }
+
+interface SingleSelectDropdownProps extends BaseAccessibleDropdownProps {
+  multiple?: false;
+  value?: string;
+  onChange: (value: string) => void;
+}
+
+interface MultiSelectDropdownProps extends BaseAccessibleDropdownProps {
+  multiple: true;
+  value?: string[];
+  onChange: (value: string[]) => void;
+}
+
+type AccessibleDropdownProps = SingleSelectDropdownProps | MultiSelectDropdownProps;
 
 /**
  * Accessible Dropdown Component - Alternative to complex dropdown patterns
@@ -45,24 +56,25 @@ interface AccessibleDropdownProps {
  * - Progressive enhancement (works without JS)
  * - Touch-friendly design
  */
-const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
-  options,
-  value,
-  onChange,
-  placeholder = "Select an option",
-  searchable = false,
-  multiple = false,
-  disabled = false,
-  error,
-  label,
-  description,
-  required = false,
-  className = "",
-  maxHeight = 300,
-  allowClear = false,
-  loading = false,
-  onSearch
-}) => {
+const AccessibleDropdown: React.FC<AccessibleDropdownProps> = (props) => {
+  const {
+    options,
+    value,
+    onChange,
+    placeholder = "Select an option",
+    searchable = false,
+    multiple = false,
+    disabled = false,
+    error,
+    label,
+    description,
+    required = false,
+    className = "",
+    maxHeight = 300,
+    allowClear = false,
+    loading = false,
+    onSearch
+  } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [focusedIndex, setFocusedIndex] = useState(-1);
