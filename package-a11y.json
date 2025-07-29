@@ -1,0 +1,29 @@
+{
+  "name": "biowell-accessibility-tests",
+  "version": "1.0.0",
+  "description": "Accessibility testing setup for BioWell focus management system",
+  "scripts": {
+    "test:a11y": "jest --testMatch='**/*.a11y.test.{js,ts,tsx}'",
+    "test:a11y:watch": "jest --testMatch='**/*.a11y.test.{js,ts,tsx}' --watch",
+    "test:focus": "jest --testMatch='**/*FocusManagement.test.{js,ts,tsx}'",
+    "lint:a11y": "eslint src --ext .tsx,.ts --config .eslintrc.a11y.js",
+    "audit:lighthouse": "lighthouse-ci autorun",
+    "audit:axe": "axe src --ext .html,.tsx --dir dist",
+    "test:sr": "node scripts/screen-reader-test.js"
+  },
+  "devDependencies": {
+    "@axe-core/react": "^4.8.4",
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.5.1",
+    "axe-core": "^4.8.3",
+    "jest-axe": "^8.0.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "@lighthouse-ci/cli": "^0.12.0",
+    "puppeteer": "^21.5.2"
+  },
+  "jest": {
+    "setupFilesAfterEnv": ["<rootDir>/src/setupTests.ts"],
+    "testEnvironment": "jsdom"
+  }
+}
