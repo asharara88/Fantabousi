@@ -511,7 +511,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
         {allowViewModeChange && (
           <div className="flex gap-1 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
             <Button
-              variant={viewMode === 'table' ? 'primary' : 'ghost'}
+              variant={viewMode === 'table' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setViewMode('table')}
               aria-label="Table view"
@@ -519,7 +519,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
               <List className="w-4 h-4" />
             </Button>
             <Button
-              variant={viewMode === 'grid' ? 'primary' : 'ghost'}
+              variant={viewMode === 'grid' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setViewMode('grid')}
               aria-label="Grid view"
@@ -527,7 +527,7 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
               <Grid className="w-4 h-4" />
             </Button>
             <Button
-              variant={viewMode === 'list' ? 'primary' : 'ghost'}
+              variant={viewMode === 'list' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setViewMode('list')}
               aria-label="List view"
