@@ -76,6 +76,12 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
   };
 
   const handleAddWorkout = async () => {
+    // Add null check for currentUserId
+    if (!currentUserId) {
+      console.error('User not authenticated');
+      return;
+    }
+
     try {
       await fitnessApi.logWorkout({
         userId: currentUserId,
