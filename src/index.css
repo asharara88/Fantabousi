@@ -484,6 +484,174 @@
   }
 }
 
+/* Skip Links for Accessibility */
+.skip-links {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-primary);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  box-shadow: var(--shadow-lg);
+  transition: all 0.2s ease;
+  transform: translateY(-100%);
+  opacity: 0;
+  border: 2px solid transparent;
+}
+
+.skip-link:focus {
+  top: 6px;
+  transform: translateY(0);
+  opacity: 1;
+  outline: none;
+  border-color: white;
+}
+
+/* Enhanced Focus Styles for Better Accessibility */
+:focus {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* High Contrast Focus Indicators */
+@media (prefers-contrast: high) {
+  :focus-visible {
+    outline: 3px solid;
+    outline-offset: 3px;
+  }
+  
+  .skip-link:focus {
+    border-width: 3px;
+  }
+}
+
+/* Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition: none;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Screen Reader Only Class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus Trap Container */
+.focus-trap {
+  isolation: isolate;
+}
+
+/* Announcement Region */
+#focus-announcer {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Loading State Focus Styles */
+.loading:focus-visible {
+  outline-color: var(--color-warning);
+}
+
+/* Error State Focus Styles */
+.error:focus-visible,
+[aria-invalid="true"]:focus-visible {
+  outline-color: var(--color-error);
+  outline-width: 3px;
+}
+
+/* Focus Styles for Interactive Elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[role="link"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid hsl(var(--color-primary));
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Enhanced Button Focus */
+button:focus-visible {
+  box-shadow: 0 0 0 2px hsl(var(--color-background)), 0 0 0 4px hsl(var(--color-primary));
+  outline: none;
+}
+
+/* Modal Focus Styles */
+[role="dialog"]:focus-visible,
+[role="alertdialog"]:focus-visible {
+  outline: 3px solid hsl(var(--color-primary));
+  outline-offset: -3px;
+}
+
+/* Navigation Focus Styles */
+nav a:focus-visible {
+  background-color: hsl(var(--color-primary) / 0.1);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* Dark Mode Focus Styles */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: 222deg 84% 4.9%;
+    --color-text: 0deg 0% 100%;
+    --glass-bg: 222deg 84% 4.9% / 0.8;
+  }
+  
+  .skip-link {
+    background: hsl(var(--color-primary-light));
+    color: hsl(var(--color-background));
+  }
+  
+  .skip-link:focus {
+    border-color: hsl(var(--color-background));
+  }
+}
+
 /* Modern scrollbar styling */
 ::-webkit-scrollbar {
   width: 6px;
