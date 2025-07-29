@@ -845,8 +845,9 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                     
                     <div className="space-y-5">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Workout Type</label>
+                        <label htmlFor="workout-type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Workout Type</label>
                         <select
+                          id="workout-type"
                           name="workoutType"
                           value={newWorkout.workoutType}
                           onChange={handleInputChange}
@@ -860,8 +861,9 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                       
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Duration (min)</label>
+                          <label htmlFor="workout-duration" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Duration (min)</label>
                           <Input
+                            id="workout-duration"
                             type="number"
                             name="duration"
                             value={newWorkout.duration}
@@ -871,8 +873,9 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Calories</label>
+                          <label htmlFor="workout-calories" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Calories</label>
                           <Input
+                            id="workout-calories"
                             type="number"
                             name="caloriesBurned"
                             value={newWorkout.caloriesBurned}
@@ -884,8 +887,9 @@ const FitnessTracker: React.FC<FitnessTrackerProps> = ({ activeTab = 'dashboard'
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes (optional)</label>
+                        <label htmlFor="workout-notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes (optional)</label>
                         <textarea
+                          id="workout-notes"
                           name="notes"
                           value={newWorkout.notes}
                           onChange={handleInputChange}

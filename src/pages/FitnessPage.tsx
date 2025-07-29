@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import EnhancedFitnessTracker from '../components/fitness/EnhancedFitnessTracker';
+import FitnessTracker from '../components/fitness/FitnessTracker';
 import AIWorkoutGenerator from '../components/fitness/AIWorkoutGenerator';
 
 const FitnessPage: React.FC = () => {
@@ -74,7 +74,7 @@ const FitnessPage: React.FC = () => {
         {activeTab === 'ai-generator' ? (
           <AIWorkoutGenerator />
         ) : (
-          <EnhancedFitnessTracker activeTab={activeTab} />
+          <FitnessTracker activeTab={activeTab} />
         )}
       </div>
     </div>
