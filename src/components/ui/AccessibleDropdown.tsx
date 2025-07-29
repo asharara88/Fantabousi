@@ -421,12 +421,13 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                 <>
                   {/* Ungrouped options */}
                   {groupedOptions.ungrouped.map((option, index) => (
-                    <li
+                    <button
                       key={option.value}
+                      type="button"
                       role="option"
                       aria-selected={isSelected(option.value)}
                       aria-disabled={option.disabled}
-                      className={`px-3 py-2 text-sm cursor-pointer flex items-center justify-between transition-colors ${
+                      className={`w-full px-3 py-2 text-sm flex items-center justify-between transition-colors text-left ${
                         option.disabled
                           ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
                           : focusedIndex === index
@@ -436,6 +437,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                           : 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                       onClick={() => !option.disabled && handleOptionSelect(option.value)}
+                      disabled={option.disabled}
                     >
                       <div className="flex-1 min-w-0">
                         <div className="truncate">{option.label}</div>
@@ -449,7 +451,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                       {isSelected(option.value) && (
                         <Check className="flex-shrink-0 w-4 h-4 ml-2" />
                       )}
-                    </li>
+                    </button>
                   ))}
 
                   {/* Grouped options */}
@@ -465,12 +467,13 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                             .reduce((acc, [, opts]) => acc + opts.length, 0) + index;
 
                         return (
-                          <li
+                          <button
                             key={option.value}
+                            type="button"
                             role="option"
                             aria-selected={isSelected(option.value)}
                             aria-disabled={option.disabled}
-                            className={`px-3 py-2 text-sm cursor-pointer flex items-center justify-between transition-colors ml-4 ${
+                            className={`w-full px-3 py-2 text-sm flex items-center justify-between transition-colors ml-4 text-left ${
                               option.disabled
                                 ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
                                 : focusedIndex === globalIndex
@@ -480,6 +483,7 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                                 : 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
                             }`}
                             onClick={() => !option.disabled && handleOptionSelect(option.value)}
+                            disabled={option.disabled}
                           >
                             <div className="flex-1 min-w-0">
                               <div className="truncate">{option.label}</div>
@@ -493,14 +497,14 @@ const AccessibleDropdown: React.FC<AccessibleDropdownProps> = ({
                             {isSelected(option.value) && (
                               <Check className="flex-shrink-0 w-4 h-4 ml-2" />
                             )}
-                          </li>
+                          </button>
                         );
                       })}
                     </li>
                   ))}
                 </>
               )}
-            </ul>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
