@@ -1221,15 +1221,469 @@ GET /health
 
 ### A. HTTP Status Code Reference
 
-### B. Error Code Reference  
+#### Success Codes (2xx)
+- **200 OK** - Request successful
+- **201 Created** - Resource created successfully  
+- **202 Accepted** - Request accepted, processing asynchronously
+- **204 No Content** - Request successful, no response body
+
+#### Client Error Codes (4xx)
+- **400 Bad Request** - Invalid request syntax or parameters
+- **401 Unauthorized** - Authentication required or invalid
+- **403 Forbidden** - Valid authentication but insufficient permissions
+- **404 Not Found** - Resource not found
+- **409 Conflict** - Request conflicts with current state
+- **422 Unprocessable Entity** - Validation errors
+- **429 Too Many Requests** - Rate limit exceeded
+
+#### Server Error Codes (5xx)
+- **500 Internal Server Error** - Unexpected server error
+- **502 Bad Gateway** - Invalid response from upstream server
+- **503 Service Unavailable** - Service temporarily unavailable
+- **504 Gateway Timeout** - Upstream server timeout
+
+### B. Error Code Reference
+
+#### Authentication Errors (AUTH_xxx)
+- **AUTH_001** - Invalid credentials
+- **AUTH_002** - Token expired  
+- **AUTH_003** - Token revoked
+- **AUTH_004** - Insufficient permissions
+- **AUTH_005** - Account suspended
+
+#### Validation Errors (VAL_xxx)
+- **VAL_001** - Required field missing
+- **VAL_002** - Invalid field format
+- **VAL_003** - Field value out of range
+- **VAL_004** - Invalid enum value
+- **VAL_005** - Field length exceeded
+
+#### Business Logic Errors (BIZ_xxx)
+- **BIZ_001** - Daily limit exceeded
+- **BIZ_002** - Feature not available in current plan
+- **BIZ_003** - User profile incomplete
+- **BIZ_004** - Invalid health metric value
+- **BIZ_005** - Meal logging window expired
+
+#### System Errors (SYS_xxx)
+- **SYS_001** - Database connection failed
+- **SYS_002** - External service unavailable
+- **SYS_003** - File upload failed
+- **SYS_004** - Cache service error
+- **SYS_005** - AI service timeout
 
 ### C. Webhook Event Reference
 
+#### Health Metrics Events
+- **health_metric.created** - New health metric recorded
+- **health_metric.updated** - Health metric modified
+- **health_metric.anomaly_detected** - Unusual reading detected
+
+#### User Events  
+- **user.profile_updated** - Profile information changed
+- **user.goal_achieved** - Health goal reached
+- **user.subscription_changed** - Plan upgraded/downgraded
+
+#### AI Coach Events
+- **ai_coach.recommendation_generated** - New AI recommendation
+- **ai_coach.plan_updated** - Workout/nutrition plan modified
+- **ai_coach.alert_triggered** - Health alert generated
+
+#### System Events
+- **system.maintenance_scheduled** - Planned maintenance notification
+- **system.feature_released** - New feature announcement
+
 ### D. Rate Limiting Details
+
+#### Rate Limit Headers
+```http
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1640995200
+X-RateLimit-Retry-After: 60
+```
+
+#### Rate Limits by Plan
+- **Free Plan**: 100 requests/hour
+- **Basic Plan**: 1,000 requests/hour  
+- **Pro Plan**: 10,000 requests/hour
+- **Enterprise**: Custom limits
+
+#### Rate Limit Best Practices
+1. Implement exponential backoff
+2. Cache responses when possible
+3. Use bulk endpoints for multiple operations
+4. Monitor rate limit headers
+5. Implement request queuing
 
 ### E. SDK Migration Guides
 
+#### JavaScript SDK Evolution
+```javascript
+// v1.0 (Deprecated)
+import { BiowellAPI } from '@biowell/api-client';
+const client = new BiowellAPI(apiKey);
+
+// v2.0 (Current)
+import { createBiowellClient } from '@biowell/sdk';
+const client = createBiowellClient({ 
+  apiKey,
+  environment: 'production'
+});
+```
+
+#### Python SDK Evolution  
+```python
+# v1.0 (Deprecated)
+from biowell_api import Client
+client = Client(api_key=api_key)
+
+# v2.0 (Current)
+from biowell import BiowellClient
+client = BiowellClient(
+    api_key=api_key,
+    environment='production'
+)
+```
+
 ---
 
-*Last Updated: July 29, 2025*
-*API Version: 1.0.0*
+## SDK & Tools Recommendations
+
+### Official SDKs
+
+#### JavaScript/TypeScript SDK
+```bash
+npm install @biowell/sdk
+```
+
+**Features:**
+- TypeScript support with full type definitions
+- Automatic request/response validation
+- Built-in retry logic with exponential backoff
+- Real-time WebSocket connections
+- React hooks for easy integration
+
+**Usage Example:**
+```typescript
+import { createBiowellClient } from '@biowell/sdk';
+
+const client = createBiowellClient({
+  apiKey: process.env.BIOWELL_API_KEY,
+  environment: 'production'
+});
+
+// Get user health metrics
+const metrics = await client.healthMetrics.list({
+  userId: 'user123',
+  dateRange: {
+    start: '2025-01-01',
+    end: '2025-07-29'
+  }
+});
+```
+
+#### Python SDK
+```bash
+pip install biowell-python
+```
+
+**Features:**
+- Full async/await support
+- Pandas integration for data analysis
+- Built-in data visualization helpers
+- Jupyter notebook compatibility
+- CLI tools for common operations
+
+**Usage Example:**
+```python
+import asyncio
+from biowell import BiowellClient
+
+async def main():
+    client = BiowellClient(
+        api_key=os.getenv('BIOWELL_API_KEY'),
+        environment='production'
+    )
+    
+    # Get nutrition analysis
+    analysis = await client.nutrition.analyze_meal({
+        'user_id': 'user123',
+        'meal_data': {
+            'foods': [
+                {'name': 'chicken breast', 'quantity': '150g'},
+                {'name': 'brown rice', 'quantity': '1 cup'}
+            ]
+        }
+    })
+    
+    print(f"Calories: {analysis.total_calories}")
+    print(f"Protein: {analysis.macros.protein}g")
+
+asyncio.run(main())
+```
+
+#### Swift SDK (iOS)
+```swift
+import BiowellSDK
+
+let client = BiowellClient(
+    apiKey: "your-api-key",
+    environment: .production
+)
+
+// Log health data from HealthKit
+Task {
+    let healthData = try await client.healthMetrics.create(
+        userId: "user123",
+        metrics: [
+            .heartRate(72),
+            .steps(8500),
+            .sleep(duration: 8.5)
+        ]
+    )
+}
+```
+
+### Community SDKs & Tools
+
+#### Go SDK (Community)
+```bash
+go get github.com/biowell-community/biowell-go
+```
+
+#### PHP SDK (Community)  
+```bash
+composer require biowell/php-sdk
+```
+
+#### Postman Collection
+- Import our comprehensive Postman collection
+- Pre-configured environments (dev, staging, prod)
+- Automated tests for all endpoints
+- Example requests with sample data
+
+**Import URL:**
+```
+https://api.biowell.ai/docs/postman/collection.json
+```
+
+#### OpenAPI/Swagger Spec
+- Download OpenAPI 3.0 specification
+- Generate client SDKs in any language
+- Import into API testing tools
+
+**Download:**
+```
+https://api.biowell.ai/docs/openapi.json
+```
+
+### Development Tools
+
+#### API Explorer
+Interactive API explorer with live testing:
+```
+https://api.biowell.ai/explorer
+```
+
+#### Webhook Tester
+Test and debug webhooks locally:
+```bash
+npm install -g @biowell/webhook-tester
+biowell-webhooks --port 3000
+```
+
+#### CLI Tool
+Command-line interface for API operations:
+```bash
+npm install -g @biowell/cli
+
+# Authenticate
+biowell auth login
+
+# Test endpoints
+biowell health-metrics list --user-id user123
+biowell nutrition analyze --meal "chicken breast 150g"
+```
+
+#### VS Code Extension
+- Syntax highlighting for API responses
+- Autocomplete for API endpoints
+- Built-in testing capabilities
+
+**Install:** Search "Biowell API" in VS Code extensions
+
+### Testing & Debugging
+
+#### API Testing Framework
+```javascript
+import { BiowellTestClient } from '@biowell/testing';
+
+describe('Health Metrics API', () => {
+  const client = new BiowellTestClient({
+    baseURL: 'https://api-staging.biowell.ai',
+    apiKey: process.env.TEST_API_KEY
+  });
+
+  it('should create health metric', async () => {
+    const response = await client.healthMetrics.create({
+      userId: 'test-user',
+      type: 'weight',
+      value: 70.5,
+      unit: 'kg'
+    });
+    
+    expect(response.status).toBe(201);
+    expect(response.data.value).toBe(70.5);
+  });
+});
+```
+
+#### Performance Monitoring
+```javascript
+import { BiowellClient } from '@biowell/sdk';
+import { withPerformanceMonitoring } from '@biowell/monitoring';
+
+const client = withPerformanceMonitoring(
+  new BiowellClient({ apiKey: 'your-key' }),
+  {
+    slowRequestThreshold: 1000, // ms
+    onSlowRequest: (request, duration) => {
+      console.warn(`Slow request: ${request.url} took ${duration}ms`);
+    }
+  }
+);
+```
+
+### Integration Examples
+
+#### React Integration
+```tsx
+import { useBiowellQuery, BiowellProvider } from '@biowell/react';
+
+function App() {
+  return (
+    <BiowellProvider apiKey={process.env.REACT_APP_BIOWELL_API_KEY}>
+      <HealthDashboard />
+    </BiowellProvider>
+  );
+}
+
+function HealthDashboard() {
+  const { data: metrics, isLoading } = useBiowellQuery(
+    ['health-metrics', userId],
+    () => client.healthMetrics.list({ userId })
+  );
+
+  if (isLoading) return <div>Loading...</div>;
+
+  return (
+    <div>
+      {metrics.map(metric => (
+        <MetricCard key={metric.id} metric={metric} />
+      ))}
+    </div>
+  );
+}
+```
+
+#### Next.js API Routes
+```typescript
+// pages/api/health/[userId].ts
+import { BiowellClient } from '@biowell/sdk';
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+const client = new BiowellClient({
+  apiKey: process.env.BIOWELL_API_KEY!
+});
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { userId } = req.query;
+
+  try {
+    const metrics = await client.healthMetrics.list({
+      userId: userId as string
+    });
+    
+    res.status(200).json(metrics);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch metrics' });
+  }
+}
+```
+
+#### Express.js Middleware
+```javascript
+import express from 'express';
+import { BiowellClient } from '@biowell/sdk';
+
+const app = express();
+const biowell = new BiowellClient({
+  apiKey: process.env.BIOWELL_API_KEY
+});
+
+// Middleware to validate Biowell webhooks
+app.use('/webhooks/biowell', (req, res, next) => {
+  const signature = req.headers['x-biowell-signature'];
+  const payload = JSON.stringify(req.body);
+  
+  if (!biowell.webhooks.verify(payload, signature)) {
+    return res.status(401).send('Invalid signature');
+  }
+  
+  next();
+});
+
+app.post('/webhooks/biowell', (req, res) => {
+  const { event, data } = req.body;
+  
+  switch (event) {
+    case 'health_metric.created':
+      // Handle new health metric
+      break;
+    case 'ai_coach.recommendation_generated':
+      // Handle new AI recommendation
+      break;
+  }
+  
+  res.status(200).send('OK');
+});
+```
+
+---
+
+## Tool Recommendations by Use Case
+
+### For Mobile App Development
+- **iOS**: Swift SDK + HealthKit integration
+- **Android**: Kotlin SDK + Google Fit integration  
+- **React Native**: JavaScript SDK with native bridges
+- **Flutter**: Dart package (community maintained)
+
+### For Web Applications
+- **React/Vue/Angular**: JavaScript SDK with framework-specific hooks
+- **Server-side rendering**: Node.js SDK for API routes
+- **Static sites**: JavaScript SDK with build-time data fetching
+
+### For Data Science & Analytics
+- **Python**: Official Python SDK with Pandas integration
+- **R**: Community R package for statistical analysis
+- **Jupyter**: Python SDK with built-in visualization helpers
+- **Power BI/Tableau**: REST API connectors
+
+### For Backend Integration
+- **Node.js**: Official JavaScript SDK
+- **Python**: Official Python SDK with async support
+- **Go**: Community Go SDK for high-performance services
+- **Java**: Community Java SDK for enterprise applications
+
+### For Testing & QA
+- **Postman**: Official collection with automated tests
+- **Insomnia**: REST client with environment sync
+- **Newman**: CLI runner for automated Postman tests
+- **Jest/Mocha**: JavaScript testing with official test client
+
+---

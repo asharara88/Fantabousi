@@ -34,23 +34,101 @@
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="format-detection" content="telephone=no" />
     
-    <link rel="manifest" href="/assets/manifest-BGunc2yD.json" />
+    <!-- PWA Enhancement -->
+    <link rel="manifest" href="/assets/manifest-Bna5cVit.json" />
+    
+    <!-- Microsoft Windows/Edge PWA Support -->
+    <meta name="msapplication-TileColor" content="#0c6acd" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    
+    <!-- Additional PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Biowell AI" />
+    
+    <!-- Enhanced Theme Colors for Different Contexts -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1f2937" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#0c6acd" media="(prefers-color-scheme: no-preference)" />
+    
+    <!-- iOS Splash Screens -->
+    <link rel="apple-touch-startup-image" href="/splash/iphone5_splash.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash/iphone6_splash.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash/iphoneplus_splash.png" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="/splash/iphonex_splash.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="/splash/iphonexr_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash/iphonexsmax_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="/splash/ipad_splash.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash/ipadpro1_splash.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash/ipadpro3_splash.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash/ipadpro2_splash.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" />
+    
     <title>Biowell AI - Personal Health Coach</title>
     
     <!-- Preconnect to external domains for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/assets/js/index-CYPzzhNk.js"></script>
+    <script type="module" crossorigin src="/assets/js/index-BoAreA0z.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/js/react-vendor-BUoMEPQG.js">
     <link rel="modulepreload" crossorigin href="/assets/js/ui-vendor-Id2-Y062.js">
     <link rel="modulepreload" crossorigin href="/assets/js/chart-vendor-AcbXFnsp.js">
     <link rel="modulepreload" crossorigin href="/assets/js/supabase-Dj13htHy.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/supplements-Dvy_uLg7.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/chat-J5dGNQzD.js">
-    <link rel="stylesheet" crossorigin href="/assets/css/index-ByQqAYs3.css">
+    <link rel="modulepreload" crossorigin href="/assets/js/supplements-wO6koa_t.js">
+    <link rel="modulepreload" crossorigin href="/assets/js/chat-Dbu-30Yi.js">
+    <link rel="stylesheet" crossorigin href="/assets/css/index-D5bhdjWb.css">
   </head>
   <body class="overflow-x-hidden max-w-full box-border">
     <div id="root" class="overflow-x-hidden max-w-full box-border"></div>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+              
+              // Check for updates periodically
+              setInterval(() => {
+                registration.update();
+              }, 30000); // Check every 30 seconds
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+
+      // PWA Install Prompt Handler
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Show custom install button if needed
+        const installButton = document.getElementById('pwa-install-button');
+        if (installButton) {
+          installButton.style.display = 'block';
+          installButton.addEventListener('click', () => {
+            installButton.style.display = 'none';
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+              } else {
+                console.log('User dismissed the A2HS prompt');
+              }
+              deferredPrompt = null;
+            });
+          });
+        }
+      });
+
+      // Track PWA installation
+      window.addEventListener('appinstalled', (evt) => {
+        console.log('Biowell AI has been installed');
+        // Track this event in your analytics
+      });
+    </script>
   </body>
 </html>

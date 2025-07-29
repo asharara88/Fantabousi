@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, AlertCircle, CheckCircle, Info, AlertTriangle } from 'lucide-react';
 import { Button } from './Button';
 
 interface ToastProps {
-  id: string;
   title: string;
   message?: string;
   type?: 'success' | 'error' | 'warning' | 'info';
@@ -15,6 +14,10 @@ interface ToastProps {
     onClick: () => void;
   };
   onDismiss?: () => void;
+}
+
+interface InternalToastProps extends ToastProps {
+  id: string;
 }
 
 interface ToastContainerProps {
@@ -46,7 +49,6 @@ const ToastContext = React.createContext<{
 
 // Individual Toast Component
 const Toast: React.FC<ToastProps> = ({
-  id,
   title,
   message,
   type = 'info',
@@ -78,8 +80,9 @@ const Toast: React.FC<ToastProps> = ({
 
   // Auto-dismiss timer
   useEffect(() => {
-// sourcery skip: use-braces
-    if (persistent || isPaused) return;
+    if (persistent || isPaused) {
+      return;
+    }
 
     timeoutRef.current = setTimeout(() => {
       handleDismiss();
@@ -94,8 +97,12 @@ const Toast: React.FC<ToastProps> = ({
     }, 100);
 
     return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
   }, [timeLeft, isPaused, persistent]);
 
@@ -109,7 +116,9 @@ const Toast: React.FC<ToastProps> = ({
   const handleDismiss = useCallback(() => {
     setIsVisible(false);
     setTimeout(() => {
-      if (onDismiss) onDismiss();
+      if (onDismiss) {
+        onDismiss();
+      }
     }, isReducedMotion ? 0 : 300);
   }, [onDismiss, isReducedMotion]);
 
@@ -236,7 +245,7 @@ const Toast: React.FC<ToastProps> = ({
 };
 
 // Toast Container Component
-const ToastContainer: React.FC<ToastContainerProps & { toasts: ToastProps[] }> = ({
+const ToastContainer: React.FC<ToastContainerProps & { toasts: InternalToastProps[] }> = ({
   toasts,
   position = 'top-right',
   maxToasts = 5,
@@ -256,17 +265,16 @@ const ToastContainer: React.FC<ToastContainerProps & { toasts: ToastProps[] }> =
   if (displayedToasts.length === 0) return null;
 
   return (
-    <div
+    <section
       className={`fixed z-50 space-y-2 ${positionClasses[position]} ${className}`}
       aria-label="Notifications"
-      role="region"
     >
       <AnimatePresence mode="popLayout">
         {displayedToasts.map((toast) => (
           <Toast key={toast.id} {...toast} />
         ))}
       </AnimatePresence>
-    </div>
+    </section>
   );
 };
 
@@ -284,11 +292,11 @@ export const ToastProvider: React.FC<{
   children: React.ReactNode;
   containerProps?: ToastContainerProps;
 }> = ({ children, containerProps }) => {
-  const [toasts, setToasts] = useState<ToastProps[]>([]);
+  const [toasts, setToasts] = useState<InternalToastProps[]>([]);
 
   const addToast = useCallback((toast: Omit<ToastProps, 'id'>) => {
-    const id = Math.random().toString(36).substr(2, 9);
-    const newToast: ToastProps = {
+    const id = Math.random().toString(36).substring(2, 9);
+    const newToast: InternalToastProps = {
       ...toast,
       id,
       onDismiss: () => removeToast(id)
@@ -306,8 +314,14 @@ export const ToastProvider: React.FC<{
     setToasts([]);
   }, []);
 
+  const contextValue = useMemo(() => ({
+    addToast,
+    removeToast,
+    clearToasts
+  }), [addToast, removeToast, clearToasts]);
+
   return (
-    <ToastContext.Provider value={{ addToast, removeToast, clearToasts }}>
+    <ToastContext.Provider value={contextValue}>
       {children}
       <ToastContainer toasts={toasts} {...containerProps} />
     </ToastContext.Provider>
