@@ -1,131 +1,236 @@
-import { Card } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
-import { BarChart3, Target, TrendingUp, Calendar } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Activity, Heart, Zap, Moon, Utensils, Target } from 'lucide-react';
+import DashboardCards from '../components/dashboard/DashboardCards';
+import BWScoreCard, { MetricScore } from '../components/dashboard/BWScoreCard';
+import MetricsCard from '../components/dashboard/MetricsCard';
+import ActivityTimeline from '../components/dashboard/ActivityTimeline';
+import SupplementTracker from '../components/dashboard/SupplementTracker';
+import RecommendationsCard from '../components/dashboard/RecommendationsCard';
+import FitnessWidget from '../components/fitness/FitnessWidget';
 
-export default function DashboardPage() {
-  const navigate = useNavigate();
-
-  const stats = [
+const DashboardPage: React.FC = () => {
+  // Mock data for BW Score metrics
+  const bwScoreMetrics: MetricScore[] = [
     {
-      title: 'Calories Today',
-      value: '1,850',
-      target: '2,200',
-      icon: Target,
-      color: 'text-green-600 bg-green-100 dark:bg-green-900/30'
+      name: 'Sleep Quality',
+      score: 78,
+      weight: 1.5,
+      color: '#8B5CF6',
+      icon: <Moon className="w-5 h-5" />,
+      description: 'Based on sleep duration, quality, and consistency from your wearable device.'
     },
     {
-      title: 'Workouts This Week',
-      value: '4',
-      target: '5',
-      icon: TrendingUp,
-      color: 'text-blue-600 bg-blue-100 dark:bg-blue-900/30'
+      name: 'Fitness Level',
+      score: 82,
+      weight: 1.5,
+      color: '#F59E0B',
+      icon: <Activity className="w-5 h-5" />,
+      description: 'Calculated from workout frequency, intensity, and recovery metrics.'
     },
     {
-      title: 'Supplements Taken',
-      value: '3',
-      target: '4',
-      icon: BarChart3,
-      color: 'text-purple-600 bg-purple-100 dark:bg-purple-900/30'
+      name: 'Nutrition Score',
+      score: 70,
+      weight: 1.2,
+      color: '#10B981',
+      icon: <Utensils className="w-5 h-5" />,
+      description: 'Based on meal quality, timing, and macro balance from food tracking.'
     },
     {
-      title: 'Streak Days',
-      value: '12',
-      target: '30',
-      icon: Calendar,
-      color: 'text-orange-600 bg-orange-100 dark:bg-orange-900/30'
+      name: 'Stress Management',
+      score: 65,
+      weight: 1.0,
+      color: '#EF4444',
+      icon: <Heart className="w-5 h-5" />,
+      description: 'Derived from HRV data, stress surveys, and recovery indicators.'
+    },
+    {
+      name: 'Energy Levels',
+      score: 75,
+      weight: 0.8,
+      color: '#F97316',
+      icon: <Zap className="w-5 h-5" />,
+      description: 'Self-reported energy levels and activity patterns throughout the day.'
+    },
+    {
+      name: 'Goal Progress',
+      score: 88,
+      weight: 1.0,
+      color: '#6366F1',
+      icon: <Target className="w-5 h-5" />,
+      description: 'Progress towards your personal health and fitness objectives.'
     }
   ];
 
-  const quickActions = [
-    { title: 'Log Meal', path: '/nutrition', color: 'bg-green-500' },
-    { title: 'Start Workout', path: '/fitness', color: 'bg-blue-500' },
-    { title: 'Take Supplements', path: '/supplements', color: 'bg-purple-500' },
-    { title: 'Chat with Coach', path: '/coach', color: 'bg-orange-500' }
+  // Mock today's supplements
+  const todaysSupplements = [
+    {
+      id: '1',
+      name: 'Vitamin D3',
+      dosage: '5000 IU',
+      timing: 'With breakfast',
+      taken: true,
+      timeOfDay: 'morning' as const
+    },
+    {
+      id: '2',
+      name: 'Omega-3 Fish Oil',
+      dosage: '1000mg',
+      timing: 'With lunch',
+      taken: false,
+      timeOfDay: 'afternoon' as const
+    },
+    {
+      id: '3',
+      name: 'Magnesium Glycinate',
+      dosage: '400mg',
+      timing: '1 hour before bed',
+      taken: false,
+      timeOfDay: 'bedtime' as const
+    }
   ];
 
+  // Mock activity timeline events
+  const todaysEvents = [
+    {
+      id: '1',
+      time: '7:00 AM',
+      title: 'Morning Vitamins',
+      description: 'Vitamin D3, B-Complex',
+      type: 'supplement' as const
+    },
+    {
+      id: '2',
+      time: '8:30 AM',
+      title: 'Breakfast',
+      description: 'Greek yogurt with berries',
+      type: 'meal' as const
+    },
+    {
+      id: '3',
+      time: '10:00 AM',
+      title: 'Morning Workout',
+      description: '45 min strength training',
+      type: 'workout' as const
+    },
+    {
+      id: '4',
+      time: '12:30 PM',
+      title: 'Lunch',
+      description: 'Salmon salad with quinoa',
+      type: 'meal' as const
+    }
+  ];
+
+  // Mock recommendations
+  const recommendations = [
+    {
+      id: '1',
+      title: 'Improve Sleep Consistency',
+      description: 'Your bedtime varies by over 2 hours. Try maintaining a consistent sleep schedule for better recovery.',
+      actionText: 'View Sleep Tips',
+      actionLink: '/sleep',
+      priority: 'high' as const
+    },
+    {
+      id: '2',
+      title: 'Increase Protein Intake',
+      description: 'You\'re averaging 15g below your protein goal. Consider adding a protein shake post-workout.',
+      actionText: 'View Nutrition',
+      actionLink: '/nutrition',
+      priority: 'medium' as const
+    },
+    {
+      id: '3',
+      title: 'Add Magnesium Supplement',
+      description: 'Based on your sleep data, magnesium could help improve your deep sleep quality.',
+      actionText: 'View Supplements',
+      actionLink: '/supplements',
+      priority: 'low' as const
+    }
+  ];
+
+  const handleSupplementTaken = (id: string) => {
+    console.log(`Marked supplement ${id} as taken`);
+    // In a real app, this would update the supplement tracking
+  };
+
+  const handleMetricClick = (metricName: string) => {
+    console.log(`Clicked on metric: ${metricName}`);
+    // In a real app, this would navigate to detailed metrics view
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Welcome back!
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Here's your health overview for today
-          </p>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-6 sm:py-8 transition-all duration-200">
+      <div className="mobile-container">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Health Dashboard</h1>
+          <p className="text-gray-600 dark:text-gray-400">Your personalized health overview and insights</p>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => {
-            const IconComponent = stat.icon;
-            return (
-              <Card key={index} className="p-6">
-                <div className="flex items-center">
-                  <div className={`p-3 rounded-lg ${stat.color}`}>
-                    <IconComponent className="w-6 h-6" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{stat.title}</p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {stat.value}
-                      <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">
-                        / {stat.target}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            );
-          })}
+        {/* Main Dashboard Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          {/* BW Score - Takes up 1 column */}
+          <div className="lg:col-span-1">
+            <BWScoreCard 
+              metrics={bwScoreMetrics}
+              onMetricClick={handleMetricClick}
+            />
+          </div>
+          
+          {/* Metrics Cards - Takes up 2 columns */}
+          <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <MetricsCard
+              title="Steps Today"
+              value="8,247"
+              change={{ value: 12, type: 'increase' }}
+              icon={<Activity className="w-6 h-6" />}
+              color="primary"
+            />
+            <MetricsCard
+              title="Calories Burned"
+              value="1,892"
+              change={{ value: 8, type: 'increase' }}
+              icon={<Zap className="w-6 h-6" />}
+              color="secondary"
+            />
+            <MetricsCard
+              title="Sleep Score"
+              value="78/100"
+              change={{ value: 5, type: 'decrease' }}
+              icon={<Moon className="w-6 h-6" />}
+              color="purple"
+            />
+            <MetricsCard
+              title="Nutrition Score"
+              value="85%"
+              change={{ value: 3, type: 'increase' }}
+              icon={<Utensils className="w-6 h-6" />}
+              color="tertiary"
+            />
+          </div>
         </div>
 
-        {/* Quick Actions */}
-        <Card className="p-6 mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {quickActions.map((action, index) => (
-              <Button
-                key={index}
-                variant="outline"
-                className="h-20 flex flex-col items-center justify-center"
-                onClick={() => navigate(action.path)}
-              >
-                <div className={`w-8 h-8 ${action.color} rounded-lg mb-2`}></div>
-                <span className="text-sm">{action.title}</span>
-              </Button>
-            ))}
+        {/* Secondary Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="space-y-6">
+            <SupplementTracker 
+              supplements={todaysSupplements}
+              onMarkTaken={handleSupplementTaken}
+            />
+            <FitnessWidget expanded={false} />
           </div>
-        </Card>
+          
+          <div className="space-y-6">
+            <ActivityTimeline events={todaysEvents} />
+            <RecommendationsCard recommendations={recommendations} />
+          </div>
+        </div>
 
-        {/* Recent Activity */}
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-            Recent Activity
-          </h2>
-          <div className="space-y-4">
-            {[
-              { action: 'Logged breakfast', time: '8:30 AM', type: 'nutrition' },
-              { action: 'Completed morning workout', time: '7:00 AM', type: 'fitness' },
-              { action: 'Took Vitamin D supplement', time: '6:45 AM', type: 'supplement' }
-            ].map((activity, index) => (
-              <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <div className={`w-3 h-3 rounded-full ${
-                  activity.type === 'nutrition' ? 'bg-green-500' :
-                  activity.type === 'fitness' ? 'bg-blue-500' : 'bg-purple-500'
-                }`}></div>
-                <div className="flex-1">
-                  <p className="text-gray-900 dark:text-white">{activity.action}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{activity.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
+        {/* Dashboard Cards - Classic Overview */}
+        <DashboardCards />
       </div>
     </div>
   );
-}
+};
+
+export default DashboardPage;

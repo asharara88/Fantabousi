@@ -1,17 +1,12 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Volume2, VolumeX, Settings, Sparkles, X, HelpCircle, AlertCircle, Mic, MicOff } from 'lucide-react';
+import { Send, Volume2, VolumeX, Loader2, Settings, Sparkles, X, HelpCircle, Check, AlertCircle, Mic, MicOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '../ui/Button';
 import ChatMessage from './ChatMessage';
+import { createClient } from '@supabase/supabase-js';
 import { cn } from '../../utils/cn'; 
 import { elevenlabsApi, Voice } from '../../api/elevenlabsApi';
 import VoicePreferences from './VoicePreferences';
-import { useServices } from '../../contexts/ServiceContext';
-import { ErrorHandler } from '../../utils/errorHandler';
-import { apiService } from '../../utils/apiService';
-import { envManager } from '../../utils/envManager';
 
 // Sample question sets that will rotate after each response
 const QUESTION_SETS = [
@@ -62,6 +57,11 @@ interface VoiceSettings {
   similarity_boost: number;
 }
 
+interface SpeechRecognitionResult {
+  transcript: string;
+  confidence: number;
+}
+
 interface SpeechRecognition extends EventTarget {
   continuous: boolean;
   interimResults: boolean;
@@ -87,18 +87,16 @@ interface SpeechRecognitionErrorEvent extends Event {
 
 declare global {
   interface Window {
-    SpeechRecognition: new() => SpeechRecognition;
-    webkitSpeechRecognition: new() => SpeechRecognition;
+    SpeechRecognition: {
+      new(): SpeechRecognition;
+    };
+    webkitSpeechRecognition: {
+      new(): SpeechRecognition;
+    };
   }
 }
 
 const MyCoach: React.FC = () => {
-  // Get service status from context
-  const serviceContext = useServices();
-  
-  // Initialize error handler
-  const errorHandler = ErrorHandler.getInstance();
-  
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -111,7 +109,7 @@ const MyCoach: React.FC = () => {
     stability: 0.5,
     similarity_boost: 0.75
   });
-  const [, setAvailableVoices] = useState<Voice[]>([]);
+  const [availableVoices, setAvailableVoices] = useState<Voice[]>([]);
   const [showVoiceSettings, setShowVoiceSettings] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isFetching, setIsFetching] = useState(false); 
@@ -126,8 +124,32 @@ const MyCoach: React.FC = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Get current questions based on index
-  const currentQuestions = QUESTION_SETS[currentQuestionSetIndex];
+  // Health metrics for context (would come from user profile in a real app)
+  const healthContext = {
+    primaryGoal: "weight management",
+    sleepAverage: "7.2 hours",
+    stressLevel: "moderate"
+  };
+
+  // Initialize Supabase client
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+  // Check for required API keys
+  const checkApiConfiguration = () => {
+    const openaiConfigured = !!import.meta.env.VITE_OPENAI_API_KEY;
+    const elevenlabsConfigured = !!import.meta.env.VITE_ELEVENLABS_API_KEY;
+    
+    if (!openaiConfigured) {
+      console.warn('VITE_OPENAI_API_KEY not configured in .env file');
+    }
+    if (!elevenlabsConfigured) {
+      console.warn('VITE_ELEVENLABS_API_KEY not configured in .env file');
+    }
+    
+    return { openaiConfigured, elevenlabsConfigured };
+  };
 
   // Scroll to bottom of messages
   useEffect(() => {
@@ -165,31 +187,12 @@ const MyCoach: React.FC = () => {
       recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
         console.error('Speech recognition error:', event.error);
         setIsListening(false);
-        
-        let errorMessage: string;
-        switch (event.error) {
-          case 'not-allowed':
-            setMicPermission('denied');
-            errorMessage = 'Microphone access denied. Please enable microphone permissions in your browser settings.';
-            break;
-          case 'no-speech':
-            errorMessage = 'No speech detected. Please try speaking again.';
-            break;
-          case 'network':
-            errorMessage = 'Network error. Please check your internet connection and try again.';
-            break;
-          case 'audio-capture':
-            errorMessage = 'Audio capture failed. Please check your microphone and try again.';
-            break;
-          case 'service-not-allowed':
-            errorMessage = 'Speech recognition service not available. Please try again later.';
-            break;
-          default:
-            errorMessage = `Speech recognition error: ${event.error}`;
+        if (event.error === 'not-allowed') {
+          setMicPermission('denied');
+          setError('Microphone access denied. Please enable microphone permissions.');
+        } else {
+          setError(`Speech recognition error: ${event.error}`);
         }
-        
-        errorHandler.handleError(new Error(errorMessage));
-        setError(errorMessage);
       };
       
       recognition.onend = () => {
@@ -244,6 +247,9 @@ const MyCoach: React.FC = () => {
     inputRef.current?.focus();
   }, []);
 
+  // Get current question set
+  const currentQuestions = QUESTION_SETS[currentQuestionSetIndex];
+
   // Add initial greeting message
   useEffect(() => {
     if (messages.length === 0) {
@@ -283,6 +289,7 @@ const MyCoach: React.FC = () => {
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
+      // Add health context for better personalized responses
       content: `${messageText}${messageText.endsWith('?') ? '' : '?'}`,
       timestamp: new Date()
     };
@@ -297,55 +304,54 @@ const MyCoach: React.FC = () => {
     startTypingAnimation();
 
     try {
-      // Use our new API service with fallback support
-      const response = await apiService.callChatApi(messageText);
-      
-      if (!response.success && response.error) {
-        throw new Error(response.error);
-      }
+      // Call OpenAI proxy function
+      const { data, error: apiError } = await supabase.functions.invoke('openai-proxy', {
+        body: {
+          // Include user context in the messages to OpenAI
+          messages: [ 
+            ...messages.map(m => ({ role: m.role, content: m.content })),
+            { role: 'user', content: messageText }
+          ]
+        }
+      });
 
-      const assistantContent = response.data?.response || "I'm sorry, I couldn't process that request.";
-      
-      // Add fallback indicator if using demo mode
-      const finalContent = response.fallback 
-        ? `${assistantContent}\n\n*Note: Currently in demo mode. Configure API keys for full functionality.*`
-        : assistantContent;
+      if (apiError) throw new Error(apiError.message);
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: finalContent,
+        content: data.result || "I'm sorry, I couldn't process that request.",
+        // Include metadata about the response for rendering
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, assistantMessage]);
 
-      // Save to chat history if Supabase is properly configured
-      if (envManager.getConfig().supabase.isConfigured) {
-        try {
-          const supabase = envManager.getSupabaseClient();
-          const { data: { user } } = await supabase.auth.getUser();
-          
-          if (user) {
-            await supabase.from('chat_history').insert([
-              {
-                user_id: user.id,
-                message: messageText,
-                response: assistantContent,
-                role: 'user',
-                timestamp: new Date().toISOString()
-              }
-            ]);
-          }
-        } catch (chatError) {
-          console.warn('Could not save chat history:', chatError);
-          // Continue even if saving chat history fails
+      // Save to chat history
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (user) {
+          await supabase.from('chat_history').insert([
+            {
+              user_id: user.id,
+              message: messageText,
+              response: data.result,
+              role: 'user',
+              timestamp: new Date().toISOString()
+            }
+          ]);
+        } else {
+          console.log('User not authenticated, skipping chat history save');
         }
+      } catch (chatError) {
+        console.error('Error saving chat history:', chatError);
+        // Continue even if saving chat history fails
       }
 
       // If voice is enabled, convert response to speech
       if (voiceSettings.enabled) {
-        playTextToSpeech(assistantContent);
+        playTextToSpeech(data.result);
       }
       
       // Stop typing animation
@@ -357,8 +363,8 @@ const MyCoach: React.FC = () => {
       setIsFetching(false);
       
       // If in voice-to-voice mode and voice is enabled, play response
-      if (voiceToVoiceMode && voiceSettings.enabled && assistantContent) {
-        playTextToSpeech(assistantContent);
+      if (voiceToVoiceMode && voiceSettings.enabled && data.result) {
+        playTextToSpeech(data.result);
       }
       
       // Update question set after each response
@@ -368,11 +374,7 @@ const MyCoach: React.FC = () => {
       
     } catch (err) {
       console.error('Error sending message:', err);
-      
-      // Use enhanced error handler
-      const appError = errorHandler.handleError(err);
-      setError(appError.message);
-      
+      setError('Failed to get a response. Please try again.');
       // Stop typing animation
       if (typingTimeout) {
         clearTimeout(typingTimeout);
@@ -400,7 +402,7 @@ const MyCoach: React.FC = () => {
       setTypingText(texts[index % texts.length]);
       index++;
       
-      const timeout = window.setTimeout(updateTypingText, 3000);
+      const timeout = setTimeout(updateTypingText, 3000);
       setTypingTimeout(timeout);
     };
     
@@ -493,12 +495,6 @@ const MyCoach: React.FC = () => {
 
   const playTextToSpeech = async (text: string) => {
     try {
-      // Check ElevenLabs service status before making request
-      if (serviceContext && !serviceContext.services.elevenlabs) {
-        console.warn('Voice synthesis is currently unavailable');
-        return;
-      }
-      
       // Stop any currently playing audio
       if (audioRef.current) {
         audioRef.current.pause();
@@ -543,16 +539,13 @@ const MyCoach: React.FC = () => {
           audioRef.current = null;
         }
         setIsPlayingAudio(false);
-        console.error('Audio playback failed');
+        console.error('Error playing audio');
       };
 
       await audio.play();
     } catch (err) {
       console.error('Error with text-to-speech:', err);
       setIsPlayingAudio(false);
-      
-      // Use enhanced error handler
-      errorHandler.handleError(err, { context: 'Voice synthesis' });
     }
   };
 
@@ -599,11 +592,11 @@ const MyCoach: React.FC = () => {
   return (
     <div className="flex flex-col h-[600px] bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 border border-gray-200 dark:border-gray-700">
       {/* Header */}
-      <div className="relative flex items-center justify-between p-5 overflow-hidden text-white shadow-md bg-gradient-to-r from-primary via-tertiary to-secondary rounded-t-xl">
+      <div className="bg-gradient-to-r from-primary via-tertiary to-secondary text-white p-5 flex items-center justify-between rounded-t-xl shadow-md relative overflow-hidden">
         {/* Background pattern for header */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-64 h-64 translate-x-1/2 -translate-y-1/2 bg-white rounded-full"></div>
-          <div className="absolute bottom-0 left-0 w-32 h-32 -translate-x-1/2 translate-y-1/2 bg-white rounded-full"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-white rounded-full translate-y-1/2 -translate-x-1/2"></div>
         </div>
         
         <div className="flex items-center">
@@ -645,7 +638,7 @@ const MyCoach: React.FC = () => {
           </button>
           <button
             onClick={() => setShowVoiceSettings(!showVoiceSettings)}
-            className="p-2 transition-colors rounded-full hover:bg-primary-dark"
+            className="p-2 rounded-full hover:bg-primary-dark transition-colors"
             aria-label="Voice settings"
           >
             <Settings size={20} />
@@ -664,31 +657,8 @@ const MyCoach: React.FC = () => {
         />
       )}
 
-      {/* Service Status Banner */}
-      {serviceContext && (!serviceContext.services.openai || !serviceContext.services.elevenlabs) && (
-        <div className="p-3 mx-5 mt-3 border-l-4 border-yellow-400 bg-yellow-50 dark:bg-yellow-900/20 rounded-r-md">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg className="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                {!serviceContext.services.openai && !serviceContext.services.elevenlabs
-                  ? 'AI chat and voice features are currently unavailable'
-                  : !serviceContext.services.openai
-                  ? 'AI chat features are currently unavailable'
-                  : 'Voice features are currently unavailable'
-                }
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Messages */}
-      <div className="flex-1 p-5 space-y-5 overflow-y-auto transition-all duration-300 bg-gray-50 dark:bg-gray-700">
+      <div className="flex-1 overflow-y-auto p-5 space-y-5 bg-gray-50 dark:bg-gray-700 transition-all duration-300">
         {messages.map((message) => (
           <ChatMessage
             key={message.id}
@@ -697,7 +667,7 @@ const MyCoach: React.FC = () => {
           />
         ))}
         {isFetching && (
-          <div className="flex flex-col p-4 space-y-2 text-gray-700 bg-white shadow-md dark:text-white dark:bg-gray-600 rounded-xl w-fit">
+          <div className="flex flex-col space-y-2 text-gray-700 dark:text-white p-4 bg-white dark:bg-gray-600 rounded-xl w-fit shadow-md">
             <div className="flex items-center space-x-2">
               <Sparkles className="w-4 h-4" />
               <span className="tracking-wide">
@@ -705,7 +675,7 @@ const MyCoach: React.FC = () => {
                 <span className="inline-block animate-pulse">...</span>
               </span>
             </div>
-            <div className="flex ml-6 space-x-1">
+            <div className="flex space-x-1 ml-6">
               <div className="w-2 h-2 rounded-full bg-primary/70 animate-bounce" style={{ animationDelay: '0ms' }}></div>
               <div className="w-2 h-2 rounded-full bg-primary/70 animate-bounce" style={{ animationDelay: '150ms' }}></div>
               <div className="w-2 h-2 rounded-full bg-primary/70 animate-bounce" style={{ animationDelay: '300ms' }}></div>
@@ -713,8 +683,8 @@ const MyCoach: React.FC = () => {
           </div>
         )}
         {error && (
-          <div className="p-4 font-medium text-red-700 shadow-md bg-red-50 dark:bg-red-900/20 dark:text-red-300 rounded-xl">
-            <AlertCircle className="inline-block w-4 h-4 mr-2" />
+          <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-xl font-medium shadow-md">
+            <AlertCircle className="w-4 h-4 inline-block mr-2" />
             <span className="tracking-wide">{error}</span>
           </div>
         )}
@@ -722,9 +692,9 @@ const MyCoach: React.FC = () => {
         {/* Suggested Questions */}
         {!isLoading && messages.length > 0 && messages[messages.length - 1].role === 'assistant' && (
           <div className="flex flex-wrap gap-3 mt-5 mb-3">
-            <div className="flex items-center w-full mb-4">
-              <HelpCircle className="w-4 h-4 mr-2 text-primary" />
-              <span className="text-sm font-medium tracking-wide text-gray-600 dark:text-gray-300">
+            <div className="w-full flex items-center mb-4">
+              <HelpCircle className="w-4 h-4 text-primary mr-2" />
+              <span className="text-sm font-medium text-gray-600 dark:text-gray-300 tracking-wide">
                 Suggested questions:
               </span>
             </div>
@@ -768,7 +738,7 @@ const MyCoach: React.FC = () => {
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="p-5 transition-all duration-300 bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+      <form onSubmit={handleSubmit} className="border-t border-gray-200 dark:border-gray-700 p-5 bg-white dark:bg-gray-800 transition-all duration-300">
         <div className="flex items-end space-x-3">
           {/* Voice Input Button */}
           <button
@@ -795,12 +765,12 @@ const MyCoach: React.FC = () => {
             {isListening ? <MicOff size={20} /> : <Mic size={20} />}
           </button>
           
-          <div className="relative flex-1">
+          <div className="flex-1 relative">
             <div className="relative">
               {isListening && (
-                <div className="absolute flex items-center top-2 left-3">
-                  <div className="w-2 h-2 mr-2 bg-red-500 rounded-full animate-pulse"></div>
-                  <span className="text-xs font-medium text-red-500">Listening...</span>
+                <div className="absolute top-2 left-3 flex items-center">
+                  <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-2"></div>
+                  <span className="text-xs text-red-500 font-medium">Listening...</span>
                 </div>
               )}
             <textarea
@@ -826,7 +796,7 @@ const MyCoach: React.FC = () => {
           <Button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className="flex items-center justify-center w-12 h-12 p-0 rounded-full shadow-lg bg-gradient-to-r from-primary via-tertiary to-secondary"
+            className="h-12 w-12 p-0 flex items-center justify-center rounded-full bg-gradient-to-r from-primary via-tertiary to-secondary shadow-lg"
           >
             <Send className="w-5 h-5" />
           </Button>
@@ -834,7 +804,7 @@ const MyCoach: React.FC = () => {
         
         {/* Voice Mode Indicator */}
         {voiceToVoiceMode && (
-          <div className="flex items-center mt-3 text-xs text-green-600 dark:text-green-400">
+          <div className="mt-3 flex items-center text-xs text-green-600 dark:text-green-400">
             <Volume2 className="w-4 h-4 mr-1" />
             <span>Voice-to-voice mode active - Speak naturally for hands-free interaction</span>
           </div>
@@ -842,7 +812,7 @@ const MyCoach: React.FC = () => {
         
         {/* Microphone Status */}
         {micPermission === 'denied' && (
-          <div className="p-2 mt-3 border border-red-200 rounded-lg bg-red-50 dark:bg-red-900/20 dark:border-red-800">
+          <div className="mt-3 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
             <div className="flex items-center text-xs text-red-700 dark:text-red-300">
               <AlertCircle className="w-4 h-4 mr-1" />
               <span>Microphone access required for voice input. Please enable in browser settings.</span>
