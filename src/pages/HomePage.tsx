@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, ChevronDown, ChevronUp } from 'lucide-react'
 import EvidenceBasedHealthOptimization from '../components/health/EvidenceBasedHealthOptimization'
 import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop'
+import ThemeToggle from '../components/ui/ThemeToggle'
 import { motion, AnimatePresence } from 'framer-motion'
 
 // Features data
@@ -37,6 +38,7 @@ const HomePage: React.FC = () => {
   };
   return (
     <AdaptiveBackdrop animationSpeed="slow" overlay={true}>
+      <ThemeToggle />
       {/* Hero Section with consistent styling */}
       <section className="border-b border-white/10 dark:border-gray-700/30 text-gray-900 dark:text-white py-32 sm:py-40 md:py-48 relative overflow-hidden">
         {/* Content overlay for better readability */}
