@@ -225,7 +225,7 @@ export class FocusManager {
 /**
  * React Hook for Focus Trap
  */
-export const useFocusTrap = (isActive: boolean, options: FocusTrapOptions = {}) => {
+export const useFocusTrap = (isActive: boolean) => {
   const containerRef = React.useRef<HTMLElement>(null);
   const focusTrapRef = React.useRef<FocusTrap | null>(null);
 
