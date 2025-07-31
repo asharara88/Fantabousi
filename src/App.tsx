@@ -35,9 +35,11 @@ import LoginPage from './pages/auth/LoginPage';
 import SignupPage from './pages/auth/SignupPage';
 import OnboardingPage from './pages/auth/OnboardingPage';
 import NotFoundPage from './pages/NotFoundPage';
+import DiagnosticsPage from './pages/DiagnosticsPage';
 
 // Demo pages
 import LiveTimeDemo from './components/demo/LiveTimeDemo';
+import PricingPage from './pages/PricingPage';
 
 // Wrap lazy components with Suspense
 const HomePage = withSuspense(LazyHomePage);
@@ -67,6 +69,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
+      <Route path="/diagnostics" element={<DiagnosticsPage />} />
       
       {/* Protected routes wrapped in Layout */}
       <Route path="/" element={<Layout />}>
@@ -88,6 +91,7 @@ function App() {
         <Route path="bioclock" element={<BioclockPage />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="about" element={<AboutPage />} />
+        <Route path="pricing" element={<PricingPage />} />
         <Route path="demo/live-time" element={<LiveTimeDemo />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
