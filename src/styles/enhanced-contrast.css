@@ -1,0 +1,162 @@
+/* Enhanced Color Contrast Improvements for WCAG AAA Compliance */
+
+:root {
+  /* Enhanced text colors for better contrast */
+  --color-text-primary: 222deg 84% 8%;        /* Darker for better contrast */
+  --color-text-secondary: 215deg 25% 25%;     /* Improved from 27% */
+  --color-text-muted: 215deg 16% 30%;         /* Enhanced from 35% */
+  --color-text-caption: 215deg 20% 35%;       /* Better readability */
+  
+  /* Enhanced link colors with 7:1 contrast ratio */
+  --color-link: 220deg 100% 40%;              /* Darker for AAA compliance */
+  --color-link-hover: 220deg 100% 30%;        /* Enhanced hover state */
+  --color-link-visited: 250deg 100% 40%;      /* Proper visited link contrast */
+  --color-link-active: 220deg 100% 20%;       /* Active state enhancement */
+  
+  /* Status colors with enhanced contrast */
+  --color-success-text: 142deg 71% 20%;       /* Darker green for better contrast */
+  --color-warning-text: 43deg 96% 20%;        /* Enhanced warning text */
+  --color-error-text: 0deg 72% 25%;           /* Better error text contrast */
+  --color-info-text: 200deg 100% 20%;         /* Improved info text */
+  
+  /* Button text for gradient backgrounds */
+  --color-button-text-on-gradient: 0deg 0% 100%; /* Pure white for gradients */
+  
+  /* Reading mode colors */
+  --color-reading-text: 222deg 84% 5%;        /* Optimized for long reading */
+  --color-reading-background: 45deg 10% 98%;  /* Cream background for reduced eye strain */
+}
+
+.dark {
+  /* Dark mode enhanced colors */
+  --color-text-primary: 0deg 0% 98%;          /* High contrast white */
+  --color-text-secondary: 215deg 20% 80%;     /* Improved secondary text */
+  --color-text-muted: 215deg 20% 70%;         /* Better muted text visibility */
+  --color-text-caption: 215deg 15% 65%;       /* Enhanced caption contrast */
+  
+  --color-link: 220deg 100% 85%;              /* Lighter for dark backgrounds */
+  --color-link-hover: 220deg 100% 95%;        /* Enhanced hover visibility */
+  --color-link-visited: 250deg 100% 85%;      /* Proper visited link contrast */
+  --color-link-active: 220deg 100% 100%;      /* Maximum contrast for active */
+  
+  --color-success-text: 142deg 71% 80%;       /* Light green for dark mode */
+  --color-warning-text: 43deg 96% 80%;        /* Enhanced warning visibility */
+  --color-error-text: 0deg 72% 85%;           /* Better error visibility */
+  --color-info-text: 200deg 100% 80%;         /* Improved info visibility */
+  
+  --color-reading-text: 0deg 0% 95%;          /* Slightly softer than pure white */
+  --color-reading-background: 222deg 84% 3%;  /* Deep background for reading */
+}
+
+/* Enhanced gradient text handling */
+.gradient-primary,
+.gradient-secondary,
+.gradient-tertiary {
+  color: var(--color-button-text-on-gradient) !important;
+}
+
+.gradient-primary *,
+.gradient-secondary *,
+.gradient-tertiary * {
+  color: var(--color-button-text-on-gradient) !important;
+}
+
+/* Reading mode for long-form content */
+.reading-mode {
+  background-color: hsl(var(--color-reading-background));
+  color: hsl(var(--color-reading-text));
+  padding: 2rem;
+  border-radius: 8px;
+  line-height: 1.8;
+  font-size: 1.125rem;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-text-primary: 0deg 0% 0%;
+    --color-text-secondary: 0deg 0% 10%;
+    --color-background: 0deg 0% 100%;
+    --color-link: 240deg 100% 20%;
+  }
+  
+  .dark {
+    --color-text-primary: 0deg 0% 100%;
+    --color-text-secondary: 0deg 0% 90%;
+    --color-background: 0deg 0% 0%;
+    --color-link: 240deg 100% 90%;
+  }
+}
+
+/* Enhanced focus indicators for accessibility */
+:focus-visible {
+  outline: none;
+  box-shadow: 
+    0 0 0 2px hsl(var(--color-background)),
+    0 0 0 4px hsl(var(--color-primary)),
+    0 4px 12px hsl(var(--color-primary) / 0.3);
+  border-radius: 4px;
+}
+
+/* Ensure sufficient contrast for all interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  box-shadow: 
+    0 0 0 2px hsl(var(--color-background)),
+    0 0 0 4px hsl(var(--color-primary)),
+    0 4px 16px hsl(var(--color-primary) / 0.4);
+}
+
+/* Ensure text remains readable on all backgrounds */
+.text-on-light {
+  color: hsl(var(--color-text-primary));
+}
+
+.text-on-dark {
+  color: hsl(0deg 0% 98%);
+}
+
+.text-on-gradient {
+  color: hsl(0deg 0% 100%) !important;
+}
+
+/* Status indicators with proper contrast */
+.status-success {
+  background-color: hsl(142deg 71% 95%);
+  color: hsl(var(--color-success-text));
+  border: 1px solid hsl(142deg 71% 85%);
+}
+
+.status-warning {
+  background-color: hsl(43deg 96% 95%);
+  color: hsl(var(--color-warning-text));
+  border: 1px solid hsl(43deg 96% 85%);
+}
+
+.status-error {
+  background-color: hsl(0deg 72% 95%);
+  color: hsl(var(--color-error-text));
+  border: 1px solid hsl(0deg 72% 85%);
+}
+
+.dark .status-success {
+  background-color: hsl(142deg 71% 10%);
+  color: hsl(var(--color-success-text));
+  border: 1px solid hsl(142deg 71% 20%);
+}
+
+.dark .status-warning {
+  background-color: hsl(43deg 96% 10%);
+  color: hsl(var(--color-warning-text));
+  border: 1px solid hsl(43deg 96% 20%);
+}
+
+.dark .status-error {
+  background-color: hsl(0deg 72% 10%);
+  color: hsl(var(--color-error-text));
+  border: 1px solid hsl(0deg 72% 20%);
+}

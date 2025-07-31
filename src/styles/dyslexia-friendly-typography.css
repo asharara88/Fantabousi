@@ -1,0 +1,293 @@
+/* Enhanced Typography for Dyslexia-Friendly Reading */
+
+/* Additional dyslexia-friendly improvements */
+:root {
+  /* Enhanced spacing for better readability */
+  --leading-dyslexia-friendly: 1.7;           /* Increased from 1.6 */
+  --leading-paragraph: 1.8;                   /* Enhanced paragraph spacing */
+  --leading-list: 1.6;                        /* Better list readability */
+  --leading-caption: 1.5;                     /* Improved caption spacing */
+  
+  /* Enhanced letter spacing for better character recognition */
+  --tracking-body: 0.025em;                   /* Increased from 0.02em */
+  --tracking-heading: -0.005em;               /* Slightly tighter for headings */
+  --tracking-small: 0.035em;                  /* More space for small text */
+  --tracking-button: 0.03em;                  /* Enhanced button text spacing */
+  
+  /* Optimal reading widths */
+  --content-width: 65ch;                      /* Optimal 65 characters per line */
+  --narrow-content-width: 50ch;               /* For dense content */
+  --wide-content-width: 80ch;                 /* For less dense content */
+  
+  /* Enhanced paragraph and section spacing */
+  --paragraph-spacing: 1.75em;                /* Increased paragraph spacing */
+  --section-spacing: 3em;                     /* Better section separation */
+  --list-spacing: 1em;                        /* Enhanced list spacing */
+  
+  /* Word spacing improvements */
+  --word-spacing-normal: 0.1em;               /* Slight word spacing increase */
+  --word-spacing-dense: 0.05em;               /* For dense content */
+}
+
+/* Enhanced base typography with dyslexia considerations */
+body {
+  font-family: 'Poppins', 'OpenDyslexic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: var(--leading-dyslexia-friendly);
+  letter-spacing: var(--tracking-body);
+  word-spacing: var(--word-spacing-normal);
+  font-feature-settings: "liga" 0, "calt" 0;  /* Disable ligatures for dyslexia */
+}
+
+/* Enhanced paragraph styles */
+p {
+  line-height: var(--leading-paragraph);
+  margin-bottom: var(--paragraph-spacing);
+  max-width: var(--content-width);
+  letter-spacing: var(--tracking-body);
+  word-spacing: var(--word-spacing-normal);
+  
+  /* Prevent text from being too wide */
+  hyphens: auto;
+  word-break: break-word;
+}
+
+/* Improved heading spacing and readability */
+h1, h2, h3, h4, h5, h6 {
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  margin-bottom: 0.75em;
+  margin-top: 1.5em;
+  max-width: var(--content-width);
+  
+  /* Better word breaking for long headings */
+  word-break: break-word;
+  hyphens: auto;
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+  margin-top: 0;
+}
+
+/* Enhanced list styles for better readability */
+ul, ol {
+  line-height: var(--leading-list);
+  padding-left: 1.75em;                      /* Increased indentation */
+  margin-bottom: var(--list-spacing);
+  max-width: var(--content-width);
+}
+
+li {
+  margin-bottom: 0.75em;                     /* Increased list item spacing */
+  line-height: var(--leading-list);
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+/* Nested list improvements */
+ul ul, ol ol, ul ol, ol ul {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Enhanced link styles for better readability */
+a {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: all 0.2s ease;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+}
+
+a:hover {
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+
+/* Button text improvements */
+button, .btn {
+  letter-spacing: var(--tracking-button);
+  word-spacing: var(--word-spacing-normal);
+  font-weight: var(--font-medium);
+  line-height: 1.4;
+}
+
+/* Small text enhancements */
+small, .text-sm {
+  letter-spacing: var(--tracking-small);
+  line-height: var(--leading-caption);
+}
+
+/* Reading mode for long-form content */
+.reading-mode {
+  font-size: 1.25rem;                        /* Larger text for reading */
+  line-height: 1.9;                          /* Extra line height */
+  letter-spacing: 0.03em;                    /* Enhanced letter spacing */
+  word-spacing: 0.1em;                       /* Better word separation */
+  max-width: 60ch;                           /* Narrower for better reading */
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.reading-mode p {
+  margin-bottom: 2em;                        /* Generous paragraph spacing */
+  text-align: left;                          /* Never justify in reading mode */
+}
+
+.reading-mode h1,
+.reading-mode h2,
+.reading-mode h3,
+.reading-mode h4,
+.reading-mode h5,
+.reading-mode h6 {
+  margin-top: 2.5em;
+  margin-bottom: 1em;
+  line-height: 1.3;
+}
+
+/* Content width utilities */
+.content-narrow {
+  max-width: var(--narrow-content-width);
+}
+
+.content-standard {
+  max-width: var(--content-width);
+}
+
+.content-wide {
+  max-width: var(--wide-content-width);
+}
+
+/* Emphasis styles that work well for dyslexia */
+strong, b {
+  font-weight: 600;                          /* Not too bold */
+}
+
+em, i {
+  font-style: normal;                        /* Avoid italics */
+  font-weight: 500;                          /* Use weight instead */
+  background: linear-gradient(180deg, transparent 60%, hsl(var(--color-primary) / 0.2) 60%);
+}
+
+/* Table improvements for readability */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  line-height: var(--leading-list);
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid hsl(var(--color-text) / 0.1);
+}
+
+th {
+  font-weight: 600;
+  letter-spacing: var(--tracking-small);
+}
+
+/* Form element improvements */
+input, textarea, select {
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-body);
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+/* Code and monospace improvements */
+code, pre {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 0.9em;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+/* Responsive typography adjustments */
+@media (max-width: 768px) {
+  :root {
+    --content-width: 90vw;
+    --paragraph-spacing: 1.5em;
+  }
+  
+  body {
+    font-size: 1.0625rem;                    /* Slightly larger on mobile */
+    line-height: 1.75;
+  }
+  
+  .reading-mode {
+    font-size: 1.125rem;
+    padding: 2rem 1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  body {
+    font-size: 1.125rem;                     /* Larger text on large screens */
+  }
+  
+  .reading-mode {
+    font-size: 1.375rem;
+    line-height: 2;
+  }
+}
+
+/* Print styles for better readability */
+@media print {
+  body {
+    font-size: 12pt;
+    line-height: 1.6;
+    color: black;
+    background: white;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    break-after: avoid;
+    color: black;
+  }
+  
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+}
+
+/* Utility classes for content creators */
+.text-dyslexia-friendly {
+  font-family: 'OpenDyslexic', 'Poppins', sans-serif;
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+  word-spacing: 0.1em;
+}
+
+.text-readable {
+  max-width: var(--content-width);
+  line-height: var(--leading-paragraph);
+  letter-spacing: var(--tracking-body);
+}
+
+.text-large {
+  font-size: 1.25rem;
+  line-height: 1.7;
+}
+
+.text-extra-large {
+  font-size: 1.5rem;
+  line-height: 1.6;
+}
+
+/* Section spacing utilities */
+.section-spacing {
+  margin-bottom: var(--section-spacing);
+}
+
+.paragraph-spacing {
+  margin-bottom: var(--paragraph-spacing);
+}

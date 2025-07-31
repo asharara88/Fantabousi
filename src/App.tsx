@@ -1,5 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import './styles/accessibility-typography.css';
+import './styles/enhanced-contrast.css';
+import './styles/dyslexia-friendly-typography.css';
 import Layout from './components/layout/Layout';
 
 // Lazy loaded pages for better performance

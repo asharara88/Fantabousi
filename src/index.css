@@ -207,6 +207,9 @@
   p {
     line-height: var(--leading-relaxed);
     letter-spacing: var(--tracking-wide);
+    margin-bottom: 1.5em;
+    max-width: 65ch;
+    word-spacing: 0.1em;
   }
 
   a {
