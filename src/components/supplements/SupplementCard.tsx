@@ -120,7 +120,7 @@ const SupplementCard: React.FC<SupplementCardProps> = ({
             <div className="flex">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
-                  key={i}
+                  key={`star-${id}-${i}`}
                   className={cn(
                     "w-4 h-4",
                     i < Math.floor(rating)
