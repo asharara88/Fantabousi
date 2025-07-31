@@ -28,13 +28,13 @@ const Layout: React.FC = () => {
         const { data } = await supabase.auth.getUser();
         setUser(data.user);
         
-        // If no user and not on auth pages, redirect to login
+        // If no user and not on auth pages, redirect to welcome page
         if (!data.user) {
-          navigate('/login');
+          navigate('/welcome');
         }
       } catch (error) {
         console.error('Error checking auth status:', error);
-        navigate('/login');
+        navigate('/welcome');
       } finally {
         setLoading(false);
       }
@@ -47,7 +47,7 @@ const Layout: React.FC = () => {
       setUser(session?.user || null);
       
       if (event === 'SIGNED_OUT' || !session?.user) {
-        navigate('/login');
+        navigate('/welcome');
       }
     });
     

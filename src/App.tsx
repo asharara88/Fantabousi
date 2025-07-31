@@ -54,14 +54,16 @@ const BioclockPage = withSuspense(LazyBioclockPage);
 function App() {
   return (
     <Routes>
+      {/* Public routes */}
+      <Route path="/welcome" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
-      <Route path="/welcome" element={<HomePage />} />
+      
+      {/* Protected routes wrapped in Layout */}
       <Route path="/" element={<Layout />}>
         <Route index element={<DashboardPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="home" element={<HomePage />} />
         <Route path="mycoach" element={<MyCoachPage />} />
         <Route path="nutrition" element={<NutritionPage />} />
         <Route path="nutrition/dashboard" element={<NutritionDashboardPage />} />
