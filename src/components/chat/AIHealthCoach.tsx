@@ -196,8 +196,8 @@ const AIHealthCoach: React.FC = () => {
         <div className="flex items-center">
           <img
             src="/logos/biowell-light.svg"
-            alt="Biowell Logo" 
-            className="h-8 w-auto mr-3 object-contain" 
+            alt="Biowell Logo"
+            className="h-8 w-auto mr-3 object-contain"
           />
           <h2 className="text-lg font-semibold">Smart Coach</h2>
         </div>
