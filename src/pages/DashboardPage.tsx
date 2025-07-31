@@ -7,6 +7,8 @@ import ActivityTimeline from '../components/dashboard/ActivityTimeline';
 import SupplementTracker from '../components/dashboard/SupplementTracker';
 import RecommendationsCard from '../components/dashboard/RecommendationsCard';
 import FitnessWidget from '../components/fitness/FitnessWidget';
+import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop';
+import ThemeToggle from '../components/ui/ThemeToggle';
 
 const DashboardPage: React.FC = () => {
   // Mock data for BW Score metrics
@@ -160,12 +162,14 @@ const DashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-6 sm:py-8 transition-all duration-200">
-      <div className="mobile-container">
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Health Dashboard</h1>
-          <p className="text-gray-600 dark:text-gray-400">Your personalized health overview and insights</p>
-        </div>
+    <AdaptiveBackdrop animationSpeed="slow" overlay={true}>
+      <ThemeToggle />
+      <div className="min-h-screen bg-white/30 dark:bg-black/20 backdrop-blur-sm py-6 sm:py-8 transition-all duration-200">
+        <div className="mobile-container">
+          <div className="mb-6 sm:mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Health Dashboard</h1>
+            <p className="text-gray-600 dark:text-gray-400">Your personalized health overview and insights</p>
+          </div>
 
         {/* BW Score Overview Section */}
         <section className="mb-8">
@@ -251,6 +255,7 @@ const DashboardPage: React.FC = () => {
         </section>
       </div>
     </div>
+    </AdaptiveBackdrop>
   );
 };
 
