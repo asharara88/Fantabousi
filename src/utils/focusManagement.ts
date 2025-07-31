@@ -26,33 +26,21 @@ export interface FocusRestoreOptions {
  */
 export const getFocusableElements = (container: HTMLElement): HTMLElement[] => {
   const focusableSelectors = [
-    'a[href]',
-    'area[href]',
-    'input:not([disabled]):not([type="hidden"])',
-    'select:not([disabled])',
-    'textarea:not([disabled])',
-    'button:not([disabled])',
-    'iframe',
-    'object',
-    'embed',
-    '[contenteditable]',
-    '[tabindex]:not([tabindex^="-"])',
-    'audio[controls]',
-    'video[controls]'
-  ].join(', ');
+    'button:not([disabled]):not([tabindex="-1"])',
+    'input:not([disabled]):not([type="hidden"]):not([tabindex="-1"])',
+    'select:not([disabled]):not([tabindex="-1"])',
+    'textarea:not([disabled]):not([tabindex="-1"])',
+    'a[href]:not([tabindex="-1"])',
+    '[tabindex]:not([tabindex="-1"]):not([disabled])',
+    '[contenteditable="true"]:not([tabindex="-1"])'
+  ].join(',');
 
-  const elements = Array.from(container.querySelectorAll<HTMLElement>(focusableSelectors));
-
-  return elements.filter(element => {
-    // Check if element is visible and not disabled
-    return (
-      element.offsetWidth > 0 &&
-      element.offsetHeight > 0 &&
-      !element.hasAttribute('disabled') &&
-      element.tabIndex !== -1 &&
-      window.getComputedStyle(element).visibility !== 'hidden'
-    );
-  });
+  return Array.from(container.querySelectorAll(focusableSelectors))
+    .filter((element): element is HTMLElement => {
+      return element instanceof HTMLElement && 
+             element.offsetParent !== null && 
+             !element.hasAttribute('disabled');
+    });
 };
 
 /**
@@ -60,139 +48,80 @@ export const getFocusableElements = (container: HTMLElement): HTMLElement[] => {
  */
 export class FocusTrap {
   private container: HTMLElement;
-  private options: FocusTrapOptions;
   private previousActiveElement: HTMLElement | null = null;
   private isActive = false;
-  private firstFocusableElement: HTMLElement | null = null;
-  private lastFocusableElement: HTMLElement | null = null;
+  private handleKeyDown: (event: KeyboardEvent) => void;
 
-  constructor(container: HTMLElement, options: FocusTrapOptions = {}) {
+  constructor(container: HTMLElement) {
     this.container = container;
-    this.options = {
-      escapeDeactivates: true,
-      clickOutsideDeactivates: true,
-      returnFocusOnDeactivate: true,
-      ...options
-    };
+    this.handleKeyDown = this.onKeyDown.bind(this);
   }
 
   activate(): void {
     if (this.isActive) return;
 
     this.previousActiveElement = document.activeElement as HTMLElement;
-    this.updateFocusableElements();
-    this.addEventListeners();
-    this.setInitialFocus();
     this.isActive = true;
+    
+    document.addEventListener('keydown', this.handleKeyDown);
+    
+    // Focus first focusable element
+    const focusableElements = getFocusableElements(this.container);
+    if (focusableElements.length > 0) {
+      focusableElements[0].focus();
+    }
   }
 
   deactivate(): void {
     if (!this.isActive) return;
 
-    this.removeEventListeners();
-    
-    if (this.options.returnFocusOnDeactivate && this.previousActiveElement) {
-      this.restoreFocus(this.previousActiveElement);
-    }
-
     this.isActive = false;
-  }
-
-  private updateFocusableElements(): void {
-    const focusableElements = getFocusableElements(this.container);
-    this.firstFocusableElement = focusableElements[0] || null;
-    this.lastFocusableElement = focusableElements[focusableElements.length - 1] || null;
-  }
-
-  private setInitialFocus(): void {
-    let targetElement: HTMLElement | null = null;
-
-    if (this.options.initialFocus) {
-      if (typeof this.options.initialFocus === 'string') {
-        targetElement = this.container.querySelector(this.options.initialFocus);
-      } else {
-        targetElement = this.options.initialFocus;
-      }
-    }
-
-    if (!targetElement) {
-      targetElement = this.firstFocusableElement;
-    }
-
-    if (!targetElement && this.options.fallbackFocus) {
-      if (typeof this.options.fallbackFocus === 'string') {
-        targetElement = document.querySelector(this.options.fallbackFocus);
-      } else {
-        targetElement = this.options.fallbackFocus;
-      }
-    }
-
-    if (targetElement) {
-      targetElement.focus();
+    document.removeEventListener('keydown', this.handleKeyDown);
+    
+    // Restore focus to previous element
+    if (this.previousActiveElement && document.contains(this.previousActiveElement)) {
+      this.previousActiveElement.focus();
     }
   }
 
-  private handleKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === 'Tab') {
-      this.handleTabKey(event);
-    } else if (event.key === 'Escape' && this.options.escapeDeactivates) {
+  private onKeyDown(event: KeyboardEvent): void {
+    if (!this.isActive) return;
+
+    if (event.key === 'Escape') {
       event.preventDefault();
       this.deactivate();
+      return;
     }
-  };
+
+    if (event.key === 'Tab') {
+      this.handleTabKey(event);
+    }
+  }
 
   private handleTabKey(event: KeyboardEvent): void {
-    if (!this.firstFocusableElement || !this.lastFocusableElement) {
+    const focusableElements = getFocusableElements(this.container);
+    
+    if (focusableElements.length === 0) {
       event.preventDefault();
       return;
     }
 
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+    const activeElement = document.activeElement;
+
     if (event.shiftKey) {
       // Shift + Tab
-      if (document.activeElement === this.firstFocusableElement) {
+      if (activeElement === firstElement) {
         event.preventDefault();
-        this.lastFocusableElement.focus();
+        lastElement.focus();
       }
     } else {
       // Tab
-      if (document.activeElement === this.lastFocusableElement) {
+      if (activeElement === lastElement) {
         event.preventDefault();
-        this.firstFocusableElement.focus();
+        firstElement.focus();
       }
-    }
-  }
-
-  private handleClickOutside = (event: MouseEvent): void => {
-    if (this.options.clickOutsideDeactivates) {
-      if (this.options.allowOutsideClick && this.options.allowOutsideClick(event)) {
-        return;
-      }
-
-      if (!this.container.contains(event.target as Node)) {
-        this.deactivate();
-      }
-    }
-  };
-
-  private addEventListeners(): void {
-    document.addEventListener('keydown', this.handleKeyDown);
-    document.addEventListener('mousedown', this.handleClickOutside);
-  }
-
-  private removeEventListeners(): void {
-    document.removeEventListener('keydown', this.handleKeyDown);
-    document.removeEventListener('mousedown', this.handleClickOutside);
-  }
-
-  private restoreFocus(element: HTMLElement, options: FocusRestoreOptions = {}): void {
-    try {
-      element.focus({ preventScroll: options.preventScroll });
-      
-      if (options.selectText && element instanceof HTMLInputElement) {
-        element.select();
-      }
-    } catch (error) {
-      console.warn('Failed to restore focus:', error);
     }
   }
 }

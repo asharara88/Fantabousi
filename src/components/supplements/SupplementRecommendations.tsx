@@ -68,7 +68,17 @@ const SupplementRecommendations: React.FC = () => {
       }
       
       const data = await supplementApi.getPersonalizedRecommendations(userId);
-      setRecommendations(data);
+      // Ensure data has the correct structure
+      if (Array.isArray(data)) {
+        // If data is just supplements array, wrap it properly
+        setRecommendations({
+          supplements: data,
+          stacks: [],
+          personalized_message: "Here are your personalized recommendations."
+        });
+      } else {
+        setRecommendations(data);
+      }
     } catch (error) {
       console.error('Error loading recommendations:', error);
       setError('Failed to load personalized recommendations. Please try again.');
@@ -95,7 +105,7 @@ const SupplementRecommendations: React.FC = () => {
         throw new Error('User not authenticated');
       }
       
-      await supplementApi.addToCart(user.id, supplementId);
+      await supplementApi.addToCart(user.id, parseInt(supplementId, 10));
       
       // Show success state briefly
       setTimeout(() => {
@@ -234,12 +244,12 @@ const SupplementRecommendations: React.FC = () => {
                   </p>
                   
                   <div className="mb-4 space-y-2">
-                    {stack.components.slice(0, 3).map((component, index) => (
-                      <div key={`component-${index}`} className="flex justify-between text-sm">
+                    {stack.components.slice(0, 3).map((component) => (
+                      <div key={typeof component === 'string' ? component : component.supplement_id} className="flex justify-between text-sm">
                         <span className="text-gray-700 dark:text-gray-300">
                           {typeof component === 'string' ? component : component.name}
                         </span>
-                        {typeof component === 'object' && component.price && (
+                        {typeof component === 'object' && Boolean(component.price) && (
                           <span className="font-medium text-gray-900 dark:text-white">
                             {typeof component.price === 'number' ? component.price.toFixed(2) : component.price} AED
                           </span>
@@ -308,7 +318,6 @@ function getMockSupplements(): Supplement[] {
       name: 'Creatine Monohydrate',
       brand: 'Biowell',
       description: 'Increases strength and power output during high-intensity exercise.',
-      detailed_description: 'Increases intramuscular phosphocreatine for rapid ATP regeneration, enhancing strength and power output.',
       tier: 'green',
       use_case: 'Muscle strength & power',
       price_aed: 85.00,
@@ -358,9 +367,9 @@ function getMockStacks(): SupplementStack[] {
       category: 'Sleep',
       total_price: 215.00,
       components: [
-        { name: 'Magnesium Glycinate', dosage: '400mg', price: 75.00 },
-        { name: 'L-Theanine', dosage: '200mg', price: 65.00 },
-        { name: 'Ashwagandha', dosage: '600mg', price: 75.00 }
+        { supplement_id: '1', name: 'Magnesium Glycinate', dosage: '400mg', timing: 'Before bed', price: 75.00 },
+        { supplement_id: '2', name: 'L-Theanine', dosage: '200mg', timing: 'Evening', price: 65.00 },
+        { supplement_id: '3', name: 'Ashwagandha', dosage: '600mg', timing: 'With dinner', price: 75.00 }
       ]
     },
     {
@@ -369,9 +378,9 @@ function getMockStacks(): SupplementStack[] {
       category: 'Cognition',
       total_price: 255.00,
       components: [
-        { name: 'Bacopa Monnieri', dosage: '300mg', price: 85.00 },
-        { name: 'Lion\'s Mane', dosage: '500mg', price: 95.00 },
-        { name: 'Rhodiola Rosea', dosage: '300mg', price: 75.00 }
+        { supplement_id: '4', name: 'Bacopa Monnieri', dosage: '300mg', timing: 'Morning', price: 85.00 },
+        { supplement_id: '5', name: 'Lion\'s Mane', dosage: '500mg', timing: 'Morning', price: 95.00 },
+        { supplement_id: '6', name: 'Rhodiola Rosea', dosage: '300mg', timing: 'Morning', price: 75.00 }
       ]
     }
   ];
