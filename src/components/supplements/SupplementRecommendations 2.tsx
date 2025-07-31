@@ -26,28 +26,23 @@ import { cartService } from '../../utils/cartService';
 const getTierBadge = (tier?: string) => {
   const configs = {
     green: { 
-      bg: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-      label: 'Strong Evidence',
-      icon: '🟢'
+      bg: 'bg-green-500 dark:bg-green-500',
+      label: 'Strong Evidence'
     },
     yellow: { 
-      bg: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
-      label: 'Moderate Evidence',
-      icon: '🟡'
+      bg: 'bg-yellow-500 dark:bg-yellow-500',
+      label: 'Moderate Evidence'
     },
     orange: { 
-      bg: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
-      label: 'Limited Evidence',
-      icon: '🟠'
+      bg: 'bg-orange-500 dark:bg-orange-500',
+      label: 'Limited Evidence'
     }
   };
   
   const config = configs[(tier as keyof typeof configs)] || configs.orange;
   
   return (
-    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${config.bg}`}>
-      <span className="mr-1">{config.icon}</span>
-      {config.label}
+    <span className={`inline-block w-3 h-3 rounded-full ${config.bg}`} title={config.label}>
     </span>
   );
 };

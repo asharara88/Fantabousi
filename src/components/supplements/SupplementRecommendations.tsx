@@ -9,15 +9,25 @@ import { cn } from '../../utils/cn';
 
 // Helper function to get tier badge component
 const getTierBadge = (tier: string) => {
-  const colors = {
-    green: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-    yellow: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
-    orange: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300'
+  const configs = {
+    green: { 
+      color: 'bg-green-500 dark:bg-green-500',
+      description: 'Proven to work - backed by solid research'
+    },
+    yellow: { 
+      color: 'bg-yellow-500 dark:bg-yellow-500',
+      description: 'Promising results - some good studies available'
+    },
+    orange: { 
+      color: 'bg-orange-500 dark:bg-orange-500',
+      description: 'Early research - limited studies so far'
+    }
   };
   
+  const config = configs[tier] || configs.orange;
+  
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${colors[tier] || colors.orange}`}>
-      {tier.charAt(0).toUpperCase() + tier.slice(1)} Tier
+    <span className={`inline-block w-3 h-3 rounded-full ${config.color}`} title={config.description}>
     </span>
   );
 };

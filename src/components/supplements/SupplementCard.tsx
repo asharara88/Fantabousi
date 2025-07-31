@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import { ShoppingCart, Info, Star, Check, AlertCircle, X } from 'lucide-react';
+import { ShoppingCart, Star, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
@@ -54,28 +54,13 @@ const SupplementCard: React.FC<SupplementCardProps> = ({
 
   const getTierColor = (tier: string) => {
     const colors = {
-      green: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-      yellow: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
-      orange: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
-      red: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
+      green: 'bg-green-500 dark:bg-green-500',
+      yellow: 'bg-yellow-500 dark:bg-yellow-500',
+      orange: 'bg-orange-500 dark:bg-orange-500',
+      red: 'bg-red-500 dark:bg-red-500'
     };
     
     return colors[tier as keyof typeof colors] || colors.yellow;
-  };
-
-  const getTierIcon = () => {
-    switch (tier) {
-      case 'green':
-        return <Shield className="w-3.5 h-3.5 mr-1" />;
-      case 'yellow':
-        return <Shield className="w-3.5 h-3.5 mr-1" />;
-      case 'orange':
-        return <Shield className="w-3.5 h-3.5 mr-1" />;
-      case 'red':
-        return <Shield className="w-3.5 h-3.5 mr-1" />;
-      default:
-        return null;
-    }
   };
   const getTierDescription = (tier: string) => {
     switch (tier) {
@@ -102,12 +87,9 @@ const SupplementCard: React.FC<SupplementCardProps> = ({
         />
         <div className="absolute top-2 right-2">
           <span
-            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getTierColor(tier)}`}
+            className={`inline-block w-4 h-4 rounded-full ${getTierColor(tier)}`}
             title={getTierDescription(tier)}
           >
-            {getTierIcon()}
-            {getTierIcon()}
-            <span>{tier.charAt(0).toUpperCase() + tier.slice(1)}</span>
           </span>
         </div>
         
