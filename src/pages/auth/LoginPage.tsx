@@ -5,9 +5,20 @@ import { Eye, EyeOff } from 'lucide-react'
 import { createClient } from '@supabase/supabase-js'
 import { Button } from '../../components/ui/Button'
 
-// Initialize Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Initialize Supabase client with proper error handling
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+// Validate environment variables
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Supabase environment variables are missing:', {
+    url: !!supabaseUrl,
+    key: !!supabaseAnonKey
+  });
+  throw new Error('Supabase configuration is incomplete. Please check your environment variables.');
+}
+
+console.log('Supabase URL:', supabaseUrl); // For debugging
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const LoginPage: React.FC = () => {
