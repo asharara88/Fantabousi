@@ -62,7 +62,7 @@ const Navigation: React.FC<NavigationProps> = ({
       icon: <Activity className="w-5 h-5" /> 
     },
     { 
-      name: 'MyCoach', 
+      name: 'Smart Coach', 
       href: '/mycoach', 
       icon: <Sparkles className="w-5 h-5" /> 
     },
