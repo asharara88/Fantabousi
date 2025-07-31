@@ -18,6 +18,7 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 const Layout: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const [user, setUser] = React.useState<any>(null)
+  const [loading, setLoading] = React.useState(true)
   const navigate = useNavigate()
 
   // Check for user session on mount
@@ -26,22 +27,48 @@ const Layout: React.FC = () => {
       try {
         const { data } = await supabase.auth.getUser();
         setUser(data.user);
+        
+        // If no user and not on auth pages, redirect to login
+        if (!data.user) {
+          navigate('/login');
+        }
       } catch (error) {
         console.error('Error checking auth status:', error);
+        navigate('/login');
+      } finally {
+        setLoading(false);
       }
     };
     
     checkUser();
     
     // Set up auth state listener
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user || null);
+      
+      if (event === 'SIGNED_OUT' || !session?.user) {
+        navigate('/login');
+      }
     });
     
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, []);
+  }, [navigate]);
+
+  // Show loading spinner while checking auth
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  // If no user, don't render the layout (redirect handled above)
+  if (!user) {
+    return null;
+  }
 
   const handleSignOut = async () => {
     try {

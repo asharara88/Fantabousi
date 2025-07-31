@@ -156,7 +156,7 @@ const MinimalNav: React.FC = () => {
   };
 
   const navItems = [
-    { href: '/dashboard', label: 'Home', icon: <Home className="w-4 h-4" /> },
+    { href: '/', label: 'Home', icon: <Home className="w-4 h-4" /> },
     { href: '/fitness', label: 'Fitness', icon: <Activity className="w-4 h-4" /> },
     { href: '/mycoach', label: 'Smart Coach', icon: <Sparkles className="w-4 h-4" /> },
     { href: '/nutrition', label: 'Nutrition', icon: <Utensils className="w-4 h-4" /> },
@@ -355,7 +355,7 @@ const MinimalNav: React.FC = () => {
                           transition={{ duration: 0.2 }}
                         >
                           <Link
-                            to="/dashboard"
+                            to="/"
                             className="flex items-center w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-surface-2/70 transition-all duration-200 hover:translate-x-1"
                             onClick={() => setShowUserMenu(false)}
                           >
@@ -531,7 +531,7 @@ const MinimalNav: React.FC = () => {
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         <Home className="w-4 h-4 mr-3" />
-                        <span className="tracking-wide">Dashboard</span>
+                        <span className="tracking-wide">Home</span>
                       </Link>
                       <Link
                         to="/bioclock"

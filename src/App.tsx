@@ -58,8 +58,9 @@ function App() {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
       <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
+        <Route index element={<DashboardPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="home" element={<HomePage />} />
         <Route path="mycoach" element={<MyCoachPage />} />
         <Route path="nutrition" element={<NutritionPage />} />
         <Route path="nutrition/dashboard" element={<NutritionDashboardPage />} />
