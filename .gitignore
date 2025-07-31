@@ -70,6 +70,25 @@ web_modules/
 .env.*
 !.env.example
 
+# API keys and secrets (additional protection)
+*.key
+*.pem
+*.p12
+*.p8
+secrets.json
+config.json
+credentials.json
+
+# IDE and editor files with potential secrets
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+
+# Backup files that might contain secrets
+*.bak
+*.backup
+*.tmp
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
