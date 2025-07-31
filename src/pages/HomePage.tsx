@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, ChevronDown, ChevronUp } from 'lucide-react'
 import EvidenceBasedHealthOptimization from '../components/health/EvidenceBasedHealthOptimization'
+import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop'
 import { motion, AnimatePresence } from 'framer-motion'
 
 // Features data
@@ -35,18 +36,15 @@ const HomePage: React.FC = () => {
     setExpandedCard(expandedCard === index ? null : index);
   };
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <AdaptiveBackdrop animationSpeed="slow" overlay={true}>
       {/* Hero Section with consistent styling */}
-      <section className="gradient-subtle border-b border-gray-200/30 dark:border-gray-700/30 text-gray-900 dark:text-white py-32 sm:py-40 md:py-48 relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-secondary/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        </div>
+      <section className="border-b border-white/10 dark:border-gray-700/30 text-gray-900 dark:text-white py-32 sm:py-40 md:py-48 relative overflow-hidden">
+        {/* Content overlay for better readability */}
+        <div className="absolute inset-0 bg-white/20 dark:bg-black/20 backdrop-blur-[0.5px]"></div>
         
-        <div className="mobile-container max-w-6xl mx-auto">
+        <div className="mobile-container max-w-6xl mx-auto relative z-10">
           <motion.div 
-            className="max-w-4xl mx-auto relative z-10"
+            className="max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -108,11 +106,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Features Section with responsive spacing */}
-      <section className="py-24 sm:py-28 md:py-32 gradient-subtle transition-all duration-300 relative overflow-hidden">
-        {/* Background accent */}
-        <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-bl-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-gradient-to-tr from-tertiary/10 to-primary/10 rounded-tr-full blur-3xl"></div>
-        
+      <section className="py-24 sm:py-28 md:py-32 bg-white/40 dark:bg-black/20 backdrop-blur-sm border-t border-white/20 dark:border-gray-700/30 transition-all duration-300 relative overflow-hidden">
         <div className="mobile-container">
           <motion.div 
             className="mb-16 sm:mb-20 text-left"
@@ -212,18 +206,12 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Evidence-Based Health Optimization Section */}
-      <section id="evidence-based-health" className="border-t border-gray-200/30 dark:border-gray-700/30">
+      <section id="evidence-based-health" className="bg-white/30 dark:bg-black/30 backdrop-blur-sm border-t border-white/20 dark:border-gray-700/30">
         <EvidenceBasedHealthOptimization expanded={false} />
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 gradient-subtle border-t border-gray-200/30 dark:border-gray-700/30 text-gray-900 dark:text-white transition-all duration-300 relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/3 right-1/3 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-          <div className="absolute bottom-1/3 left-1/3 w-64 h-64 bg-tertiary/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-        </div>
-        
+      <section className="py-24 bg-white/40 dark:bg-black/20 backdrop-blur-sm border-t border-white/20 dark:border-gray-700/30 text-gray-900 dark:text-white transition-all duration-300 relative overflow-hidden">
         <div className="mobile-container">
           <motion.div className="relative z-10">
             <motion.h2 
@@ -265,7 +253,7 @@ const HomePage: React.FC = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+    </AdaptiveBackdrop>
   )
 }
 

@@ -36,6 +36,7 @@ import SignupPage from './pages/auth/SignupPage';
 import OnboardingPage from './pages/auth/OnboardingPage';
 import NotFoundPage from './pages/NotFoundPage';
 import DiagnosticsPage from './pages/DiagnosticsPage';
+import LandingPage from './pages/LandingPage';
 
 // Demo pages
 import LiveTimeDemo from './components/demo/LiveTimeDemo';
@@ -66,6 +67,7 @@ function App() {
     <Routes>
       {/* Public routes */}
       <Route path="/welcome" element={<HomePage />} />
+      <Route path="/landing" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
