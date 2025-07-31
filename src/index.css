@@ -390,6 +390,11 @@
     color: #ffffff !important; /* Force white text for gradient buttons */
   }
 
+  .gradient-primary:hover {
+    background: linear-gradient(135deg, hsl(var(--color-primary-dark)) 0%, hsl(var(--color-secondary-dark)) 100%);
+    color: #ffffff !important; /* Ensure white text on hover */
+  }
+
   .gradient-subtle {
     background: linear-gradient(135deg, hsl(var(--color-surface-1)) 0%, hsl(var(--color-surface-2)) 100%);
   }
