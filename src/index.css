@@ -135,17 +135,17 @@
 }
 
 .dark {
-  /* Primary colors */
-  --color-primary: 220deg 100% 70%;
-  --color-primary-light: 220deg 100% 80%;
-  --color-primary-dark: 220deg 100% 60%;
+  /* Primary colors - Neon green for dark mode */
+  --color-primary: 120deg 100% 60%;
+  --color-primary-light: 120deg 100% 70%;
+  --color-primary-dark: 120deg 100% 50%;
   
-  /* Secondary colors */
-  --color-secondary: 210deg 100% 75%;
-  --color-secondary-light: 210deg 100% 85%;
-  --color-secondary-dark: 210deg 100% 65%;
+  /* Secondary colors - Bright cyan for contrast */
+  --color-secondary: 180deg 100% 60%;
+  --color-secondary-light: 180deg 100% 70%;
+  --color-secondary-dark: 180deg 100% 50%;
 
-  /* Tertiary color */
+  /* Tertiary color - Electric blue accent */
   --color-tertiary: 200deg 100% 75%;
   --color-tertiary-light: 200deg 100% 85%;
   --color-tertiary-dark: 200deg 100% 65%;
@@ -408,13 +408,39 @@
   /* Ensure high contrast for CTA buttons */
   .cta-button {
     background: linear-gradient(135deg, hsl(var(--color-primary)) 0%, hsl(var(--color-secondary)) 100%);
-    color: #ffffff !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px hsl(var(--color-primary) / 0.3);
+    border: 1px solid hsl(var(--color-primary) / 0.5);
   }
 
-  .cta-button:hover {
-    background: linear-gradient(135deg, hsl(var(--color-primary-dark)) 0%, hsl(var(--color-secondary-dark)) 100%);
-    color: #ffffff !important;
+  .cta-text {
+    color: #ffffff !important; /* Ensure white text on hover */
+  }
+
+  /* Neon glow effects for futuristic feel */
+  .neon-glow {
+    box-shadow: 0 0 10px hsl(var(--color-primary) / 0.4), 0 0 20px hsl(var(--color-primary) / 0.3), 0 0 30px hsl(var(--color-primary) / 0.2);
+  }
+
+  .neon-text {
+    text-shadow: 0 0 10px hsl(var(--color-primary) / 0.8), 0 0 20px hsl(var(--color-primary) / 0.6);
+  }
+
+  .neon-border {
+    border: 1px solid hsl(var(--color-primary) / 0.6);
+    box-shadow: 0 0 10px hsl(var(--color-primary) / 0.3), inset 0 0 10px hsl(var(--color-primary) / 0.1);
+  }
+
+  .cyber-card {
+    background: linear-gradient(135deg, hsl(var(--color-surface-1)) 0%, hsl(var(--color-surface-2)) 100%);
+    border: 1px solid hsl(var(--color-primary) / 0.2);
+    box-shadow: 0 4px 20px hsl(var(--color-primary) / 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .cyber-card:hover {
+    border-color: hsl(var(--color-primary) / 0.4);
+    box-shadow: 0 8px 30px hsl(var(--color-primary) / 0.2), 0 0 20px hsl(var(--color-primary) / 0.1);
+    transform: translateY(-2px);
   }
 
   /* Animation utilities */

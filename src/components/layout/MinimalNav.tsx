@@ -184,8 +184,8 @@ const MinimalNav: React.FC = () => {
             <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
               <img 
                 src={isDarkMode 
-                  ? "/logos/biowell-light.svg"
-                  : "/logos/biowell-dark.svg"
+                  ? "/logos/biowell-dark.svg"
+                  : "/logos/biowell-light.svg"
                 }
                 alt="Biowell" 
                 className="h-15 w-auto object-contain" 

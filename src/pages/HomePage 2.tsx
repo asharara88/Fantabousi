@@ -12,7 +12,7 @@ const HomePage: React.FC = () => {
     {
       icon: <Heart className="w-10 h-10 text-primary" />,
       title: 'Personalized Health',
-      description: 'Get customized supplement recommendations based on your unique health profile.'
+      description: 'Get personalized health insights—covering supplements, habits, nutrition, and recovery—based on your unique data and daily metrics.'
     },
     {
       icon: <Shield className="w-10 h-10 text-secondary" />,
