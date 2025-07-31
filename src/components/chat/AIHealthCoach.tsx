@@ -195,7 +195,7 @@ const AIHealthCoach: React.FC = () => {
       <div className="bg-gradient-to-r from-primary via-tertiary to-secondary text-white p-4 flex items-center justify-between rounded-t-lg shadow-sm">
         <div className="flex items-center">
           <img
-            src="/logos/biowell-dark.svg"
+            src="/logos/biowell-light.svg"
             alt="Biowell Logo" 
             className="h-8 w-auto mr-3 object-contain" 
           />
