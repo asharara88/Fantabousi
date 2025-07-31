@@ -1,5 +1,24 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+// Mock framer-motion to avoid issues in tests
+const mockMotion = {
+  div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  button: ({ children, ...props }: any) => <button {...props}>{children}</button>
+};
+
+// Simple test utilities to replace Jest
+const mockFn = () => {
+  const calls: any[] = [];
+  const fn = (...args: any[]) => {
+    calls.push(args);
+    return fn;
+  };
+  fn.mock = { calls };
+  fn.mockReturnValue = (value: any) => {
+    fn.returnValue = value;
+    return fn;
+  };
+  return fn;
+}; render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FocusTrap, getFocusableElements } from '../utils/focusManagement';
 
