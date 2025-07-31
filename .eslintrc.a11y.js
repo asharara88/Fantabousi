@@ -1,4 +1,4 @@
-{
+module.exports = {
   "extends": [
     "plugin:jsx-a11y/recommended"
   ],
@@ -10,7 +10,6 @@
     "jsx-a11y/accessible-emoji": "error",
     "jsx-a11y/alt-text": "error",
     "jsx-a11y/anchor-has-content": "error",
-    "jsx-a11y/anchor-is-valid": "error",
     "jsx-a11y/aria-activedescendant-has-tabindex": "error",
     "jsx-a11y/aria-props": "error",
     "jsx-a11y/aria-proptypes": "error",
@@ -24,11 +23,9 @@
     "jsx-a11y/iframe-has-title": "error",
     "jsx-a11y/img-redundant-alt": "error",
     "jsx-a11y/interactive-supports-focus": "error",
-    "jsx-a11y/label-has-associated-control": "error",
     "jsx-a11y/media-has-caption": "warn",
     "jsx-a11y/mouse-events-have-key-events": "error",
     "jsx-a11y/no-access-key": "error",
-    "jsx-a11y/no-autofocus": "warn",
     "jsx-a11y/no-distracting-elements": "error",
     "jsx-a11y/no-interactive-element-to-noninteractive-role": "error",
     "jsx-a11y/no-noninteractive-element-interactions": "error",
