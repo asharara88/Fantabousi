@@ -164,15 +164,7 @@ const SupplementRecommendations: React.FC = () => {
                     className="object-cover w-full h-full"
                   />
                   <div className="absolute top-2 right-2">
-                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
-                      supplement.tier === 'green' 
-                        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' 
-                        : supplement.tier === 'yellow'
-                          ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300'
-                          : 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300'
-                    }`}>
-                      {supplement.tier.charAt(0).toUpperCase() + supplement.tier.slice(1)} Tier
-                    </span>
+                    {getTierBadge(supplement.tier || 'orange')}
                   </div>
                 </div>
                 
@@ -189,7 +181,7 @@ const SupplementRecommendations: React.FC = () => {
                   
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-gray-900 dark:text-white">
-                      {supplement.price_aed.toFixed(2)} AED
+                      {supplement.price_aed?.toFixed(2) || '0.00'} AED
                     </span>
                     <div className="flex space-x-2">
                       <Button
@@ -238,7 +230,7 @@ const SupplementRecommendations: React.FC = () => {
                     {stack.name}
                   </h4>
                   <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
-                    {stack.description || `A curated stack for ${stack.category.toLowerCase()} support.`}
+                    {`A curated stack for ${stack.category.toLowerCase()} support.`}
                   </p>
                   
                   <div className="mb-4 space-y-2">
