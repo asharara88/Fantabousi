@@ -26,8 +26,8 @@ const HomePage: React.FC = () => {
     },
     {
       icon: <Brain className="w-10 h-10 text-secondary-light" />,
-      title: 'AI-Powered Coach',
-      description: 'Get personalized guidance from our AI health coach to help you reach your wellness goals.'
+      title: 'Smart Coach',
+      description: 'Get personalized guidance from our Smart Coach to help you reach your wellness goals.'
     }
   ]
 
