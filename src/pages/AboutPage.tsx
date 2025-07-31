@@ -106,7 +106,7 @@ const AboutPage: React.FC = () => {
         <div className="absolute bottom-0 left-0 w-1/5 h-1/5 bg-gradient-to-tr from-secondary/5 to-tertiary/5 rounded-tr-full"></div>
         
         <div className="mobile-container">
-          <div className="max-w-3xl mx-auto">
+          <div className="about-content">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

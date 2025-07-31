@@ -3,6 +3,8 @@ import './styles/accessibility-typography.css';
 import './styles/enhanced-contrast.css';
 import './styles/dyslexia-friendly-typography.css';
 import './styles/enhanced-headings.css';
+import './styles/reading-optimization.css';
+import './styles/enhanced-interactions.css';
 import Layout from './components/layout/Layout';
 
 // Lazy loaded pages for better performance

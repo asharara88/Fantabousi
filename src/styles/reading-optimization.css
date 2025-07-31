@@ -1,0 +1,198 @@
+/**
+ * Reading Optimization CSS
+ * Optimizes content for better reading experience, especially for users with dyslexia
+ */
+
+/* Apply optimal line length to reading content */
+.reading-content {
+  max-width: 65ch; /* Optimal line length for reading */
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* Apply to main content areas */
+.reading-content p,
+.reading-content li,
+.reading-content div:not(.flex):not(.grid) {
+  max-width: 65ch;
+}
+
+/* About page content optimization */
+.about-content {
+  max-width: 70ch;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.about-content h2 {
+  max-width: none; /* Allow headings to be wider */
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.about-content h3 {
+  max-width: none;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.about-content p {
+  margin-bottom: 1.25rem;
+  text-align: left; /* Avoid justified text which can create rivers */
+}
+
+/* Card content optimization */
+.card-content p,
+.card-content li {
+  max-width: 60ch;
+  line-height: 1.6;
+}
+
+/* Long form content like descriptions */
+.description-text,
+.supplement-description {
+  max-width: 65ch;
+  line-height: 1.65;
+  margin: 0 auto;
+}
+
+/* Dashboard cards readable content */
+.dashboard-card .card-content {
+  max-width: none; /* Allow dashboard cards to use full width */
+}
+
+.dashboard-card .card-content p {
+  max-width: 55ch; /* Shorter lines for quick scanning */
+  line-height: 1.5;
+}
+
+/* Supplement details content */
+.supplement-details {
+  max-width: 70ch;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.supplement-details h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.supplement-details p {
+  margin-bottom: 1.25rem;
+}
+
+.supplement-details ul,
+.supplement-details ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.supplement-details li {
+  margin-bottom: 0.5rem;
+  max-width: 65ch;
+}
+
+/* Reading mode toggle styles */
+.reading-mode {
+  background-color: #fefefe;
+  color: #1a1a1a;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  padding: 2rem;
+  max-width: 70ch;
+  margin: 0 auto;
+}
+
+.reading-mode p {
+  margin-bottom: 1.5rem;
+  text-align: left;
+  hyphens: none; /* Disable hyphenation for dyslexic users */
+}
+
+.reading-mode h1,
+.reading-mode h2,
+.reading-mode h3,
+.reading-mode h4 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  max-width: none;
+}
+
+/* Dark mode reading optimizations */
+@media (prefers-color-scheme: dark) {
+  .reading-mode {
+    background-color: #1a1a1a;
+    color: #e5e5e5;
+  }
+}
+
+/* Print optimizations */
+@media print {
+  .reading-content,
+  .about-content,
+  .supplement-details {
+    max-width: none;
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .reading-content,
+  .about-content,
+  .supplement-details {
+    max-width: none;
+    padding: 0 1rem;
+  }
+  
+  .reading-content p,
+  .about-content p,
+  .supplement-details p {
+    max-width: none;
+  }
+}
+
+/* Focus styles for reading content */
+.reading-content:focus-within,
+.about-content:focus-within {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Improve paragraph spacing for better readability */
+.reading-content p + p,
+.about-content p + p,
+.supplement-details p + p {
+  margin-top: 1.25rem;
+}
+
+/* List improvements */
+.reading-content ul,
+.reading-content ol,
+.about-content ul,
+.about-content ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.reading-content li,
+.about-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+/* Quote and callout styling */
+.reading-content blockquote,
+.about-content blockquote {
+  max-width: 60ch;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border-left: 4px solid var(--color-primary);
+  background-color: var(--color-surface-subtle);
+  font-style: italic;
+  line-height: 1.7;
+}
