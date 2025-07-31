@@ -132,7 +132,7 @@ export class FocusTrap {
 export class FocusManager {
   private static instance: FocusManager;
   private focusStack: HTMLElement[] = [];
-  private announcer: HTMLElement;
+  private announcer!: HTMLElement;
 
   private constructor() {
     this.createAnnouncer();
