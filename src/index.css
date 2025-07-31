@@ -135,17 +135,17 @@
 }
 
 .dark {
-  /* Primary colors - Neon green for dark mode */
-  --color-primary: 120deg 100% 60%;
-  --color-primary-light: 120deg 100% 70%;
-  --color-primary-dark: 120deg 100% 50%;
+  /* Primary colors */
+  --color-primary: 220deg 100% 70%;
+  --color-primary-light: 220deg 100% 80%;
+  --color-primary-dark: 220deg 100% 60%;
   
-  /* Secondary colors - Bright cyan for contrast */
-  --color-secondary: 180deg 100% 60%;
-  --color-secondary-light: 180deg 100% 70%;
-  --color-secondary-dark: 180deg 100% 50%;
+  /* Secondary colors */
+  --color-secondary: 210deg 100% 75%;
+  --color-secondary-light: 210deg 100% 85%;
+  --color-secondary-dark: 210deg 100% 65%;
 
-  /* Tertiary color - Electric blue accent */
+  /* Tertiary color */
   --color-tertiary: 200deg 100% 75%;
   --color-tertiary-light: 200deg 100% 85%;
   --color-tertiary-dark: 200deg 100% 65%;
