@@ -79,12 +79,12 @@ const Layout: React.FC = () => {
             <div className="flex items-center mb-5 md:mb-0 text-left">
               {/* Use local logos from the public/logos folder. The first shows in light mode and the second in dark mode. */}
               <img
-                src="/logos/biowell-light.svg"
+                src="/logos/biowell-dark.svg"
                 alt="Biowell Logo"
                 className="h-24 w-auto dark:hidden opacity-70"
               />
               <img
-                src="/logos/biowell-dark.svg"
+                src="/logos/biowell-light.svg"
                 alt="Biowell Logo"
                 className="h-24 w-auto hidden dark:block opacity-70"
               />
