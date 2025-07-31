@@ -526,7 +526,7 @@ const MinimalNav: React.FC = () => {
                   {user && (
                     <div className="pt-4 border-t border-gray-200/30 dark:border-gray-700/30 space-y-1">
                       <Link
-                        to="/dashboard"
+                        to="/"
                         className="flex items-center px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-surface-2/70 rounded-xl transition-all duration-200"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
