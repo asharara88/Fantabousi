@@ -90,7 +90,7 @@ const Layout: React.FC = () => {
               />
             </div>
             <div className="text-left md:text-right">
-              <p className="font-medium tracking-wide text-sm">&copy; 2025 Biowell AI - Personal Digital Health Coach</p>
+              <p className="font-medium tracking-wide text-sm">&copy; 2025 Biowell AI - Personal Smart Coach</p>
               <p className="text-text-light mt-2 tracking-wide text-sm">All rights reserved.</p>
             </div>
           </div>
