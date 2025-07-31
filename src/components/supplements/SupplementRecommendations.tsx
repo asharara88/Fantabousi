@@ -6,6 +6,7 @@ import { Button } from '../ui/Button';
 import { Link } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
 import { cn } from '../../utils/cn';
+import { OptimizedImage } from '../ui/OptimizedImage';
 
 // Helper function to get tier badge component
 const getTierBadge = (tier: string) => {
@@ -168,10 +169,11 @@ const SupplementRecommendations: React.FC = () => {
             {recommendations.supplements.slice(0, 6).map((supplement) => (
               <Card key={supplement.id} className="overflow-hidden transition-all duration-300 transform hover:shadow-xl hover:-translate-y-1">
                 <div className="relative h-48">
-                  <img 
+                  <OptimizedImage
                     src={supplement.image_url || 'https://images.pexels.com/photos/3683074/pexels-photo-3683074.jpeg?auto=compress&cs=tinysrgb&w=300'} 
                     alt={supplement.name} 
                     className="object-cover w-full h-full"
+                    loading="lazy"
                   />
                   <div className="absolute top-2 right-2">
                     {getTierBadge(supplement.tier || 'orange')}

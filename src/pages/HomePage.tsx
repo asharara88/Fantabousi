@@ -35,7 +35,7 @@ const HomePage: React.FC = () => {
     setExpandedCard(expandedCard === index ? null : index);
   };
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section with consistent styling */}
       <section className="gradient-subtle border-b border-gray-200/30 dark:border-gray-700/30 text-gray-900 dark:text-white py-32 sm:py-40 md:py-48 relative overflow-hidden">
         {/* Animated background elements */}

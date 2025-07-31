@@ -1,28 +1,55 @@
 import { Routes, Route } from 'react-router-dom';
 import './styles/accessibility-typography.css';
 import Layout from './components/layout/Layout';
-import HomePage from './pages/HomePage';
-import DashboardPage from './pages/DashboardPage';
-import MyCoachPage from './pages/MyCoachPage';
-import NutritionPage from './pages/NutritionPage';
-import FitnessPage from './pages/FitnessPage';
-import SupplementsPage from './pages/SupplementsPage';
-import RecipesPage from './pages/RecipesPage';
-import AboutPage from './pages/AboutPage';
+
+// Lazy loaded pages for better performance
+import {
+  LazyHomePage,
+  LazyDashboardPage,
+  LazyMyCoachPage,
+  LazyNutritionPage,
+  LazyFitnessPage,
+  LazySupplementsPage,
+  LazyRecipesPage,
+  LazyAboutPage,
+  LazyCartPage,
+  LazyMyStacksPage,
+  LazySupplementStorePage,
+  LazySupplementDetailPage,
+  LazyRecipeDetailPage,
+  LazySavedRecipesPage,
+  LazyNutritionDashboardPage,
+  LazySupplementRecommendationsPage,
+  LazyMetabolismPage,
+  LazyBioclockPage,
+  withSuspense
+} from './components/lazy/LazyPages';
+
+// Auth pages loaded eagerly as they're small and critical
 import LoginPage from './pages/auth/LoginPage';
 import SignupPage from './pages/auth/SignupPage';
 import OnboardingPage from './pages/auth/OnboardingPage';
 import NotFoundPage from './pages/NotFoundPage';
-import CartPage from './pages/CartPage';
-import MyStacksPage from './pages/MyStacksPage';
-import SupplementStorePage from './pages/SupplementStorePage';
-import SupplementDetailPage from './pages/SupplementDetailPage';
-import RecipeDetailPage from './pages/RecipeDetailPage';
-import SavedRecipesPage from './pages/SavedRecipesPage';
-import NutritionDashboardPage from './pages/NutritionDashboardPage';
-import SupplementRecommendationsPage from './pages/SupplementRecommendationsPage';
-import MetabolismPage from './pages/MetabolismPage';
-import BioclockPage from './pages/BioclockPage';
+
+// Wrap lazy components with Suspense
+const HomePage = withSuspense(LazyHomePage);
+const DashboardPage = withSuspense(LazyDashboardPage);
+const MyCoachPage = withSuspense(LazyMyCoachPage);
+const NutritionPage = withSuspense(LazyNutritionPage);
+const FitnessPage = withSuspense(LazyFitnessPage);
+const SupplementsPage = withSuspense(LazySupplementsPage);
+const RecipesPage = withSuspense(LazyRecipesPage);
+const AboutPage = withSuspense(LazyAboutPage);
+const CartPage = withSuspense(LazyCartPage);
+const MyStacksPage = withSuspense(LazyMyStacksPage);
+const SupplementStorePage = withSuspense(LazySupplementStorePage);
+const SupplementDetailPage = withSuspense(LazySupplementDetailPage);
+const RecipeDetailPage = withSuspense(LazyRecipeDetailPage);
+const SavedRecipesPage = withSuspense(LazySavedRecipesPage);
+const NutritionDashboardPage = withSuspense(LazyNutritionDashboardPage);
+const SupplementRecommendationsPage = withSuspense(LazySupplementRecommendationsPage);
+const MetabolismPage = withSuspense(LazyMetabolismPage);
+const BioclockPage = withSuspense(LazyBioclockPage);
 
 function App() {
   return (
