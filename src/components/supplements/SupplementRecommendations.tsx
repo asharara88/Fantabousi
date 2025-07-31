@@ -9,7 +9,7 @@ import { cn } from '../../utils/cn';
 
 // Helper function to get tier badge component
 const getTierBadge = (tier: string) => {
-  const configs = {
+  const configs: Record<string, { color: string; description: string }> = {
     green: { 
       color: 'bg-green-500 dark:bg-green-500',
       description: 'Proven to work - backed by solid research'
