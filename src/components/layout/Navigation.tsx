@@ -137,8 +137,8 @@ const Navigation: React.FC<NavigationProps> = ({
               type="button"
               className={cn(
                 "flex items-center justify-between w-full px-4 py-3 rounded-lg transition-colors text-left",
-                isItemActive 
-                  ? "text-primary font-medium" 
+                isItemActive
+                  ? "text-primary font-medium"
                   : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
               )}
               onClick={handleToggleSubmenu}
