@@ -678,15 +678,18 @@ components:
               enum: [sedentary, lightly_active, moderately_active, very_active, extremely_active]
             health_goals:
               type: array
+              maxItems: 10
               items:
                 type: string
                 enum: [weight_loss, weight_gain, muscle_gain, improve_fitness, better_sleep, stress_management]
             dietary_restrictions:
               type: array
+              maxItems: 20
               items:
                 type: string
             allergies:
               type: array
+              maxItems: 50
               items:
                 type: string
             preferences:
