@@ -257,7 +257,7 @@ const MyCoach: React.FC = () => {
         {
           id: 'welcome',
           role: 'assistant',
-          content: "Hi there! I'm your MyCoach™ health assistant. How can I help you optimize your wellness today?",
+          content: "Hi there! I'm your Smart Coach health assistant. How can I help you optimize your wellness today?",
           timestamp: new Date()
         }
       ]);
