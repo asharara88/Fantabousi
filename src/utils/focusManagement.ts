@@ -47,10 +47,10 @@ export const getFocusableElements = (container: HTMLElement): HTMLElement[] => {
  * Focus Trap Class for modal dialogs and dropdown menus
  */
 export class FocusTrap {
-  private container: HTMLElement;
+  private readonly container: HTMLElement;
   private previousActiveElement: HTMLElement | null = null;
   private isActive = false;
-  private handleKeyDown: (event: KeyboardEvent) => void;
+  private readonly handleKeyDown: (event: KeyboardEvent) => void;
 
   constructor(container: HTMLElement) {
     this.container = container;
@@ -116,12 +116,10 @@ export class FocusTrap {
         event.preventDefault();
         lastElement.focus();
       }
-    } else {
+    } else if (activeElement === lastElement) {
       // Tab
-      if (activeElement === lastElement) {
-        event.preventDefault();
-        firstElement.focus();
-      }
+      event.preventDefault();
+      firstElement.focus();
     }
   }
 }
