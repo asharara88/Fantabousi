@@ -301,7 +301,7 @@ const AIHealthCoach: React.FC = () => {
           </Button>
         </div>
         <div className="mt-2 text-xs text-gray-700 dark:text-gray-300 transition-all duration-200 font-medium">
-          <p>Your AI coach provides general wellness guidance based on your inputs. Not medical advice.</p>
+          <p>Your Smart Coach provides general wellness guidance based on your inputs. Not medical advice.</p>
         </div>
       </form>
     </div>
