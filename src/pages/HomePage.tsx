@@ -83,7 +83,7 @@ const HomePage: React.FC = () => {
               </motion.div>
               <Link
                 to="/login"
-                className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium underline underline-offset-4 transition-colors duration-200 tracking-wide"
+                className="text-muted hover:text-primary dark:hover:text-primary-light font-medium underline underline-offset-4 transition-colors duration-200 tracking-wide"
               >
                 Already have an account? Sign in
               </Link>
