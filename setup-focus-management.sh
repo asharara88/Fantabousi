@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Focus Management Implementation Script
 # This script helps you install and set up the comprehensive focus management system
@@ -129,11 +129,36 @@ if [[ -f "tsconfig.json" ]]; then
     print_status "TypeScript configuration updated"
 fi
 
+# Create pre-commit hook for accessibility checks
+print_info "Setting up Git hooks..."
+
+mkdir -p .git/hooks
+
+cat > .git/hooks/pre-commit << 'EOF'
+#!/bin/bash
+
+echo "🔍 Running pre-commit accessibility checks..."
+
+# Run accessibility linting
+npm run lint:a11y --silent
+
+if [[ $? -ne 0 ]]; then
+    echo "❌ Accessibility linting failed. Please fix the issues before committing."
+    exit 1
+fi
+
+echo "✅ Pre-commit accessibility checks passed"
+EOF
+
+chmod +x .git/hooks/pre-commit
+
+print_status "Git pre-commit hook installed"
+
 # Create accessibility testing script
 print_info "Creating accessibility test runner..."
 
 cat > scripts/test-accessibility.sh << 'EOF'
-#!/bin/zsh
+#!/bin/bash
 
 echo "🧪 Running Accessibility Tests"
 echo "============================="
@@ -160,31 +185,6 @@ EOF
 chmod +x scripts/test-accessibility.sh
 
 print_status "Accessibility test runner created"
-
-# Create pre-commit hook for accessibility checks
-print_info "Setting up Git hooks..."
-
-mkdir -p .git/hooks
-
-cat > .git/hooks/pre-commit << 'EOF'
-#!/bin/zsh
-
-echo "🔍 Running pre-commit accessibility checks..."
-
-# Run accessibility linting
-npm run lint:a11y --silent
-
-if [[ $? -ne 0 ]]; then
-    echo "❌ Accessibility linting failed. Please fix the issues before committing."
-    exit 1
-fi
-
-echo "✅ Pre-commit accessibility checks passed"
-EOF
-
-chmod +x .git/hooks/pre-commit
-
-print_status "Git pre-commit hook installed"
 
 # Create documentation
 print_info "Creating documentation..."
