@@ -198,12 +198,12 @@ const HomePage: React.FC = () => {
         <div className="mobile-container">
           <div className="flex justify-center">
             <img 
-              src="/logos/biowell-light.svg"
+              src="/logos/biowell-dark.svg"
               alt="Biowell Logo" 
               className="h-20 w-auto object-contain dark:hidden opacity-60" 
             />
             <img 
-              src="/logos/biowell-dark.svg"
+              src="/logos/biowell-light.svg"
               alt="Biowell Logo" 
               className="h-20 w-auto object-contain hidden dark:block opacity-60" 
             />
