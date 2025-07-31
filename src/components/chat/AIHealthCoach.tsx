@@ -84,7 +84,7 @@ const AIHealthCoach: React.FC = () => {
         {
           id: 'welcome',
           role: 'assistant',
-          content: "Hi there! I'm your Biowell AI health coach. How can I help you optimize your wellness today?",
+          content: "Hi there! I'm your Biowell Smart Coach. How can I help you optimize your wellness today?",
           timestamp: new Date()
         }
       ]);
@@ -199,7 +199,7 @@ const AIHealthCoach: React.FC = () => {
             alt="Biowell Logo" 
             className="h-8 w-auto mr-3 object-contain" 
           />
-          <h2 className="text-lg font-semibold">AI Health Coach</h2>
+          <h2 className="text-lg font-semibold">Smart Coach</h2>
         </div>
         <button
           onClick={() => setVoiceEnabled(!voiceEnabled)}
