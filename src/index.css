@@ -24,10 +24,11 @@
   --color-warning: 43deg 96% 56%;
   --color-error: 0deg 72% 51%;
   
-  /* Text colors */
+  /* Text colors - Optimized for better contrast */
   --color-text: 222deg 84% 4.9%;
-  --color-text-light: 215deg 16% 47%;
-  --color-text-disabled: 220deg 9% 46%;
+  --color-text-light: 215deg 20% 35%; /* Darker for better contrast on light backgrounds */
+  --color-text-muted: 215deg 15% 45%; /* New muted text color for light mode */
+  --color-text-disabled: 220deg 9% 60%; /* Lighter for reduced emphasis */
   
   /* Background colors */
   --color-background: 0deg 0% 100%;
@@ -154,10 +155,11 @@
   --color-warning: 43deg 96% 60%;
   --color-error: 0deg 72% 55%;
   
-  /* Text colors */
+  /* Text colors - Optimized for better contrast */
   --color-text: 0deg 0% 98%;
-  --color-text-light: 215deg 20% 65%;
-  --color-text-disabled: 215deg 28% 17%;
+  --color-text-light: 215deg 20% 75%; /* Lighter for better contrast on dark backgrounds */
+  --color-text-muted: 215deg 15% 65%; /* New muted text color for dark mode */
+  --color-text-disabled: 215deg 28% 45%; /* Darker for reduced emphasis */
   
   /* Background colors */
   --color-background: 222deg 84% 4.9%;

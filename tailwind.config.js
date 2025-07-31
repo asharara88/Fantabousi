@@ -40,6 +40,7 @@ export default {
         text: {
           DEFAULT: 'hsl(var(--color-text))',
           light: 'hsl(var(--color-text-light))',
+          muted: 'hsl(var(--color-text-muted))',
           disabled: 'hsl(var(--color-text-disabled))',
         },
         background: {

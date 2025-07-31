@@ -54,8 +54,8 @@ const MetabolicSnapshot: React.FC<MetabolicSnapshotProps> = ({
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
               Metabolic Health
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Current glucose snapshot
+                        <p className="text-sm text-muted">
+              Average glucose today
             </p>
           </div>
         </div>
@@ -69,7 +69,7 @@ const MetabolicSnapshot: React.FC<MetabolicSnapshotProps> = ({
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div className="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Current</p>
+          <p className="text-sm text-muted">Current</p>
           <div className="flex items-center justify-center">
             <p className={`text-xl font-bold ${status.color}`}>
               {currentGlucose}
@@ -78,11 +78,11 @@ const MetabolicSnapshot: React.FC<MetabolicSnapshotProps> = ({
               {getTrendIcon()}
             </div>
           </div>
-          <p className="text-xs text-gray-500 dark:text-gray-400">mg/dL</p>
+          <p className="text-xs text-disabled">mg/dL</p>
         </div>
         
         <div className="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Time in Range</p>
+          <p className="text-sm text-muted">Time in Range</p>
           <p className="text-xl font-bold text-green-500">
             {timeInRange}%
           </p>

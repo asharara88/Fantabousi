@@ -22,8 +22,8 @@ export const Button: React.FC<ButtonProps> = ({
   
   const variants = {
     default: "bg-primary text-white hover:bg-primary-dark shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0",
-    outline: "border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0",
-    ghost: "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800",
+    outline: "border border-surface-3 text-light hover:bg-surface-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0",
+    ghost: "text-muted hover:text hover:bg-surface-2",
     destructive: "bg-error text-white hover:bg-error/90 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
   };
   

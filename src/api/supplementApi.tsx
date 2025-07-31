@@ -1,4 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
+import { getSupplementImage, enhanceSupplementsWithImages } from '../utils/supplementImages';
 
 // Initialize Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
@@ -62,8 +63,8 @@ export const supplementApi = {
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user && !userId) {
-        // Return mock data for demo
-        return [
+        // Return mock data for demo with local images
+        return enhanceSupplementsWithImages([
           {
             id: 'mock-1',
             name: 'Vitamin D3',
@@ -71,7 +72,7 @@ export const supplementApi = {
             description: 'High-quality vitamin D3 for immune support',
             price_aed: 40.00,
             tier: 'green',
-            image_url: 'https://images.pexels.com/photos/3683074/pexels-photo-3683074.jpeg?auto=compress&cs=tinysrgb&w=300'
+            image_url: getSupplementImage('Vitamin D3')
           },
           {
             id: 'mock-2',
@@ -80,9 +81,9 @@ export const supplementApi = {
             description: 'Premium omega-3 for heart and brain health',
             price_aed: 65.00,
             tier: 'green',
-            image_url: 'https://images.pexels.com/photos/3683074/pexels-photo-3683074.jpeg?auto=compress&cs=tinysrgb&w=300'
+            image_url: getSupplementImage('Omega-3 Fish Oil')
           }
-        ];
+        ]);
       }
 
       const { data, error } = await supabase
@@ -93,7 +94,7 @@ export const supplementApi = {
         .limit(10);
 
       if (error) throw error;
-      return data || [];
+      return enhanceSupplementsWithImages(data || []);
     } catch (error) {
       console.error('Error fetching recommendations:', error);
       return [];

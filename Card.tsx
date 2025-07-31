@@ -12,9 +12,9 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, as: Component = 'div', to, variant = 'default', ...props }, ref) => {
     const cardStyles = cn(
       "rounded-2xl overflow-hidden transition-all duration-300 relative",
-      variant === 'default' && "bg-surface-1 shadow-lg border border-gray-100/50 dark:border-gray-700/50 hover:shadow-xl hover:-translate-y-0.5",
-      variant === 'outline' && "bg-surface-1 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md hover:-translate-y-0.5",
-      variant === 'elevated' && "bg-surface-1 shadow-xl hover:shadow-2xl border border-gray-100/50 dark:border-gray-700/50 hover:-translate-y-1",
+      variant === 'default' && "bg-surface-1 shadow-lg border border-surface-3/50 hover:shadow-xl hover:-translate-y-0.5",
+      variant === 'outline' && "bg-surface-1 border border-surface-3 shadow-sm hover:shadow-md hover:-translate-y-0.5",
+      variant === 'elevated' && "bg-surface-1 shadow-xl hover:shadow-2xl border border-surface-3/50 hover:-translate-y-1",
       variant === 'glass' && "glass shadow-xl hover:shadow-2xl hover:-translate-y-0.5",
       className
     );

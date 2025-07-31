@@ -104,14 +104,14 @@ const SupplementCard: React.FC<SupplementCardProps> = ({
       
       <div className="p-4 flex-1 flex flex-col">
         <Link to={`/supplements/${id}`} className="block">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1 line-clamp-1">
+          <h3 className="text-lg font-semibold text mb-1 line-clamp-1">
             {name}
           </h3>
         </Link>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+        <p className="text-sm text-muted mb-1">
           {brand}
         </p>
-        <p className="text-sm text-gray-700 dark:text-gray-300 mb-2 line-clamp-2 flex-1">
+        <p className="text-sm text-light mb-2 line-clamp-2 flex-1">
           {description || use_case || 'Supports overall health and wellness.'}
         </p>
         
@@ -125,19 +125,19 @@ const SupplementCard: React.FC<SupplementCardProps> = ({
                     "w-4 h-4",
                     i < Math.floor(rating)
                       ? "text-yellow-400 fill-current"
-                      : "text-gray-300"
+                      : "text-disabled"
                   )}
                 />
               ))}
             </div>
             {reviews_count > 0 && (
-              <span className="text-xs text-gray-500 ml-2">({reviews_count})</span>
+              <span className="text-xs text-disabled ml-2">({reviews_count})</span>
             )}
           </div>
           
           <div className="flex justify-between items-center mb-4">
             <div>
-              <span className="text-lg font-bold text-gray-900 dark:text-white">
+              <span className="text-lg font-bold text">
                 {price_aed.toFixed(2)} AED
               </span>
               {subscription_discount_percent > 0 && (
@@ -148,7 +148,7 @@ const SupplementCard: React.FC<SupplementCardProps> = ({
             </div>
             
             {subscription_discount_percent > 0 && (
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="text-sm text-muted">
                 {discountedPrice.toFixed(2)} AED
               </span>
             )}
