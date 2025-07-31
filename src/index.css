@@ -387,6 +387,7 @@
   /* Modern gradient backgrounds */
   .gradient-primary {
     background: linear-gradient(135deg, hsl(var(--color-primary)) 0%, hsl(var(--color-secondary)) 100%);
+    color: #ffffff !important; /* Force white text for gradient buttons */
   }
 
   .gradient-subtle {
