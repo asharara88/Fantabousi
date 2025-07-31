@@ -81,7 +81,7 @@ const EnhancedStackBuilderModal: React.FC<EnhancedStackBuilderModalProps> = ({
   const handleSave = async () => {
     setIsSubmitting(true);
     try {
-      await onSave(selectedSupplements);
+      onSave(selectedSupplements);
       announce(`Stack saved with ${selectedSupplements.length} supplements`, 'polite');
       onClose();
     } catch (error) {
@@ -102,9 +102,9 @@ const EnhancedStackBuilderModal: React.FC<EnhancedStackBuilderModalProps> = ({
     >
       <div className="space-y-6">
         {/* Search and Filter Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label htmlFor="supplement-search" className="block text-sm font-medium mb-2">
+            <label htmlFor="supplement-search" className="block mb-2 text-sm font-medium">
               Search Supplements
             </label>
             <input
@@ -129,7 +129,7 @@ const EnhancedStackBuilderModal: React.FC<EnhancedStackBuilderModalProps> = ({
 
         {/* Available Supplements */}
         <div>
-          <h3 className="text-lg font-medium mb-3">Available Supplements</h3>
+          <h3 className="mb-3 text-lg font-medium">Available Supplements</h3>
           <AccessibleDropdown
             options={supplementOptions.filter(opt => {
               const supplement = availableSupplements.find(s => s.id === opt.value);
@@ -153,21 +153,21 @@ const EnhancedStackBuilderModal: React.FC<EnhancedStackBuilderModalProps> = ({
 
         {/* Current Stack */}
         <div>
-          <h3 className="text-lg font-medium mb-3">
+          <h3 className="mb-3 text-lg font-medium">
             Your Stack ({selectedSupplements.length} supplements)
           </h3>
           
           {selectedSupplements.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
+            <div className="py-8 text-center text-gray-500">
               <p>No supplements in your stack yet.</p>
-              <p className="text-sm mt-1">Add supplements from the list above.</p>
+              <p className="mt-1 text-sm">Add supplements from the list above.</p>
             </div>
           ) : (
-            <div className="space-y-2 max-h-48 overflow-y-auto">
+            <div className="space-y-2 overflow-y-auto max-h-48">
               {selectedSupplements.map((supplement) => (
                 <div 
                   key={supplement.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-md"
+                  className="flex items-center justify-between p-3 rounded-md bg-gray-50 dark:bg-gray-700"
                 >
                   <div className="flex-1">
                     <h4 className="font-medium">{supplement.name}</h4>
@@ -178,7 +178,7 @@ const EnhancedStackBuilderModal: React.FC<EnhancedStackBuilderModalProps> = ({
                   <button
                     type="button"
                     onClick={() => handleRemoveSupplement(supplement.id)}
-                    className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md"
+                    className="p-2 text-red-600 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20"
                     aria-label={`Remove ${supplement.name} from stack`}
                   >
                     <X className="w-4 h-4" />
@@ -195,7 +195,7 @@ const EnhancedStackBuilderModal: React.FC<EnhancedStackBuilderModalProps> = ({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md disabled:opacity-50"
+            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 disabled:opacity-50"
           >
             Cancel
           </button>
@@ -203,10 +203,10 @@ const EnhancedStackBuilderModal: React.FC<EnhancedStackBuilderModalProps> = ({
             type="button"
             onClick={handleSave}
             disabled={isSubmitting || selectedSupplements.length === 0}
-            className="px-4 py-2 bg-primary text-white hover:bg-primary/90 rounded-md disabled:opacity-50 flex items-center gap-2"
+            className="flex items-center gap-2 px-4 py-2 text-white rounded-md bg-primary hover:bg-primary/90 disabled:opacity-50"
           >
             {isSubmitting && (
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-white rounded-full border-t-transparent animate-spin" />
             )}
             Save Stack
           </button>
@@ -359,7 +359,7 @@ const EnhancedQuickWorkoutLogger: React.FC<EnhancedQuickWorkoutLoggerProps> = ({
         {/* Sets, Reps, Weight Grid */}
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <label htmlFor="sets" className="block text-sm font-medium mb-1">
+            <label htmlFor="sets" className="block mb-1 text-sm font-medium">
               Sets *
             </label>
             <input
@@ -387,7 +387,7 @@ const EnhancedQuickWorkoutLogger: React.FC<EnhancedQuickWorkoutLoggerProps> = ({
           </div>
 
           <div>
-            <label htmlFor="reps" className="block text-sm font-medium mb-1">
+            <label htmlFor="reps" className="block mb-1 text-sm font-medium">
               Reps *
             </label>
             <input
@@ -415,7 +415,7 @@ const EnhancedQuickWorkoutLogger: React.FC<EnhancedQuickWorkoutLoggerProps> = ({
           </div>
 
           <div>
-            <label htmlFor="weight" className="block text-sm font-medium mb-1">
+            <label htmlFor="weight" className="block mb-1 text-sm font-medium">
               Weight (lbs)
             </label>
             <input
@@ -445,7 +445,7 @@ const EnhancedQuickWorkoutLogger: React.FC<EnhancedQuickWorkoutLoggerProps> = ({
 
         {/* Notes */}
         <div>
-          <label htmlFor="notes" className="block text-sm font-medium mb-1">
+          <label htmlFor="notes" className="block mb-1 text-sm font-medium">
             Notes (optional)
           </label>
           <textarea
@@ -480,17 +480,17 @@ const EnhancedQuickWorkoutLogger: React.FC<EnhancedQuickWorkoutLoggerProps> = ({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md disabled:opacity-50"
+            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-4 py-2 bg-primary text-white hover:bg-primary/90 rounded-md disabled:opacity-50 flex items-center gap-2"
+            className="flex items-center gap-2 px-4 py-2 text-white rounded-md bg-primary hover:bg-primary/90 disabled:opacity-50"
           >
             {isSubmitting && (
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-white rounded-full border-t-transparent animate-spin" />
             )}
             {isSubmitting ? 'Logging...' : 'Log Workout'}
           </button>
@@ -550,18 +550,18 @@ const EnhancedPWAInstallPrompt: React.FC<EnhancedPWAInstallPromptProps> = ({
   if (!canInstall) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 z-50">
+    <div className="fixed z-50 bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 50 }}
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4"
+        className="p-4 bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700"
         role="banner"
         aria-label="App installation prompt"
       >
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0">
-            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10">
               <Plus className="w-6 h-6 text-primary" />
             </div>
           </div>
@@ -570,19 +570,19 @@ const EnhancedPWAInstallPrompt: React.FC<EnhancedPWAInstallPromptProps> = ({
             <h3 className="font-semibold text-gray-900 dark:text-white">
               Install BioWell App
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
               Get faster access and offline capabilities by installing our app.
             </p>
 
             {installStatus === 'success' && (
-              <div className="mt-2 flex items-center gap-2 text-green-600">
+              <div className="flex items-center gap-2 mt-2 text-green-600">
                 <Check className="w-4 h-4" />
                 <span className="text-sm">App installed successfully!</span>
               </div>
             )}
 
             {installStatus === 'error' && (
-              <div className="mt-2 flex items-center gap-2 text-red-600">
+              <div className="flex items-center gap-2 mt-2 text-red-600">
                 <AlertTriangle className="w-4 h-4" />
                 <span className="text-sm">Installation failed. Please try again.</span>
               </div>
@@ -601,7 +601,7 @@ const EnhancedPWAInstallPrompt: React.FC<EnhancedPWAInstallPromptProps> = ({
                 "
               >
                 {isInstalling && (
-                  <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-3 h-3 border border-white rounded-full border-t-transparent animate-spin" />
                 )}
                 {isInstalling ? 'Installing...' : 'Install'}
               </button>
@@ -626,11 +626,7 @@ const EnhancedPWAInstallPrompt: React.FC<EnhancedPWAInstallPromptProps> = ({
             type="button"
             onClick={onDismiss}
             disabled={isInstalling}
-            className="
-              flex-shrink-0 p-1 text-gray-400 hover:text-gray-600
-              focus:outline-none focus:ring-2 focus:ring-gray-500/20 rounded
-              disabled:opacity-50
-            "
+            className="flex-shrink-0 p-1 text-gray-400 rounded  hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500/20 disabled:opacity-50"
             aria-label="Dismiss installation prompt"
           >
             <X className="w-4 h-4" />

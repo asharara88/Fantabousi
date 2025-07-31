@@ -601,7 +601,7 @@ const MyCoach: React.FC = () => {
         
         <div className="flex items-center">
           <Sparkles className="w-6 h-6 mr-2" />
-          <h2 className="text-lg font-semibold">MyCoach<sup className="text-xs tracking-tighter">™</sup></h2>
+          <h2 className="text-lg font-semibold">Smart Coach</h2>
           <span className="ml-2 text-xs bg-white/20 px-2 py-0.5 rounded-full">
             {voiceToVoiceMode ? 'Voice Mode' : 'Wellness AI'}
           </span>
@@ -671,7 +671,7 @@ const MyCoach: React.FC = () => {
             <div className="flex items-center space-x-2">
               <Sparkles className="w-4 h-4" />
               <span className="tracking-wide">
-                MyCoach<sup className="text-xs">™</sup> {typingText || 'is thinking...'}
+                Smart Coach {typingText || 'is thinking...'}
                 <span className="inline-block animate-pulse">...</span>
               </span>
             </div>
