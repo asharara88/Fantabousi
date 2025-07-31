@@ -408,39 +408,10 @@
   /* Ensure high contrast for CTA buttons */
   .cta-button {
     background: linear-gradient(135deg, hsl(var(--color-primary)) 0%, hsl(var(--color-secondary)) 100%);
-    box-shadow: 0 0 20px hsl(var(--color-primary) / 0.3);
-    border: 1px solid hsl(var(--color-primary) / 0.5);
   }
 
   .cta-text {
     color: #ffffff !important; /* Ensure white text on hover */
-  }
-
-  /* Neon glow effects for futuristic feel */
-  .neon-glow {
-    box-shadow: 0 0 10px hsl(var(--color-primary) / 0.4), 0 0 20px hsl(var(--color-primary) / 0.3), 0 0 30px hsl(var(--color-primary) / 0.2);
-  }
-
-  .neon-text {
-    text-shadow: 0 0 10px hsl(var(--color-primary) / 0.8), 0 0 20px hsl(var(--color-primary) / 0.6);
-  }
-
-  .neon-border {
-    border: 1px solid hsl(var(--color-primary) / 0.6);
-    box-shadow: 0 0 10px hsl(var(--color-primary) / 0.3), inset 0 0 10px hsl(var(--color-primary) / 0.1);
-  }
-
-  .cyber-card {
-    background: linear-gradient(135deg, hsl(var(--color-surface-1)) 0%, hsl(var(--color-surface-2)) 100%);
-    border: 1px solid hsl(var(--color-primary) / 0.2);
-    box-shadow: 0 4px 20px hsl(var(--color-primary) / 0.1);
-    transition: all 0.3s ease;
-  }
-
-  .cyber-card:hover {
-    border-color: hsl(var(--color-primary) / 0.4);
-    box-shadow: 0 8px 30px hsl(var(--color-primary) / 0.2), 0 0 20px hsl(var(--color-primary) / 0.1);
-    transform: translateY(-2px);
   }
 
   /* Animation utilities */
