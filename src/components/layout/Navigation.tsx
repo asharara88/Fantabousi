@@ -7,15 +7,11 @@ import {
   Info,
   Utensils,
   Activity,
-  Pill,
   LayoutDashboard,
   ChevronDown,
   ChevronRight,
-  ShoppingCart,
   User,
-  Settings,
-  Package,
-  Moon
+  Settings
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
@@ -62,7 +58,7 @@ const Navigation: React.FC<NavigationProps> = ({
       icon: <Activity className="w-5 h-5" /> 
     },
     { 
-      name: 'Smart Coach', 
+      name: 'Smart Coach',
       href: '/mycoach', 
       icon: <Sparkles className="w-5 h-5" /> 
     },
@@ -115,36 +111,64 @@ const Navigation: React.FC<NavigationProps> = ({
     const isSubmenuOpen = openSubmenu === item.name || 
                          (hasChildren && item.children?.some(child => isActive(child)));
 
+    const handleToggleSubmenu = () => {
+      if (hasChildren) {
+        toggleSubmenu(item.name);
+      } else if (onItemClick) {
+        onItemClick();
+      }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleToggleSubmenu();
+      }
+    };
+
     return (
       <div key={item.name} className={cn(
         "w-full",
         depth > 0 && "pl-4"
       )}>
         <div className="flex flex-col w-full">
-          <div className={cn(
-            "flex items-center justify-between w-full px-4 py-3 rounded-lg transition-colors",
-            isItemActive 
-              ? "text-primary font-medium" 
-              : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800",
-            hasChildren && "cursor-pointer"
-          )}
-          onClick={() => {
-            if (hasChildren) {
-              toggleSubmenu(item.name);
-            } else if (onItemClick) {
-              onItemClick();
-            }
-          }}
-          >
+          {hasChildren ? (
+            <button
+              type="button"
+              className={cn(
+                "flex items-center justify-between w-full px-4 py-3 rounded-lg transition-colors text-left",
+                isItemActive 
+                  ? "text-primary font-medium" 
+                  : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+              )}
+              onClick={handleToggleSubmenu}
+              onKeyDown={handleKeyDown}
+              aria-expanded={isSubmenuOpen}
+              aria-haspopup="menu"
+            >
+              <span className="flex items-center flex-1 tracking-wide">
+                {item.icon && <span className="mr-3">{item.icon}</span>}
+                <span>{item.name}</span>
+              </span>
+              
+              <span className="ml-2">
+                {isSubmenuOpen ? 
+                  <ChevronDown className="w-4 h-4 transition-transform duration-200" /> : 
+                  <ChevronRight className="w-4 h-4 transition-transform duration-200" />
+                }
+              </span>
+            </button>
+          ) : (
             <Link 
               to={item.href}
-              className="flex items-center flex-1 tracking-wide"
-              onClick={(e) => {
-                if (hasChildren) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleSubmenu(item.name);
-                } else if (onItemClick) {
+              className={cn(
+                "flex items-center w-full px-4 py-3 rounded-lg transition-colors tracking-wide",
+                isItemActive 
+                  ? "text-primary font-medium" 
+                  : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+              )}
+              onClick={() => {
+                if (onItemClick) {
                   onItemClick();
                 }
               }}
@@ -152,27 +176,11 @@ const Navigation: React.FC<NavigationProps> = ({
               {item.icon && <span className="mr-3">{item.icon}</span>}
               <span>{item.name}</span>
             </Link>
-            
-            {hasChildren && (
-             <span 
-               className="ml-2"
-               onClick={(e) => {
-                 e.preventDefault();
-                 e.stopPropagation();
-                 toggleSubmenu(item.name);
-               }}
-             >
-                {isSubmenuOpen ? 
-                  <ChevronDown className="w-4 h-4 transition-transform duration-200" /> : 
-                  <ChevronRight className="w-4 h-4 transition-transform duration-200" />
-                }
-              </span>
-            )}
-          </div>
+          )}
           
           {hasChildren && isSubmenuOpen && (
-            <div className="mt-2 mb-2 space-y-2 animate-slideDown pl-2 border-l-2 border-gray-100 dark:border-gray-700">
-              {item.children.map(child => renderNavItem(child, depth + 1))}
+            <div className="pl-2 mt-2 mb-2 space-y-2 border-l-2 border-gray-100 animate-slideDown dark:border-gray-700">
+              {item.children?.map(child => renderNavItem(child, depth + 1))}
             </div>
           )}
         </div>
