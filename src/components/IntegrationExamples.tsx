@@ -96,7 +96,6 @@ const EnhancedStackBuilderModal: React.FC<EnhancedStackBuilderModalProps> = ({
       isOpen={isOpen}
       onClose={onClose}
       title="Build Your Supplement Stack"
-      description="Select supplements to create your personalized stack"
       size="lg"
       initialFocus="input[name='search']"
     >
@@ -626,7 +625,7 @@ const EnhancedPWAInstallPrompt: React.FC<EnhancedPWAInstallPromptProps> = ({
             type="button"
             onClick={onDismiss}
             disabled={isInstalling}
-            className="flex-shrink-0 p-1 text-gray-400 rounded  hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500/20 disabled:opacity-50"
+            className="flex-shrink-0 p-1 text-gray-400 rounded hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500/20 disabled:opacity-50"
             aria-label="Dismiss installation prompt"
           >
             <X className="w-4 h-4" />
@@ -664,4 +663,5 @@ export {
  * 6. Add proper ARIA labels and descriptions
  * 7. Implement keyboard navigation
  * 8. Test with screen readers
+ */
  */

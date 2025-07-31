@@ -22,6 +22,7 @@ import {
 import { createClient } from '@supabase/supabase-js';
 import { cn } from '../../utils/cn';
 import { motion, AnimatePresence } from 'framer-motion';
+import LiveTimeDisplay from '../ui/LiveTimeDisplay';
 
 // Initialize Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -263,7 +264,16 @@ const MinimalNav: React.FC = () => {
             </div>
 
             {/* Right Side Actions */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
+              {/* Live Time Display - Hidden on smaller screens */}
+              <div className="hidden xl:block">
+                <LiveTimeDisplay 
+                  variant="compact" 
+                  showBedtimeCountdown={true}
+                  bedtimeHour={23}
+                />
+              </div>
+              
               {/* Theme Toggle */}
               <div className="relative">
                 <motion.button
