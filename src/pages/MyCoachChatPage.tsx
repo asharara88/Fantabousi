@@ -137,7 +137,7 @@ const MyCoach: React.FC = () => {
         {
           id: 'welcome',
           role: 'assistant',
-          content: "Hi there! I'm your MyCoach™ health assistant. How can I help you optimize your wellness today?",
+          content: "Hi there! I'm your Smart Coach health assistant. How can I help you optimize your wellness today?",
           timestamp: new Date()
         }
       ]);
@@ -403,7 +403,7 @@ const MyCoach: React.FC = () => {
         
         <div className="flex items-center">
           <Sparkles className="w-6 h-6 mr-2" />
-          <h2 className="text-lg font-semibold">MyCoach<sup className="text-xs tracking-tighter">™</sup></h2>
+          <h2 className="text-lg font-semibold">Smart Coach</h2>
           <span className="ml-2 text-xs bg-white/20 px-2 py-0.5 rounded-full">Wellness AI</span>
         </div>
         <div className="flex items-center">
@@ -454,7 +454,7 @@ const MyCoach: React.FC = () => {
             <div className="flex items-center space-x-2">
               <Sparkles className="w-4 h-4" />
               <span className="tracking-wide">
-                MyCoach<sup className="text-xs">™</sup> {typingText || 'is thinking...'}
+                Smart Coach {typingText || 'is thinking...'}
                 <span className="inline-block animate-pulse">...</span>
               </span>
             </div>

@@ -26,8 +26,8 @@ const HomePage: React.FC = () => {
     },
     {
       icon: <Brain className="w-10 h-10 text-secondary-light" />,
-      title: 'AI-Powered Coach',
-      description: 'Get personalized guidance from our AI health coach to help you reach your wellness goals.'
+      title: 'Smart Coach',
+      description: 'Get personalized guidance from our Smart Coach to help you reach your wellness goals.'
     }
   ]
 
@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-8 tracking-tighter text-left leading-tight text-balance">
               <span>Your Personal </span>
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-                Health Coach
+                Smart Coach
               </span>
             </h1>
             <p className="text-xl sm:text-2xl mb-12 sm:mb-16 text-text-light max-w-3xl tracking-wide text-left leading-relaxed text-balance">
@@ -100,7 +100,7 @@ const HomePage: React.FC = () => {
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2 text-primary" />
-                <span>AI-powered coaching</span>
+                <span>Smart coaching</span>
               </div>
             </div>
           </motion.div>

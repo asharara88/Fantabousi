@@ -158,7 +158,7 @@ const MinimalNav: React.FC = () => {
   const navItems = [
     { href: '/dashboard', label: 'Dashboard', icon: <Home className="w-4 h-4" /> },
     { href: '/fitness', label: 'Fitness', icon: <Activity className="w-4 h-4" /> },
-    { href: '/mycoach', label: 'MyCoach', icon: <Sparkles className="w-4 h-4" /> },
+    { href: '/mycoach', label: 'Smart Coach', icon: <Sparkles className="w-4 h-4" /> },
     { href: '/nutrition', label: 'Nutrition', icon: <Utensils className="w-4 h-4" /> },
    { href: '/recipes', label: 'Recipes', icon: <Utensils className="w-4 h-4" /> },
     { 
