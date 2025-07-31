@@ -233,7 +233,7 @@ export const useFocusTrap = (isActive: boolean, options: FocusTrapOptions = {}) 
     if (!containerRef.current) return;
 
     if (isActive) {
-      focusTrapRef.current = new FocusTrap(containerRef.current, options);
+      focusTrapRef.current = new FocusTrap(containerRef.current);
       focusTrapRef.current.activate();
     } else if (focusTrapRef.current) {
       focusTrapRef.current.deactivate();
