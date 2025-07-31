@@ -18,7 +18,9 @@ const mockFn = () => {
     return fn;
   };
   return fn;
-}; render, screen, fireEvent, waitFor } from '@testing-library/react';
+};
+
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FocusTrap, getFocusableElements } from '../utils/focusManagement';
 

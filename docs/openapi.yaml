@@ -64,8 +64,8 @@ paths:
               standard_login:
                 summary: Standard login
                 value:
-                  email: "user@example.com"
-                  password: "securepassword123"
+                  email: user@example.com
+                  password: "**********"
       responses:
         '200':
           description: Login successful
