@@ -119,19 +119,19 @@ const EvidenceBasedHealthOptimization: React.FC<EvidenceBasedHealthOptimizationP
                             <span className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mr-2 mt-0.5">
                               <span className="text-green-800 text-xs font-bold">A</span>
                             </span>
-                            <span><strong>Green Tier</strong>: Strong evidence from multiple randomized controlled trials or systematic reviews</span>
+                            <span><strong>Green Tier</strong>: Proven to work - backed by solid research and widely recommended by experts</span>
                           </li>
                           <li className="flex items-start">
                             <span className="w-5 h-5 rounded-full bg-yellow-100 flex items-center justify-center mr-2 mt-0.5">
                               <span className="text-yellow-800 text-xs font-bold">B</span>
                             </span>
-                            <span><strong>Yellow Tier</strong>: Moderate evidence from limited clinical trials or strong observational studies</span>
+                            <span><strong>Yellow Tier</strong>: Promising results - some good studies available, but more research needed</span>
                           </li>
                           <li className="flex items-start">
                             <span className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center mr-2 mt-0.5">
                               <span className="text-orange-800 text-xs font-bold">C</span>
                             </span>
-                            <span><strong>Orange Tier</strong>: Preliminary evidence from animal studies or small human trials</span>
+                            <span><strong>Orange Tier</strong>: Early research - limited studies so far, but shows potential</span>
                           </li>
                         </ul>
                         

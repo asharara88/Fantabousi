@@ -12,8 +12,8 @@ const TIER_COLORS = {
 };
 
 const TIER_LABELS = {
-  green: "Strong evidence – Supported by multiple high-quality human clinical trials and major scientific consensus.",
-  yellow: "Moderate/emerging evidence – Some supporting studies, but either limited in scale, mixed results, or moderate scientific consensus. Also includes preliminary evidence from early-stage research."
+  green: "Proven to work - backed by solid research and widely recommended by experts.",
+  yellow: "Promising results - some good studies available, but more research needed."
 };
 
 const TIER_ICONS = {
@@ -129,11 +129,11 @@ export default function SupplementStorePage() {
               <div className="space-y-3">
                 <div className="flex items-start">
                   <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 mr-3 mt-0.5">Green</span>
-                  <p className="text-gray-700 dark:text-gray-300 text-sm">Strong evidence – Multiple high-quality human clinical trials and major scientific consensus.</p>
+                  <p className="text-gray-700 dark:text-gray-300 text-sm">Proven to work - backed by solid research and widely recommended by experts.</p>
                 </div>
                 <div className="flex items-start">
                   <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 mr-3 mt-0.5">Yellow</span>
-                  <p className="text-gray-700 dark:text-gray-300 text-sm">Moderate/emerging evidence – Some supporting studies, limited scale, or preliminary research.</p>
+                  <p className="text-gray-700 dark:text-gray-300 text-sm">Promising results - some good studies available, but more research needed.</p>
                 </div>
               </div>
             </div>
