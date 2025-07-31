@@ -109,7 +109,7 @@ const SupplementRecommendations: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-12">
+      <div className="flex items-center justify-center py-12">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
@@ -117,7 +117,7 @@ const SupplementRecommendations: React.FC = () => {
 
   if (error) {
     return (
-      <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg text-red-700 dark:text-red-300">
+      <div className="p-4 text-red-700 rounded-lg bg-red-50 dark:bg-red-900/20 dark:text-red-300">
         <p>{error}</p>
         <Button onClick={loadRecommendations} className="mt-4">
           Try Again
@@ -129,7 +129,7 @@ const SupplementRecommendations: React.FC = () => {
   if (!recommendations || (!recommendations.supplements.length && !recommendations.stacks.length)) {
     return (
       <Card className="p-6 text-center">
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
+        <p className="mb-4 text-gray-600 dark:text-gray-400">
           No personalized recommendations available yet. Complete your profile to get tailored suggestions.
         </p>
         <Button as={Link} to="/onboarding">
@@ -142,26 +142,26 @@ const SupplementRecommendations: React.FC = () => {
   return (
     <div className="space-y-8">
       {recommendations.personalized_message && (
-        <div className="bg-blue-50 dark:bg-blue-900/20 p-5 rounded-xl border border-blue-100 dark:border-blue-800 text-blue-700 dark:text-blue-300 flex items-start shadow-sm">
+        <div className="flex items-start p-5 text-blue-700 border border-blue-100 shadow-sm bg-blue-50 dark:bg-blue-900/20 rounded-xl dark:border-blue-800 dark:text-blue-300">
           <Info className="w-5 h-5 mr-4 flex-shrink-0 mt-0.5" />
-          <p className="tracking-wide leading-relaxed">{recommendations.personalized_message}</p>
+          <p className="leading-relaxed tracking-wide">{recommendations.personalized_message}</p>
         </div>
       )}
 
       {/* Recommended Supplements */}
       {recommendations.supplements.length > 0 && (
         <div>
-          <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+          <h3 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
             Recommended Supplements
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
             {recommendations.supplements.slice(0, 6).map((supplement) => (
-              <Card key={supplement.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <Card key={supplement.id} className="overflow-hidden transition-all duration-300 transform hover:shadow-xl hover:-translate-y-1">
                 <div className="relative h-48">
                   <img 
                     src={supplement.image_url || 'https://images.pexels.com/photos/3683074/pexels-photo-3683074.jpeg?auto=compress&cs=tinysrgb&w=300'} 
                     alt={supplement.name} 
-                    className="w-full h-full object-cover"
+                    className="object-cover w-full h-full"
                   />
                   <div className="absolute top-2 right-2">
                     <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
@@ -177,17 +177,17 @@ const SupplementRecommendations: React.FC = () => {
                 </div>
                 
                 <div className="p-4">
-                  <h4 className="font-semibold text-lg mb-1 text-gray-900 dark:text-white">
+                  <h4 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
                     {supplement.name}
                   </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  <p className="mb-2 text-sm text-gray-600 dark:text-gray-400">
                     {supplement.brand}
                   </p>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 mb-4 line-clamp-2">
+                  <p className="mb-4 text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
                     {supplement.description}
                   </p>
                   
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="font-bold text-gray-900 dark:text-white">
                       {supplement.price_aed.toFixed(2)} AED
                     </span>
@@ -227,21 +227,21 @@ const SupplementRecommendations: React.FC = () => {
       {/* Recommended Stacks */}
       {recommendations.stacks.length > 0 && (
         <div className="mt-8">
-          <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+          <h3 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
             Recommended Supplement Stacks
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {recommendations.stacks.map((stack) => (
-              <Card key={stack.id} className="overflow-hidden hover:shadow-lg transition-all duration-300">
+              <Card key={stack.id} className="overflow-hidden transition-all duration-300 hover:shadow-lg">
                 <div className="p-5">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  <h4 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
                     {stack.name}
                   </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
                     {stack.description || `A curated stack for ${stack.category.toLowerCase()} support.`}
                   </p>
                   
-                  <div className="space-y-2 mb-4">
+                  <div className="mb-4 space-y-2">
                     {stack.components.slice(0, 3).map((component, index) => (
                       <div key={index} className="flex justify-between text-sm">
                         <span className="text-gray-700 dark:text-gray-300">
@@ -262,8 +262,8 @@ const SupplementRecommendations: React.FC = () => {
                     )}
                   </div>
                   
-                  <div className="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <span className="font-bold text-lg text-primary dark:text-primary-light">
+                  <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
+                    <span className="text-lg font-bold text-primary dark:text-primary-light">
                       {Number(stack.total_price).toFixed(2)} AED
                     </span>
                     <div className="flex gap-2">
@@ -278,7 +278,7 @@ const SupplementRecommendations: React.FC = () => {
                       >
                         {selectedStackId === stack.id ? "Selected" : "Select Stack"}
                       </Button>
-                      <Button as={Link} to={`/my-stacks/${stack.id}`} size="sm" className="text-xs px-3 py-1">
+                      <Button as={Link} to={`/my-stacks/${stack.id}`} size="sm" className="px-3 py-1 text-xs">
                         View Details
                       </Button>
                     </div>
