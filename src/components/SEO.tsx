@@ -21,7 +21,7 @@ const defaultMeta = {
   title: 'BIOWELL - Your Digital Health & Wellness Coach',
   description: 'Transform your health with AI-powered nutrition tracking, personalized supplement recommendations, and expert wellness guidance. Start your journey to optimal health today.',
   keywords: [
-    'health', 'wellness', 'nutrition', 'supplements', 'fitness', 'AI health coach',
+    'health', 'wellness', 'nutrition', 'supplements', 'fitness', 'Smart Coach',
     'personalized nutrition', 'health tracking', 'wellness app', 'digital health'
   ],
   image: '/og-image.jpg',
@@ -61,7 +61,7 @@ export function HomeSEO() {
   return (
     <SEO
       title="Home"
-      description="Your AI-powered digital health coach. Get personalized nutrition advice, supplement recommendations, and wellness guidance tailored to your unique needs."
+      description="Your Smart Coach for digital health. Get personalized nutrition advice, supplement recommendations, and wellness guidance tailored to your unique needs."
       keywords={[...defaultMeta.keywords, 'home', 'start', 'begin health journey']}
     />
   );
