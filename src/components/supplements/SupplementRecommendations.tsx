@@ -235,11 +235,11 @@ const SupplementRecommendations: React.FC = () => {
                   
                   <div className="mb-4 space-y-2">
                     {stack.components.slice(0, 3).map((component, index) => (
-                      <div key={index} className="flex justify-between text-sm">
+                      <div key={`component-${index}`} className="flex justify-between text-sm">
                         <span className="text-gray-700 dark:text-gray-300">
-                          {component.name || component}
+                          {typeof component === 'string' ? component : component.name}
                         </span>
-                        {component.price && (
+                        {typeof component === 'object' && component.price && (
                           <span className="font-medium text-gray-900 dark:text-white">
                             {typeof component.price === 'number' ? component.price.toFixed(2) : component.price} AED
                           </span>
