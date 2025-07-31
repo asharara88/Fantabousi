@@ -1,0 +1,65 @@
+headersOrigin = "config"
+redirectsOrigin = "config"
+plugins = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "/Users/ahmedsharara/Desktop/BIOWELL/biowell-fanta-ready/dist"
+publishOrigin = "config"
+commandOrigin = "config"
+command = "npm run build"
+ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ./package-lock.json"
+
+[build.environment]
+NODE_VERSION = "22"
+PYENV_VERSION = "3.10.13"
+GIT_SUBMODULE_STRATEGY = "none"
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[[headers]]
+for = "/*"
+
+[headers.values]
+X-Frame-Options = "DENY"
+X-XSS-Protection = "1; mode=block"
+X-Content-Type-Options = "nosniff"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://images.pexels.com https://*.supabase.co https://*.netlify.app; connect-src 'self' https://*.supabase.co https://api.openai.com https://api.elevenlabs.io https://api.spoonacular.com https://*.netlify.app wss://*.supabase.co; font-src 'self'; object-src 'none'; frame-src 'self';"
+
+[[redirects]]
+from = "https://biowell.ai/*"
+to = "/:splat"
+status = 200.0
+force = true
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
