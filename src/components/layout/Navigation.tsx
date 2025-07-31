@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -152,8 +151,8 @@ const Navigation: React.FC<NavigationProps> = ({
               </span>
               
               <span className="ml-2">
-                {isSubmenuOpen ? 
-                  <ChevronDown className="w-4 h-4 transition-transform duration-200" /> : 
+                {isSubmenuOpen ?
+                  <ChevronDown className="w-4 h-4 transition-transform duration-200" /> :
                   <ChevronRight className="w-4 h-4 transition-transform duration-200" />
                 }
               </span>
@@ -163,8 +162,8 @@ const Navigation: React.FC<NavigationProps> = ({
               to={item.href}
               className={cn(
                 "flex items-center w-full px-4 py-3 rounded-lg transition-colors tracking-wide",
-                isItemActive 
-                  ? "text-primary font-medium" 
+                isItemActive
+                  ? "text-primary font-medium"
                   : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
               )}
               onClick={() => {
