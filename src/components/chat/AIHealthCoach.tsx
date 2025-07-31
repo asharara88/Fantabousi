@@ -194,16 +194,10 @@ const AIHealthCoach: React.FC = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-primary via-tertiary to-secondary text-white p-4 flex items-center justify-between rounded-t-lg shadow-sm">
         <div className="flex items-center">
-          {/* Theme-adaptive logo */}
-          <img
-            src="/logos/biowell-dark.svg"
-            alt="Biowell Logo" 
-            className="h-8 w-auto mr-3 object-contain dark:hidden" 
-          />
           <img
             src="/logos/biowell-light.svg"
             alt="Biowell Logo" 
-            className="h-8 w-auto mr-3 object-contain hidden dark:block" 
+            className="h-8 w-auto mr-3 object-contain" 
           />
           <h2 className="text-lg font-semibold">Smart Coach</h2>
         </div>
