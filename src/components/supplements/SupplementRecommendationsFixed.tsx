@@ -36,18 +36,18 @@ const toast = {
 
 // Helper function to get tier badge component
 const getTierBadge = (tier?: string) => {
-  const configs = {
+  const configs: Record<string, { bg: string; label: string }> = {
     green: { 
       bg: 'bg-green-500 dark:bg-green-500',
-      label: 'Strong Evidence'
+      label: 'Proven to work - backed by solid research'
     },
     yellow: { 
       bg: 'bg-yellow-500 dark:bg-yellow-500',
-      label: 'Moderate Evidence'
+      label: 'Promising results - some good studies available'
     },
     orange: { 
       bg: 'bg-orange-500 dark:bg-orange-500',
-      label: 'Limited Evidence'
+      label: 'Early research - limited studies so far'
     }
   };
   

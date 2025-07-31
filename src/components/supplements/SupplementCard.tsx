@@ -65,13 +65,13 @@ const SupplementCard: React.FC<SupplementCardProps> = ({
   const getTierDescription = (tier: string) => {
     switch (tier) {
       case 'green':
-        return "Strong evidence – Multiple high-quality human trials";
+        return "Proven to work - backed by solid research";
       case 'yellow':
-        return "Moderate evidence – Some supporting studies";
+        return "Promising results - some good studies available";
       case 'orange':
-        return "Limited evidence – Early research or anecdotal support";
+        return "Early research - limited studies so far";
       case 'red':
-        return "Insufficient evidence – Not recommended";
+        return "Not enough research yet - proceed with caution";
       default:
         return "";
     }

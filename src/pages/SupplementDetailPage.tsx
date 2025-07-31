@@ -144,11 +144,11 @@ const SupplementDetailPage: React.FC = () => {
   const getTierDescription = (tier?: string) => {
     switch (tier) {
       case 'green':
-        return "Strong evidence – Supported by multiple high-quality human clinical trials and major scientific consensus (e.g., creatine, vitamin D).";
+        return "Proven to work - backed by solid research and widely recommended by experts (e.g., creatine, vitamin D).";
       case 'yellow':
-        return "Moderate/emerging evidence – Some supporting studies, but either limited in scale, mixed results, or moderate scientific consensus (e.g., ashwagandha, beta-alanine).";
+        return "Promising results - some good studies available, but more research needed (e.g., ashwagandha, beta-alanine).";
       case 'orange':
-        return "Limited/preliminary evidence – Mostly early-stage or animal/lab-based research, few or low-quality human trials, or anecdotal support (e.g., tongkat ali, shilajit).";
+        return "Early research - limited studies so far, but shows potential (e.g., tongkat ali, shilajit).";
       default:
         return "";
     }
