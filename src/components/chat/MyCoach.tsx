@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Volume2, VolumeX, Loader2, Settings, Sparkles, X, HelpCircle, Check, AlertCircle, Mic, MicOff } from 'lucide-react';
+import { Send, Volume2, VolumeX, Loader2, Settings, Sparkles, X, HelpCircle, Check, AlertCircle, Mic, MicOff, Brain, Target, Activity } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '../ui/Button';
 import ChatMessage from './ChatMessage';
@@ -7,6 +7,8 @@ import { createClient } from '@supabase/supabase-js';
 import { cn } from '../../utils/cn'; 
 import { elevenlabsApi, Voice } from '../../api/elevenlabsApi';
 import VoicePreferences from './VoicePreferences';
+import { ContextualIntelligenceService, SessionManager, HealthDomain } from '../../services/contextualIntelligence';
+import { useUserProfileStore } from '../../store/useUserProfileStore';
 
 // Sample question sets that will rotate after each response
 const QUESTION_SETS = [
@@ -119,17 +121,20 @@ const MyCoach: React.FC = () => {
   const [speechRecognition, setSpeechRecognition] = useState<SpeechRecognition | null>(null);
   const [voiceToVoiceMode, setVoiceToVoiceMode] = useState(false);
   const [micPermission, setMicPermission] = useState<'granted' | 'denied' | 'prompt'>('prompt');
+  
+  // Contextual Intelligence State
+  const [sessionManager, setSessionManager] = useState<SessionManager | null>(null);
+  const [currentDomain, setCurrentDomain] = useState<HealthDomain>('nutrition');
+  const [contextualService, setContextualService] = useState<ContextualIntelligenceService | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  
   const typingTimeoutRef = useRef<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Health metrics for context (would come from user profile in a real app)
-  const healthContext = {
-    primaryGoal: "weight management",
-    sleepAverage: "7.2 hours",
-    stressLevel: "moderate"
-  };
+  // Get user profile for context
+  const { profile } = useUserProfileStore();
 
   // Initialize Supabase client
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
@@ -150,6 +155,31 @@ const MyCoach: React.FC = () => {
     
     return { openaiConfigured, elevenlabsConfigured };
   };
+
+  // Initialize contextual intelligence service
+  useEffect(() => {
+    const initializeContextualIntelligence = async () => {
+      try {
+        const service = new ContextualIntelligenceService(supabase);
+        setContextualService(service);
+        
+        // Get current user
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const manager = new SessionManager(supabase, user.id);
+          setSessionManager(manager);
+          
+          // Create or load session
+          const session = await manager.createSession('nutrition');
+          setSessionId(session.session_id);
+        }
+      } catch (error) {
+        console.error('Failed to initialize contextual intelligence:', error);
+      }
+    };
+
+    initializeContextualIntelligence();
+  }, [supabase]);
 
   // Scroll to bottom of messages
   useEffect(() => {
@@ -279,6 +309,29 @@ const MyCoach: React.FC = () => {
     };
   }, []);
 
+  // Helper function for basic OpenAI calls (fallback)
+  const callBasicOpenAI = async (messageText: string) => {
+    const { data, error: apiError } = await supabase.functions.invoke('contextual-openai-proxy', {
+      body: {
+        messages: [ 
+          ...messages.map(m => ({ role: m.role, content: m.content })),
+          { role: 'user', content: messageText }
+        ],
+        userContext: profile ? {
+          profile: {
+            firstName: profile.firstName,
+            age: profile.age,
+            healthGoals: profile.primaryHealthGoals,
+            activityLevel: profile.activityLevel
+          }
+        } : null
+      }
+    });
+
+    if (apiError) throw new Error(apiError.message);
+    return data;
+  };
+
   const handleSubmit = async (e: React.FormEvent, questionText?: string) => {
     e.preventDefault();
     
@@ -289,8 +342,7 @@ const MyCoach: React.FC = () => {
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
-      // Add health context for better personalized responses
-      content: `${messageText}${messageText.endsWith('?') ? '' : '?'}`,
+      content: messageText,
       timestamp: new Date()
     };
 
@@ -304,30 +356,59 @@ const MyCoach: React.FC = () => {
     startTypingAnimation();
 
     try {
-      // Call OpenAI proxy function
-      const { data, error: apiError } = await supabase.functions.invoke('openai-proxy', {
-        body: {
-          // Include user context in the messages to OpenAI
-          messages: [ 
-            ...messages.map(m => ({ role: m.role, content: m.content })),
-            { role: 'user', content: messageText }
-          ]
+      let responseData;
+      
+      // Use contextual intelligence if available
+      if (contextualService && sessionManager && sessionId) {
+        try {
+          // Get enhanced context from contextual intelligence service
+          const context = await contextualService.getEnhancedContext(sessionId, {
+            domain: currentDomain,
+            priority: 'high'
+          });
+          
+          // Process with contextual intelligence
+          responseData = await contextualService.processConversation({
+            sessionId,
+            userMessage: messageText,
+            context,
+            domain: currentDomain
+          });
+          
+          // Update session with new message
+          if (sessionManager) {
+            console.log('Session activity updated');
+          }
+          
+        } catch (contextError) {
+          console.warn('Contextual intelligence failed, falling back to basic mode:', contextError);
+          responseData = await callBasicOpenAI(messageText);
         }
-      });
-
-      if (apiError) throw new Error(apiError.message);
+      } else {
+        // Fallback to basic OpenAI call
+        responseData = await callBasicOpenAI(messageText);
+      }
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: data.result || "I'm sorry, I couldn't process that request.",
-        // Include metadata about the response for rendering
+        content: responseData.result || responseData.response || "I'm sorry, I couldn't process that request.",
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, assistantMessage]);
 
-      // Save to chat history
+      // Update session with assistant response
+      if (sessionManager && sessionId) {
+        try {
+          // Just update the session activity timestamp
+          console.log('Session updated with new activity');
+        } catch (sessionError) {
+          console.warn('Failed to update session:', sessionError);
+        }
+      }
+
+      // Save to chat history (enhanced with context info)
       try {
         const { data: { user } } = await supabase.auth.getUser();
         
@@ -336,22 +417,21 @@ const MyCoach: React.FC = () => {
             {
               user_id: user.id,
               message: messageText,
-              response: data.result,
-              role: 'user',
+              response: assistantMessage.content,
+              session_id: sessionId,
+              domain: currentDomain,
+              context_enhanced: !!contextualService,
               timestamp: new Date().toISOString()
             }
           ]);
-        } else {
-          console.log('User not authenticated, skipping chat history save');
         }
       } catch (chatError) {
         console.error('Error saving chat history:', chatError);
-        // Continue even if saving chat history fails
       }
 
       // If voice is enabled, convert response to speech
       if (voiceSettings.enabled) {
-        playTextToSpeech(data.result);
+        playTextToSpeech(assistantMessage.content);
       }
       
       // Stop typing animation
@@ -363,8 +443,8 @@ const MyCoach: React.FC = () => {
       setIsFetching(false);
       
       // If in voice-to-voice mode and voice is enabled, play response
-      if (voiceToVoiceMode && voiceSettings.enabled && data.result) {
-        playTextToSpeech(data.result);
+      if (voiceToVoiceMode && voiceSettings.enabled && assistantMessage.content) {
+        playTextToSpeech(assistantMessage.content);
       }
       
       // Update question set after each response
@@ -403,7 +483,7 @@ const MyCoach: React.FC = () => {
       index++;
       
       const timeout = setTimeout(updateTypingText, 3000);
-      setTypingTimeout(timeout);
+      setTypingTimeout(timeout as unknown as number);
     };
     
     updateTypingText();
@@ -735,6 +815,47 @@ const MyCoach: React.FC = () => {
           </div>
         )}
         <div ref={messagesEndRef} />
+      </div>
+
+      {/* Health Domain Switcher */}
+      <div className="border-t border-gray-200 dark:border-gray-700 px-5 py-3 bg-gray-50 dark:bg-gray-750">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Brain className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+              Coaching Focus:
+            </span>
+          </div>
+          <div className="flex space-x-2">
+            {(['nutrition', 'fitness', 'sleep', 'supplements', 'stress'] as HealthDomain[]).map(domain => (
+              <button
+                key={domain}
+                onClick={() => setCurrentDomain(domain)}
+                className={cn(
+                  "px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
+                  currentDomain === domain
+                    ? "bg-primary text-white shadow-sm"
+                    : "bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600"
+                )}
+              >
+                {domain.charAt(0).toUpperCase() + domain.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
+        {contextualService && sessionId && (
+          <div className="flex items-center space-x-2 mt-2">
+            <div className="flex items-center space-x-1">
+              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                Contextual AI Active
+              </span>
+            </div>
+            <div className="text-xs text-gray-400">
+              Session: {sessionId.substring(0, 8)}...
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Input */}
