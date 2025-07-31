@@ -246,8 +246,12 @@ export default function SupplementStorePage() {
           </Card>
         ) : (
           <>
-            {/* Results Summary */}
-            <div className="mb-6 flex items-center justify-between">
+            {/* Available Supplements Section */}
+            <section>
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Available Supplements</h2>
+              
+              {/* Results Summary */}
+              <div className="mb-6 flex items-center justify-between">
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Showing {filteredSupplements.length} of {supplements.length} supplements
                 {searchQuery && ` for "${searchQuery}"`}
@@ -383,6 +387,7 @@ export default function SupplementStorePage() {
                 </Button>
               </div>
             )}
+            </section>
           </>
         )}
       </div>

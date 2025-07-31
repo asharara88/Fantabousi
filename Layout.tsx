@@ -53,8 +53,18 @@ const Layout: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      {/* Skip Links for Accessibility */}
+      <div className="skip-links">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        <a href="#main-navigation" className="skip-link">
+          Skip to navigation
+        </a>
+      </div>
+      
       {/* Header */}
-      <div className="relative">
+      <div className="relative" id="main-navigation">
         <MinimalNav />
       </div>
       
@@ -67,7 +77,7 @@ const Layout: React.FC = () => {
       />
 
       {/* Main Content */}
-      <main className="flex-1 min-h-[calc(100vh-64px)]">
+      <main id="main-content" className="flex-1 min-h-[calc(100vh-64px)]">
         <Outlet />
       </main>
 

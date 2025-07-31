@@ -212,7 +212,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Evidence-Based Health Optimization Section */}
-      <section id="evidence-based-health">
+      <section id="evidence-based-health" className="border-t border-gray-200/30 dark:border-gray-700/30">
         <EvidenceBasedHealthOptimization expanded={false} />
       </section>
 

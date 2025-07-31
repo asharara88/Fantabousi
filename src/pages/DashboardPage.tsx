@@ -167,67 +167,88 @@ const DashboardPage: React.FC = () => {
           <p className="text-gray-600 dark:text-gray-400">Your personalized health overview and insights</p>
         </div>
 
-        {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* BW Score - Takes up 1 column */}
-          <div className="lg:col-span-1">
-            <BWScoreCard 
-              metrics={bwScoreMetrics}
-              onMetricClick={handleMetricClick}
-            />
+        {/* BW Score Overview Section */}
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">BW Score Overview</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* BW Score - Takes up 1 column */}
+            <div className="lg:col-span-1">
+              <BWScoreCard 
+                metrics={bwScoreMetrics}
+                onMetricClick={handleMetricClick}
+              />
+            </div>
+            
+            {/* Metrics Cards - Takes up 2 columns */}
+            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <MetricsCard
+                title="Steps Today"
+                value="8,247"
+                change={{ value: 12, type: 'increase' }}
+                icon={<Activity className="w-6 h-6" />}
+                color="primary"
+              />
+              <MetricsCard
+                title="Calories Burned"
+                value="1,892"
+                change={{ value: 8, type: 'increase' }}
+                icon={<Zap className="w-6 h-6" />}
+                color="secondary"
+              />
+              <MetricsCard
+                title="Sleep Score"
+                value="78/100"
+                change={{ value: 5, type: 'decrease' }}
+                icon={<Moon className="w-6 h-6" />}
+                color="purple"
+              />
+              <MetricsCard
+                title="Nutrition Score"
+                value="85%"
+                change={{ value: 3, type: 'increase' }}
+                icon={<Utensils className="w-6 h-6" />}
+                color="tertiary"
+              />
+            </div>
           </div>
-          
-          {/* Metrics Cards - Takes up 2 columns */}
-          <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <MetricsCard
-              title="Steps Today"
-              value="8,247"
-              change={{ value: 12, type: 'increase' }}
-              icon={<Activity className="w-6 h-6" />}
-              color="primary"
-            />
-            <MetricsCard
-              title="Calories Burned"
-              value="1,892"
-              change={{ value: 8, type: 'increase' }}
-              icon={<Zap className="w-6 h-6" />}
-              color="secondary"
-            />
-            <MetricsCard
-              title="Sleep Score"
-              value="78/100"
-              change={{ value: 5, type: 'decrease' }}
-              icon={<Moon className="w-6 h-6" />}
-              color="purple"
-            />
-            <MetricsCard
-              title="Nutrition Score"
-              value="85%"
-              change={{ value: 3, type: 'increase' }}
-              icon={<Utensils className="w-6 h-6" />}
-              color="tertiary"
-            />
-          </div>
-        </div>
+        </section>
 
-        {/* Secondary Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <div className="space-y-6">
-            <SupplementTracker 
-              supplements={todaysSupplements}
-              onMarkTaken={handleSupplementTaken}
-            />
-            <FitnessWidget expanded={false} />
+        {/* Today's Activities Section */}
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Today's Activities</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Today's Supplements</h3>
+                <SupplementTracker 
+                  supplements={todaysSupplements}
+                  onMarkTaken={handleSupplementTaken}
+                />
+              </div>
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Fitness Overview</h3>
+                <FitnessWidget expanded={false} />
+              </div>
+            </div>
+            
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Activity Timeline</h3>
+                <ActivityTimeline events={todaysEvents} />
+              </div>
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Recommendations</h3>
+                <RecommendationsCard recommendations={recommendations} />
+              </div>
+            </div>
           </div>
-          
-          <div className="space-y-6">
-            <ActivityTimeline events={todaysEvents} />
-            <RecommendationsCard recommendations={recommendations} />
-          </div>
-        </div>
+        </section>
 
-        {/* Dashboard Cards - Classic Overview */}
-        <DashboardCards />
+        {/* Health Overview Section */}
+        <section>
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Health Overview</h2>
+          <DashboardCards />
+        </section>
       </div>
     </div>
   );
