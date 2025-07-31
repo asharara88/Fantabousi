@@ -156,7 +156,7 @@ const MinimalNav: React.FC = () => {
   };
 
   const navItems = [
-    { href: '/dashboard', label: 'Dashboard', icon: <Home className="w-4 h-4" /> },
+    { href: '/dashboard', label: 'Home', icon: <Home className="w-4 h-4" /> },
     { href: '/fitness', label: 'Fitness', icon: <Activity className="w-4 h-4" /> },
     { href: '/mycoach', label: 'Smart Coach', icon: <Sparkles className="w-4 h-4" /> },
     { href: '/nutrition', label: 'Nutrition', icon: <Utensils className="w-4 h-4" /> },
@@ -169,7 +169,7 @@ const MinimalNav: React.FC = () => {
       dropdownItems: [
         { href: '/supplements', label: 'Browse All', icon: <Pill className="w-4 h-4" /> },
         { href: '/supplements/recommendations', label: 'Recommendations', icon: <Heart className="w-4 h-4" /> },
-        { href: '/my-stacks', label: 'My Stacks', icon: <BarChart3 className="w-4 h-4" /> },
+        { href: '/supplements/stacks', label: 'My Stacks', icon: <BarChart3 className="w-4 h-4" /> },
         { href: '/cart', label: 'Cart', icon: <ShoppingCart className="w-4 h-4" /> }
       ]
     },
@@ -360,7 +360,7 @@ const MinimalNav: React.FC = () => {
                             onClick={() => setShowUserMenu(false)}
                           >
                             <Home className="w-4 h-4 mr-3" />
-                            <span className="tracking-wide">Dashboard</span>
+                            <span className="tracking-wide">Home</span>
                           </Link>
                           <Link
                             to="/bioclock"
