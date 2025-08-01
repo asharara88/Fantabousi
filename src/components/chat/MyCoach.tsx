@@ -157,9 +157,7 @@ const MyCoach: React.FC = () => {
         // Get current user
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          setSessionManager(sessionManager);
-          
-          // Create or load session
+          // Create or load session using the imported sessionManager
           const session = await sessionManager.createSession(user.id, 'nutrition');
           setSessionId(session.id);
         }
@@ -348,27 +346,47 @@ const MyCoach: React.FC = () => {
     try {
       let responseData;
       
-      // Use contextual intelligence if available
-      if (contextualService && sessionManager && sessionId) {
-        try {
-          // Get enhanced context from contextual intelligence service
-          const context = await contextualService.getEnhancedContext(sessionId, {
-            domain: currentDomain,
-            priority: 'high'
-          });
-          
-          // Process with contextual intelligence
-          responseData = await contextualService.processConversation({
-            sessionId,
-            userMessage: messageText,
-            context,
-            domain: currentDomain
-          });
-          
-          // Update session with new message
-          if (sessionManager) {
-            console.log('Session activity updated');
-          }
+      // Use direct OpenAI API call
+      const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+      if (!apiKey) {
+        throw new Error('OpenAI API key not configured');
+      }
+
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-4',
+          messages: [
+            {
+              role: 'system',
+              content: 'You are a knowledgeable health and wellness coach. Provide helpful, evidence-based advice on nutrition, fitness, supplements, and general wellness. Be encouraging and supportive.'
+            },
+            ...messages.map(msg => ({
+              role: msg.sender === 'user' ? 'user' : 'assistant',
+              content: msg.text
+            })),
+            {
+              role: 'user',
+              content: messageText
+            }
+          ],
+          max_tokens: 500,
+          temperature: 0.7
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      responseData = {
+        response: data.choices[0]?.message?.content || 'Sorry, I could not generate a response.',
+        context_enhanced: false
           
         } catch (contextError) {
           console.warn('Contextual intelligence failed, falling back to basic mode:', contextError);
