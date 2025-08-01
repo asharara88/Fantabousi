@@ -3,11 +3,11 @@ import { Send, Volume2, VolumeX, Loader2, Settings, Sparkles, X, HelpCircle, Che
 import { motion } from 'framer-motion';
 import { Button } from '../ui/Button';
 import ChatMessage from './ChatMessage';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../../lib/supabase';
 import { cn } from '../../utils/cn'; 
 import { elevenlabsApi, Voice } from '../../api/elevenlabsApi';
 import VoicePreferences from './VoicePreferences';
-import { ContextualIntelligenceService, SessionManager, HealthDomain } from '../../services/contextualIntelligence';
+import { SessionManager, HealthDomain, sessionManager } from '../../services/contextualIntelligence';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
 
 // Sample question sets that will rotate after each response
@@ -125,7 +125,6 @@ const MyCoach: React.FC = () => {
   // Contextual Intelligence State
   const [sessionManager, setSessionManager] = useState<SessionManager | null>(null);
   const [currentDomain, setCurrentDomain] = useState<HealthDomain>('nutrition');
-  const [contextualService, setContextualService] = useState<ContextualIntelligenceService | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   
   const typingTimeoutRef = useRef<number | null>(null);
@@ -135,11 +134,6 @@ const MyCoach: React.FC = () => {
 
   // Get user profile for context
   const { profile } = useUserProfileStore();
-
-  // Initialize Supabase client
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
   // Check for required API keys
   const checkApiConfiguration = () => {
@@ -160,18 +154,14 @@ const MyCoach: React.FC = () => {
   useEffect(() => {
     const initializeContextualIntelligence = async () => {
       try {
-        const service = new ContextualIntelligenceService(supabase);
-        setContextualService(service);
-        
         // Get current user
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          const manager = new SessionManager(supabase, user.id);
-          setSessionManager(manager);
+          setSessionManager(sessionManager);
           
           // Create or load session
-          const session = await manager.createSession('nutrition');
-          setSessionId(session.session_id);
+          const session = await sessionManager.createSession(user.id, 'nutrition');
+          setSessionId(session.id);
         }
       } catch (error) {
         console.error('Failed to initialize contextual intelligence:', error);
