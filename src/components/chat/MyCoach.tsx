@@ -134,21 +134,6 @@ const MyCoach: React.FC = () => {
   // Get user profile for context
   const { profile } = useUserProfileStore();
 
-  // Check for required API keys
-  const checkApiConfiguration = () => {
-    const openaiConfigured = !!import.meta.env.VITE_OPENAI_API_KEY;
-    const elevenlabsConfigured = !!import.meta.env.VITE_ELEVENLABS_API_KEY;
-    
-    if (!openaiConfigured) {
-      console.warn('VITE_OPENAI_API_KEY not configured in .env file');
-    }
-    if (!elevenlabsConfigured) {
-      console.warn('VITE_ELEVENLABS_API_KEY not configured in .env file');
-    }
-    
-    return { openaiConfigured, elevenlabsConfigured };
-  };
-
   // Initialize contextual intelligence service
   useEffect(() => {
     const initializeContextualIntelligence = async () => {
@@ -323,20 +308,9 @@ const MyCoach: React.FC = () => {
     try {
       let responseData;
       
-      // Use direct OpenAI API call
-      const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-      if (!apiKey) {
-        throw new Error('OpenAI API key not configured');
-      }
-
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-          model: 'gpt-4',
+      // Use secure Supabase Edge Function instead of direct OpenAI call
+      const { data, error: apiError } = await supabase.functions.invoke('contextual-openai-proxy', {
+        body: {
           messages: [
             {
               role: 'system',
@@ -351,21 +325,23 @@ const MyCoach: React.FC = () => {
               content: messageText
             }
           ],
-          max_tokens: 500,
-          temperature: 0.7
-        })
+          userContext: profile ? {
+            firstName: profile.firstName,
+            age: profile.age,
+            healthGoals: profile.primaryHealthGoals,
+            activityLevel: profile.activityLevel
+          } : null
+        }
       });
 
-      if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.status}`);
+      if (apiError) {
+        throw new Error(apiError.message);
       }
 
-      const data = await response.json();
       responseData = {
-        response: data.choices[0]?.message?.content || 'Sorry, I could not generate a response.',
+        response: data.result || data.response || "I'm sorry, I couldn't process that request.",
         context_enhanced: false
-          
-        };
+      };
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
