@@ -1,34 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, Settings } from 'lucide-react'
-import { createClient } from '@supabase/supabase-js'
+import { Eye, EyeOff } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
-import NetworkDiagnostics from '../../components/diagnostics/NetworkDiagnostics'
 import AdaptiveBackdrop from '../../components/ui/AdaptiveBackdrop'
 import ThemeToggle from '../../components/ui/ThemeToggle'
-
-// Initialize Supabase client with proper error handling
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-// Validate environment variables
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Supabase environment variables are missing:', {
-    url: !!supabaseUrl,
-    key: !!supabaseAnonKey
-  });
-  throw new Error('Supabase configuration is incomplete. Please check your environment variables.');
-}
-
-console.log('Supabase URL:', supabaseUrl); // For debugging
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { supabase } from '../../lib/supabase'
 
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [showDiagnostics, setShowDiagnostics] = useState(false)
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -47,41 +29,20 @@ const LoginPage: React.FC = () => {
     setError(null)
     
     try {
-      console.log('Attempting login with:', { email: formData.email });
-      
-      // Test network connectivity first
-      const { data: healthCheck } = await supabase
-        .from('profiles')
-        .select('count')
-        .limit(1)
-        .maybeSingle();
-      
-      console.log('Network test successful:', healthCheck !== undefined);
-      
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password
       })
       
       if (signInError) {
-        console.error('Sign in error:', signInError);
         throw signInError;
       }
       
       if (data?.user) {
-        console.log('Login successful:', data.user.id);
         // Successful login, redirect to dashboard
         navigate('/dashboard')
       }
     } catch (err: any) {
-      console.error('Login error details:', {
-        message: err.message,
-        name: err.name,
-        stack: err.stack,
-        supabaseUrl: supabaseUrl,
-        timestamp: new Date().toISOString()
-      });
-      
       // More specific error messages
       let errorMessage = 'Failed to sign in. Please try again.';
       
@@ -178,23 +139,7 @@ const LoginPage: React.FC = () => {
 
           {error && (
             <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg text-sm">
-              <div className="flex items-center justify-between">
-                <div>{error}</div>
-                <button
-                  type="button"
-                  onClick={() => setShowDiagnostics(!showDiagnostics)}
-                  className="ml-2 p-1 text-red-500 hover:text-red-700 transition-colors"
-                  title="Run network diagnostics"
-                >
-                  <Settings className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {showDiagnostics && (
-            <div className="mt-4">
-              <NetworkDiagnostics />
+              {error}
             </div>
           )}
 
@@ -215,7 +160,7 @@ const LoginPage: React.FC = () => {
               <button 
                 type="button"
                 className="font-medium text-blue-600 hover:text-blue-500 underline bg-transparent border-none cursor-pointer"
-                onClick={() => {/* TODO: Implement forgot password */}}
+                onClick={() => alert('Password reset functionality will be implemented soon.')}
               >
                 Forgot your password?
               </button>

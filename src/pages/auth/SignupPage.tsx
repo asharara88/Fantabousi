@@ -2,15 +2,10 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff } from 'lucide-react'
-import { createClient } from '@supabase/supabase-js'
 import { Button } from '../../components/ui/Button'
 import AdaptiveBackdrop from '../../components/ui/AdaptiveBackdrop'
 import ThemeToggle from '../../components/ui/ThemeToggle'
-
-// Initialize Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { supabase } from '../../lib/supabase'
 
 const SignupPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false)
