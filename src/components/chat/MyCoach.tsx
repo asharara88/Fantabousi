@@ -7,7 +7,7 @@ import { supabase } from '../../lib/supabase';
 import { cn } from '../../utils/cn'; 
 import { elevenlabsApi, Voice } from '../../api/elevenlabsApi';
 import VoicePreferences from './VoicePreferences';
-import { SessionManager, HealthDomain, sessionManager } from '../../services/contextualIntelligence';
+import { HealthDomain, sessionManager } from '../../services/contextualIntelligence';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
 
 // Sample question sets that will rotate after each response
@@ -297,28 +297,6 @@ const MyCoach: React.FC = () => {
   }, []);
 
   // Helper function for basic OpenAI calls (fallback)
-  const callBasicOpenAI = async (messageText: string) => {
-    const { data, error: apiError } = await supabase.functions.invoke('contextual-openai-proxy', {
-      body: {
-        messages: [ 
-          ...messages.map(m => ({ role: m.role, content: m.content })),
-          { role: 'user', content: messageText }
-        ],
-        userContext: profile ? {
-          profile: {
-            firstName: profile.firstName,
-            age: profile.age,
-            healthGoals: profile.primaryHealthGoals,
-            activityLevel: profile.activityLevel
-          }
-        } : null
-      }
-    });
-
-    if (apiError) throw new Error(apiError.message);
-    return data;
-  };
-
   const handleSubmit = async (e: React.FormEvent, questionText?: string) => {
     e.preventDefault();
     
@@ -365,8 +343,8 @@ const MyCoach: React.FC = () => {
               content: 'You are a knowledgeable health and wellness coach. Provide helpful, evidence-based advice on nutrition, fitness, supplements, and general wellness. Be encouraging and supportive.'
             },
             ...messages.map(msg => ({
-              role: msg.sender === 'user' ? 'user' : 'assistant',
-              content: msg.text
+              role: msg.role,
+              content: msg.content
             })),
             {
               role: 'user',
@@ -392,7 +370,7 @@ const MyCoach: React.FC = () => {
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: responseData.result || responseData.response || "I'm sorry, I couldn't process that request.",
+        content: responseData.response || "I'm sorry, I couldn't process that request.",
         timestamp: new Date()
       };
 
