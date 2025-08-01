@@ -123,7 +123,6 @@ const MyCoach: React.FC = () => {
   const [micPermission, setMicPermission] = useState<'granted' | 'denied' | 'prompt'>('prompt');
   
   // Contextual Intelligence State
-  const [sessionManager, setSessionManager] = useState<SessionManager | null>(null);
   const [currentDomain, setCurrentDomain] = useState<HealthDomain>('nutrition');
   const [sessionId, setSessionId] = useState<string | null>(null);
   
@@ -388,14 +387,7 @@ const MyCoach: React.FC = () => {
         response: data.choices[0]?.message?.content || 'Sorry, I could not generate a response.',
         context_enhanced: false
           
-        } catch (contextError) {
-          console.warn('Contextual intelligence failed, falling back to basic mode:', contextError);
-          responseData = await callBasicOpenAI(messageText);
-        }
-      } else {
-        // Fallback to basic OpenAI call
-        responseData = await callBasicOpenAI(messageText);
-      }
+        };
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -428,7 +420,7 @@ const MyCoach: React.FC = () => {
               response: assistantMessage.content,
               session_id: sessionId,
               domain: currentDomain,
-              context_enhanced: !!contextualService,
+              context_enhanced: false,
               timestamp: new Date().toISOString()
             }
           ]);
@@ -851,7 +843,7 @@ const MyCoach: React.FC = () => {
             ))}
           </div>
         </div>
-        {contextualService && sessionId && (
+        {sessionId && (
           <div className="flex items-center space-x-2 mt-2">
             <div className="flex items-center space-x-1">
               <div className="w-2 h-2 rounded-full bg-green-500"></div>
