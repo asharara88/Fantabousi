@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Check, Star, Zap, Crown, Sparkles, Users, Shield, Heart } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { subscriptionPlans, formatPrice, calculateYearlySavings } from '../data/pricingData';
+import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop';
+import ThemeToggle from '../components/ui/ThemeToggle';
 
 const PricingPage: React.FC = () => {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly');
@@ -33,21 +35,23 @@ const PricingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Header */}
-        <motion.div 
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="text-5xl font-light text-gray-900 dark:text-gray-100 mb-6">
-            Choose Your <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent font-medium">Wellness Journey</span>
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8">
-            Personalized health optimization plans designed to fit your lifestyle and goals. 
-            From AI-powered coaching to premium human support.
+    <AdaptiveBackdrop animationSpeed="medium" overlay={true}>
+      <ThemeToggle />
+      <div className="min-h-screen bg-white/30 dark:bg-black/20 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          {/* Header */}
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="text-5xl font-light text-gray-900 dark:text-gray-100 mb-6">
+              Choose Your <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent font-medium">Wellness Journey</span>
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8">
+              Personalized health optimization plans designed to fit your lifestyle and goals. 
+              From AI-powered coaching to premium human support.
           </p>
 
           {/* Billing Toggle */}
@@ -258,6 +262,7 @@ const PricingPage: React.FC = () => {
         </motion.div>
       </div>
     </div>
+    </AdaptiveBackdrop>
   );
 };
 

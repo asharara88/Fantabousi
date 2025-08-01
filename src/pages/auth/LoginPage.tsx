@@ -5,6 +5,8 @@ import { Eye, EyeOff, Settings } from 'lucide-react'
 import { createClient } from '@supabase/supabase-js'
 import { Button } from '../../components/ui/Button'
 import NetworkDiagnostics from '../../components/diagnostics/NetworkDiagnostics'
+import AdaptiveBackdrop from '../../components/ui/AdaptiveBackdrop'
+import ThemeToggle from '../../components/ui/ThemeToggle'
 
 // Initialize Supabase client with proper error handling
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -107,20 +109,22 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h1>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link
-              to="/signup"
-              className="font-medium text-blue-600 hover:text-blue-500"
-            >
-              create a new account
-            </Link>
+    <AdaptiveBackdrop animationSpeed="medium" overlay={true}>
+      <ThemeToggle />
+      <div className="min-h-screen flex items-center justify-center bg-white/30 dark:bg-black/20 backdrop-blur-sm py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-8 rounded-2xl border border-white/50 dark:border-gray-700/50 shadow-xl">
+          <div>
+            <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+              Sign in to your account
+            </h1>
+            <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+              Or{' '}
+              <Link
+                to="/signup"
+                className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+              >
+                create a new account
+              </Link>
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -230,6 +234,7 @@ const LoginPage: React.FC = () => {
         </form>
       </div>
     </div>
+    </AdaptiveBackdrop>
   )
 }
 
