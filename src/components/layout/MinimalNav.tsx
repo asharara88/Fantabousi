@@ -66,7 +66,7 @@ const MinimalNav: React.FC = () => {
   const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
   const [showThemeMenu, setShowThemeMenu] = useState(false);
   const [user, setUser] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [, setIsLoading] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showSupplementsMenu, setShowSupplementsMenu] = useState(false);
@@ -178,23 +178,23 @@ const MinimalNav: React.FC = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 glass-subtle border-b border-gray-200/30 dark:border-gray-700/30 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="sticky top-0 z-50 transition-all duration-300 border-b glass-subtle border-gray-200/30 dark:border-gray-700/30">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
+            <Link to="/" className="flex items-center transition-opacity hover:opacity-80">
               <img 
                 src={isDarkMode 
                   ? "/logos/biowell-light.svg"
                   : "/logos/biowell-dark.svg"
                 }
                 alt="Biowell" 
-                className="h-15 w-auto object-contain" 
+                className="object-contain w-auto h-15" 
               />
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center">
+            <div className="items-center hidden lg:flex">
               <div className="flex items-center space-x-1 surface-glass rounded-2xl p-1.5 shadow-md">
                 {navItems.map((item) => (
                   <div key={item.href} className="relative">
@@ -222,7 +222,7 @@ const MinimalNav: React.FC = () => {
                                 onClick={() => setShowSupplementsMenu(false)}
                               />
                               <motion.div
-                                className="absolute top-full left-0 mt-2 w-56 surface-glass rounded-2xl shadow-xl py-2 z-50"
+                                className="absolute left-0 z-50 w-56 py-2 mt-2 shadow-xl top-full surface-glass rounded-2xl"
                                 initial={{ opacity: 0, scale: 0.95, y: -10 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.95, y: -10 }}
@@ -232,7 +232,7 @@ const MinimalNav: React.FC = () => {
                                   <Link
                                     key={dropdownItem.href}
                                     to={dropdownItem.href}
-                                    className="flex items-center w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-surface-2/70 transition-all duration-200 hover:translate-x-1"
+                                    className="flex items-center w-full px-4 py-3 text-sm text-gray-700 transition-all duration-200 dark:text-gray-300 hover:bg-surface-2/70 hover:translate-x-1"
                                     onClick={() => setShowSupplementsMenu(false)}
                                   >
                                     <span className="mr-3">{dropdownItem.icon}</span>
@@ -293,7 +293,7 @@ const MinimalNav: React.FC = () => {
                         onClick={() => setShowThemeMenu(false)}
                       />
                       <motion.div
-                        className="absolute right-0 mt-2 w-40 surface-glass rounded-2xl shadow-xl py-2 z-50"
+                        className="absolute right-0 z-50 w-40 py-2 mt-2 shadow-xl surface-glass rounded-2xl"
                         initial={{ opacity: 0, scale: 0.95, y: -10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: -10 }}
@@ -358,7 +358,7 @@ const MinimalNav: React.FC = () => {
                           onClick={() => setShowUserMenu(false)}
                         />
                         <motion.div
-                          className="absolute right-0 mt-2 w-48 surface-glass rounded-2xl shadow-xl py-2 z-50"
+                          className="absolute right-0 z-50 w-48 py-2 mt-2 shadow-xl surface-glass rounded-2xl"
                           initial={{ opacity: 0, scale: 0.95, y: -10 }}
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.95, y: -10 }}
@@ -366,7 +366,7 @@ const MinimalNav: React.FC = () => {
                         >
                           <Link
                             to="/"
-                            className="flex items-center w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-surface-2/70 transition-all duration-200 hover:translate-x-1"
+                            className="flex items-center w-full px-4 py-3 text-sm text-gray-700 transition-all duration-200 dark:text-gray-300 hover:bg-surface-2/70 hover:translate-x-1"
                             onClick={() => setShowUserMenu(false)}
                           >
                             <Home className="w-4 h-4 mr-3" />
@@ -374,16 +374,16 @@ const MinimalNav: React.FC = () => {
                           </Link>
                           <Link
                             to="/bioclock"
-                            className="flex items-center w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-surface-2/70 transition-all duration-200 hover:translate-x-1"
+                            className="flex items-center w-full px-4 py-3 text-sm text-gray-700 transition-all duration-200 dark:text-gray-300 hover:bg-surface-2/70 hover:translate-x-1"
                             onClick={() => setShowUserMenu(false)}
                           >
                             <Settings className="w-4 h-4 mr-3" />
                             <span className="tracking-wide">Bioclock™</span>
                           </Link>
-                          <div className="border-t border-gray-200/30 dark:border-gray-700/30 my-2" />
+                          <div className="my-2 border-t border-gray-200/30 dark:border-gray-700/30" />
                           <button
                             onClick={handleSignOut}
-                            className="flex items-center w-full px-4 py-3 text-sm text-error hover:bg-error/10 transition-all duration-200 hover:translate-x-1"
+                            className="flex items-center w-full px-4 py-3 text-sm transition-all duration-200 text-error hover:bg-error/10 hover:translate-x-1"
                           >
                             <LogOut className="w-4 h-4 mr-3" />
                             <span className="tracking-wide">Sign out</span>
@@ -394,7 +394,7 @@ const MinimalNav: React.FC = () => {
                   </AnimatePresence>
                 </div>
               ) : (
-                <div className="hidden lg:flex items-center space-x-3">
+                <div className="items-center hidden space-x-3 lg:flex">
                   <Link
                     to="/login"
                     className="px-6 py-2.5 bg-primary hover:bg-primary-dark text-white rounded-xl text-sm font-medium hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 shadow-md tracking-wide"
@@ -445,20 +445,20 @@ const MinimalNav: React.FC = () => {
         {isMobileMenuOpen && (
           <>
             <motion.div
-              className="fixed inset-0 bg-black/30 backdrop-blur-md z-40 lg:hidden"
+              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-md lg:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
-              className="fixed top-16 left-0 right-0 glass border-b border-gray-200/30 dark:border-gray-700/30 z-50 lg:hidden shadow-2xl"
+              className="fixed left-0 right-0 z-50 border-b shadow-2xl top-16 glass border-gray-200/30 dark:border-gray-700/30 lg:hidden"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+              <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6">
                 <div className="space-y-2">
                   {navItems.map((item) => (
                     <div key={item.href}>
@@ -514,17 +514,17 @@ const MinimalNav: React.FC = () => {
                   
                   {/* Mobile Auth Section */}
                   {!user && (
-                    <div className="pt-4 border-t border-gray-200/30 dark:border-gray-700/30 space-y-2">
+                    <div className="pt-4 space-y-2 border-t border-gray-200/30 dark:border-gray-700/30">
                       <Link
                         to="/login"
-                        className="block px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-surface-2/70 rounded-xl transition-all duration-200 tracking-wide"
+                        className="block px-4 py-3 text-base font-medium tracking-wide text-gray-700 transition-all duration-200 dark:text-gray-300 hover:bg-surface-2/70 rounded-xl"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         Sign in
                       </Link>
                       <Link
                         to="/onboarding"
-                        className="block px-4 py-3 gradient-primary text-white rounded-xl text-base font-medium text-center shadow-md tracking-wide"
+                        className="block px-4 py-3 text-base font-medium tracking-wide text-center text-white shadow-md gradient-primary rounded-xl"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         Get Started
@@ -534,10 +534,10 @@ const MinimalNav: React.FC = () => {
 
                   {/* Mobile User Menu */}
                   {user && (
-                    <div className="pt-4 border-t border-gray-200/30 dark:border-gray-700/30 space-y-1">
+                    <div className="pt-4 space-y-1 border-t border-gray-200/30 dark:border-gray-700/30">
                       <Link
                         to="/"
-                        className="flex items-center px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-surface-2/70 rounded-xl transition-all duration-200"
+                        className="flex items-center px-4 py-3 text-base font-medium text-gray-700 transition-all duration-200 dark:text-gray-300 hover:bg-surface-2/70 rounded-xl"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         <Home className="w-4 h-4 mr-3" />
@@ -545,7 +545,7 @@ const MinimalNav: React.FC = () => {
                       </Link>
                       <Link
                         to="/bioclock"
-                        className="flex items-center px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-surface-2/70 rounded-xl transition-all duration-200"
+                        className="flex items-center px-4 py-3 text-base font-medium text-gray-700 transition-all duration-200 dark:text-gray-300 hover:bg-surface-2/70 rounded-xl"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         <Settings className="w-4 h-4 mr-3" />
@@ -556,7 +556,7 @@ const MinimalNav: React.FC = () => {
                           handleSignOut();
                           setIsMobileMenuOpen(false);
                         }}
-                        className="flex items-center w-full px-4 py-3 text-base font-medium text-error hover:bg-error/10 rounded-xl transition-all duration-200"
+                        className="flex items-center w-full px-4 py-3 text-base font-medium transition-all duration-200 text-error hover:bg-error/10 rounded-xl"
                       >
                         <LogOut className="w-4 h-4 mr-3" />
                         <span className="tracking-wide">Sign out</span>

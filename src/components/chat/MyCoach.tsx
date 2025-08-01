@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Volume2, VolumeX, Loader2, Settings, Sparkles, X, HelpCircle, Check, AlertCircle, Mic, MicOff, Brain, Target, Activity } from 'lucide-react';
+import { Send, Volume2, VolumeX, Settings, Sparkles, X, HelpCircle, AlertCircle, Mic, MicOff, Brain } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '../ui/Button';
 import ChatMessage from './ChatMessage';
@@ -59,11 +59,6 @@ interface VoiceSettings {
   similarity_boost: number;
 }
 
-interface SpeechRecognitionResult {
-  transcript: string;
-  confidence: number;
-}
-
 interface SpeechRecognition extends EventTarget {
   continuous: boolean;
   interimResults: boolean;
@@ -89,12 +84,8 @@ interface SpeechRecognitionErrorEvent extends Event {
 
 declare global {
   interface Window {
-    SpeechRecognition: {
-      new(): SpeechRecognition;
-    };
-    webkitSpeechRecognition: {
-      new(): SpeechRecognition;
-    };
+    SpeechRecognition: new() => SpeechRecognition;
+    webkitSpeechRecognition: new() => SpeechRecognition;
   }
 }
 
@@ -111,7 +102,6 @@ const MyCoach: React.FC = () => {
     stability: 0.5,
     similarity_boost: 0.75
   });
-  const [availableVoices, setAvailableVoices] = useState<Voice[]>([]);
   const [showVoiceSettings, setShowVoiceSettings] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isFetching, setIsFetching] = useState(false); 
@@ -280,6 +270,24 @@ const MyCoach: React.FC = () => {
       }
     };
   }, []);
+
+  // Helper functions for mic button styling
+  const getMicButtonClass = () => {
+    if (isListening) {
+      return "bg-red-500 hover:bg-red-600 text-white animate-pulse";
+    }
+    if (micPermission === 'denied') {
+      return "bg-gray-400 text-gray-600 cursor-not-allowed";
+    }
+    return "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400";
+  };
+
+  const getMicButtonTitle = () => {
+    if (micPermission === 'denied') {
+      return "Microphone access denied";
+    }
+    return isListening ? "Click to stop listening" : "Click to start voice input";
+  };
 
   // Helper function for basic OpenAI calls (fallback)
   const handleSubmit = async (e: React.FormEvent, questionText?: string) => {
@@ -732,9 +740,9 @@ const MyCoach: React.FC = () => {
                 Suggested questions:
               </span>
             </div>
-            {currentQuestions && currentQuestions.map((questionObj, index) => (
+            {currentQuestions?.map((questionObj, index) => (
               <motion.button
-                key={index}
+                key={`question-${questionObj.text}-${index}`}
                 onClick={handleQuestionClick(questionObj.text)}
                 className={cn(
                   "px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg",
@@ -822,20 +830,10 @@ const MyCoach: React.FC = () => {
             disabled={isLoading}
             className={cn(
               "h-12 w-12 p-0 flex items-center justify-center rounded-full transition-all duration-300",
-              isListening 
-                ? "bg-red-500 hover:bg-red-600 text-white animate-pulse" 
-                : micPermission === 'denied'
-                  ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                  : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400"
+              getMicButtonClass()
             )}
             aria-label={isListening ? "Stop listening" : "Start voice input"}
-            title={
-              micPermission === 'denied' 
-                ? "Microphone access denied"
-                : isListening 
-                  ? "Click to stop listening" 
-                  : "Click to start voice input"
-            }
+            title={getMicButtonTitle()}
           >
             {isListening ? <MicOff size={20} /> : <Mic size={20} />}
           </button>
