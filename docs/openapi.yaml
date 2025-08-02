@@ -278,7 +278,7 @@ paths:
           schema:
             type: string
             minLength: 2
-            example: "chicken breast"
+            example: chicken breast
         - name: limit
           in: query
           description: Maximum number of results to return
