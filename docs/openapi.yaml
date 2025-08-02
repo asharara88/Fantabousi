@@ -42,6 +42,7 @@ servers:
 
 security:
   - BearerAuth: []
+  - ApiKeyAuth: []
 
 paths:
   # Authentication Endpoints
@@ -277,7 +278,7 @@ paths:
           schema:
             type: string
             minLength: 2
-            example: chicken breast
+            example: "chicken breast"
         - name: limit
           in: query
           description: Maximum number of results to return
@@ -550,11 +551,11 @@ components:
         email:
           type: string
           format: email
-          example: user@example.com
+          example: "user@example.com"
         password:
           type: string
           minLength: 8
-          example: securepassword123
+          example: "securepassword123"
 
     LoginResponse:
       type: object
@@ -567,16 +568,16 @@ components:
           properties:
             access_token:
               type: string
-              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
             refresh_token:
               type: string
-              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
             expires_in:
               type: integer
               example: 3600
             token_type:
               type: string
-              example: Bearer
+              example: "Bearer"
             user:
               $ref: '#/components/schemas/User'
 
@@ -691,6 +692,8 @@ components:
               maxItems: 50
               items:
                 type: string
+            preferences:
+              $ref: '#/components/schemas/UserPreferences'
 
     UserPreferences:
       type: object
@@ -737,7 +740,6 @@ components:
           enum: [sedentary, lightly_active, moderately_active, very_active, extremely_active]
         health_goals:
           type: array
-          maxItems: 10
           items:
             type: string
         preferences:
@@ -804,7 +806,6 @@ components:
           type: boolean
         data:
           type: array
-          maxItems: 1000
           items:
             $ref: '#/components/schemas/HealthMetric'
         analytics:
@@ -842,7 +843,6 @@ components:
               type: object
             insights:
               type: array
-              maxItems: 50
               items:
                 type: string
 
@@ -888,7 +888,6 @@ components:
           type: boolean
         data:
           type: array
-          maxItems: 100
           items:
             $ref: '#/components/schemas/Food'
 
@@ -913,7 +912,6 @@ components:
           enum: [breakfast, lunch, dinner, snack]
         foods:
           type: array
-          maxItems: 50
           items:
             $ref: '#/components/schemas/MealFood'
         timestamp:
@@ -933,7 +931,6 @@ components:
           enum: [breakfast, lunch, dinner, snack]
         foods:
           type: array
-          maxItems: 50
           items:
             $ref: '#/components/schemas/MealFood'
         nutrition_total:
@@ -965,7 +962,6 @@ components:
               format: date
             meals:
               type: array
-              maxItems: 50
               items:
                 $ref: '#/components/schemas/Meal'
             daily_total:
@@ -1020,7 +1016,6 @@ components:
           type: integer
         exercises:
           type: array
-          maxItems: 100
           items:
             $ref: '#/components/schemas/Exercise'
         timestamp:
@@ -1045,7 +1040,6 @@ components:
           type: integer
         exercises:
           type: array
-          maxItems: 100
           items:
             $ref: '#/components/schemas/Exercise'
         timestamp:
@@ -1112,12 +1106,10 @@ components:
               type: string
             recommendations:
               type: array
-              maxItems: 20
               items:
                 $ref: '#/components/schemas/Recommendation'
             follow_up_questions:
               type: array
-              maxItems: 10
               items:
                 type: string
             session_id:
@@ -1154,12 +1146,10 @@ components:
               maximum: 100
             insights:
               type: array
-              maxItems: 50
               items:
                 $ref: '#/components/schemas/AIInsight'
             recommendations:
               type: array
-              maxItems: 20
               items:
                 $ref: '#/components/schemas/Recommendation'
 
@@ -1182,7 +1172,6 @@ components:
           enum: [strong, moderate, limited, insufficient]
         potential_benefits:
           type: array
-          maxItems: 20
           items:
             type: string
         price_range:
@@ -1236,16 +1225,16 @@ components:
           properties:
             code:
               type: string
-              example: VALIDATION_ERROR
+              example: "VALIDATION_ERROR"
             message:
               type: string
-              example: The provided data is invalid
+              example: "The provided data is invalid"
             details:
               type: object
               additionalProperties: true
             request_id:
               type: string
-              example: req_123456789
+              example: "req_123456789"
             timestamp:
               type: string
               format: date-time
@@ -1255,10 +1244,10 @@ components:
       properties:
         status:
           type: string
-          example: healthy
+          example: "healthy"
         version:
           type: string
-          example: 1.0.0
+          example: "1.0.0"
         timestamp:
           type: string
           format: date-time
@@ -1267,13 +1256,13 @@ components:
           properties:
             database:
               type: string
-              example: healthy
+              example: "healthy"
             ai:
               type: string
-              example: healthy
+              example: "healthy"
             cache:
               type: string
-              example: healthy
+              example: "healthy"
 
   responses:
     BadRequest:
@@ -1285,10 +1274,10 @@ components:
           example:
             success: false
             error:
-              code: VALIDATION_ERROR
-              message: The provided data is invalid
+              code: "VALIDATION_ERROR"
+              message: "The provided data is invalid"
               details:
-                email: [Email is required]
+                email: ["Email is required"]
 
     Unauthorized:
       description: Unauthorized - invalid authentication
@@ -1299,8 +1288,8 @@ components:
           example:
             success: false
             error:
-              code: AUTHENTICATION_ERROR
-              message: Invalid or missing authentication token
+              code: "AUTHENTICATION_ERROR"
+              message: "Invalid or missing authentication token"
 
     Forbidden:
       description: Forbidden - insufficient permissions
@@ -1318,8 +1307,8 @@ components:
           example:
             success: false
             error:
-              code: RESOURCE_NOT_FOUND
-              message: The requested resource was not found
+              code: "RESOURCE_NOT_FOUND"
+              message: "The requested resource was not found"
 
     Conflict:
       description: Conflict - resource already exists
@@ -1330,8 +1319,8 @@ components:
           example:
             success: false
             error:
-              code: DUPLICATE_RESOURCE
-              message: A user with this email already exists
+              code: "DUPLICATE_RESOURCE"
+              message: "A user with this email already exists"
 
     TooManyRequests:
       description: Rate limit exceeded
@@ -1342,8 +1331,8 @@ components:
           example:
             success: false
             error:
-              code: RATE_LIMIT_EXCEEDED
-              message: Rate limit exceeded. Try again in 3600 seconds
+              code: "RATE_LIMIT_EXCEEDED"
+              message: "Rate limit exceeded. Try again in 3600 seconds"
 
     ServiceUnavailable:
       description: Service temporarily unavailable
@@ -1354,8 +1343,8 @@ components:
           example:
             success: false
             error:
-              code: AI_SERVICE_ERROR
-              message: AI service is temporarily unavailable
+              code: "AI_SERVICE_ERROR"
+              message: "AI service is temporarily unavailable"
 
 tags:
   - name: Authentication

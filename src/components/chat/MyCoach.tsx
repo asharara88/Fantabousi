@@ -5,7 +5,7 @@ import { Button } from '../ui/Button';
 import ChatMessage from './ChatMessage';
 import { supabase } from '../../lib/supabase';
 import { cn } from '../../utils/cn'; 
-import { elevenlabsApi, Voice } from '../../api/elevenlabsApi';
+import { elevenlabsApi } from '../../api/elevenlabsApi';
 import VoicePreferences from './VoicePreferences';
 import { HealthDomain, sessionManager } from '../../services/contextualIntelligence';
 import { useUserProfileStore } from '../../store/useUserProfileStore';
@@ -224,7 +224,8 @@ const MyCoach: React.FC = () => {
         if (isConfigured) {
           const voices = await elevenlabsApi.getVoices();
           if (voices && voices.length > 0) {
-            setAvailableVoices(voices);
+            // Voices are fetched but not stored in state currently
+            console.log('Available voices:', voices);
           }
         }
       } catch (error) {

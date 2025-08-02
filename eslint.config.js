@@ -31,7 +31,7 @@ try {
 
 export default tseslint && js
   ? tseslint.config(
-      { ignores: ['dist'] },
+      { ignores: ['dist', '**/*.test.{ts,tsx}', '**/__tests__/**'] },
       {
         extends: [js.configs.recommended, ...tseslint.configs.recommended],
         files: ['**/*.{ts,tsx}'],
