@@ -1,28 +1,23 @@
 import React from 'react';
-// Mock framer-motion to avoid issues in tests
-const mockMotion = {
-  div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-  button: ({ children, ...props }: any) => <button {...props}>{children}</button>
-};
-
-// Simple test utilities to replace Jest
-const mockFn = () => {
-  const calls: any[] = [];
-  const fn = (...args: any[]) => {
-    calls.push(args);
-    return fn;
-  };
-  fn.mock = { calls };
-  fn.mockReturnValue = (value: any) => {
-    fn.returnValue = value;
-    return fn;
-  };
-  return fn;
-};
-
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { axe, toHaveNoViolations } from 'jest-axe';
 import { FocusTrap, getFocusableElements } from '../utils/focusManagement';
+import AccessibleDropdown from '../ui/AccessibleDropdown';
+import { describe, it } from 'node:test';
+import App from '../App-Enhanced';
+
+// Extend Jest matchers
+expect.extend(toHaveNoViolations);
+
+// Mock framer-motion to avoid issues in tests
+jest.mock('framer-motion', () => ({
+  motion: {
+    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+  },
+  AnimatePresence: ({ children }: any) => <>{children}</>,
+}));
 
 // Mock components that don't exist yet
 const AccessibleModal = ({ isOpen, onClose, children, title }: any) => {
@@ -44,22 +39,20 @@ const SkipLinks = () => (
   </div>
 );
 
-const FocusProvider = ({ children }: any) => <div>{children}</div>;
-
-// Mock framer-motion to avoid issues in tests
-jest.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-    button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
-  },
-  AnimatePresence: ({ children }: any) => <>{children}</>,
-}));
+const FocusProvider = ({ children, enableSkipLinks }: any) => (
+  <div>
+    {enableSkipLinks && <SkipLinks />}
+    {children}
+  </div>
+);
 
 describe('Focus Management System', () => {
   beforeEach(() => {
     // Reset DOM and focus
     document.body.innerHTML = '';
-    document.body.focus();
+    if (document.body.focus) {
+      document.body.focus();
+    }
   });
 
   describe('FocusTrap', () => {
@@ -79,10 +72,12 @@ describe('Focus Management System', () => {
 
     afterEach(() => {
       focusTrap.deactivate();
-      document.body.removeChild(container);
+      if (document.body.contains(container)) {
+        document.body.removeChild(container);
+      }
     });
 
-    test('should trap focus within container', async () => {
+    it('should trap focus within container', async () => {
       const firstButton = container.querySelector('#first') as HTMLElement;
       const lastButton = container.querySelector('#last') as HTMLElement;
 
@@ -101,7 +96,7 @@ describe('Focus Management System', () => {
       expect(document.activeElement).toBe(lastButton);
     });
 
-    test('should handle escape key when enabled', () => {
+    it('should handle escape key when enabled', () => {
       const deactivateSpy = jest.spyOn(focusTrap, 'deactivate');
       
       focusTrap.activate();
@@ -110,7 +105,7 @@ describe('Focus Management System', () => {
       expect(deactivateSpy).toHaveBeenCalled();
     });
 
-    test('should restore focus on deactivate', () => {
+    it('should restore focus on deactivate', () => {
       const outsideButton = document.createElement('button');
       outsideButton.textContent = 'Outside';
       document.body.appendChild(outsideButton);
@@ -125,7 +120,7 @@ describe('Focus Management System', () => {
   });
 
   describe('getFocusableElements', () => {
-    test('should find all focusable elements', () => {
+    it('should find all focusable elements', () => {
       const container = document.createElement('div');
       container.innerHTML = `
         <button>Button</button>
@@ -139,7 +134,7 @@ describe('Focus Management System', () => {
 
       const focusableElements = getFocusableElements(container);
       
-      expect(focusableElements).toHaveLength(4);
+      expect(focusableElements.length).toBe(4);
       expect(focusableElements[0].tagName).toBe('BUTTON');
       expect(focusableElements[1].tagName).toBe('INPUT');
       expect(focusableElements[2].tagName).toBe('A');
@@ -148,7 +143,7 @@ describe('Focus Management System', () => {
   });
 
   describe('SkipLinks', () => {
-    test('should render skip links', () => {
+    it('should render skip links', () => {
       render(<SkipLinks />);
       
       const skipLinks = screen.getAllByRole('link');
@@ -158,7 +153,7 @@ describe('Focus Management System', () => {
       expect(skipLinks[2]).toHaveTextContent('Skip to footer');
     });
 
-    test('should focus target element on click', async () => {
+    it('should focus target element on click', async () => {
       // Create target element
       const mainContent = document.createElement('main');
       mainContent.id = 'main-content';
@@ -176,7 +171,7 @@ describe('Focus Management System', () => {
       document.body.removeChild(mainContent);
     });
 
-    test('should be accessible', async () => {
+    it('should be accessible', async () => {
       const { container } = render(<SkipLinks />);
       const results = await axe(container);
       expect(results).toHaveNoViolations();
@@ -184,7 +179,7 @@ describe('Focus Management System', () => {
   });
 
   describe('AccessibleModal', () => {
-    test('should trap focus when open', async () => {
+    it('should trap focus when open', async () => {
       const onClose = jest.fn();
       
       render(
@@ -204,7 +199,7 @@ describe('Focus Management System', () => {
       });
     });
 
-    test('should close on escape key', async () => {
+    it('should close on escape key', async () => {
       const onClose = jest.fn();
       
       render(
@@ -217,7 +212,7 @@ describe('Focus Management System', () => {
       expect(onClose).toHaveBeenCalled();
     });
 
-    test('should have proper ARIA attributes', () => {
+    it('should have proper ARIA attributes', () => {
       render(
         <AccessibleModal isOpen={true} onClose={() => {}} title="Test Modal">
           <div>Modal Content</div>
@@ -229,7 +224,7 @@ describe('Focus Management System', () => {
       expect(modal).toHaveAttribute('aria-labelledby');
     });
 
-    test('should be accessible', async () => {
+    it('should be accessible', async () => {
       const { baseElement } = render(
         <AccessibleModal isOpen={true} onClose={() => {}} title="Test Modal">
           <div>Modal Content</div>
@@ -248,7 +243,7 @@ describe('Focus Management System', () => {
       { value: 'option3', label: 'Option 3' },
     ];
 
-    test('should open dropdown on trigger click', async () => {
+    it('should open dropdown on trigger click', async () => {
       const onChange = jest.fn();
       
       render(
@@ -268,7 +263,7 @@ describe('Focus Management System', () => {
       });
     });
 
-    test('should handle keyboard navigation', async () => {
+    it('should handle keyboard navigation', async () => {
       const onChange = jest.fn();
       
       render(
@@ -297,8 +292,9 @@ describe('Focus Management System', () => {
       expect(onChange).toHaveBeenCalledWith('option1');
     });
 
-    test('should filter options when searchable', async () => {
+    it('should filter options when searchable', async () => {
       const onChange = jest.fn();
+      const user = userEvent.setup();
       
       render(
         <AccessibleDropdown
@@ -314,14 +310,14 @@ describe('Focus Management System', () => {
       fireEvent.click(trigger);
 
       const searchInput = screen.getByLabelText('Search options');
-      await userEvent.type(searchInput, 'Option 2');
+      await user.type(searchInput, 'Option 2');
 
       // Only Option 2 should be visible
       expect(screen.getByText('Option 2')).toBeInTheDocument();
       expect(screen.queryByText('Option 1')).not.toBeInTheDocument();
     });
 
-    test('should handle multiple selection', async () => {
+    it('should handle multiple selection', async () => {
       const onChange = jest.fn();
       
       render(
@@ -343,7 +339,7 @@ describe('Focus Management System', () => {
       expect(onChange).toHaveBeenCalledWith(['option1']);
     });
 
-    test('should be accessible', async () => {
+    it('should be accessible', async () => {
       const { container } = render(
         <AccessibleDropdown
           options={options}
@@ -359,7 +355,7 @@ describe('Focus Management System', () => {
   });
 
   describe('FocusProvider', () => {
-    test('should provide focus context', () => {
+    it('should provide focus context', () => {
       const TestComponent = () => {
         return <div data-testid="test-component">Test</div>;
       };
@@ -373,7 +369,7 @@ describe('Focus Management System', () => {
       expect(screen.getByTestId('test-component')).toBeInTheDocument();
     });
 
-    test('should render skip links when enabled', () => {
+    it('should render skip links when enabled', () => {
       render(
         <FocusProvider enableSkipLinks={true}>
           <div>Content</div>
@@ -384,7 +380,7 @@ describe('Focus Management System', () => {
       expect(skipLinks.length).toBeGreaterThan(0);
     });
 
-    test('should handle global keyboard shortcuts', () => {
+    it('should handle global keyboard shortcuts', () => {
       // Create main content element
       const mainContent = document.createElement('main');
       mainContent.id = 'main-content';
@@ -408,7 +404,7 @@ describe('Focus Management System', () => {
 
 // Performance tests
 describe('Focus Management Performance', () => {
-  test('should not cause memory leaks', () => {
+  it('should not cause memory leaks', () => {
     const container = document.createElement('div');
     container.innerHTML = '<button>Test</button>';
     document.body.appendChild(container);
@@ -424,7 +420,7 @@ describe('Focus Management Performance', () => {
     document.body.removeChild(container);
   });
 
-  test('should handle rapid state changes', async () => {
+  it('should handle rapid state changes', async () => {
     const onClose = jest.fn();
     
     const { rerender } = render(
@@ -455,7 +451,7 @@ describe('Focus Management Performance', () => {
 
 // Integration tests
 describe('Focus Management Integration', () => {
-  test('should work with complex nested components', async () => {
+  it('should work with complex nested components', async () => {
     const ComplexComponent = () => {
       const [modalOpen, setModalOpen] = React.useState(false);
       const [dropdownValue, setDropdownValue] = React.useState('');
@@ -516,7 +512,7 @@ describe('Focus Management Integration', () => {
     expect(document.activeElement).toBe(openButton);
   });
 
-  test('should maintain accessibility across component interactions', async () => {
+  it('should maintain accessibility across component interactions', async () => {
     const App = () => (
       <FocusProvider>
         <main id="main-content">
@@ -539,4 +535,28 @@ describe('Focus Management Integration', () => {
   });
 });
 
+    const { container } = render(<App />);
+    
+    // Test overall accessibility
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+});
+
 export {};
+  function beforeEach(arg0: () => void) {
+    throw new Error('Function not implemented.');
+  }
+
+  function afterEach(arg0: () => void) {
+    throw new Error('Function not implemented.');
+  }
+
+  function expect(activeElement: Element | null) {
+    throw new Error('Function not implemented.');
+  }
+
+  function axe(container: HTMLElement) {
+    throw new Error('Function not implemented.');
+  }
+
