@@ -78,6 +78,14 @@ const AIHealthCoach: React.FC = () => {
   const [voiceInputError, setVoiceInputError] = useState<string | null>(null);
   const [interimTranscript, setInterimTranscript] = useState('');
   
+  // Microphone permission states
+  const [micPermission, setMicPermission] = useState<'prompt' | 'granted' | 'denied' | 'checking'>('prompt');
+  const [isCheckingMic, setIsCheckingMic] = useState(false);
+  
+  // Voice-to-Voice mode states
+  const [voiceToVoiceMode, setVoiceToVoiceMode] = useState(false);
+  const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
+  
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -366,7 +374,73 @@ const AIHealthCoach: React.FC = () => {
   // Run initial audio check on component mount
   useEffect(() => {
     runAudioDiagnostics();
+    checkMicrophonePermission();
   }, []);
+
+  // Microphone permission management
+  const checkMicrophonePermission = async () => {
+    setIsCheckingMic(true);
+    
+    try {
+      // Check if navigator.permissions is available
+      if ('permissions' in navigator) {
+        const permission = await navigator.permissions.query({ name: 'microphone' as PermissionName });
+        setMicPermission(permission.state as 'granted' | 'denied' | 'prompt');
+        
+        // Listen for permission changes
+        permission.onchange = () => {
+          setMicPermission(permission.state as 'granted' | 'denied' | 'prompt');
+        };
+      } else {
+        // Fallback: try to access microphone directly
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          stream.getTracks().forEach(track => track.stop()); // Clean up
+          setMicPermission('granted');
+        } catch (error) {
+          console.warn('Microphone permission check failed:', error);
+          setMicPermission('denied');
+        }
+      }
+    } catch (error) {
+      console.error('Error checking microphone permission:', error);
+      setMicPermission('prompt');
+    } finally {
+      setIsCheckingMic(false);
+    }
+  };
+
+  const requestMicrophonePermission = async () => {
+    setIsCheckingMic(true);
+    setVoiceInputError(null);
+    
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        }
+      });
+      
+      // Permission granted, clean up the stream
+      stream.getTracks().forEach(track => track.stop());
+      setMicPermission('granted');
+      console.log('🎤 Microphone permission granted');
+      
+      // Initialize speech recognition if not already done
+      if (!speechRecognition) {
+        initializeSpeechRecognition();
+      }
+      
+    } catch (error) {
+      console.error('Microphone permission denied:', error);
+      setMicPermission('denied');
+      setVoiceInputError('Microphone access denied. Please allow microphone access in your browser settings.');
+    } finally {
+      setIsCheckingMic(false);
+    }
+  };
 
   // Initialize Speech Recognition
   useEffect(() => {
