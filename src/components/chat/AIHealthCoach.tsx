@@ -1,12 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, VolumeX, Volume2, RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
+import { Send, VolumeX, Volume2, RefreshCw, AlertCircle, CheckCircle, Loader2, HelpCircle, Mic, MicOff } from 'lucide-react';
 import { elevenlabsApi } from '../../api/elevenlabsApi';
 import { debugAudioIssues, handleAudioError, AudioDiagnostics } from '../../utils/audioDebugger';
 import { motion } from 'framer-motion';
 import { Button } from '../ui/Button';
 import ChatMessage from './ChatMessage';
 import { createClient } from '@supabase/supabase-js';
-import { cn } from '../../utils/cn'; 
+import { cn } from '../../utils/cn';
+
+// Extend Window interface for Speech Recognition
+declare global {
+  interface Window {
+    SpeechRecognition: typeof SpeechRecognition;
+    webkitSpeechRecognition: typeof SpeechRecognition;
+  }
+}
 
 // Sample question sets that will rotate after each response
 const QUESTION_SETS = [
@@ -62,6 +70,14 @@ const AIHealthCoach: React.FC = () => {
   const [audioError, setAudioError] = useState<string | null>(null);
   const [audioStatus, setAudioStatus] = useState<'idle' | 'testing' | 'ready' | 'error'>('idle');
   const [audioDiagnostics, setAudioDiagnostics] = useState<AudioDiagnostics | null>(null);
+  
+  // Voice input states
+  const [isRecording, setIsRecording] = useState(false);
+  const [voiceInputEnabled, setVoiceInputEnabled] = useState(false);
+  const [speechRecognition, setSpeechRecognition] = useState<SpeechRecognition | null>(null);
+  const [voiceInputError, setVoiceInputError] = useState<string | null>(null);
+  const [interimTranscript, setInterimTranscript] = useState('');
+  
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -293,6 +309,91 @@ const AIHealthCoach: React.FC = () => {
   useEffect(() => {
     runAudioDiagnostics();
   }, []);
+
+  // Initialize Speech Recognition
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      
+      if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+        
+        recognition.onstart = () => {
+          console.log('Voice recognition started');
+          setIsRecording(true);
+          setVoiceInputError(null);
+        };
+        
+        recognition.onresult = (event) => {
+          let interimTranscript = '';
+          let finalTranscript = '';
+          
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              finalTranscript += transcript;
+            } else {
+              interimTranscript += transcript;
+            }
+          }
+          
+          setInterimTranscript(interimTranscript);
+          
+          if (finalTranscript) {
+            setInput(prev => prev + finalTranscript);
+            setInterimTranscript('');
+          }
+        };
+        
+        recognition.onerror = (event) => {
+          console.error('Speech recognition error:', event.error);
+          setVoiceInputError(`Voice input error: ${event.error}`);
+          setIsRecording(false);
+        };
+        
+        recognition.onend = () => {
+          console.log('Voice recognition ended');
+          setIsRecording(false);
+          setInterimTranscript('');
+        };
+        
+        setSpeechRecognition(recognition);
+        setVoiceInputEnabled(true);
+      } else {
+        console.warn('Speech Recognition not supported in this browser');
+        setVoiceInputError('Voice input not supported in this browser');
+      }
+    }
+  }, []);
+
+  // Voice input functions
+  const startVoiceInput = () => {
+    if (speechRecognition && !isRecording) {
+      try {
+        speechRecognition.start();
+      } catch (error) {
+        console.error('Error starting voice recognition:', error);
+        setVoiceInputError('Failed to start voice input');
+      }
+    }
+  };
+
+  const stopVoiceInput = () => {
+    if (speechRecognition && isRecording) {
+      speechRecognition.stop();
+    }
+  };
+
+  const toggleVoiceInput = () => {
+    if (isRecording) {
+      stopVoiceInput();
+    } else {
+      startVoiceInput();
+    }
+  };
 
   const playTextToSpeechLegacy = async (text: string) => {
     try {
