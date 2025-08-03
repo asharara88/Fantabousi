@@ -81,9 +81,25 @@ const Layout: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      {/* Skip Links for keyboard navigation */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-md focus:font-medium focus:shadow-lg"
+      >
+        Skip to main content
+      </a>
+      <a 
+        href="#main-navigation" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-44 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-md focus:font-medium focus:shadow-lg"
+      >
+        Skip to navigation
+      </a>
+
       {/* Header with banner landmark */}
       <header role="banner" className="relative">
-        <MinimalNav />
+        <nav role="navigation" aria-label="Main navigation" id="main-navigation">
+          <MinimalNav />
+        </nav>
       </header>
       
       {/* Mobile Navigation - Part of navigation landmark */}
