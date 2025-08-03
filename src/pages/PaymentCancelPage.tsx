@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import { Button } from '../components/ui/Button';
-import { AdaptiveBackdrop } from '../components/ui/AdaptiveBackdrop';
+import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop';
 import { useNavigate } from 'react-router-dom';
 
 const PaymentCancelPage: React.FC = () => {

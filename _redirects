@@ -1,5 +1,11 @@
 # Redirect default Netlify subdomain to primary domain
 https://biowell-app.netlify.app/* https://biowell.ai/:splat 301!
 
-# Handle SPA routing
+# API redirects to backend
+/api/*  https://api.biowell.ai/v1/:splat  200
+
+# Payment webhook redirects
+/stripe/webhook  https://api.biowell.ai/v1/stripe/webhook  200
+
+# Handle SPA routing - must be last
 /*    /index.html   200

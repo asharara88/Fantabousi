@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckIcon, UsersIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { Button } from '../components/ui/Button';
-import { AdaptiveBackdrop } from '../components/ui/AdaptiveBackdrop';
+import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop';
 import { stripeService } from '../services/stripeService';
 import { SUBSCRIPTION_PRICE_IDS } from '../lib/stripe';
 import subscriptionPlans from '../data/subscriptionPlans';
