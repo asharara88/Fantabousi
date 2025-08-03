@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, VolumeX, Volume2, RefreshCw, AlertCircle, CheckCircle, Loader2, HelpCircle, Mic, MicOff, MessageCircle } from 'lucide-react';
+import { Send, VolumeX, Volume2, AlertCircle, CheckCircle, Loader2, HelpCircle, Mic, MicOff, MessageCircle } from 'lucide-react';
 import { elevenlabsApi } from '../../api/elevenlabsApi';
 import { debugAudioIssues, handleAudioError, AudioDiagnostics } from '../../utils/audioDebugger';
 import { motion } from 'framer-motion';
@@ -11,9 +11,49 @@ import { cn } from '../../utils/cn';
 // Extend Window interface for Speech Recognition
 declare global {
   interface Window {
-    SpeechRecognition: typeof SpeechRecognition;
-    webkitSpeechRecognition: typeof SpeechRecognition;
+    SpeechRecognition: new () => SpeechRecognition;
+    webkitSpeechRecognition: new () => SpeechRecognition;
   }
+}
+
+interface SpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  start(): void;
+  stop(): void;
+  onstart: ((this: SpeechRecognition, ev: Event) => any) | null;
+  onresult: ((this: SpeechRecognition, ev: SpeechRecognitionEvent) => any) | null;
+  onerror: ((this: SpeechRecognition, ev: SpeechRecognitionErrorEvent) => any) | null;
+  onend: ((this: SpeechRecognition, ev: Event) => any) | null;
+}
+
+interface SpeechRecognitionEvent extends Event {
+  resultIndex: number;
+  results: SpeechRecognitionResultList;
+}
+
+interface SpeechRecognitionResultList {
+  length: number;
+  item(index: number): SpeechRecognitionResult;
+  [index: number]: SpeechRecognitionResult;
+}
+
+interface SpeechRecognitionResult {
+  isFinal: boolean;
+  length: number;
+  item(index: number): SpeechRecognitionAlternative;
+  [index: number]: SpeechRecognitionAlternative;
+}
+
+interface SpeechRecognitionAlternative {
+  transcript: string;
+  confidence: number;
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  error: string;
+  message?: string;
 }
 
 // Sample question sets that will rotate after each response
@@ -74,12 +114,13 @@ const AIHealthCoach: React.FC = () => {
   // Voice input states
   const [isRecording, setIsRecording] = useState(false);
   const [voiceInputEnabled, setVoiceInputEnabled] = useState(false);
-  const [speechRecognition, setSpeechRecognition] = useState<SpeechRecognition | null>(null);
+  const [speechRecognition, setSpeechRecognition] = useState<any>(null);
   const [voiceInputError, setVoiceInputError] = useState<string | null>(null);
   const [interimTranscript, setInterimTranscript] = useState('');
   
   // Microphone permission states
-  const [micPermission, setMicPermission] = useState<'prompt' | 'granted' | 'denied'>('prompt');
+  type MicPermission = 'prompt' | 'granted' | 'denied';
+  const [micPermission, setMicPermission] = useState<MicPermission>('prompt');
   const [isCheckingMic, setIsCheckingMic] = useState(false);
   
   // Voice-to-Voice mode states
@@ -403,9 +444,13 @@ const AIHealthCoach: React.FC = () => {
       } else {
         // Fallback: try to access microphone directly
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          stream.getTracks().forEach(track => track.stop()); // Clean up
-          setMicPermission('granted');
+          if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            stream.getTracks().forEach((track: MediaStreamTrack) => track.stop()); // Clean up
+            setMicPermission('granted');
+          } else {
+            setMicPermission('denied');
+          }
         } catch (error) {
           console.warn('Microphone permission check failed:', error);
           setMicPermission('denied');
@@ -424,22 +469,27 @@ const AIHealthCoach: React.FC = () => {
     setVoiceInputError(null);
     
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true
+      if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          }
+        });
+        
+        // Permission granted, clean up the stream
+        stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
+        setMicPermission('granted');
+        console.log('🎤 Microphone permission granted');
+        
+        // Initialize speech recognition if not already done
+        if (!speechRecognition) {
+          // This will trigger on next render due to dependency array
+          console.log('🎤 Initializing speech recognition...');
         }
-      });
-      
-      // Permission granted, clean up the stream
-      stream.getTracks().forEach(track => track.stop());
-      setMicPermission('granted');
-      console.log('🎤 Microphone permission granted');
-      
-      // Initialize speech recognition if not already done
-      if (!speechRecognition) {
-        initializeSpeechRecognition();
+      } else {
+        throw new Error('getUserMedia not supported');
       }
       
     } catch (error) {
@@ -891,15 +941,30 @@ const AIHealthCoach: React.FC = () => {
               value={input + (interimTranscript ? ` ${interimTranscript}` : '')}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Ask about your health, supplements, or wellness goals..."
+              placeholder={
+                voiceToVoiceMode 
+                  ? "Voice-to-voice mode active - just speak naturally..." 
+                  : "Ask about your health, supplements, or wellness goals..."
+              }
               className="w-full p-3 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 rounded-lg shadow-inner resize-none dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
               rows={2}
+              disabled={voiceToVoiceMode && isWaitingForResponse}
             />
             {/* Voice input indicator */}
             {isRecording && (
               <div className="absolute flex items-center px-2 py-1 space-x-1 bg-red-100 rounded-full top-2 right-2 dark:bg-red-900/20">
                 <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                 <span className="text-xs text-red-600 dark:text-red-400">Listening...</span>
+              </div>
+            )}
+            
+            {/* Voice-to-voice mode indicator */}
+            {voiceToVoiceMode && !isRecording && (
+              <div className="absolute flex items-center px-2 py-1 space-x-1 bg-purple-100 rounded-full top-2 right-2 dark:bg-purple-900/20">
+                <MessageCircle size={12} className="text-purple-600 dark:text-purple-400" />
+                <span className="text-xs text-purple-600 dark:text-purple-400">
+                  {isWaitingForResponse ? 'Responding...' : 'Voice Mode'}
+                </span>
               </div>
             )}
           </div>

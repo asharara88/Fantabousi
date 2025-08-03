@@ -81,26 +81,28 @@ const Layout: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      {/* Header */}
-      <div className="relative">
+      {/* Header with banner landmark */}
+      <header role="banner" className="relative">
         <MinimalNav />
-      </div>
+      </header>
       
-      {/* Mobile Navigation */}
-      <MobileNav 
-        isOpen={isMenuOpen} 
-        onClose={() => setIsMenuOpen(false)} 
-        isLoggedIn={!!user}
-        onSignOut={handleSignOut}
-      />
+      {/* Mobile Navigation - Part of navigation landmark */}
+      <nav role="navigation" aria-label="Mobile navigation">
+        <MobileNav 
+          isOpen={isMenuOpen} 
+          onClose={() => setIsMenuOpen(false)} 
+          isLoggedIn={!!user}
+          onSignOut={handleSignOut}
+        />
+      </nav>
 
-      {/* Main Content */}
-      <main className="flex-1 min-h-[calc(100vh-64px)]">
+      {/* Main Content - primary content landmark */}
+      <main role="main" id="main-content" className="flex-1 min-h-[calc(100vh-64px)]" tabIndex={-1}>
         <Outlet />
       </main>
 
-      {/* Footer */}
-      <footer className="gradient-subtle border-t border-gray-200/30 dark:border-gray-700/30 text-gray-800 dark:text-white transition-colors duration-300">
+      {/* Footer - contentinfo landmark */}
+      <footer role="contentinfo" className="gradient-subtle border-t border-gray-200/30 dark:border-gray-700/30 text-gray-800 dark:text-white transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex flex-col md:flex-row justify-between items-start">
             <div className="flex items-center mb-5 md:mb-0 text-left">
