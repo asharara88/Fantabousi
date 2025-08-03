@@ -515,12 +515,29 @@ const AIHealthCoach: React.FC = () => {
   }, []);
 
   // Enhanced voice input functions with better UX
-  const startVoiceInput = () => {
+  const startVoiceInput = async () => {
+    // Check microphone permission first
+    if (micPermission !== 'granted') {
+      await requestMicrophonePermission();
+      if (micPermission !== 'granted') {
+        return;
+      }
+    }
+
     if (speechRecognition && !isRecording) {
       try {
         // Clear any previous input errors
         setVoiceInputError(null);
         setInterimTranscript('');
+        
+        // Configure for voice-to-voice mode
+        if (voiceToVoiceMode) {
+          speechRecognition.continuous = true;
+          speechRecognition.interimResults = true;
+        } else {
+          speechRecognition.continuous = false;
+          speechRecognition.interimResults = true;
+        }
         
         // Start recognition
         speechRecognition.start();
@@ -540,6 +557,20 @@ const AIHealthCoach: React.FC = () => {
       } catch (error) {
         console.error('Error stopping voice recognition:', error);
       }
+    }
+  };
+
+  const toggleVoiceToVoiceMode = () => {
+    setVoiceToVoiceMode(!voiceToVoiceMode);
+    
+    if (!voiceToVoiceMode && micPermission !== 'granted') {
+      // Request permission when enabling voice-to-voice mode
+      requestMicrophonePermission();
+    }
+    
+    // Stop current listening if switching modes
+    if (isRecording) {
+      stopVoiceInput();
     }
   };
 
