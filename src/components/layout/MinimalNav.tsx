@@ -256,15 +256,16 @@ const MinimalNav: React.FC = () => {
                             ? "bg-primary text-white shadow-md scale-105"
                             : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-surface-1/70"
                         )}
+                        role="menuitem"
                       >
                         <span className="mr-2">{item.icon}</span>
                         <span className="tracking-wide">{item.label}</span>
                       </Link>
                     )}
-                  </div>
+                  </li>
                 ))}
-              </div>
-            </div>
+              </ul>
+            </nav>
 
             {/* Right Side Actions */}
             <div className="flex items-center space-x-3">

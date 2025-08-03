@@ -81,13 +81,13 @@ const HomePage: React.FC = () => {
   return (
     <AdaptiveBackdrop animationSpeed="slow" overlay={true}>
       <div className="relative min-h-screen">
-        {/* Fixed Elements */}
-        <div className="fixed top-6 right-6 z-50">
+        {/* Fixed Elements - Complementary landmark for utility controls */}
+        <aside role="complementary" aria-label="Page controls" className="fixed top-6 right-6 z-50">
           <ThemeToggle />
-        </div>
+        </aside>
 
         {/* Hero Section with Enhanced Design */}
-        <section className="relative pt-24 pb-16 overflow-hidden">
+        <section role="region" aria-labelledby="hero-heading" className="relative pt-24 pb-16 overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden">
             <motion.div
@@ -163,6 +163,7 @@ const HomePage: React.FC = () => {
                   </motion.div>
 
                   <motion.h1
+                    id="hero-heading"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
