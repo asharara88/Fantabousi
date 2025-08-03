@@ -292,11 +292,14 @@ const FocusManagementDemo: React.FC = () => {
         </div>
       </section>
 
-      {/* Data Table */}
+      {/* Enhanced Data Table with comprehensive accessibility */}
       <section>
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <h2 
+              className="text-lg font-semibold text-gray-900 dark:text-white"
+              id="table-title"
+            >
               Items ({filteredItems.length})
             </h2>
           </div>
@@ -313,86 +316,129 @@ const FocusManagementDemo: React.FC = () => {
                 ref={tableRef}
                 className="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
                 role="table"
-                aria-label="Items table"
+                aria-labelledby="table-title"
+                aria-describedby="table-description"
               >
+                <caption id="table-description" className="sr-only">
+                  A table of {filteredItems.length} items showing their name, category, status, and available actions. 
+                  Use Tab to navigate between action buttons, and Enter or Space to activate them.
+                  {searchQuery && ` Filtered by search: "${searchQuery}".`}
+                  {filterCategory && ` Filtered by category: "${filterCategory}".`}
+                </caption>
+                
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
                     <th 
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                       scope="col"
+                      id="col-name"
                     >
                       Name
                     </th>
                     <th 
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                       scope="col"
+                      id="col-category"
                     >
                       Category
                     </th>
                     <th 
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                       scope="col"
+                      id="col-status"
                     >
                       Status
                     </th>
                     <th 
                       className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                       scope="col"
+                      id="col-actions"
                     >
                       Actions
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {filteredItems.map((item) => (
-                    <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <td className="px-6 py-4 whitespace-nowrap">
+                  {filteredItems.map((item, index) => (
+                    <tr 
+                      key={item.id} 
+                      className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150"
+                    >
+                      <td 
+                        className="px-6 py-4 whitespace-nowrap"
+                        headers="col-name"
+                      >
                         <div className="text-sm font-medium text-gray-900 dark:text-white">
                           {item.name}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td 
+                        className="px-6 py-4 whitespace-nowrap"
+                        headers="col-category"
+                      >
                         <div className="text-sm text-gray-500 dark:text-gray-400">
                           {item.category}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`
-                          inline-flex px-2 py-1 text-xs font-semibold rounded-full
-                          ${item.status === 'active' 
-                            ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
-                            : 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
-                          }
-                        `}>
+                      <td 
+                        className="px-6 py-4 whitespace-nowrap"
+                        headers="col-status"
+                      >
+                        <span 
+                          className={`
+                            inline-flex px-2 py-1 text-xs font-semibold rounded-full
+                            ${item.status === 'active' 
+                              ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+                              : 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
+                            }
+                          `}
+                          aria-label={`Status: ${item.status}`}
+                        >
                           {item.status}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <div className="flex justify-end gap-2">
+                      <td 
+                        className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                        headers="col-actions"
+                      >
+                        <div className="flex justify-end gap-2" role="group" aria-label={`Actions for ${item.name}`}>
                           <button
                             type="button"
                             onClick={() => handleOpenEditModal(item)}
                             className="
                               p-2 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300
                               hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md
-                              focus:outline-none focus:ring-2 focus:ring-blue-500/20
+                              focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-2
+                              transition-colors duration-150
                             "
                             aria-label={`Edit ${item.name}`}
+                            aria-describedby={`edit-help-${index}`}
                           >
-                            <Edit2 className="w-4 h-4" />
+                            <Edit2 className="w-4 h-4" aria-hidden="true" />
+                            <span className="sr-only">Edit</span>
                           </button>
+                          <div id={`edit-help-${index}`} className="sr-only">
+                            Opens edit form for {item.name}
+                          </div>
+                          
                           <button
                             type="button"
                             onClick={() => handleOpenDeleteModal(item)}
                             className="
                               p-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300
                               hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md
-                              focus:outline-none focus:ring-2 focus:ring-red-500/20
+                              focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:ring-offset-2
+                              transition-colors duration-150
                             "
                             aria-label={`Delete ${item.name}`}
+                            aria-describedby={`delete-help-${index}`}
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="w-4 h-4" aria-hidden="true" />
+                            <span className="sr-only">Delete</span>
                           </button>
+                          <div id={`delete-help-${index}`} className="sr-only">
+                            Opens delete confirmation for {item.name}
+                          </div>
                         </div>
                       </td>
                     </tr>

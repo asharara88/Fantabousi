@@ -281,49 +281,98 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
       <table
         className="w-full border-collapse"
         role="table"
-        aria-label={title}
+        aria-label={title || "Data table"}
         aria-describedby={description ? 'table-description' : undefined}
         onKeyDown={handleKeyDown}
       >
+        {/* Enhanced caption for screen readers */}
+        <caption className="sr-only">
+          {title || "Data table"}. {description}
+          {sortConfig && (
+            <span>
+              {' '}Currently sorted by {columns.find(col => col.key === sortConfig.key)?.label} in {sortConfig.direction}ending order.
+            </span>
+          )}
+          {selectable && (
+            <span>
+              {' '}This table supports row selection using checkboxes.
+            </span>
+          )}
+          {' '}Use arrow keys to navigate between cells, Enter to activate buttons, and Tab to move through interactive elements.
+        </caption>
+
+        {description && (
+          <caption id="table-description" className="text-left p-4 text-text-light text-sm border-b border-gray-200 dark:border-gray-700">
+            {description}
+          </caption>
+        )}
+
         <thead>
           <tr className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
             {selectable && (
-              <th className="p-3 text-left">
-                <input
-                  type="checkbox"
-                  checked={selectedIds.length === paginatedData.length && paginatedData.length > 0}
-                  onChange={(e) => handleSelectAll(e.target.checked)}
-                  aria-label="Select all rows"
-                  className="border-gray-300 rounded text-primary focus:ring-primary"
-                />
+              <th 
+                scope="col"
+                className="p-3 text-left"
+              >
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.length === paginatedData.length && paginatedData.length > 0}
+                    indeterminate={selectedIds.length > 0 && selectedIds.length < paginatedData.length}
+                    onChange={(e) => handleSelectAll(e.target.checked)}
+                    aria-label="Select all rows on this page"
+                    aria-describedby="select-all-help"
+                    className="border-gray-300 rounded text-primary focus:ring-primary focus:ring-2 focus:ring-offset-2"
+                  />
+                  <span className="sr-only">Select all rows</span>
+                </label>
+                <div id="select-all-help" className="sr-only">
+                  Select or deselect all visible rows on this page
+                </div>
               </th>
             )}
             {columns.map((column, colIndex) => (
               <th
                 key={column.key}
+                scope="col"
                 className={`p-3 text-${column.align || 'left'} font-medium text-gray-900 dark:text-white`}
                 style={{ width: column.width }}
               >
                 {column.sortable && sortable ? (
                   <button
-                    className="flex items-center gap-2 hover:text-primary focus:outline-none focus:text-primary"
+                    className="flex items-center gap-2 hover:text-primary focus:outline-none focus:text-primary
+                             focus:ring-2 focus:ring-primary/20 rounded px-1 py-1 -mx-1 -my-1
+                             transition-colors duration-200"
                     onClick={() => handleSort(column.key)}
-                    aria-label={`Sort by ${column.label}`}
+                    aria-label={`Sort by ${column.label}${
+                      sortConfig?.key === column.key 
+                        ? ` (currently sorted ${sortConfig.direction}ending)`
+                        : ''
+                    }`}
+                    aria-describedby={`sort-${column.key}-help`}
                   >
-                    {column.label}
+                    <span>{column.label}</span>
                     {sortConfig?.key === column.key ? (
                       sortConfig.direction === 'asc' ? (
-                        <SortAsc className="w-4 h-4" />
+                        <SortAsc className="w-4 h-4" aria-hidden="true" />
                       ) : (
-                        <SortDesc className="w-4 h-4" />
+                        <SortDesc className="w-4 h-4" aria-hidden="true" />
                       )
                     ) : (
-                      <div className="w-4 h-4" />
+                      <div className="w-4 h-4 flex items-center justify-center opacity-50" aria-hidden="true">
+                        ↕
+                      </div>
                     )}
                   </button>
                 ) : (
                   column.label
                 )}
+                <div id={`sort-${column.key}-help`} className="sr-only">
+                  {column.sortable && sortable 
+                    ? `Click to sort table by ${column.label}`
+                    : `Column: ${column.label}`
+                  }
+                </div>
               </th>
             ))}
           </tr>
@@ -332,24 +381,38 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
           {paginatedData.map((item, rowIndex) => (
             <tr
               key={item.id}
-              className={`border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 ${
+              className={`border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 ${
                 onRowClick ? 'cursor-pointer' : ''
-              }`}
+              } ${selectedIds.includes(item.id) ? 'bg-primary/5 dark:bg-primary/10' : ''}`}
               onClick={() => onRowClick?.(item)}
-              tabIndex={0}
-              role="row"
+              tabIndex={onRowClick ? 0 : -1}
+              role={onRowClick ? 'button' : 'row'}
               aria-selected={selectedIds.includes(item.id)}
+              aria-label={onRowClick ? `View details for row ${rowIndex + 1}` : undefined}
+              onKeyDown={(e) => {
+                if ((e.key === 'Enter' || e.key === ' ') && onRowClick) {
+                  e.preventDefault();
+                  onRowClick(item);
+                }
+              }}
             >
               {selectable && (
                 <td className="p-3">
-                  <input
-                    type="checkbox"
-                    checked={selectedIds.includes(item.id)}
-                    onChange={(e) => handleRowSelect(item.id, e.target.checked)}
-                    aria-label={`Select row ${rowIndex + 1}`}
-                    className="border-gray-300 rounded text-primary focus:ring-primary"
-                    onClick={(e) => e.stopPropagation()}
-                  />
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(item.id)}
+                      onChange={(e) => handleRowSelect(item.id, e.target.checked)}
+                      aria-label={`Select row ${rowIndex + 1}: ${item.name || item.title || item.id}`}
+                      aria-describedby={`row-${rowIndex}-select-help`}
+                      className="border-gray-300 rounded text-primary focus:ring-primary focus:ring-2 focus:ring-offset-2"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                    <span className="sr-only">Select this row</span>
+                  </label>
+                  <div id={`row-${rowIndex}-select-help`} className="sr-only">
+                    Select this row for bulk operations
+                  </div>
                 </td>
               )}
               {columns.map((column, colIndex) => (
@@ -357,14 +420,18 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
                   key={column.key}
                   className={`p-3 text-${column.align || 'left'} text-gray-900 dark:text-white ${
                     focusedCell?.row === rowIndex && focusedCell?.col === colIndex
-                      ? 'ring-2 ring-primary/20'
+                      ? 'ring-2 ring-primary/40 ring-inset'
                       : ''
                   }`}
                   tabIndex={focusedCell?.row === rowIndex && focusedCell?.col === colIndex ? 0 : -1}
                   onFocus={() => setFocusedCell({ row: rowIndex, col: colIndex })}
                   role="gridcell"
+                  aria-describedby={`col-${column.key}-desc`}
                 >
                   {column.render ? column.render(item[column.key], item) : item[column.key]}
+                  <div id={`col-${column.key}-desc`} className="sr-only">
+                    {column.label}: {column.render ? '' : item[column.key]}
+                  </div>
                 </td>
               ))}
             </tr>
@@ -621,11 +688,16 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
         </div>
       )}
 
-      {/* Pagination */}
+      {/* Enhanced Pagination with accessibility */}
       {pagination && totalPages > 1 && (
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-500 dark:text-gray-400">
-            Page {currentPage} of {totalPages}
+        <nav 
+          className="flex items-center justify-between" 
+          role="navigation" 
+          aria-label="Table pagination"
+        >
+          <div className="text-sm text-gray-500 dark:text-gray-400" id="pagination-status">
+            Page {currentPage} of {totalPages} 
+            ({filteredData.length} total {filteredData.length === 1 ? 'item' : 'items'})
           </div>
           <div className="flex gap-2">
             <Button
@@ -633,6 +705,8 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
               size="sm"
               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
+              aria-label={`Go to previous page (currently on page ${currentPage})`}
+              aria-describedby="pagination-status"
             >
               Previous
             </Button>
@@ -641,11 +715,13 @@ const AdvancedDataTable: React.FC<AdvancedDataTableProps> = ({
               size="sm"
               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages}
+              aria-label={`Go to next page (currently on page ${currentPage})`}
+              aria-describedby="pagination-status"
             >
               Next
             </Button>
           </div>
-        </div>
+        </nav>
       )}
 
       {/* Screen Reader Announcements */}

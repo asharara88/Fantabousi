@@ -314,18 +314,18 @@ const AIHealthCoach: React.FC = () => {
   return (
     <div className="flex flex-col h-[600px] bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-all duration-200 border border-gray-200 dark:border-gray-700">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary via-tertiary to-secondary text-white p-4 flex items-center justify-between rounded-t-lg shadow-sm">
+      <div className="flex items-center justify-between p-4 text-white rounded-t-lg shadow-sm bg-gradient-to-r from-primary via-tertiary to-secondary">
         <div className="flex items-center">
           {/* Theme-adaptive logo */}
           <img
             src="/logos/biowell-dark.svg"
             alt="Biowell Logo"
-            className="h-8 w-auto mr-3 object-contain dark:hidden"
+            className="object-contain w-auto h-8 mr-3 dark:hidden"
           />
           <img
             src="/logos/biowell-light.svg"
             alt="Biowell Logo"
-            className="h-8 w-auto mr-3 object-contain hidden dark:block"
+            className="hidden object-contain w-auto h-8 mr-3 dark:block"
           />
           <h2 className="text-lg font-semibold">Smart Coach</h2>
         </div>
@@ -333,29 +333,29 @@ const AIHealthCoach: React.FC = () => {
         <div className="flex items-center space-x-2">
           {/* Audio Status Indicator */}
           {audioStatus === 'testing' && (
-            <div className="flex items-center text-white text-sm">
-              <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+            <div className="flex items-center text-sm text-white">
+              <div className="w-4 h-4 mr-2 border-2 border-white rounded-full animate-spin border-t-transparent"></div>
               Testing...
             </div>
           )}
           
           {audioStatus === 'error' && (
-            <div className="flex items-center text-red-200 text-sm">
+            <div className="flex items-center text-sm text-red-200">
               <AlertCircle size={16} className="mr-1" />
               Audio unavailable
             </div>
           )}
           
           {audioStatus === 'ready' && voiceEnabled && (
-            <div className="flex items-center text-green-200 text-sm">
+            <div className="flex items-center text-sm text-green-200">
               <CheckCircle size={16} className="mr-1" />
               Ready
             </div>
           )}
           
           {isGeneratingAudio && (
-            <div className="flex items-center text-blue-200 text-sm">
-              <div className="animate-pulse w-4 h-4 bg-blue-300 rounded-full mr-2"></div>
+            <div className="flex items-center text-sm text-blue-200">
+              <div className="w-4 h-4 mr-2 bg-blue-300 rounded-full animate-pulse"></div>
               Generating...
             </div>
           )}
@@ -389,7 +389,7 @@ const AIHealthCoach: React.FC = () => {
             }
           >
             {audioStatus === 'testing' ? (
-              <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div>
+              <div className="w-5 h-5 border-2 border-white rounded-full animate-spin border-t-transparent"></div>
             ) : voiceEnabled && audioStatus === 'ready' ? (
               <Volume2 size={20} />
             ) : (
@@ -400,7 +400,7 @@ const AIHealthCoach: React.FC = () => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-700 transition-all duration-200">
+      <div className="flex-1 p-4 space-y-4 overflow-y-auto transition-all duration-200 bg-gray-50 dark:bg-gray-700">
         {messages.map((message) => (
           <ChatMessage
             key={message.id}
@@ -409,14 +409,14 @@ const AIHealthCoach: React.FC = () => {
           />
         ))}
         {isLoading && (
-          <div className="flex items-center space-x-2 text-gray-700 dark:text-white p-3 bg-white dark:bg-gray-600 rounded-lg w-fit shadow-md">
+          <div className="flex items-center p-3 space-x-2 text-gray-700 bg-white rounded-lg shadow-md dark:text-white dark:bg-gray-600 w-fit">
             <Loader2 className="w-4 h-4 animate-spin" />
             <span>Biowell AI is thinking...</span>
           </div>
         )}
         {error && (
-          <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg font-medium shadow-sm">
-            <AlertCircle className="w-4 h-4 inline-block mr-2" />
+          <div className="p-3 font-medium text-red-700 rounded-lg shadow-sm bg-red-50 dark:bg-red-900/20 dark:text-red-300">
+            <AlertCircle className="inline-block w-4 h-4 mr-2" />
             {error}
           </div>
         )}
@@ -424,8 +424,8 @@ const AIHealthCoach: React.FC = () => {
         {/* Suggested Questions */}
         {!isLoading && messages.length > 0 && messages[messages.length - 1].role === 'assistant' && (
           <div className="flex flex-wrap gap-2 mt-4 mb-2">
-            <div className="w-full flex items-center mb-3">
-              <HelpCircle className="w-4 h-4 text-primary mr-2" />
+            <div className="flex items-center w-full mb-3">
+              <HelpCircle className="w-4 h-4 mr-2 text-primary" />
               <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
                 Suggested questions:
               </span>
@@ -459,23 +459,23 @@ const AIHealthCoach: React.FC = () => {
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="border-t border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-800 transition-all duration-200">
+      <form onSubmit={handleSubmit} className="p-4 transition-all duration-200 bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-800">
         <div className="flex items-end space-x-2">
-          <div className="flex-1 relative">
+          <div className="relative flex-1">
             <textarea
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask about your health, supplements, or wellness goals..."
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300 transition-all duration-200 shadow-inner"
+              className="w-full p-3 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 rounded-lg shadow-inner resize-none dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
               rows={2}
             />
           </div>
           <Button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className="h-10 w-10 p-0 flex items-center justify-center rounded-full bg-gradient-to-r from-primary via-tertiary to-secondary"
+            className="flex items-center justify-center w-10 h-10 p-0 rounded-full bg-gradient-to-r from-primary via-tertiary to-secondary"
           >
             {isLoading ? (
               <Loader2 className="w-5 h-5 animate-spin" />
@@ -484,7 +484,7 @@ const AIHealthCoach: React.FC = () => {
             )}
           </Button>
         </div>
-        <div className="mt-2 text-xs text-gray-700 dark:text-gray-300 transition-all duration-200 font-medium">
+        <div className="mt-2 text-xs font-medium text-gray-700 transition-all duration-200 dark:text-gray-300">
           <p>Your Smart Coach provides general wellness guidance based on your inputs. Not medical advice.</p>
         </div>
       </form>
