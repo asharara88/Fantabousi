@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Volume2, VolumeX, Loader2, HelpCircle, AlertCircle } from 'lucide-react';
+import { Send, VolumeX, Volume2, RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
+import { elevenlabsApi } from '../../api/elevenlabsApi';
+import { debugAudioIssues, handleAudioError, AudioDiagnostics } from '../../utils/audioDebugger';
 import { motion } from 'framer-motion';
 import { Button } from '../ui/Button';
 import ChatMessage from './ChatMessage';
@@ -56,6 +58,11 @@ const AIHealthCoach: React.FC = () => {
   const [recentlyClickedQuestion, setRecentlyClickedQuestion] = useState<string | null>(null);
   const [currentQuestionSetIndex, setCurrentQuestionSetIndex] = useState(0);
   const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
+  const [audioError, setAudioError] = useState<string | null>(null);
+  const [audioStatus, setAudioStatus] = useState<'idle' | 'testing' | 'ready' | 'error'>('idle');
+  const [audioDiagnostics, setAudioDiagnostics] = useState<AudioDiagnostics | null>(null);
+  const audioElementRef = useRef<HTMLAudioElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -172,7 +179,122 @@ const AIHealthCoach: React.FC = () => {
     }, 2000);
   };
 
+  // Audio diagnostics and testing
+  const runAudioDiagnostics = async () => {
+    setAudioStatus('testing');
+    setAudioError(null);
+    
+    try {
+      const diagnostics = await debugAudioIssues();
+      setAudioDiagnostics(diagnostics);
+      
+      if (diagnostics.isUserAuthenticated && diagnostics.isElevenLabsConfigured && diagnostics.canAccessElevenLabsApi) {
+        setAudioStatus('ready');
+      } else {
+        setAudioStatus('error');
+        const firstError = diagnostics.errorMessages[0] || 'Audio system not available';
+        setAudioError(firstError);
+      }
+    } catch (error) {
+      console.error('Audio diagnostics failed:', error);
+      setAudioStatus('error');
+      setAudioError('Failed to test audio system');
+    }
+  };
+
+  // Enhanced text-to-speech function
   const playTextToSpeech = async (text: string) => {
+    if (!voiceEnabled || isGeneratingAudio) return;
+    
+    setIsGeneratingAudio(true);
+    setAudioError(null);
+    
+    try {
+      console.log('Generating audio for text:', text.substring(0, 50) + '...');
+      
+      // Use ElevenLabs API to generate audio
+      const audioBuffer = await elevenlabsApi.textToSpeech(
+        text,
+        'EXAVITQu4vr4xnSDxMaL', // Default voice ID
+        { stability: 0.5, similarity_boost: 0.75 }
+      );
+      
+      if (!audioBuffer) {
+        throw new Error('Failed to generate audio - no data returned');
+      }
+      
+      // Create audio blob and play
+      const audioBlob = new Blob([audioBuffer], { type: 'audio/mpeg' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      
+      // Clean up previous audio
+      if (audioElementRef.current) {
+        audioElementRef.current.pause();
+        URL.revokeObjectURL(audioElementRef.current.src);
+      }
+      
+      // Create and play new audio
+      const audio = new Audio(audioUrl);
+      audioElementRef.current = audio;
+      
+      audio.onended = () => {
+        URL.revokeObjectURL(audioUrl);
+        setIsGeneratingAudio(false);
+      };
+      
+      audio.onerror = (e) => {
+        console.error('Audio playback error:', e);
+        setAudioError('Failed to play audio');
+        URL.revokeObjectURL(audioUrl);
+        setIsGeneratingAudio(false);
+      };
+      
+      await audio.play();
+      console.log('✅ Audio playback started successfully');
+      
+    } catch (error) {
+      console.error('Text-to-speech error:', error);
+      
+      const errorInfo = handleAudioError(error, 'Text-to-speech generation');
+      setAudioError(errorInfo.userMessage);
+      setIsGeneratingAudio(false);
+      
+      // Show detailed error in development
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Detailed error:', errorInfo.technicalDetails);
+      }
+    }
+  };
+
+  // Test audio on voice enable
+  const handleVoiceToggle = async () => {
+    if (!voiceEnabled) {
+      // Enabling voice - run diagnostics first
+      await runAudioDiagnostics();
+      if (audioStatus === 'ready') {
+        setVoiceEnabled(true);
+        // Test with a short phrase
+        await playTextToSpeech('Audio is now enabled.');
+      }
+    } else {
+      // Disabling voice
+      setVoiceEnabled(false);
+      setAudioError(null);
+      
+      // Stop any playing audio
+      if (audioElementRef.current) {
+        audioElementRef.current.pause();
+        URL.revokeObjectURL(audioElementRef.current.src);
+      }
+    }
+  };
+
+  // Run initial audio check on component mount
+  useEffect(() => {
+    runAudioDiagnostics();
+  }, []);
+
+  const playTextToSpeechLegacy = async (text: string) => {
     try {
       // Call ElevenLabs proxy function if implemented
       console.log('Would play text to speech:', text);
@@ -207,18 +329,74 @@ const AIHealthCoach: React.FC = () => {
           />
           <h2 className="text-lg font-semibold">Smart Coach</h2>
         </div>
-        <button
-          onClick={() => setVoiceEnabled(!voiceEnabled)}
-          className={cn(
-            "p-2 rounded-full transition-colors",
-            voiceEnabled 
-              ? "bg-primary-light hover:bg-primary-dark" 
-              : "hover:bg-primary-dark"
+        
+        <div className="flex items-center space-x-2">
+          {/* Audio Status Indicator */}
+          {audioStatus === 'testing' && (
+            <div className="flex items-center text-white text-sm">
+              <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+              Testing...
+            </div>
           )}
-          aria-label={voiceEnabled ? "Disable voice responses" : "Enable voice responses"}
-        >
-          {voiceEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
-        </button>
+          
+          {audioStatus === 'error' && (
+            <div className="flex items-center text-red-200 text-sm">
+              <AlertCircle size={16} className="mr-1" />
+              Audio unavailable
+            </div>
+          )}
+          
+          {audioStatus === 'ready' && voiceEnabled && (
+            <div className="flex items-center text-green-200 text-sm">
+              <CheckCircle size={16} className="mr-1" />
+              Ready
+            </div>
+          )}
+          
+          {isGeneratingAudio && (
+            <div className="flex items-center text-blue-200 text-sm">
+              <div className="animate-pulse w-4 h-4 bg-blue-300 rounded-full mr-2"></div>
+              Generating...
+            </div>
+          )}
+          
+          {/* Voice Toggle Button */}
+          <button
+            onClick={handleVoiceToggle}
+            disabled={audioStatus === 'testing' || isGeneratingAudio}
+            className={`p-2 rounded-full transition-all duration-200 ${
+              voiceEnabled && audioStatus === 'ready'
+                ? 'bg-green-500 hover:bg-green-600 text-white' 
+                : audioStatus === 'error'
+                ? 'bg-red-500 hover:bg-red-600 text-white opacity-50 cursor-not-allowed'
+                : 'bg-white/20 hover:bg-white/30 text-white'
+            } ${audioStatus === 'testing' ? 'opacity-50 cursor-wait' : ''}`}
+            aria-label={
+              audioStatus === 'error' 
+                ? "Audio unavailable" 
+                : audioStatus === 'testing'
+                ? "Testing audio system"
+                : voiceEnabled 
+                ? "Disable voice responses" 
+                : "Enable voice responses"
+            }
+            title={
+              audioError 
+                ? `Audio Error: ${audioError}` 
+                : voiceEnabled 
+                ? "Click to disable voice responses" 
+                : "Click to enable voice responses"
+            }
+          >
+            {audioStatus === 'testing' ? (
+              <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div>
+            ) : voiceEnabled && audioStatus === 'ready' ? (
+              <Volume2 size={20} />
+            ) : (
+              <VolumeX size={20} />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Messages */}
