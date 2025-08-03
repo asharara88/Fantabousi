@@ -687,6 +687,29 @@ const AIHealthCoach: React.FC = () => {
                 Listening...
               </div>
             )}
+            
+            {/* Voice-to-Voice Mode Status */}
+            {voiceToVoiceMode && (
+              <div className="flex items-center px-2 py-1 text-sm text-purple-200 rounded-full bg-purple-500/20">
+                <MessageCircle size={14} className="mr-1" />
+                Voice Mode
+              </div>
+            )}
+            
+            {/* Microphone Permission Status */}
+            {micPermission === 'denied' && (
+              <div className="flex items-center px-2 py-1 text-sm text-red-200 rounded-full bg-red-500/20">
+                <MicOff size={14} className="mr-1" />
+                Mic Denied
+              </div>
+            )}
+            
+            {isWaitingForResponse && (
+              <div className="flex items-center px-2 py-1 text-sm text-blue-200 rounded-full bg-blue-500/20">
+                <div className="w-3 h-3 mr-2 bg-blue-300 rounded-full animate-pulse"></div>
+                Responding...
+              </div>
+            )}
           </div>
           
           {/* Voice Toggle Button - TTS */}
