@@ -1,37 +1,59 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Star, Zap, Crown, Sparkles, Users, Shield, Heart } from 'lucide-react';
+import { CheckIcon, UsersIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { Button } from '../components/ui/Button';
-import { subscriptionPlans, formatPrice, calculateYearlySavings } from '../data/pricingData';
-import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop';
-import ThemeToggle from '../components/ui/ThemeToggle';
+import { AdaptiveBackdrop } from '../components/ui/AdaptiveBackdrop';
+import { stripeService } from '../services/stripeService';
+import { SUBSCRIPTION_PRICE_IDS } from '../lib/stripe';
+import subscriptionPlans from '../data/subscriptionPlans';
 
 const PricingPage: React.FC = () => {
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly');
+  const [isAnnual, setIsAnnual] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string>('');
 
-  const handlePlanSelect = (planId: string) => {
-    // Handle plan selection - could navigate to signup or payment
-    console.log('Selected plan:', planId);
-  };
+  const handleSubscriptionPurchase = async (plan: any, billingCycle: 'monthly' | 'annual') => {
+    // Mock user data - in real app, get from auth context
+    const user = { id: 'user_123', email: 'user@example.com' };
+    
+    if (!user) {
+      alert('Please sign in to continue');
+      return;
+    }
 
-  const getPlanIcon = (planId: string) => {
-    switch (planId) {
-      case 'free': return <Heart className="w-6 h-6" />;
-      case 'plus': return <Zap className="w-6 h-6" />;
-      case 'pro': return <Star className="w-6 h-6" />;
-      case 'elite': return <Crown className="w-6 h-6" />;
-      default: return <Sparkles className="w-6 h-6" />;
+    setLoading(true);
+    setSelectedPlan(`${plan.name}-${billingCycle}`);
+
+    try {
+      // Get the Stripe price ID based on plan and billing cycle
+      const priceKey = `${plan.name.toLowerCase()}_${billingCycle}` as keyof typeof SUBSCRIPTION_PRICE_IDS;
+      const priceId = SUBSCRIPTION_PRICE_IDS[priceKey];
+
+      if (!priceId) {
+        throw new Error('Price ID not found for this plan');
+      }
+
+      // Create checkout session
+      const session = await stripeService.createSubscriptionCheckout(
+        priceId,
+        user.id,
+        user.email
+      );
+
+      // Redirect to Stripe checkout
+      await stripeService.redirectToCheckout(session.sessionId);
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      alert('There was an error processing your request. Please try again.');
+    } finally {
+      setLoading(false);
+      setSelectedPlan('');
     }
   };
 
-  const getPlanColor = (planId: string) => {
-    switch (planId) {
-      case 'free': return 'from-gray-500 to-gray-600';
-      case 'plus': return 'from-blue-500 to-blue-600';
-      case 'pro': return 'from-purple-500 to-purple-600';
-      case 'elite': return 'from-yellow-500 to-yellow-600';
-      default: return 'from-gray-500 to-gray-600';
-    }
+  const handleSignUp = (planType: string) => {
+    // Handle free plan signup - redirect to registration
+    window.location.href = '/auth/signup';
   };
 
   return (

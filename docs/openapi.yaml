@@ -1247,7 +1247,7 @@ components:
           example: "healthy"
         version:
           type: string
-          example: "1.0.0"
+          example: 1.0.0
         timestamp:
           type: string
           format: date-time
