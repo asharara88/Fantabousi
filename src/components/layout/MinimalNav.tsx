@@ -178,11 +178,11 @@ const MinimalNav: React.FC = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 transition-all duration-300 border-b glass-subtle border-gray-200/30 dark:border-gray-700/30">
+      <div className="sticky top-0 z-50 transition-all duration-300 border-b glass-subtle border-gray-200/30 dark:border-gray-700/30">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link to="/" className="flex items-center transition-opacity hover:opacity-80">
+            <Link to="/" className="flex items-center transition-opacity hover:opacity-80" aria-label="Biowell - Home">
               <img 
                 src={isDarkMode 
                   ? "/logos/biowell-light.svg"
@@ -194,10 +194,10 @@ const MinimalNav: React.FC = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="items-center hidden lg:flex">
-              <div className="flex items-center space-x-1 surface-glass rounded-2xl p-1.5 shadow-md">
+            <nav aria-label="Primary navigation" className="items-center hidden lg:flex">
+              <ul className="flex items-center space-x-1 surface-glass rounded-2xl p-1.5 shadow-md" role="menubar">
                 {navItems.map((item) => (
-                  <div key={item.href} className="relative">
+                  <li key={item.href} className="relative" role="none">
                     {item.hasDropdown ? (
                       <div className="relative">
                         <button
@@ -208,6 +208,9 @@ const MinimalNav: React.FC = () => {
                               ? "bg-primary text-white shadow-md scale-105"
                               : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-surface-1/70"
                           )}
+                          role="menuitem"
+                          aria-haspopup="true"
+                          aria-expanded={showSupplementsMenu}
                         >
                           <span className="mr-2">{item.icon}</span>
                           <span className="tracking-wide">{item.label}</span>
