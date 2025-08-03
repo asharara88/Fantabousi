@@ -461,9 +461,9 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Enhanced Features Section with Glass Morphism and Animations */}
-        <section className="py-24 sm:py-28 md:py-32 relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
+        <section role="region" aria-labelledby="features-heading" className="py-24 sm:py-28 md:py-32 relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
           {/* Background Elements */}
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
             <motion.div
               animate={{
                 rotate: [0, 360],
@@ -508,7 +508,7 @@ const HomePage: React.FC = () => {
                 <span className="text-sm font-medium gradient-text">Premium Features</span>
               </motion.div>
 
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 tracking-tighter leading-tight text-balance">
+              <h2 id="features-heading" className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 tracking-tighter leading-tight text-balance">
                 <span className="text-text">Why Choose </span>
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary">
                   Biowell?
@@ -668,9 +668,9 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Enhanced Testimonials Section */}
-        <section className="py-24 sm:py-32 relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
+        <section role="region" aria-labelledby="testimonials-heading" className="py-24 sm:py-32 relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
           {/* Background Elements */}
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
             <motion.div
               animate={{
                 x: [0, 100, 0],
@@ -703,7 +703,7 @@ const HomePage: React.FC = () => {
                 <span className="text-sm font-medium gradient-text">User Reviews</span>
               </motion.div>
 
-              <h2 className="text-4xl sm:text-5xl font-bold mb-6 tracking-tight">
+              <h2 id="testimonials-heading" className="text-4xl sm:text-5xl font-bold mb-6 tracking-tight">
                 <span className="text-text">What our </span>
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary">
                   users say
@@ -837,15 +837,15 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Enhanced Evidence-Based Health Optimization Section */}
-        <section id="evidence-based-health" className="relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent dark:from-black/30" />
+        <section role="region" aria-labelledby="evidence-based-health-heading" className="relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent dark:from-black/30" aria-hidden="true" />
           <EvidenceBasedHealthOptimization expanded={false} />
         </section>
 
         {/* Enhanced CTA Section */}
-        <section className="py-24 relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
+        <section role="region" aria-labelledby="cta-heading" className="py-24 relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
           {/* Background Elements */}
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
             <motion.div
               animate={{
                 scale: [1, 1.2, 1],
@@ -863,6 +863,7 @@ const HomePage: React.FC = () => {
           <div className="mobile-container relative z-10">
             <motion.div className="text-center">
               <motion.h2 
+                id="cta-heading"
                 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 sm:mb-10 tracking-tighter leading-tight text-balance"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
