@@ -218,7 +218,7 @@ const AIHealthCoach: React.FC = () => {
     }
   };
 
-  // Enhanced text-to-speech function
+  // Enhanced text-to-speech function with better error handling and user feedback
   const playTextToSpeech = async (text: string) => {
     if (!voiceEnabled || isGeneratingAudio) return;
     
@@ -226,13 +226,22 @@ const AIHealthCoach: React.FC = () => {
     setAudioError(null);
     
     try {
-      console.log('Generating audio for text:', text.substring(0, 50) + '...');
+      console.log('🎵 Generating audio for text:', text.substring(0, 50) + '...');
+      
+      // Check if ElevenLabs is available
+      const isConfigured = await elevenlabsApi.isConfigured();
+      if (!isConfigured) {
+        throw new Error('ElevenLabs API not configured');
+      }
       
       // Use ElevenLabs API to generate audio
       const audioBuffer = await elevenlabsApi.textToSpeech(
         text,
-        'EXAVITQu4vr4xnSDxMaL', // Default voice ID
-        { stability: 0.5, similarity_boost: 0.75 }
+        'EXAVITQu4vr4xnSDxMaL', // Default voice ID (Adam from ElevenLabs)
+        { 
+          stability: 0.5, 
+          similarity_boost: 0.75 
+        }
       );
       
       if (!audioBuffer) {
@@ -253,23 +262,34 @@ const AIHealthCoach: React.FC = () => {
       const audio = new Audio(audioUrl);
       audioElementRef.current = audio;
       
+      // Set up event handlers
+      audio.onloadstart = () => {
+        console.log('🎵 Audio loading started');
+      };
+      
+      audio.oncanplay = () => {
+        console.log('🎵 Audio can start playing');
+      };
+      
       audio.onended = () => {
+        console.log('🎵 Audio playback completed');
         URL.revokeObjectURL(audioUrl);
         setIsGeneratingAudio(false);
       };
       
       audio.onerror = (e) => {
-        console.error('Audio playback error:', e);
-        setAudioError('Failed to play audio');
+        console.error('🎵 Audio playback error:', e);
+        setAudioError('Failed to play audio - check your device audio settings');
         URL.revokeObjectURL(audioUrl);
         setIsGeneratingAudio(false);
       };
       
+      // Start playback
       await audio.play();
       console.log('✅ Audio playback started successfully');
       
     } catch (error) {
-      console.error('Text-to-speech error:', error);
+      console.error('🎵 Text-to-speech error:', error);
       
       const errorInfo = handleAudioError(error, 'Text-to-speech generation');
       setAudioError(errorInfo.userMessage);
@@ -277,7 +297,45 @@ const AIHealthCoach: React.FC = () => {
       
       // Show detailed error in development
       if (process.env.NODE_ENV === 'development') {
-        console.error('Detailed error:', errorInfo.technicalDetails);
+        console.error('Detailed TTS error:', {
+          error: errorInfo.technicalDetails,
+          timestamp: new Date().toISOString()
+        });
+      }
+      
+      // Provide fallback feedback
+      console.log('💡 TTS failed, consider using browser\'s built-in speech synthesis as fallback');
+      
+      // Try browser's built-in speech synthesis as fallback
+      if ('speechSynthesis' in window && window.speechSynthesis) {
+        try {
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.rate = 0.9;
+          utterance.pitch = 1;
+          utterance.volume = 0.8;
+          
+          utterance.onstart = () => {
+            console.log('🎵 Using browser TTS fallback');
+            setAudioError('Using browser voice (ElevenLabs unavailable)');
+          };
+          
+          utterance.onend = () => {
+            setIsGeneratingAudio(false);
+            setAudioError(null);
+          };
+          
+          utterance.onerror = () => {
+            setIsGeneratingAudio(false);
+            setAudioError('Voice synthesis failed');
+          };
+          
+          window.speechSynthesis.speak(utterance);
+        } catch (fallbackError) {
+          console.error('Browser TTS fallback also failed:', fallbackError);
+          setIsGeneratingAudio(false);
+        }
+      } else {
+        setIsGeneratingAudio(false);
       }
     }
   };
@@ -343,8 +401,21 @@ const AIHealthCoach: React.FC = () => {
           setInterimTranscript(interimTranscript);
           
           if (finalTranscript) {
-            setInput(prev => prev + finalTranscript);
+            const newInputValue = input + finalTranscript;
+            setInput(newInputValue);
             setInterimTranscript('');
+            
+            // Auto-submit if the user said something like "send" or appears to be done
+            const trimmedFinal = finalTranscript.trim().toLowerCase();
+            if (trimmedFinal.endsWith('send') || 
+                trimmedFinal.endsWith('submit') || 
+                trimmedFinal.endsWith('.') ||
+                trimmedFinal.endsWith('?') ||
+                trimmedFinal.endsWith('!')) {
+              setTimeout(() => {
+                handleVoiceInputComplete(newInputValue);
+              }, 500); // Small delay to ensure state updates
+            }
           }
         };
         
@@ -369,21 +440,32 @@ const AIHealthCoach: React.FC = () => {
     }
   }, []);
 
-  // Voice input functions
+  // Enhanced voice input functions with better UX
   const startVoiceInput = () => {
     if (speechRecognition && !isRecording) {
       try {
+        // Clear any previous input errors
+        setVoiceInputError(null);
+        setInterimTranscript('');
+        
+        // Start recognition
         speechRecognition.start();
+        console.log('🎙️ Voice input started');
       } catch (error) {
         console.error('Error starting voice recognition:', error);
-        setVoiceInputError('Failed to start voice input');
+        setVoiceInputError('Failed to start voice input - check microphone permissions');
       }
     }
   };
 
   const stopVoiceInput = () => {
     if (speechRecognition && isRecording) {
-      speechRecognition.stop();
+      try {
+        speechRecognition.stop();
+        console.log('🎙️ Voice input stopped');
+      } catch (error) {
+        console.error('Error stopping voice recognition:', error);
+      }
     }
   };
 
@@ -395,13 +477,15 @@ const AIHealthCoach: React.FC = () => {
     }
   };
 
-  const playTextToSpeechLegacy = async (text: string) => {
-    try {
-      // Call ElevenLabs proxy function if implemented
-      console.log('Would play text to speech:', text);
-      // Implement actual TTS functionality when ElevenLabs is set up
-    } catch (err) {
-      console.error('Error with text-to-speech:', err);
+  // Auto-submit when voice input is complete (after a pause)
+  const handleVoiceInputComplete = (finalText: string) => {
+    if (finalText.trim()) {
+      // Create a proper synthetic event
+      const syntheticEvent = {
+        preventDefault: () => {},
+      } as unknown as React.FormEvent;
+      
+      handleSubmit(syntheticEvent, finalText.trim());
     }
   };
 
@@ -431,37 +515,48 @@ const AIHealthCoach: React.FC = () => {
           <h2 className="text-lg font-semibold">Smart Coach</h2>
         </div>
         
-        <div className="flex items-center space-x-2">
-          {/* Audio Status Indicator */}
-          {audioStatus === 'testing' && (
-            <div className="flex items-center text-sm text-white">
-              <div className="w-4 h-4 mr-2 border-2 border-white rounded-full animate-spin border-t-transparent"></div>
-              Testing...
-            </div>
-          )}
+        <div className="flex items-center space-x-3">
+          {/* Audio & Voice Status Indicators */}
+          <div className="flex items-center space-x-2">
+            {/* TTS Status */}
+            {audioStatus === 'testing' && (
+              <div className="flex items-center px-2 py-1 text-sm text-white rounded-full bg-blue-500/20">
+                <div className="w-3 h-3 mr-2 border-2 border-white rounded-full animate-spin border-t-transparent"></div>
+                Testing Audio
+              </div>
+            )}
+            
+            {audioStatus === 'error' && (
+              <div className="flex items-center px-2 py-1 text-sm text-red-200 rounded-full bg-red-500/20">
+                <AlertCircle size={14} className="mr-1" />
+                Audio Error
+              </div>
+            )}
+            
+            {audioStatus === 'ready' && voiceEnabled && (
+              <div className="flex items-center px-2 py-1 text-sm text-green-200 rounded-full bg-green-500/20">
+                <CheckCircle size={14} className="mr-1" />
+                Audio Ready
+              </div>
+            )}
+            
+            {isGeneratingAudio && (
+              <div className="flex items-center px-2 py-1 text-sm text-blue-200 rounded-full bg-blue-500/20">
+                <div className="w-3 h-3 mr-2 bg-blue-300 rounded-full animate-pulse"></div>
+                Speaking...
+              </div>
+            )}
+            
+            {/* Voice Input Status */}
+            {voiceInputEnabled && isRecording && (
+              <div className="flex items-center px-2 py-1 text-sm text-red-200 rounded-full bg-red-500/20">
+                <div className="w-3 h-3 mr-2 bg-red-400 rounded-full animate-pulse"></div>
+                Listening...
+              </div>
+            )}
+          </div>
           
-          {audioStatus === 'error' && (
-            <div className="flex items-center text-sm text-red-200">
-              <AlertCircle size={16} className="mr-1" />
-              Audio unavailable
-            </div>
-          )}
-          
-          {audioStatus === 'ready' && voiceEnabled && (
-            <div className="flex items-center text-sm text-green-200">
-              <CheckCircle size={16} className="mr-1" />
-              Ready
-            </div>
-          )}
-          
-          {isGeneratingAudio && (
-            <div className="flex items-center text-sm text-blue-200">
-              <div className="w-4 h-4 mr-2 bg-blue-300 rounded-full animate-pulse"></div>
-              Generating...
-            </div>
-          )}
-          
-          {/* Voice Toggle Button */}
+          {/* Voice Toggle Button - TTS */}
           <button
             onClick={handleVoiceToggle}
             disabled={audioStatus === 'testing' || isGeneratingAudio}
@@ -497,6 +592,18 @@ const AIHealthCoach: React.FC = () => {
               <VolumeX size={20} />
             )}
           </button>
+          
+          {/* Audio Test Button (Dev mode) */}
+          {process.env.NODE_ENV === 'development' && (
+            <button
+              onClick={() => playTextToSpeech('Hello! This is a test of the audio system.')}
+              disabled={!voiceEnabled || isGeneratingAudio}
+              className="px-2 py-1 text-xs text-white transition-all duration-200 rounded bg-white/20 hover:bg-white/30 disabled:opacity-50"
+              title="Test audio output"
+            >
+              Test Audio
+            </button>
+          )}
         </div>
       </div>
 
@@ -565,14 +672,44 @@ const AIHealthCoach: React.FC = () => {
           <div className="relative flex-1">
             <textarea
               ref={inputRef}
-              value={input}
+              value={input + (interimTranscript ? ` ${interimTranscript}` : '')}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask about your health, supplements, or wellness goals..."
               className="w-full p-3 text-gray-900 placeholder-gray-500 transition-all duration-200 bg-white border border-gray-300 rounded-lg shadow-inner resize-none dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white dark:placeholder-gray-300"
               rows={2}
             />
+            {/* Voice input indicator */}
+            {isRecording && (
+              <div className="absolute flex items-center px-2 py-1 space-x-1 bg-red-100 rounded-full top-2 right-2 dark:bg-red-900/20">
+                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                <span className="text-xs text-red-600 dark:text-red-400">Listening...</span>
+              </div>
+            )}
           </div>
+          
+          {/* Voice Input Button */}
+          {voiceInputEnabled && (
+            <Button
+              type="button"
+              onClick={toggleVoiceInput}
+              disabled={isLoading}
+              className={`flex items-center justify-center w-10 h-10 p-0 rounded-full transition-all duration-200 ${
+                isRecording
+                  ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse'
+                  : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300'
+              }`}
+              aria-label={isRecording ? "Stop voice input" : "Start voice input"}
+              title={isRecording ? "Click to stop recording" : "Click to start voice input"}
+            >
+              {isRecording ? (
+                <MicOff className="w-5 h-5" />
+              ) : (
+                <Mic className="w-5 h-5" />
+              )}
+            </Button>
+          )}
+          
           <Button
             type="submit"
             disabled={isLoading || !input.trim()}
@@ -585,8 +722,41 @@ const AIHealthCoach: React.FC = () => {
             )}
           </Button>
         </div>
+        
+        {/* Voice input error display */}
+        {(voiceInputError || audioError) && (
+          <div className="mt-2 space-y-1">
+            {voiceInputError && (
+              <div className="flex items-center p-2 text-sm text-orange-600 rounded bg-orange-50 dark:bg-orange-900/20 dark:text-orange-400">
+                <Mic className="flex-shrink-0 w-4 h-4 mr-2" />
+                Voice Input: {voiceInputError}
+              </div>
+            )}
+            {audioError && (
+              <div className="flex items-center p-2 text-sm text-red-600 rounded bg-red-50 dark:bg-red-900/20 dark:text-red-400">
+                <Volume2 className="flex-shrink-0 w-4 h-4 mr-2" />
+                Audio Output: {audioError}
+              </div>
+            )}
+          </div>
+        )}
+        
         <div className="mt-2 text-xs font-medium text-gray-700 transition-all duration-200 dark:text-gray-300">
           <p>Your Smart Coach provides general wellness guidance based on your inputs. Not medical advice.</p>
+          <div className="flex flex-wrap gap-4 mt-1 text-blue-600 dark:text-blue-400">
+            {voiceInputEnabled && (
+              <span className="flex items-center">
+                <Mic className="w-3 h-3 mr-1" />
+                Click microphone for voice input
+              </span>
+            )}
+            {audioStatus === 'ready' && (
+              <span className="flex items-center">
+                <Volume2 className="w-3 h-3 mr-1" />
+                Audio responses {voiceEnabled ? 'enabled' : 'available'}
+              </span>
+            )}
+          </div>
         </div>
       </form>
     </div>
