@@ -38,6 +38,10 @@ import NotFoundPage from './pages/NotFoundPage';
 import DiagnosticsPage from './pages/DiagnosticsPage';
 import LandingPage from './pages/LandingPage';
 
+// Payment pages
+import PaymentSuccessPage from './pages/PaymentSuccessPage';
+import PaymentCancelPage from './pages/PaymentCancelPage';
+
 // Demo pages
 import LiveTimeDemo from './components/demo/LiveTimeDemo';
 import PricingPage from './pages/PricingPage';
@@ -72,6 +76,10 @@ function App() {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
       <Route path="/diagnostics" element={<DiagnosticsPage />} />
+      
+      {/* Payment routes */}
+      <Route path="/payment-success" element={<PaymentSuccessPage />} />
+      <Route path="/payment-cancel" element={<PaymentCancelPage />} />
       
       {/* Protected routes wrapped in Layout */}
       <Route path="/" element={<Layout />}>
