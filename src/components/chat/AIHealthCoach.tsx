@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, VolumeX, Volume2, RefreshCw, AlertCircle, CheckCircle, Loader2, HelpCircle, Mic, MicOff } from 'lucide-react';
+import { Send, VolumeX, Volume2, RefreshCw, AlertCircle, CheckCircle, Loader2, HelpCircle, Mic, MicOff, MessageCircle } from 'lucide-react';
 import { elevenlabsApi } from '../../api/elevenlabsApi';
 import { debugAudioIssues, handleAudioError, AudioDiagnostics } from '../../utils/audioDebugger';
 import { motion } from 'framer-motion';
@@ -735,6 +735,66 @@ const AIHealthCoach: React.FC = () => {
               title="Test audio output"
             >
               Test Audio
+            </button>
+          )}
+          
+          {/* Microphone Permission Button */}
+          {voiceInputEnabled && (
+            <button
+              onClick={micPermission === 'granted' ? startVoiceInput : requestMicrophonePermission}
+              disabled={isCheckingMic || isRecording}
+              className={`p-2 rounded-full transition-all duration-200 ${
+                micPermission === 'granted'
+                  ? isRecording 
+                    ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
+                    : 'bg-blue-500 hover:bg-blue-600 text-white'
+                  : micPermission === 'denied'
+                  ? 'bg-red-500 hover:bg-red-600 text-white opacity-75'
+                  : 'bg-yellow-500 hover:bg-yellow-600 text-white'
+              } ${isCheckingMic ? 'opacity-50 cursor-wait' : ''}`}
+              aria-label={
+                micPermission === 'granted'
+                  ? isRecording ? "Stop voice input" : "Start voice input"
+                  : micPermission === 'denied'
+                  ? "Microphone access denied"
+                  : "Request microphone access"
+              }
+              title={
+                micPermission === 'granted'
+                  ? isRecording ? "Click to stop listening" : "Click to start voice input"
+                  : micPermission === 'denied'
+                  ? "Microphone access denied. Check browser settings."
+                  : "Click to request microphone access"
+              }
+            >
+              {isCheckingMic ? (
+                <div className="w-5 h-5 border-2 border-white rounded-full animate-spin border-t-transparent"></div>
+              ) : isRecording ? (
+                <MicOff size={20} />
+              ) : (
+                <Mic size={20} />
+              )}
+            </button>
+          )}
+          
+          {/* Voice-to-Voice Mode Toggle */}
+          {voiceInputEnabled && micPermission === 'granted' && (
+            <button
+              onClick={toggleVoiceToVoiceMode}
+              disabled={isCheckingMic}
+              className={`p-2 rounded-full transition-all duration-200 ${
+                voiceToVoiceMode
+                  ? 'bg-purple-500 hover:bg-purple-600 text-white'
+                  : 'bg-white/20 hover:bg-white/30 text-white'
+              }`}
+              aria-label={voiceToVoiceMode ? "Disable voice-to-voice mode" : "Enable voice-to-voice mode"}
+              title={
+                voiceToVoiceMode 
+                  ? "Voice-to-voice conversation enabled. Click to disable." 
+                  : "Click to enable hands-free voice conversation"
+              }
+            >
+              <MessageCircle size={20} />
             </button>
           )}
         </div>
