@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite --port 5173 --host localhost",
     "dev:setup": "chmod +x dev-start.sh && ./dev-start.sh",
-    "build": "tsc && vite build",
-    "build:prod": "tsc && vite build --mode production",
+    "build": "tsc && vite build && npm run build:copy-redirects",
+    "build:prod": "tsc && vite build --mode production && npm run build:copy-redirects",
+    "build:copy-redirects": "cp _redirects dist/ 2>/dev/null || echo 'No _redirects file to copy'",
     "lint": "eslint . --max-warnings 50",
     "lint:fix": "eslint . --fix --max-warnings 0",
     "lint:strict": "eslint . --max-warnings 0",
