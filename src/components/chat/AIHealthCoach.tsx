@@ -79,7 +79,7 @@ const AIHealthCoach: React.FC = () => {
   const [interimTranscript, setInterimTranscript] = useState('');
   
   // Microphone permission states
-  const [micPermission, setMicPermission] = useState<'prompt' | 'granted' | 'denied' | 'checking'>('prompt');
+  const [micPermission, setMicPermission] = useState<'prompt' | 'granted' | 'denied'>('prompt');
   const [isCheckingMic, setIsCheckingMic] = useState(false);
   
   // Voice-to-Voice mode states
@@ -176,7 +176,16 @@ const AIHealthCoach: React.FC = () => {
 
       // If voice is enabled, convert response to speech
       if (voiceEnabled) {
-        playTextToSpeech(data.result);
+        await playTextToSpeech(data.result);
+      }
+      
+      // In voice-to-voice mode, restart listening after response is spoken
+      if (voiceToVoiceMode) {
+        setIsWaitingForResponse(false);
+        // Small delay to ensure TTS is complete before restarting voice input
+        setTimeout(() => {
+          startVoiceInput();
+        }, 2000);
       }
       
       // Update question set after each response
@@ -479,16 +488,23 @@ const AIHealthCoach: React.FC = () => {
             setInput(newInputValue);
             setInterimTranscript('');
             
-            // Auto-submit if the user said something like "send" or appears to be done
-            const trimmedFinal = finalTranscript.trim().toLowerCase();
-            if (trimmedFinal.endsWith('send') || 
-                trimmedFinal.endsWith('submit') || 
-                trimmedFinal.endsWith('.') ||
-                trimmedFinal.endsWith('?') ||
-                trimmedFinal.endsWith('!')) {
+            // In voice-to-voice mode, auto-submit after a pause
+            if (voiceToVoiceMode) {
               setTimeout(() => {
                 handleVoiceInputComplete(newInputValue);
-              }, 500); // Small delay to ensure state updates
+              }, 1000); // Wait 1 second to see if user continues speaking
+            } else {
+              // Auto-submit if the user said something like "send" or appears to be done
+              const trimmedFinal = finalTranscript.trim().toLowerCase();
+              if (trimmedFinal.endsWith('send') || 
+                  trimmedFinal.endsWith('submit') || 
+                  trimmedFinal.endsWith('.') ||
+                  trimmedFinal.endsWith('?') ||
+                  trimmedFinal.endsWith('!')) {
+                setTimeout(() => {
+                  handleVoiceInputComplete(newInputValue);
+                }, 500); // Small delay to ensure state updates
+              }
             }
           }
         };
@@ -503,6 +519,13 @@ const AIHealthCoach: React.FC = () => {
           console.log('Voice recognition ended');
           setIsRecording(false);
           setInterimTranscript('');
+          
+          // In voice-to-voice mode, restart listening after AI response
+          if (voiceToVoiceMode && !isWaitingForResponse) {
+            setTimeout(() => {
+              startVoiceInput();
+            }, 1500); // Wait a bit before restarting to avoid cutting off AI speech
+          }
         };
         
         setSpeechRecognition(recognition);
@@ -585,6 +608,11 @@ const AIHealthCoach: React.FC = () => {
   // Auto-submit when voice input is complete (after a pause)
   const handleVoiceInputComplete = (finalText: string) => {
     if (finalText.trim()) {
+      // In voice-to-voice mode, set waiting state
+      if (voiceToVoiceMode) {
+        setIsWaitingForResponse(true);
+      }
+      
       // Create a proper synthetic event
       const syntheticEvent = {
         preventDefault: () => {},
