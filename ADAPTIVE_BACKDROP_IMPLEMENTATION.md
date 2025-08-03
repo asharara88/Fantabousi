@@ -6,20 +6,24 @@ I've successfully implemented your beautiful flowing wave backdrop as an **adapt
 
 ## 🌊 AdaptiveBackdrop Component
 
-### Features:
+### Features
+
 - **Theme-Responsive**: Automatically detects and adapts to light/dark mode changes
 - **Animated Flow**: Flowing wave patterns inspired by your provided images
 - **Performance Optimized**: Smooth animations with configurable speed settings
 - **Glass Morphism**: Subtle overlay effects for content readability
 - **Seamless Transitions**: Smooth theme switching with 0.8s transition duration
 
-### Color Schemes:
+### Color Schemes
+
 **Dark Theme:**
+
 - Deep blue to emerald gradient base (slate-900 → blue-900 → emerald-900)
 - Bright blue/cyan/green flowing waves with enhanced opacity
 - Dramatic contrast for premium feel
 
 **Light Theme:**
+
 - Soft cyan to emerald gradient base (slate-50 → cyan-50 → emerald-50)
 - Gentle blue/cyan/emerald waves with subtle opacity
 - Clean, airy feeling with maintained contrast
@@ -27,6 +31,7 @@ I've successfully implemented your beautiful flowing wave backdrop as an **adapt
 ## 🎯 Implementation Details
 
 ### 1. AdaptiveBackdrop Component (`src/components/ui/AdaptiveBackdrop.tsx`)
+
 ```typescript
 interface AdaptiveBackdropProps {
   animationSpeed?: 'slow' | 'medium' | 'fast';  // 35s | 25s | 15s
@@ -36,10 +41,12 @@ interface AdaptiveBackdropProps {
 ```
 
 ### 2. Landing Pages Updated
+
 - **HomePage** (`src/pages/HomePage.tsx`) - Enhanced with adaptive backdrop
 - **New LandingPage** (`src/pages/LandingPage.tsx`) - Clean showcase of backdrop
 
 ### 3. Theme Toggle Component (`src/components/ui/ThemeToggle.tsx`)
+
 - Floating theme switcher in top-right corner
 - Smooth icon transitions (Sun ↔ Moon)
 - Persists theme preference in localStorage
@@ -47,11 +54,13 @@ interface AdaptiveBackdropProps {
 ## 🚀 Pages Available
 
 ### `/welcome` - Enhanced HomePage
+
 - Original content with adaptive backdrop overlay
 - Semi-transparent sections for backdrop visibility
 - ThemeToggle for testing theme transitions
 
 ### `/landing` - Showcase Landing Page
+
 - Clean, minimal design highlighting the backdrop
 - Large typography with gradient text effects
 - Glass morphism cards and elements
@@ -59,41 +68,47 @@ interface AdaptiveBackdropProps {
 
 ## 🎨 Visual Features
 
-### Animated Elements:
+### Animated Elements
+
 1. **Gradient Background**: Rotates through 4 color combinations every 25-35 seconds
 2. **Floating SVG Waves**: Two animated wave paths with counter-rotating motion
 3. **Noise Texture**: Subtle fractal noise for depth
 4. **Glass Morphism**: Backdrop blur effects on content overlays
 
-### Responsive Design:
+### Responsive Design
+
 - Mobile-first approach
 - Smooth animations across all devices
 - Optimized performance for different screen sizes
 
 ## 🔧 Technical Implementation
 
-### Theme Detection:
+### Theme Detection
+
 ```typescript
 // Listens to both manual theme changes and system preference changes
 const observer = new MutationObserver(checkTheme);
 const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 ```
 
-### Animation Performance:
+### Animation Performance
+
 - CSS transforms for smooth GPU acceleration
 - Framer Motion for React-optimized animations
 - Configurable animation speeds to balance performance vs. visual impact
 
 ## 🎯 Usage Examples
 
-### Basic Implementation:
+### Basic Implementation
+
 ```tsx
 <AdaptiveBackdrop>
   <YourContent />
 </AdaptiveBackdrop>
 ```
 
-### With Custom Settings:
+### With Custom Settings
+
 ```tsx
 <AdaptiveBackdrop 
   animationSpeed="fast" 
