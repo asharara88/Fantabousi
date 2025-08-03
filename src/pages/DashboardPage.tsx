@@ -163,17 +163,22 @@ const DashboardPage: React.FC = () => {
 
   return (
     <AdaptiveBackdrop animationSpeed="slow" overlay={true}>
-      <ThemeToggle />
+      {/* Complementary landmark for theme controls */}
+      <aside role="complementary" aria-label="Theme controls">
+        <ThemeToggle />
+      </aside>
+      
       <div className="min-h-screen bg-white/30 dark:bg-black/20 backdrop-blur-sm py-6 sm:py-8 transition-all duration-200">
         <div className="mobile-container">
-          <div className="mb-6 sm:mb-8">
+          {/* Dashboard Header */}
+          <header className="mb-6 sm:mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Health Dashboard</h1>
             <p className="text-gray-600 dark:text-gray-400">Your personalized health overview and insights</p>
-          </div>
+          </header>
 
         {/* BW Score Overview Section */}
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">BW Score Overview</h2>
+        <section role="region" aria-labelledby="bw-score-heading" className="mb-8">
+          <h2 id="bw-score-heading" className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">BW Score Overview</h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* BW Score - Takes up 1 column */}
             <div className="lg:col-span-1">
@@ -218,8 +223,8 @@ const DashboardPage: React.FC = () => {
         </section>
 
         {/* Today's Activities Section */}
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Today's Activities</h2>
+        <section role="region" aria-labelledby="activities-heading" className="mb-8">
+          <h2 id="activities-heading" className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Today's Activities</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="space-y-6">
               <div>
@@ -249,8 +254,8 @@ const DashboardPage: React.FC = () => {
         </section>
 
         {/* Health Overview Section */}
-        <section>
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Health Overview</h2>
+        <section role="region" aria-labelledby="health-overview-heading">
+          <h2 id="health-overview-heading" className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Health Overview</h2>
           <DashboardCards />
         </section>
       </div>
