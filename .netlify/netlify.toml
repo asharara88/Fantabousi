@@ -1,10 +1,8 @@
+functionsDirectory = "/Users/ahmedsharara/Desktop/BIOWELL/biowell-fanta-ready/netlify/functions"
+functionsDirectoryOrigin = "default"
 headersOrigin = "config"
 redirectsOrigin = "config"
 plugins = []
-
-[functions]
-
-[functions."*"]
 
 [build]
 publish = "/Users/ahmedsharara/Desktop/BIOWELL/biowell-fanta-ready/dist"
@@ -12,11 +10,16 @@ publishOrigin = "config"
 commandOrigin = "config"
 command = "npm run build"
 ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ./package-lock.json"
+functions = "/Users/ahmedsharara/Desktop/BIOWELL/biowell-fanta-ready/netlify/functions"
 
 [build.environment]
-NODE_VERSION = "22"
+NODE_VERSION = "18"
 PYENV_VERSION = "3.10.13"
 GIT_SUBMODULE_STRATEGY = "none"
+CI = "true"
+NODE_ENV = "production"
+GENERATE_SOURCEMAP = "false"
+VITE_ENV = "production"
 
 [build.processing]
 
@@ -30,6 +33,16 @@ GIT_SUBMODULE_STRATEGY = "none"
 
 [build.services]
 
+[dev]
+command = "npm run dev"
+port = 5173.0
+publish = "dist"
+autoLaunch = false
+
+[functions]
+
+[functions."*"]
+
 [[headers]]
 for = "/*"
 
@@ -38,7 +51,25 @@ X-Frame-Options = "DENY"
 X-XSS-Protection = "1; mode=block"
 X-Content-Type-Options = "nosniff"
 Referrer-Policy = "strict-origin-when-cross-origin"
-Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://images.pexels.com https://*.supabase.co https://*.netlify.app; connect-src 'self' https://*.supabase.co https://api.openai.com https://api.elevenlabs.io https://api.spoonacular.com https://*.netlify.app wss://*.supabase.co; font-src 'self'; object-src 'none'; frame-src 'self';"
+Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://checkout.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.pexels.com https://*.supabase.co https://*.netlify.app; connect-src 'self' https://*.supabase.co https://api.openai.com https://api.elevenlabs.io https://api.spoonacular.com https://*.netlify.app https://api.stripe.com wss://*.supabase.co; object-src 'none'; frame-src 'self' https://js.stripe.com https://hooks.stripe.com;"
+
+[[headers]]
+for = "/assets/*"
+
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "*.css"
+
+[headers.values]
+Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+for = "*.js"
+
+[headers.values]
+Cache-Control = "public, max-age=31536000"
 
 [[redirects]]
 from = "https://biowell.ai/*"
@@ -51,6 +82,19 @@ force = true
 [redirects.conditions]
 
 [redirects.headers]
+
+[[redirects]]
+from = "/api/*"
+to = "https://api.biowell.ai/v1/:splat"
+status = 200.0
+force = true
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+X-From = "Netlify"
 
 [[redirects]]
 from = "/*"
