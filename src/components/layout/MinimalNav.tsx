@@ -442,7 +442,7 @@ const MinimalNav: React.FC = () => {
             </div>
           </div>
         </div>
-      </nav>
+      </div>
 
       {/* Advanced Mobile Menu */}
       <AnimatePresence>
