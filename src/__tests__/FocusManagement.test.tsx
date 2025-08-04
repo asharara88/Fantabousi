@@ -23,16 +23,16 @@ jest.mock('../ui/AccessibleDropdown', () => {
   return function MockAccessibleDropdown({ options, value, onChange, label, searchable, multiple, placeholder }: any) {
     return (
       <div>
-        <button role="button" aria-label={label || placeholder}>
+        <button aria-label={label || placeholder}>
           {value || placeholder || 'Select an option'}
         </button>
-        <ul role="listbox" style={{ display: 'none' }}>
+        <div role="listbox" style={{ display: 'none' }}>
           {options?.map((option: any) => (
-            <li key={option.value} onClick={() => onChange(multiple ? [option.value] : option.value)}>
+            <div key={option.value} onClick={() => onChange(multiple ? [option.value] : option.value)}>
               {option.label}
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
         {searchable && <input aria-label="Search options" />}
       </div>
     );
