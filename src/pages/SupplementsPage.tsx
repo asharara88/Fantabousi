@@ -5,6 +5,8 @@ import { Card } from "../components/ui/Card";
 import { supplementApi } from '../api/supplementApi';
 import StackBuilderModal from '../components/supplements/StackBuilderModal';
 import { getAllSupplements, getUniqueCategories, searchSupplements, ProcessedSupplement } from '../utils/supplementData';
+import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop';
+import { GlassSection, GlassCard, GlassButton, GlassInput } from '../components/ui/GlassComponents';
 
 const TIER_COLORS = {
   green: "bg-green-100 text-green-700 border-green-500 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700",
@@ -106,172 +108,175 @@ export default function SupplementStorePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-      <div className="mobile-container">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Supplement Store</h1>
-          <p className="text-gray-600 dark:text-gray-400">Browse our evidence-based supplements by tier ({supplements.length} supplements available)</p>
-        </div>
+    <AdaptiveBackdrop animationSpeed="medium">
+      <GlassSection padding="lg" background="gradient">
+        <div className="mobile-container">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-text mb-2">Supplement Store</h1>
+            <p className="text-text-light">Browse our evidence-based supplements by tier ({supplements.length} supplements available)</p>
+          </div>
 
-        {/* Tier Information */}
-        <div className="mb-6">
-          <button 
-            onClick={() => setShowTierInfo(!showTierInfo)}
-            className="flex items-center text-primary hover:text-primary-dark font-medium"
-          >
-            <Info className="w-5 h-5 mr-2" />
-            {showTierInfo ? 'Hide' : 'Show'} Evidence Tier Information
-          </button>
-          
-          {showTierInfo && (
-            <div className="mt-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
-              <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Evidence Tier Definitions</h3>
-              <div className="space-y-3">
-                <div className="flex items-start">
-                  <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 mr-3 mt-0.5">Green</span>
-                  <p className="text-gray-700 dark:text-gray-300 text-sm">Proven to work - backed by solid research and widely recommended by experts.</p>
+          {/* Tier Information */}
+          <div className="mb-6">
+            <button 
+              onClick={() => setShowTierInfo(!showTierInfo)}
+              className="flex items-center text-primary hover:text-primary-dark font-medium transition-colors"
+            >
+              <Info className="w-5 h-5 mr-2" />
+              {showTierInfo ? 'Hide' : 'Show'} Evidence Tier Information
+            </button>
+            
+            {showTierInfo && (
+              <GlassCard variant="elevated" className="mt-4 p-6">
+                <h3 className="text-lg font-semibold mb-3 text-text">Evidence Tier Definitions</h3>
+                <div className="space-y-3">
+                  <div className="flex items-start">
+                    <span className="inline-block px-2 py-1 rounded-full text-xs font-medium glass-panel bg-green-500/20 text-green-400 mr-3 mt-0.5">Green</span>
+                    <p className="text-text-light text-sm">Proven to work - backed by solid research and widely recommended by experts.</p>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="inline-block px-2 py-1 rounded-full text-xs font-medium glass-panel bg-yellow-500/20 text-yellow-400 mr-3 mt-0.5">Yellow</span>
+                    <p className="text-text-light text-sm">Promising results - some good studies available, but more research needed.</p>
+                  </div>
                 </div>
-                <div className="flex items-start">
-                  <span className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 mr-3 mt-0.5">Yellow</span>
-                  <p className="text-gray-700 dark:text-gray-300 text-sm">Promising results - some good studies available, but more research needed.</p>
-                </div>
+              </GlassCard>
+            )}
+          </div>
+
+          <GlassCard variant="strong" className="p-6 mb-8">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h2 className="text-lg font-semibold text-text mb-2">Filter & Search Supplements</h2>
+                <p className="text-sm text-text-light mt-1">
+                  Supplements are categorized by the strength of scientific evidence supporting their efficacy
+                </p>
               </div>
-            </div>
-          )}
-        </div>
-
-        <Card className="p-6 mb-8">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Filter & Search Supplements</h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                Supplements are categorized by the strength of scientific evidence supporting their efficacy
-              </p>
-            </div>
-          </div>
-          
-          {/* Search Bar */}
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Search supplements by name, category, or use case..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-            />
-          </div>
-          
-          {/* Filters */}
-          <div className="space-y-4">
-            {/* Tier Filter */}
-            <div className="flex flex-wrap gap-2">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">Evidence Tier:</span>
-              <Button
-                variant={tierFilter === "all" ? "default" : "outline"}
-                onClick={() => setTierFilter("all")}
-                className="px-4 py-2"
-              >
-                All Tiers
-              </Button>
-              
-              <Button
-                variant={tierFilter === "green" ? "default" : "outline"}
-                onClick={() => setTierFilter("green")}
-                className="px-4 py-2 flex items-center gap-1.5"
-              >
-                {TIER_ICONS.green} Strong Evidence
-              </Button>
-              
-              <Button
-                variant={tierFilter === "yellow" ? "default" : "outline"}
-                onClick={() => setTierFilter("yellow")}
-                className="px-4 py-2 flex items-center gap-1.5"
-              >
-                {TIER_ICONS.yellow} Moderate Evidence
-              </Button>
+            
+            {/* Search Bar */}
+            <div className="mb-4">
+              <GlassInput
+                type="text"
+                placeholder="Search supplements by name, category, or use case..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full"
+              />
             </div>
             
-            {/* Category Filter */}
-            <div className="flex flex-wrap gap-2">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">Category:</span>
-              <Button
-                variant={categoryFilter === "all" ? "default" : "outline"}
-                onClick={() => setCategoryFilter("all")}
-                className="px-4 py-2"
-              >
-                All Categories
-              </Button>
-              {categories.slice(0, 8).map(category => (
-                <Button
-                  key={category}
-                  variant={categoryFilter === category ? "default" : "outline"}
-                  onClick={() => setCategoryFilter(category)}
-                  className="px-4 py-2 text-xs"
-                >
-                  {category}
-                </Button>
-              ))}
-            </div>
-          </div>
-          
-          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="flex items-center gap-1">
-                {TIER_ICONS.green}
-                <span className="font-medium text-gray-800 dark:text-gray-200">Tier 1:</span>
-                <span className="text-gray-600 dark:text-gray-400">Multiple clinical trials</span>
-              </div>
-              
-              <div className="flex items-center gap-1">
-                {TIER_ICONS.yellow}
-                <span className="font-medium text-gray-800 dark:text-gray-200">Tier 2:</span>
-                <span className="text-gray-600 dark:text-gray-400">Some studies & early research</span>
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        {loading ? (
-          <div className="flex justify-center items-center py-12">
-            <Loader2 className="w-12 h-12 text-primary animate-spin" />
-            <span className="ml-3 text-lg text-gray-600 dark:text-gray-400">Loading supplements...</span>
-          </div>
-        ) : error ? (
-          <Card className="p-6 text-center">
-            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-            <p className="text-red-500 mb-4">{error}</p>
-            <Button onClick={() => window.location.reload()}>
-              Try Again
-            </Button>
-          </Card>
-        ) : (
-          <>
-            {/* Available Supplements Section */}
-            <section>
-              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Available Supplements</h2>
-              
-              {/* Results Summary */}
-              <div className="mb-6 flex items-center justify-between">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Showing {filteredSupplements.length} of {supplements.length} supplements
-                {searchQuery && ` for "${searchQuery}"`}
-                {tierFilter !== "all" && ` in ${tierFilter} tier`}
-                {categoryFilter !== "all" && ` in ${categoryFilter} category`}
-              </p>
-              {(searchQuery || tierFilter !== "all" || categoryFilter !== "all") && (
-                <Button
-                  variant="outline"
+            {/* Filters */}
+            <div className="space-y-4">
+              {/* Tier Filter */}
+              <div className="flex flex-wrap gap-2">
+                <span className="text-sm font-medium text-text mr-2">Evidence Tier:</span>
+                <GlassButton
+                  variant={tierFilter === "all" ? "primary" : "default"}
+                  onClick={() => setTierFilter("all")}
                   size="sm"
-                  onClick={() => {
-                    setSearchQuery("");
-                    setTierFilter("all");
-                    setCategoryFilter("all");
-                  }}
                 >
-                  Clear Filters
-                </Button>
-              )}
+                  All Tiers
+                </GlassButton>
+                
+                <GlassButton
+                  variant={tierFilter === "green" ? "primary" : "default"}
+                  onClick={() => setTierFilter("green")}
+                  size="sm"
+                  className="flex items-center gap-1.5"
+                >
+                  {TIER_ICONS.green} Strong Evidence
+                </GlassButton>
+                
+                <GlassButton
+                  variant={tierFilter === "yellow" ? "primary" : "default"}
+                  onClick={() => setTierFilter("yellow")}
+                  size="sm"
+                  className="flex items-center gap-1.5"
+                >
+                  {TIER_ICONS.yellow} Moderate Evidence
+                </GlassButton>
+              </div>
+              
+              {/* Category Filter */}
+              <div className="flex flex-wrap gap-2">
+                <span className="text-sm font-medium text-text mr-2">Category:</span>
+                <GlassButton
+                  variant={categoryFilter === "all" ? "primary" : "default"}
+                  onClick={() => setCategoryFilter("all")}
+                  size="sm"
+                >
+                  All Categories
+                </GlassButton>
+                {categories.slice(0, 8).map(category => (
+                  <GlassButton
+                    key={category}
+                    variant={categoryFilter === category ? "primary" : "default"}
+                    onClick={() => setCategoryFilter(category)}
+                    size="sm"
+                    className="text-xs"
+                  >
+                    {category}
+                  </GlassButton>
+                ))}
+              </div>
             </div>
+            
+            <GlassCard variant="frosted" className="mt-4 p-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div className="flex items-center gap-1">
+                  {TIER_ICONS.green}
+                  <span className="font-medium text-text">Tier 1:</span>
+                  <span className="text-text-light">Multiple clinical trials</span>
+                </div>
+                
+                <div className="flex items-center gap-1">
+                  {TIER_ICONS.yellow}
+                  <span className="font-medium text-text">Tier 2:</span>
+                  <span className="text-text-light">Some studies & early research</span>
+                </div>
+              </div>
+            </GlassCard>
+          </GlassCard>
+
+          {loading ? (
+            <GlassCard variant="elevated" className="p-12 text-center">
+              <Loader2 className="w-12 h-12 text-primary animate-spin mx-auto mb-4" />
+              <span className="text-lg text-text-light">Loading supplements...</span>
+            </GlassCard>
+          ) : error ? (
+            <GlassCard variant="elevated" className="p-6 text-center">
+              <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+              <p className="text-red-500 mb-4">{error}</p>
+              <GlassButton onClick={() => window.location.reload()}>
+                Try Again
+              </GlassButton>
+            </GlassCard>
+          ) : (
+            <>
+              {/* Available Supplements Section */}
+              <section>
+                <h2 className="text-2xl font-semibold text-text mb-6">Available Supplements</h2>
+                
+                {/* Results Summary */}
+                <GlassCard variant="frosted" className="mb-6 p-4 flex items-center justify-between">
+                  <p className="text-sm text-text-light">
+                    Showing {filteredSupplements.length} of {supplements.length} supplements
+                    {searchQuery && ` for "${searchQuery}"`}
+                    {tierFilter !== "all" && ` in ${tierFilter} tier`}
+                    {categoryFilter !== "all" && ` in ${categoryFilter} category`}
+                  </p>
+                  {(searchQuery || tierFilter !== "all" || categoryFilter !== "all") && (
+                    <GlassButton
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => {
+                        setSearchQuery("");
+                        setTierFilter("all");
+                        setCategoryFilter("all");
+                      }}
+                    >
+                      Clear Filters
+                    </GlassButton>
+                  )}
+                </GlassCard>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {filteredSupplements.map((supp) => {
@@ -372,11 +377,11 @@ export default function SupplementStorePage() {
             </div>
             
             {filteredSupplements.length === 0 && (
-              <div className="col-span-full text-center py-12">
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
+              <GlassCard variant="elevated" className="col-span-full text-center py-12">
+                <p className="text-text-light mb-4">
                   No supplements found matching your criteria.
                 </p>
-                <Button 
+                <GlassButton 
                   onClick={() => {
                     setSearchQuery("");
                     setTierFilter("all");
@@ -384,13 +389,14 @@ export default function SupplementStorePage() {
                   }}
                 >
                   Clear All Filters
-                </Button>
-              </div>
+                </GlassButton>
+              </GlassCard>
             )}
             </section>
           </>
         )}
-      </div>
+        </div>
+      </GlassSection>
       
       {/* Stack Builder Modal */}
       <StackBuilderModal
@@ -399,6 +405,6 @@ export default function SupplementStorePage() {
         initialSupplementId={selectedSupplementId || undefined}
         onSaveStack={handleSaveStack}
       />
-    </div>
+    </AdaptiveBackdrop>
   );
 }

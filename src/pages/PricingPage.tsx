@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { CheckIcon, UsersIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { Button } from '../components/ui/Button';
 import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop';
+import { GlassSection, GlassCard, GlassButton } from '../components/ui/GlassComponents';
 import { stripeService } from '../services/stripeService';
 import { SUBSCRIPTION_PRICE_IDS } from '../lib/stripe';
 import subscriptionPlans from '../data/subscriptionPlans';
@@ -51,68 +52,68 @@ const PricingPage: React.FC = () => {
     }
   };
 
-  const handleSignUp = (planType: string) => {
+  const handleSignUp = () => {
     // Handle free plan signup - redirect to registration
     window.location.href = '/auth/signup';
   };
 
   return (
     <AdaptiveBackdrop>
-      <div className="container mx-auto px-4 py-16">
-        {/* Header */}
-        <motion.div 
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="text-5xl font-bold text-text mb-6">
-            Choose Your <span className="bg-gradient-primary bg-clip-text text-transparent">Health Plan</span>
-          </h1>
-          <p className="text-xl text-muted max-w-3xl mx-auto mb-8">
-            Unlock personalized health insights with CGM integration, AI coaching, and supplement optimization
-          </p>
+      <GlassSection padding="xl" background="gradient">
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="text-5xl font-bold text-text mb-6">
+              Choose Your <span className="bg-gradient-primary bg-clip-text text-transparent">Health Plan</span>
+            </h1>
+            <p className="text-xl text-text-light max-w-3xl mx-auto mb-8">
+              Unlock personalized health insights with CGM integration, AI coaching, and supplement optimization
+            </p>
 
-          {/* Billing Toggle */}
-          <div className="flex items-center justify-center space-x-4 mb-12">
-            <span className={`text-sm font-medium ${!isAnnual ? 'text-text' : 'text-muted'}`}>
-              Monthly
-            </span>
-            <button
-              onClick={() => setIsAnnual(!isAnnual)}
-              className="relative w-16 h-8 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <motion.div
-                className="absolute top-1 left-1 w-6 h-6 bg-primary rounded-full shadow-md"
-                animate={{ x: isAnnual ? 32 : 0 }}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              />
-            </button>
-            <div className="flex items-center space-x-2">
-              <span className={`text-sm font-medium ${isAnnual ? 'text-text' : 'text-muted'}`}>
-                Annual
+            {/* Billing Toggle */}
+            <div className="flex items-center justify-center space-x-4 mb-12">
+              <span className={`text-sm font-medium ${!isAnnual ? 'text-text' : 'text-text-light'}`}>
+                Monthly
               </span>
-              <span className="bg-green-500/20 text-green-400 px-2 py-1 rounded-full text-xs font-medium">
-                Save 15%
-              </span>
+              <button
+                onClick={() => setIsAnnual(!isAnnual)}
+                className="relative w-16 h-8 glass-panel border border-white/30 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <motion.div
+                  className="absolute top-1 left-1 w-6 h-6 bg-primary rounded-full shadow-md"
+                  animate={{ x: isAnnual ? 32 : 0 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              </button>
+              <div className="flex items-center space-x-2">
+                <span className={`text-sm font-medium ${isAnnual ? 'text-text' : 'text-text-light'}`}>
+                  Annual
+                </span>
+                <span className="glass-panel bg-green-500/20 text-green-400 px-2 py-1 rounded-full text-xs font-medium">
+                  Save 15%
+                </span>
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {subscriptionPlans.map((plan, index) => (
-            <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className={`relative backdrop-blur-xl border rounded-3xl p-8 ${
-                plan.name === 'Premium' 
-                  ? 'bg-gradient-to-br from-primary/20 to-secondary/20 border-primary/30 ring-2 ring-primary/20' 
-                  : 'bg-white/10 border-white/20'
-              }`}
-            >
+          {/* Pricing Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+            {subscriptionPlans.map((plan) => (
+              <GlassCard
+                key={plan.name}
+                variant={plan.name === 'Premium' ? 'elevated' : 'default'}
+                interactive={true}
+                className={`relative p-8 ${
+                  plan.name === 'Premium' 
+                    ? 'ring-2 ring-primary/30 bg-gradient-to-br from-primary/10 to-secondary/10' 
+                    : ''
+                }`}
+              >
               {plan.name === 'Premium' && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <span className="bg-gradient-primary text-white px-4 py-2 rounded-full text-sm font-medium">
@@ -156,21 +157,21 @@ const PricingPage: React.FC = () => {
               </ul>
 
               {/* Team Sharing Badge */}
-              {plan.teamSharing && (
-                <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+              {plan.teamSharing && typeof plan.teamSharing === 'object' && 'members' in plan.teamSharing && (
+                <div className="mb-4 p-3 glass-panel bg-blue-500/10 border border-blue-500/20 rounded-lg">
                   <div className="flex items-center space-x-2">
                     <UsersIcon className="h-4 w-4 text-blue-500" />
                     <span className="text-sm text-blue-500 font-medium">
                       Team Access: {plan.teamSharing.members} members
                     </span>
                   </div>
-                  <p className="text-xs text-muted mt-1">{plan.teamSharing.useCase}</p>
+                  <p className="text-xs text-text-light mt-1">{plan.teamSharing.useCase}</p>
                 </div>
               )}
 
               {/* CGM Integration Badge */}
               {plan.cgmAccess && (
-                <div className="mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                <div className="mb-4 p-3 glass-panel bg-green-500/10 border border-green-500/20 rounded-lg">
                   <div className="flex items-center space-x-2">
                     <HeartIcon className="h-4 w-4 text-green-500" />
                     <span className="text-sm text-green-500 font-medium">
@@ -183,28 +184,28 @@ const PricingPage: React.FC = () => {
               {/* CTA Button with Stripe Integration */}
               <div className="mt-8">
                 {plan.isEnterprise ? (
-                  <Button
-                    variant="outline"
+                  <GlassButton
+                    variant="secondary"
                     size="lg"
                     className="w-full"
                     onClick={() => window.open('mailto:sales@biowell.ai', '_blank')}
                   >
                     {plan.contactCTA}
-                  </Button>
+                  </GlassButton>
                 ) : plan.priceAED === 0 ? (
-                  <Button
-                    variant="outline"
+                  <GlassButton
+                    variant="secondary"
                     size="lg"
                     className="w-full"
-                    onClick={() => handleSignUp('free')}
+                    onClick={() => handleSignUp()}
                     disabled={loading}
                   >
                     Get Started Free
-                  </Button>
+                  </GlassButton>
                 ) : (
                   <div className="space-y-3">
-                    <Button
-                      variant={plan.name === 'Premium' ? 'primary' : 'outline'}
+                    <GlassButton
+                      variant={plan.name === 'Premium' ? 'primary' : 'default'}
                       size="lg"
                       className="w-full"
                       onClick={() => handleSubscriptionPurchase(plan, 'monthly')}
@@ -218,9 +219,9 @@ const PricingPage: React.FC = () => {
                       ) : (
                         `Start ${plan.name} Plan`
                       )}
-                    </Button>
+                    </GlassButton>
                     
-                    {plan.priceAED > 0 && (
+                    {plan.priceAED && plan.priceAED > 0 && (
                       <Button
                         variant="ghost"
                         size="sm"
@@ -241,7 +242,7 @@ const PricingPage: React.FC = () => {
                   </div>
                 )}
               </div>
-            </motion.div>
+              </GlassCard>
           ))}
         </div>
 
@@ -309,7 +310,8 @@ const PricingPage: React.FC = () => {
             ))}
           </div>
         </motion.div>
-      </div>
+        </div>
+      </GlassSection>
     </AdaptiveBackdrop>
   );
 };

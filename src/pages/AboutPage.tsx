@@ -1,6 +1,8 @@
 import React from 'react'
 import { Shield, Zap, Heart, Brain, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
+import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop'
+import { GlassSection, GlassCard, GlassFeatureCard } from '../components/ui/GlassComponents'
 
 const AboutPage: React.FC = () => {
   // Core values data
@@ -50,98 +52,64 @@ const AboutPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section with consistent styling */}
-      <section className="bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white py-16 md:py-24 relative overflow-hidden">
-        {/* Animated background elements */}
-        <motion.div 
-          className="absolute top-20 left-10 w-64 h-64 rounded-full bg-primary opacity-10"
-          initial={{ opacity: 0 }}
-          animate={{ 
-            opacity: 0.1,
-            scale: [1, 1.2, 1],
-            x: [0, 20, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div 
-          className="absolute bottom-10 right-10 w-40 h-40 rounded-full bg-secondary opacity-10"
-          initial={{ opacity: 0 }}
-          animate={{ 
-            opacity: 0.1,
-            scale: [1, 1.3, 1],
-            x: [0, -30, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{ duration: 7, repeat: Infinity, delay: 1 }}
-        />
-        
-        <div className="mobile-container">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.h1 
-              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              About Biowell
-            </motion.h1>
-            <motion.p 
-              className="text-lg sm:text-xl md:text-2xl mb-8 text-white/90"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-            >
-              Transforming wellness through personalized, science-driven guidance
-            </motion.p>
-          </div>
+    <AdaptiveBackdrop animationSpeed="medium">
+      {/* Hero Section with glassmorphism */}
+      <GlassSection padding="xl" background="pattern">
+        <div className="max-w-3xl mx-auto text-center">
+          <motion.h1 
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-text"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            About Biowell
+          </motion.h1>
+          <motion.p 
+            className="text-lg sm:text-xl md:text-2xl mb-8 text-text-light"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            Transforming wellness through personalized, science-driven guidance
+          </motion.p>
         </div>
-      </section>
+      </GlassSection>
 
       {/* Our Mission */}
-      <section className="py-16 bg-white dark:bg-gray-900 relative overflow-hidden">
-        {/* Background accent */}
-        <div className="absolute top-0 right-0 w-1/4 h-1/4 bg-gradient-to-bl from-primary/5 to-tertiary/5 rounded-bl-full"></div>
-        <div className="absolute bottom-0 left-0 w-1/5 h-1/5 bg-gradient-to-tr from-secondary/5 to-tertiary/5 rounded-tr-full"></div>
-        
+      <GlassSection padding="xl" background="gradient">
         <div className="mobile-container">
-          <div className="about-content">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">Our Mission</h2>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-2xl sm:text-3xl font-bold text-text mb-6 text-center">Our Mission</h2>
+            <GlassCard variant="elevated" className="p-8 max-w-4xl mx-auto">
               <div className="prose prose-lg dark:prose-invert mx-auto">
-                <p>
+                <p className="text-text-light">
                   At Biowell, we believe that everyone deserves access to personalized health guidance. 
                   Our mission is to democratize wellness by making science-backed supplement 
                   recommendations accessible to everyone, regardless of their background or 
                   health knowledge.
                 </p>
-                <p>
+                <p className="text-text-light">
                   We combine cutting-edge AI technology with rigorous scientific research to provide 
                   you with personalized recommendations that evolve with your health journey. Our 
                   team of experts continuously reviews the latest studies to ensure our guidance 
                   remains at the forefront of nutritional science.
                 </p>
               </div>
-            </motion.div>
-          </div>
+            </GlassCard>
+          </motion.div>
         </div>
-      </section>
+      </GlassSection>
 
       {/* Core Values */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
-        {/* Background accent */}
-        <div className="absolute top-0 left-0 w-1/3 h-1/3 bg-gradient-to-br from-tertiary/5 to-secondary/5 rounded-br-full"></div>
-        <div className="absolute bottom-0 right-0 w-1/4 h-1/4 bg-gradient-to-tl from-primary/5 to-tertiary/5 rounded-tl-full"></div>
-        
+      <GlassSection padding="xl" background="pattern">
         <div className="mobile-container">
           <motion.h2 
-            className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-12 text-center"
+            className="text-2xl sm:text-3xl font-bold text-text mb-12 text-center"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -157,37 +125,25 @@ const AboutPage: React.FC = () => {
             viewport={{ once: true }}
           >
             {coreValues.map((value, index) => (
-              <motion.div 
-                key={index} 
-                className={`feature-card ${
-                  index % 3 === 0 ? 'bg-gradient-to-br from-primary-dark to-primary' :
-                  index % 3 === 1 ? 'bg-gradient-to-br from-secondary-dark to-secondary' :
-                  index % 3 === 2 ? 'bg-gradient-to-br from-tertiary-dark to-tertiary' :
-                  'bg-gradient-to-br from-primary-dark to-primary'
-                }`}
-                variants={itemVariants}
-              >
-                <div className="p-3 rounded-full bg-white/20 inline-flex mb-4">
-                  {value.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {value.title}
-                </h3>
-                <p className="text-white dark:text-white text-sm">
-                  {value.description}
-                </p>
-              </motion.div>
+              <GlassFeatureCard
+                key={index}
+                icon={value.icon}
+                title={value.title}
+                description={value.description}
+                gradient={
+                  index % 4 === 0 ? 'from-primary/20 to-secondary/20' :
+                  index % 4 === 1 ? 'from-secondary/20 to-tertiary/20' :
+                  index % 4 === 2 ? 'from-tertiary/20 to-primary/20' :
+                  'from-primary/20 to-purple-500/20'
+                }
+              />
             ))}
           </motion.div>
         </div>
-      </section>
+      </GlassSection>
 
       {/* Our Approach */}
-      <section className="py-16 bg-white dark:bg-gray-900 relative overflow-hidden">
-        {/* Background accent */}
-        <div className="absolute top-0 left-0 w-1/4 h-1/4 bg-gradient-to-br from-secondary/5 to-primary/5 rounded-br-full"></div>
-        <div className="absolute bottom-0 right-0 w-1/5 h-1/5 bg-gradient-to-tl from-tertiary/5 to-secondary/5 rounded-tl-full"></div>
-        
+      <GlassSection padding="xl" background="gradient">
         <div className="mobile-container">
           <div className="max-w-3xl mx-auto">
             <motion.div
@@ -196,62 +152,40 @@ const AboutPage: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">Our Approach</h2>
-              <div className="prose prose-lg dark:prose-invert mx-auto">
-                <h3>Data-Driven Personalization</h3>
-                <p>
-                  Our AI-powered platform analyzes your health profile, lifestyle factors, 
-                  and wellness goals to create customized supplement recommendations. We 
-                  continuously update our recommendations based on the latest research and 
-                  your progress.
-                </p>
-                
-                <h3>Evidence-Based Recommendations</h3>
-                <p>
-                  Every recommendation is backed by peer-reviewed research and clinical studies. 
-                  We work with leading researchers and healthcare professionals to ensure our 
-                  guidance is both safe and effective.
-                </p>
-                
-                <h3>Holistic Wellness</h3>
-                <p>
-                  We believe in a comprehensive approach to health that considers nutrition, 
-                  physical activity, sleep, stress management, and supplementation. Our 
-                  recommendations are designed to support your overall wellbeing, not just 
-                  address isolated concerns.
-                </p>
-              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-text mb-6 text-center">Our Approach</h2>
+              <GlassCard variant="elevated" className="p-8">
+                <div className="prose prose-lg dark:prose-invert mx-auto">
+                  <h3 className="text-text">Data-Driven Personalization</h3>
+                  <p className="text-text-light">
+                    Our AI-powered platform analyzes your health profile, lifestyle factors, 
+                    and wellness goals to create customized supplement recommendations. We 
+                    continuously update our recommendations based on the latest research and 
+                    your progress.
+                  </p>
+                  
+                  <h3 className="text-text">Evidence-Based Recommendations</h3>
+                  <p className="text-text-light">
+                    Every recommendation is backed by peer-reviewed research and clinical studies. 
+                    We work with leading researchers and healthcare professionals to ensure our 
+                    guidance is both safe and effective.
+                  </p>
+                  
+                  <h3 className="text-text">Holistic Wellness</h3>
+                  <p className="text-text-light">
+                    We believe in a comprehensive approach to health that considers nutrition, 
+                    physical activity, sleep, stress management, and supplementation. Our 
+                    recommendations are designed to support your overall wellbeing, not just 
+                    address isolated concerns.
+                  </p>
+                </div>
+              </GlassCard>
             </motion.div>
           </div>
         </div>
-      </section>
+      </GlassSection>
 
       {/* CTA Section */}
-      <section className="py-16 bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white relative overflow-hidden">
-        {/* Animated background elements */}
-        <motion.div 
-          className="absolute top-0 right-0 w-96 h-96 rounded-full bg-primary opacity-10"
-          initial={{ opacity: 0 }}
-          animate={{ 
-            opacity: 0.1,
-            scale: [1, 1.2, 1],
-            x: [0, -30, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity }}
-        />
-        <motion.div 
-          className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-secondary opacity-10"
-          initial={{ opacity: 0 }}
-          animate={{ 
-            opacity: 0.1,
-            scale: [1, 1.3, 1],
-            x: [0, 20, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{ duration: 8, repeat: Infinity, delay: 0.5 }}
-        />
-        
+      <GlassSection padding="xl" background="pattern">
         <div className="mobile-container text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -259,22 +193,24 @@ const AboutPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-2xl sm:text-3xl font-bold mb-6">Ready to start your wellness journey?</h2>
-            <p className="text-lg mb-8 max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-text">Ready to start your wellness journey?</h2>
+            <p className="text-lg mb-8 max-w-2xl mx-auto text-text-light">
               Join thousands of users who have transformed their health with personalized, 
               science-backed recommendations.
             </p>
-            <a
-              href="/signup"
-              className="inline-flex items-center bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              Get Started
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </a>
+            <GlassCard variant="strong" className="inline-block">
+              <a
+                href="/signup"
+                className="inline-flex items-center bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                Get Started
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </a>
+            </GlassCard>
           </motion.div>
         </div>
-      </section>
-    </div>
+      </GlassSection>
+    </AdaptiveBackdrop>
   )
 }
 

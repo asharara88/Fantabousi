@@ -109,6 +109,7 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
 
 // Glass Input Component
 interface GlassInputProps {
+  id?: string;
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -119,9 +120,11 @@ interface GlassInputProps {
   error?: string;
   disabled?: boolean;
   name?: string;
+  required?: boolean;
 }
 
 export const GlassInput: React.FC<GlassInputProps> = ({
+  id,
   placeholder,
   value,
   onChange,
@@ -132,6 +135,7 @@ export const GlassInput: React.FC<GlassInputProps> = ({
   error,
   disabled = false,
   name,
+  required = false,
 }) => {
   const baseClasses = 'input w-full transition-all duration-300';
   const variantClasses = {
@@ -147,12 +151,14 @@ export const GlassInput: React.FC<GlassInputProps> = ({
         </label>
       )}
       <motion.input
+        id={id}
         name={name}
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         disabled={disabled}
+        required={required}
         className={cn(
           baseClasses,
           variantClasses[variant],

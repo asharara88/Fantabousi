@@ -9,6 +9,7 @@ import RecommendationsCard from '../components/dashboard/RecommendationsCard';
 import FitnessWidget from '../components/fitness/FitnessWidget';
 import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop';
 import ThemeToggle from '../components/ui/ThemeToggle';
+import { GlassSection, GlassCard } from '../components/ui/GlassComponents';
 
 const DashboardPage: React.FC = () => {
   // Mock data for BW Score metrics
@@ -168,98 +169,110 @@ const DashboardPage: React.FC = () => {
         <ThemeToggle />
       </aside>
       
-      <div className="min-h-screen bg-white/30 dark:bg-black/20 backdrop-blur-sm py-6 sm:py-8 transition-all duration-200">
+      <GlassSection padding="lg" background="gradient">
         <div className="mobile-container">
           {/* Dashboard Header */}
           <header className="mb-6 sm:mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Health Dashboard</h1>
-            <p className="text-gray-600 dark:text-gray-400">Your personalized health overview and insights</p>
+            <h1 className="text-3xl font-bold text-text mb-2">Health Dashboard</h1>
+            <p className="text-text-light">Your personalized health overview and insights</p>
           </header>
 
         {/* BW Score Overview Section */}
         <section role="region" aria-labelledby="bw-score-heading" className="mb-8">
-          <h2 id="bw-score-heading" className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">BW Score Overview</h2>
+          <h2 id="bw-score-heading" className="text-2xl font-semibold text-text mb-6">BW Score Overview</h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* BW Score - Takes up 1 column */}
             <div className="lg:col-span-1">
-              <BWScoreCard 
-                metrics={bwScoreMetrics}
-                onMetricClick={handleMetricClick}
-              />
+              <GlassCard variant="elevated" className="p-6">
+                <BWScoreCard 
+                  metrics={bwScoreMetrics}
+                  onMetricClick={handleMetricClick}
+                />
+              </GlassCard>
             </div>
             
             {/* Metrics Cards - Takes up 2 columns */}
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <MetricsCard
-                title="Steps Today"
-                value="8,247"
-                change={{ value: 12, type: 'increase' }}
-                icon={<Activity className="w-6 h-6" />}
-                color="primary"
-              />
-              <MetricsCard
-                title="Calories Burned"
-                value="1,892"
-                change={{ value: 8, type: 'increase' }}
-                icon={<Zap className="w-6 h-6" />}
-                color="secondary"
-              />
-              <MetricsCard
-                title="Sleep Score"
-                value="78/100"
-                change={{ value: 5, type: 'decrease' }}
-                icon={<Moon className="w-6 h-6" />}
-                color="purple"
-              />
-              <MetricsCard
-                title="Nutrition Score"
-                value="85%"
-                change={{ value: 3, type: 'increase' }}
-                icon={<Utensils className="w-6 h-6" />}
-                color="tertiary"
-              />
+              <GlassCard variant="strong" className="p-0">
+                <MetricsCard
+                  title="Steps Today"
+                  value="8,247"
+                  change={{ value: 12, type: 'increase' }}
+                  icon={<Activity className="w-6 h-6" />}
+                  color="primary"
+                />
+              </GlassCard>
+              <GlassCard variant="strong" className="p-0">
+                <MetricsCard
+                  title="Calories Burned"
+                  value="1,892"
+                  change={{ value: 8, type: 'increase' }}
+                  icon={<Zap className="w-6 h-6" />}
+                  color="secondary"
+                />
+              </GlassCard>
+              <GlassCard variant="strong" className="p-0">
+                <MetricsCard
+                  title="Sleep Score"
+                  value="78/100"
+                  change={{ value: 5, type: 'decrease' }}
+                  icon={<Moon className="w-6 h-6" />}
+                  color="purple"
+                />
+              </GlassCard>
+              <GlassCard variant="strong" className="p-0">
+                <MetricsCard
+                  title="Nutrition Score"
+                  value="85%"
+                  change={{ value: 3, type: 'increase' }}
+                  icon={<Utensils className="w-6 h-6" />}
+                  color="tertiary"
+                />
+              </GlassCard>
             </div>
           </div>
         </section>
 
         {/* Today's Activities Section */}
         <section role="region" aria-labelledby="activities-heading" className="mb-8">
-          <h2 id="activities-heading" className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Today's Activities</h2>
+          <h2 id="activities-heading" className="text-2xl font-semibold text-text mb-6">Today's Activities</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Today's Supplements</h3>
+              <GlassCard variant="frosted" className="p-6">
+                <h3 className="text-lg font-medium text-text mb-4">Today's Supplements</h3>
                 <SupplementTracker 
                   supplements={todaysSupplements}
                   onMarkTaken={handleSupplementTaken}
                 />
-              </div>
-              <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Fitness Overview</h3>
+              </GlassCard>
+              <GlassCard variant="frosted" className="p-6">
+                <h3 className="text-lg font-medium text-text mb-4">Fitness Overview</h3>
                 <FitnessWidget expanded={false} />
-              </div>
+              </GlassCard>
             </div>
             
             <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Activity Timeline</h3>
+              <GlassCard variant="frosted" className="p-6">
+                <h3 className="text-lg font-medium text-text mb-4">Activity Timeline</h3>
                 <ActivityTimeline events={todaysEvents} />
-              </div>
-              <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Recommendations</h3>
+              </GlassCard>
+              <GlassCard variant="frosted" className="p-6">
+                <h3 className="text-lg font-medium text-text mb-4">Recommendations</h3>
                 <RecommendationsCard recommendations={recommendations} />
-              </div>
+              </GlassCard>
             </div>
           </div>
         </section>
 
         {/* Health Overview Section */}
         <section role="region" aria-labelledby="health-overview-heading">
-          <h2 id="health-overview-heading" className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Health Overview</h2>
-          <DashboardCards />
+          <h2 id="health-overview-heading" className="text-2xl font-semibold text-text mb-6">Health Overview</h2>
+          <GlassCard variant="elevated" className="p-6">
+            <DashboardCards />
+          </GlassCard>
         </section>
-      </div>
-    </div>
+        </div>
+      </GlassSection>
     </AdaptiveBackdrop>
   );
 };
