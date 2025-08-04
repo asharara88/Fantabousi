@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, Volume2, VolumeX, Loader2, Settings, Sparkles, X, HelpCircle, Check, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/Button';
+import { GlassCard, GlassButton, GlassInput } from '../components/ui/GlassComponents';
 import ChatMessage from '../components/chat/ChatMessage';
 import { createClient } from '@supabase/supabase-js';
 import { cn } from '../utils/cn'; 

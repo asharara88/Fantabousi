@@ -6,6 +6,7 @@ import { createClient } from '@supabase/supabase-js';
 import { Clock, Sun, Moon, Zap, Sparkles } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { GlassCard, GlassSection } from '../components/ui/GlassComponents';
 
 // Initialize Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
