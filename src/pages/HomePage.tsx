@@ -5,6 +5,7 @@ import EvidenceBasedHealthOptimization from '../components/health/EvidenceBasedH
 import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import LiveTimeDisplay from '../components/ui/LiveTimeDisplay'
+import { GlassCard, GlassButton, GlassSection, GlassFeatureCard } from '../components/ui/GlassComponents'
 import { motion } from 'framer-motion'
 
 // Features data
@@ -193,33 +194,25 @@ const HomePage: React.FC = () => {
                   transition={{ delay: 0.6 }}
                   className="flex flex-col sm:flex-row gap-6 sm:gap-8 mb-16"
                 >
-                  <motion.div 
-                    whileHover={{ scale: 1.05 }} 
-                    whileTap={{ scale: 0.98 }}
-                    className="group"
+                  <GlassButton
+                    variant="primary"
+                    size="lg"
+                    onClick={() => navigate('/dashboard')}
+                    className="flex-1 sm:flex-none"
                   >
-                    <button
-                      onClick={() => navigate('/signup')}
-                      className="gradient-primary text-white px-10 sm:px-12 py-4 rounded-2xl font-semibold hover:shadow-xl hover:shadow-primary/25 hover:-translate-y-1 transition-all duration-300 inline-flex items-center justify-center text-lg min-w-[200px] tracking-wide shadow-lg group relative overflow-hidden"
-                    >
-                      <span className="relative z-10 flex items-center space-x-2">
-                        <span>Get Started</span>
-                        <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary-dark to-secondary-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </button>
-                  </motion.div>
-                  
-                  <motion.div whileHover={{ scale: 1.02 }}>
-                    <button
-                      onClick={() => navigate('/login')}
-                      className="surface-glass text-text hover:text-primary font-medium px-8 py-4 rounded-2xl transition-all duration-300 tracking-wide hover:shadow-lg border border-white/20 hover:border-primary/30"
-                    >
-                      Already have an account? Sign in
-                    </button>
-                  </motion.div>
-                </motion.div>
+                    Start Your Journey
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </GlassButton>
 
+                  <GlassButton
+                    variant="default"
+                    size="lg"
+                    onClick={() => navigate('/demo')}
+                    className="flex-1 sm:flex-none"
+                  >
+                    Watch Demo
+                  </GlassButton>
+                </motion.div>
                 {/* Enhanced Stats Grid */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -270,41 +263,42 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Enhanced Features Section with Glass Morphism and Animations */}
-        <section role="region" aria-labelledby="features-heading" className="py-24 sm:py-28 md:py-32 relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
-          {/* Background Elements */}
-          <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-            <motion.div
-              animate={{
-                rotate: [0, 360],
-                scale: [1, 1.3, 1],
-              }}
-              transition={{
-                duration: 30,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              className="absolute top-1/4 right-1/4 w-64 h-64 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-3xl"
-            />
-            <motion.div
-              animate={{
-                rotate: [360, 0],
-                scale: [1.2, 1, 1.2],
-              }}
-              transition={{
-                duration: 25,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              className="absolute bottom-1/4 left-1/4 w-48 h-48 bg-gradient-to-r from-tertiary/10 to-primary/10 rounded-full blur-3xl"
-            />
-          </div>
+        <GlassSection 
+          background="gradient" 
+          padding="xl"
+          className="border-t border-white/20 dark:border-gray-700/30"
+        >
+          <motion.div 
+            className="mb-16 sm:mb-20 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 
+              id="features-heading" 
+              className="text-4xl sm:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary"
+            >
+              Intelligent Health Optimization
+            </h2>
+            <p className="text-xl text-text-light max-w-3xl mx-auto leading-relaxed">
+              Experience the future of personalized health with our AI-powered platform designed to optimize every aspect of your wellness journey.
+            </p>
+          </motion.div>
 
-          <div className="mobile-container relative z-10">
-            <motion.div 
-              className="mb-16 sm:mb-20 text-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <GlassFeatureCard
+                key={index}
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+                gradient={`from-${feature.gradient.split('-')[1]}-500/20 to-${feature.gradient.split('-')[3]}-500/20`}
+                className="h-full"
+              />
+            ))}
+          </div>
+        </GlassSection>
               transition={{ duration: 0.6 }}
             >
               <motion.div
@@ -544,10 +538,13 @@ const HomePage: React.FC = () => {
                     hidden: { opacity: 0, y: 30, scale: 0.9 },
                     visible: { opacity: 1, y: 0, scale: 1 }
                   }}
-                  whileHover={{ scale: 1.02, y: -5 }}
                   className="group"
                 >
-                  <div className="surface-glass rounded-3xl p-8 h-full hover:shadow-2xl transition-all duration-500 relative overflow-hidden border border-white/20 hover:border-primary/30">
+                  <GlassCard
+                    variant="frosted"
+                    interactive={true}
+                    className="p-8 h-full border border-white/20 hover:border-primary/30"
+                  >
                     {/* Quote decoration */}
                     <motion.div
                       className="absolute top-4 right-4 text-6xl text-primary/20 font-serif"
@@ -586,14 +583,10 @@ const HomePage: React.FC = () => {
                     
                     <div className="flex items-center space-x-4">
                       <motion.div
-                        className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center shadow-lg"
+                        className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center shadow-lg text-2xl"
                         whileHover={{ scale: 1.1 }}
                       >
-                        <img
-                          src={testimonial.avatar}
-                          alt={testimonial.name}
-                          className="w-full h-full rounded-full object-cover"
-                        />
+                        {testimonial.avatar}
                       </motion.div>
                       <div>
                         <motion.h4 
@@ -611,7 +604,7 @@ const HomePage: React.FC = () => {
                       className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"
                       initial={false}
                     />
-                  </div>
+                  </GlassCard>
                 </motion.div>
               ))}
             </motion.div>

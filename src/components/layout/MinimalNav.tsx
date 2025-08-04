@@ -178,7 +178,7 @@ const MinimalNav: React.FC = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-50 transition-all duration-300 border-b glass-subtle border-gray-200/30 dark:border-gray-700/30">
+      <div className="sticky top-0 z-50 transition-all duration-300 border-b glass-nav border-gray-200/30 dark:border-gray-700/30">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -195,7 +195,7 @@ const MinimalNav: React.FC = () => {
 
             {/* Desktop Navigation */}
             <nav aria-label="Primary navigation" className="items-center hidden lg:flex">
-              <ul className="flex items-center space-x-1 surface-glass rounded-2xl p-1.5 shadow-md" role="menubar">
+              <ul className="flex items-center space-x-1 glass-panel rounded-2xl p-1.5 shadow-md" role="menubar">
                 {navItems.map((item) => (
                   <li key={item.href} className="relative" role="none">
                     {item.hasDropdown ? (

@@ -45,6 +45,7 @@ import PaymentCancelPage from './pages/PaymentCancelPage';
 
 // Demo pages
 import LiveTimeDemo from './components/demo/LiveTimeDemo';
+import GlassmorphismShowcase from './components/ui/GlassmorphismShowcase';
 import PricingPage from './pages/PricingPage';
 
 // Wrap lazy components with Suspense
@@ -77,6 +78,8 @@ function App() {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
       <Route path="/diagnostics" element={<DiagnosticsPage />} />
+      <Route path="/debug" element={<SupabaseDebugPage />} />
+      <Route path="/glassmorphism" element={<GlassmorphismShowcase />} />
       
       {/* Payment routes */}
       <Route path="/payment-success" element={<PaymentSuccessPage />} />
