@@ -41,32 +41,12 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-pnpm-lock.yaml
-yarn.lock
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
 # TypeScript cache
 *.tsbuildinfo
-.tscache/
-
-# Package manager cache directories
-.npm/
-.yarn/cache/
-.pnp/
-.pnp.js
-**/node_modules/
-.rush/
-
-# Build tool caches
-.cache/
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-.rollup.cache/
-.nx/cache/
 
 # Optional npm cache directory
 .npm
@@ -249,23 +229,10 @@ $RECYCLE.BIN/
 build/
 dist/
 out/
-**/build/
-**/dist/
-**/out/
-
-# Vite build outputs
-dist-ssr/
-*.local
-
-# Next.js build output
-.next/
-out/
 
 # Testing
 coverage/
 .nyc_output/
-test-results/
-playwright-report/
 
 # Storybook build outputs
 storybook-static/
@@ -273,40 +240,6 @@ storybook-static/
 # Temporary folders
 tmp/
 temp/
-.tmp/
-.temp/
-
-# Large files and archives
-*.zip
-*.tar.gz
-*.tgz
-*.rar
-*.7z
-*.dmg
-*.pkg
-*.deb
-*.rpm
-
-# Bundle analyzer outputs
-bundle-analysis.html
-*.stats.json
-webpack-bundle-analyzer-report.html
-
-# IDE workspace files that can be large
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS generated files that can accumulate
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
 
 # Runtime data
 *.pid
@@ -400,60 +333,3 @@ public/mockServiceWorker.js
 
 # Bundle analysis
 bundle-analysis.html
-
-# Supabase specific
-.supabase/
-supabase/functions/_import_map.json
-
-# Large log files
-*.log
-*.log.*
-logs/
-**/logs/
-
-# Database files that shouldn't be committed
-*.db
-*.sqlite
-*.sqlite3
-
-# Media files that could be large
-*.mp4
-*.avi
-*.mov
-*.wmv
-*.flv
-*.webm
-*.mp3
-*.wav
-*.ogg
-*.aac
-
-# Image originals (keep optimized versions)
-**/originals/
-**/raw/
-*.psd
-*.ai
-*.sketch
-
-# Documentation builds
-docs/build/
-**/docs/build/
-
-# Monorepo specific
-lerna-debug.log*
-rush-temp/
-
-# Package manager specific files
-.pnpm-store/
-.yarn/cache/
-.yarn/unplugged/
-.yarn/build-state.yml
-.yarn/install-state.gz
-
-# Development and debugging
-.vscode/settings.json
-.vscode/launch.json
-debug.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*

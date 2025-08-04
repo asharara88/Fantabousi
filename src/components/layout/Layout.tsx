@@ -59,8 +59,8 @@ const Layout: React.FC = () => {
   // Show loading spinner while checking auth
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
-        <div className="w-32 h-32 border-b-2 rounded-full animate-spin border-primary"></div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -80,7 +80,7 @@ const Layout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen transition-colors duration-300 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Skip Links for keyboard navigation */}
       <a 
         href="#main-content" 
@@ -118,25 +118,25 @@ const Layout: React.FC = () => {
       </main>
 
       {/* Footer - contentinfo landmark */}
-      <footer role="contentinfo" className="text-gray-800 transition-colors duration-300 border-t gradient-subtle border-gray-200/30 dark:border-gray-700/30 dark:text-white">
-        <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="flex flex-col items-start justify-between md:flex-row">
-            <div className="flex items-center mb-5 text-left md:mb-0">
+      <footer role="contentinfo" className="gradient-subtle border-t border-gray-200/30 dark:border-gray-700/30 text-gray-800 dark:text-white transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="flex flex-col md:flex-row justify-between items-start">
+            <div className="flex items-center mb-5 md:mb-0 text-left">
               {/* Use local logos from the public/logos folder. The first shows in light mode and the second in dark mode. */}
               <img
                 src="/logos/biowell-dark.svg"
                 alt="Biowell Logo"
-                className="w-auto h-24 dark:hidden opacity-70"
+                className="h-24 w-auto dark:hidden opacity-70"
               />
               <img
                 src="/logos/biowell-light.svg"
                 alt="Biowell Logo"
-                className="hidden w-auto h-24 dark:block opacity-70"
+                className="h-24 w-auto hidden dark:block opacity-70"
               />
             </div>
             <div className="text-left md:text-right">
-              <p className="text-sm font-medium tracking-wide">&copy; 2025 Biowell AI - Personal Smart Coach</p>
-              <p className="mt-2 text-sm tracking-wide text-text-light">All rights reserved.</p>
+              <p className="font-medium tracking-wide text-sm">&copy; 2025 Biowell AI - Personal Smart Coach</p>
+              <p className="text-text-light mt-2 tracking-wide text-sm">All rights reserved.</p>
             </div>
           </div>
         </div>

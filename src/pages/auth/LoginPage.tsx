@@ -202,6 +202,24 @@ const LoginPage: React.FC = () => {
       </div>
     </AdaptiveBackdrop>
   )
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Signing in...' : 'Sign in'}
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+    </AdaptiveBackdrop>
+  )
 }
 
 export default LoginPage
