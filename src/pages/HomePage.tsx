@@ -299,28 +299,40 @@ const HomePage: React.FC = () => {
             ))}
           </div>
         </GlassSection>
-              transition={{ duration: 0.6 }}
-            >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center space-x-2 surface-glass rounded-full px-6 py-3 mb-6"
-              >
-                <Star className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium gradient-text">Premium Features</span>
-              </motion.div>
 
-              <h2 id="features-heading" className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 tracking-tighter leading-tight text-balance">
-                <span className="text-text">Why Choose </span>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary">
-                  Biowell?
-                </span>
-              </h2>
-              <p className="text-xl sm:text-2xl text-text-light max-w-3xl mx-auto tracking-wide leading-relaxed text-balance">
-                Experience the future of personalized wellness with AI-powered insights
-              </p>
+        {/* Enhanced Features Section with Glass Morphism and Animations */}
+        <GlassSection 
+          background="gradient" 
+          padding="xl"
+          className="border-t border-white/20 dark:border-gray-700/30"
+        >
+          <motion.div 
+            className="mb-16 sm:mb-20 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center space-x-2 surface-glass rounded-full px-6 py-3 mb-6"
+            >
+              <Star className="w-5 h-5 text-primary" />
+              <span className="text-sm font-medium gradient-text">Premium Features</span>
             </motion.div>
+
+            <h2 id="features-heading" className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 tracking-tighter leading-tight text-balance">
+              <span className="text-text">Why Choose </span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary">
+                Biowell?
+              </span>
+            </h2>
+            <p className="text-xl sm:text-2xl text-text-light max-w-3xl mx-auto tracking-wide leading-relaxed text-balance">
+              Experience the future of personalized wellness with AI-powered insights
+            </p>
+          </motion.div>
 
             <motion.div 
               className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"
@@ -468,7 +480,7 @@ const HomePage: React.FC = () => {
               ))}
             </motion.div>
           </div>
-        </section>
+        </GlassSection>
 
         {/* Enhanced Testimonials Section */}
         <section role="region" aria-labelledby="testimonials-heading" className="py-24 sm:py-32 relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">

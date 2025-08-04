@@ -9,7 +9,7 @@ export default defineConfig({
     }),
   ],
   server: {
-    port: 5173, // Run on port 5173 instead of 3000
+    port: 4000, // Run on port 4000
     hmr: {
       overlay: true,
     },
