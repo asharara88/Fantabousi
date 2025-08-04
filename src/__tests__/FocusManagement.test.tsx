@@ -248,11 +248,9 @@ describe('Focus Management System', () => {
     ];
 
     it('should open dropdown on trigger click', async () => {
-      const onChange = jest.fn();
-      
       render(
         <div>
-          <button role="button">Select option</button>
+          <button>Select option</button>
           <ul role="listbox" style={{ display: 'none' }}>
             {options.map((option) => (
               <li key={option.value}>{option.label}</li>
@@ -267,11 +265,9 @@ describe('Focus Management System', () => {
     });
 
     it('should handle keyboard navigation', async () => {
-      const onChange = jest.fn();
-      
       render(
         <div>
-          <button role="button">Select option</button>
+          <button>Select option</button>
         </div>
       );
 
@@ -287,7 +283,7 @@ describe('Focus Management System', () => {
       const { container } = render(
         <div>
           <label htmlFor="test-dropdown">Test Dropdown</label>
-          <button id="test-dropdown" role="button">Select option</button>
+          <button id="test-dropdown">Select option</button>
         </div>
       );
       
