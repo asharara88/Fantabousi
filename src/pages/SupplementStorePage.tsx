@@ -2,6 +2,8 @@ import { useEffect, useState, useMemo } from "react";
 import { CheckCircle, AlertCircle, Info, Loader2, Shield } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
+import { GlassSection, GlassCard, GlassButton, GlassInput } from "../components/ui/GlassComponents";
+import AdaptiveBackdrop from "../components/ui/AdaptiveBackdrop";
 import { supplementApi } from '../api/supplementApi';
 import StackBuilderModal from '../components/supplements/StackBuilderModal';
 import { getAllSupplements, getUniqueCategories, searchSupplements, ProcessedSupplement } from '../utils/supplementData';
