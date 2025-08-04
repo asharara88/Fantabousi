@@ -1,18 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
+import { axe, toHaveNoViolations } from 'jest-axe';
 
-// Mock the missing modules and components
-const mockAxe = jest.fn().mockResolvedValue({ violations: [] });
-const mockToHaveNoViolations = expect.extend({
-  toHaveNoViolations(received) {
-    if (received.violations && received.violations.length === 0) {
-      return { pass: true, message: () => 'No accessibility violations found' };
-    }
-    return { pass: false, message: () => 'Accessibility violations found' };
-  },
-});
+// Extend Jest matchers
+expect.extend(toHaveNoViolations);
 
 // Mock focus management utilities
 const mockFocusTrap = {
@@ -191,8 +183,8 @@ describe('Focus Management System', () => {
 
     it('should be accessible', async () => {
       const { container } = render(<SkipLinks />);
-      const results = await mockAxe(container);
-      expect(results).toHaveProperty('violations');
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
   });
 
@@ -243,8 +235,8 @@ describe('Focus Management System', () => {
         </AccessibleModal>
       );
       
-      const results = await mockAxe(baseElement);
-      expect(results).toHaveProperty('violations');
+      const results = await axe(baseElement);
+      expect(results).toHaveNoViolations();
     });
   });
 
@@ -299,8 +291,8 @@ describe('Focus Management System', () => {
         </div>
       );
       
-      const results = await mockAxe(container);
-      expect(results).toHaveProperty('violations');
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
   });
 
@@ -446,81 +438,6 @@ describe('Focus Management Integration', () => {
           <select id="test-select">
             <option value="test">Test</option>
           </select>
-        </main>
-      </FocusProvider>
-    );
-
-    const { container } = render(<App />);
-    
-    // Test overall accessibility
-    const results = await mockAxe(container);
-    expect(results).toHaveProperty('violations');
-  });
-});
-          
-          <AccessibleModal
-            isOpen={modalOpen}
-            onClose={() => setModalOpen(false)}
-            title="Complex Modal"
-          >
-            <AccessibleDropdown
-              options={[
-                { value: 'test1', label: 'Test 1' },
-                { value: 'test2', label: 'Test 2' },
-              ]}
-              value={dropdownValue}
-              onChange={setDropdownValue}
-              label="Nested Dropdown"
-            />
-          </AccessibleModal>
-        </FocusProvider>
-      );
-    };
-
-    render(<ComplexComponent />);
-
-    // Open modal
-    const openButton = screen.getByText('Open Modal');
-    fireEvent.click(openButton);
-
-    await waitFor(() => {
-      expect(screen.getByRole('dialog')).toBeInTheDocument();
-    });
-
-    // Interact with nested dropdown
-    const dropdownTrigger = screen.getByRole('button', { name: /select an option/i });
-    fireEvent.click(dropdownTrigger);
-
-    await waitFor(() => {
-      expect(screen.getByRole('listbox')).toBeInTheDocument();
-    });
-
-    // Select option
-    const option = screen.getByText('Test 1');
-    fireEvent.click(option);
-
-    // Close modal
-    fireEvent.keyDown(document, { key: 'Escape' });
-
-    await waitFor(() => {
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    });
-
-    // Focus should return to open button
-    expect(document.activeElement).toBe(openButton);
-  });
-
-  it('should maintain accessibility across component interactions', async () => {
-    const App = () => (
-      <FocusProvider>
-        <main id="main-content">
-          <h1>Test App</h1>
-          <AccessibleDropdown
-            options={[{ value: 'test', label: 'Test' }]}
-            value=""
-            onChange={() => {}}
-            label="Test Dropdown"
-          />
         </main>
       </FocusProvider>
     );
