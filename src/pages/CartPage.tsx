@@ -13,6 +13,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
+import { GlassSection, GlassCard, GlassButton } from '../components/ui/GlassComponents';
+import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop';
 import { createClient } from '@supabase/supabase-js';
 import { getAllSupplements } from '../utils/supplementData';
 
@@ -281,39 +283,41 @@ const CartPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-6 sm:py-8 transition-all duration-200">
-      <div className="mobile-container">
-        {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Shopping Cart</h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} in your cart
-          </p>
-        </div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-200 relative">
+      <AdaptiveBackdrop />
+      <GlassSection className="py-6 sm:py-8 relative z-10">
+        <div className="mobile-container">
+          {/* Header */}
+          <div className="mb-6 sm:mb-8">
+            <h1 className="text-3xl font-bold text-text dark:text-white mb-2">Shopping Cart</h1>
+            <p className="text-text-light dark:text-gray-400">
+              {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} in your cart
+            </p>
+          </div>
 
-        {cartItems.length === 0 ? (
-          // Empty Cart State
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center py-16"
-          >
-            <Card className="p-12 max-w-md mx-auto">
-              <ShoppingCart className="w-16 h-16 text-gray-400 mx-auto mb-6" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+          {cartItems.length === 0 ? (
+            // Empty Cart State
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-16"
+            >
+            <GlassCard variant="subtle" className="p-12 max-w-md mx-auto">
+              <ShoppingCart className="w-16 h-16 text-text-light dark:text-gray-400 mx-auto mb-6" />
+              <h3 className="text-xl font-semibold text-text dark:text-white mb-4">
                 Your cart is empty
               </h3>
-              <p className="text-gray-500 dark:text-gray-400 mb-8">
+              <p className="text-text-light dark:text-gray-400 mb-8">
                 Discover personalized supplements to optimize your health
               </p>
-              <Button
+              <GlassButton
                 onClick={() => window.location.href = '/supplements'}
                 className="gradient-primary text-white"
               >
                 Browse Supplements
                 <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Card>
+              </GlassButton>
+            </GlassCard>
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -328,7 +332,7 @@ const CartPage: React.FC = () => {
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <Card className="p-6">
+                    <GlassCard variant="default" className="p-6">
                       <div className="flex items-center space-x-4">
                         {/* Product Image */}
                         <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
@@ -345,11 +349,11 @@ const CartPage: React.FC = () => {
 
                         {/* Product Details */}
                         <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900 dark:text-white">
+                          <h3 className="font-semibold text-text dark:text-white">
                             {item.name}
                           </h3>
                           {item.brand && (
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                            <p className="text-sm text-text-light dark:text-gray-400">
                               by {item.brand}
                             </p>
                           )}
@@ -385,7 +389,7 @@ const CartPage: React.FC = () => {
                             >
                               <Minus className="w-4 h-4" />
                             </button>
-                            <span className="w-8 text-center font-medium text-gray-900 dark:text-white">
+                            <span className="w-8 text-center font-medium text-text dark:text-white">
                               {item.quantity}
                             </span>
                             <button
@@ -421,7 +425,7 @@ const CartPage: React.FC = () => {
                           </button>
                         </div>
                       </div>
-                    </Card>
+                    </GlassCard>
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -429,15 +433,15 @@ const CartPage: React.FC = () => {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <Card className="p-6 sticky top-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <GlassCard variant="elevated" className="p-6 sticky top-6">
+                <h3 className="text-lg font-semibold text-text dark:text-white mb-4">
                   Order Summary
                 </h3>
                 
                 <div className="space-y-3 mb-4">
                   <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">Subtotal</span>
-                    <span className="text-gray-900 dark:text-white">
+                    <span className="text-text-light dark:text-gray-400">Subtotal</span>
+                    <span className="text-text dark:text-white">
                       {subtotal.toFixed(2)} AED
                     </span>
                   </div>
@@ -450,14 +454,14 @@ const CartPage: React.FC = () => {
                   )}
                   
                   <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">Shipping</span>
-                    <span className={shipping === 0 ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}>
+                    <span className="text-text-light dark:text-gray-400">Shipping</span>
+                    <span className={shipping === 0 ? 'text-green-600 dark:text-green-400' : 'text-text dark:text-white'}>
                       {shipping === 0 ? 'Free' : `${shipping.toFixed(2)} AED`}
                     </span>
                   </div>
                   
                   {shipping > 0 && (
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-text-light dark:text-gray-400">
                       Free shipping on orders over 100 AED
                     </p>
                   )}
@@ -465,14 +469,14 @@ const CartPage: React.FC = () => {
                 
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mb-6">
                   <div className="flex justify-between items-center">
-                    <span className="text-lg font-semibold text-gray-900 dark:text-white">Total</span>
-                    <span className="text-xl font-bold text-gray-900 dark:text-white">
+                    <span className="text-lg font-semibold text-text dark:text-white">Total</span>
+                    <span className="text-xl font-bold text-text dark:text-white">
                       {total.toFixed(2)} AED
                     </span>
                   </div>
                 </div>
                 
-                <Button
+                <GlassButton
                   onClick={handleCheckout}
                   disabled={isProcessing}
                   className="w-full gradient-primary text-white"
@@ -493,12 +497,12 @@ const CartPage: React.FC = () => {
                       Proceed to Checkout
                     </>
                   )}
-                </Button>
+                </GlassButton>
                 
-                <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-4">
+                <p className="text-xs text-text-light dark:text-gray-400 text-center mt-4">
                   Secure checkout powered by Stripe
                 </p>
-              </Card>
+              </GlassCard>
             </div>
           </div>
         )}
@@ -512,35 +516,37 @@ const CartPage: React.FC = () => {
               exit={{ opacity: 0 }}
               className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
             >
-              <motion.div
+              <GlassCard
+                variant="strong"
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full text-center"
+                className="p-8 max-w-md w-full text-center"
               >
                 <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
                 </div>
                 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-xl font-semibold text-text dark:text-white mb-2">
                   Order Confirmed!
                 </h3>
                 
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                <p className="text-text-light dark:text-gray-400 mb-6">
                   Your supplements are on their way. You'll receive a confirmation email shortly.
                 </p>
                 
-                <Button
+                <GlassButton
                   onClick={() => setShowCheckoutSuccess(false)}
                   className="gradient-primary text-white"
                 >
                   Continue Shopping
-                </Button>
-              </motion.div>
+                </GlassButton>
+              </GlassCard>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+        </div>
+      </GlassSection>
     </div>
   );
 };
