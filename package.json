@@ -26,7 +26,11 @@
     "predeploy": "npm run build:prod",
     "deploy": "netlify deploy --prod",
     "start": "./dev-start.sh",
-    "env:check": "node -e \"console.log('Environment check:', process.env)\""
+    "env:check": "node -e \"console.log('Environment check:', process.env)\"",
+    "analyze": "npm run build && npx vite-bundle-analyzer dist",
+    "deps:check": "npx depcheck",
+    "deps:unused": "npx unimported",
+    "deps:audit": "npm run deps:check && npm run deps:unused"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.14",
