@@ -273,7 +273,7 @@ const HomePage: React.FC = () => {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="relative lg:pl-8"
               >
-                <div className="relative h-[600px]">
+                <div className="relative h-[700px] w-full overflow-hidden">
                   {/* Main Dashboard Card with Enhanced Animations */}
                   <motion.div
                     animate={{ 
@@ -287,48 +287,50 @@ const HomePage: React.FC = () => {
                     }}
                     className="absolute top-0 left-0 w-80 h-96 backdrop-blur-xl bg-gradient-to-br from-white/20 to-white/5 border border-white/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-shadow duration-500"
                   >
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-text">Home</h3>
-                        <motion.div 
-                          className="w-3 h-3 bg-green-500 rounded-full"
-                          animate={{ scale: [1, 1.5, 1] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        />
-                      </div>
-                      
+                    <div className="h-full flex flex-col justify-between">
                       <div className="space-y-4">
-                        <div className="flex justify-between items-center">
-                          <span className="text-text-muted">BW Score</span>
-                          <motion.span 
-                            className="text-3xl font-bold gradient-text"
-                            animate={{ scale: [1, 1.1, 1] }}
-                            transition={{ duration: 3, repeat: Infinity }}
-                          >
-                            87
-                          </motion.span>
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold text-text">Home</h3>
+                          <motion.div 
+                            className="w-3 h-3 bg-green-500 rounded-full flex-shrink-0"
+                            animate={{ scale: [1, 1.5, 1] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
                         </div>
                         
-                        {[
-                          { label: "Sleep", value: 92, color: "from-blue-500 to-blue-600" },
-                          { label: "Nutrition", value: 78, color: "from-green-500 to-green-600" },
-                          { label: "Fitness", value: 85, color: "from-orange-500 to-orange-600" }
-                        ].map((metric, index) => (
-                          <div key={index} className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-text-muted">{metric.label}</span>
-                              <span className="text-text font-medium">{metric.value}%</span>
-                            </div>
-                            <div className="w-full bg-gray-200/20 rounded-full h-2 overflow-hidden">
-                              <motion.div
-                                initial={{ width: 0 }}
-                                animate={{ width: `${metric.value}%` }}
-                                transition={{ delay: index * 0.2, duration: 1.5, ease: "easeOut" }}
-                                className={`h-2 rounded-full bg-gradient-to-r ${metric.color} shadow-sm`}
-                              />
-                            </div>
+                        <div className="space-y-4">
+                          <div className="flex justify-between items-center">
+                            <span className="text-text-muted">BW Score</span>
+                            <motion.span 
+                              className="text-3xl font-bold gradient-text"
+                              animate={{ scale: [1, 1.1, 1] }}
+                              transition={{ duration: 3, repeat: Infinity }}
+                            >
+                              87
+                            </motion.span>
                           </div>
-                        ))}
+                          
+                          {[
+                            { label: "Sleep", value: 92, color: "from-blue-500 to-blue-600" },
+                            { label: "Nutrition", value: 78, color: "from-green-500 to-green-600" },
+                            { label: "Fitness", value: 85, color: "from-orange-500 to-orange-600" }
+                          ].map((metric, index) => (
+                            <div key={index} className="space-y-2">
+                              <div className="flex justify-between text-sm">
+                                <span className="text-text-muted">{metric.label}</span>
+                                <span className="text-text font-medium">{metric.value}%</span>
+                              </div>
+                              <div className="w-full bg-gray-200/20 rounded-full h-2 overflow-hidden">
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${metric.value}%` }}
+                                  transition={{ delay: index * 0.2, duration: 1.5, ease: "easeOut" }}
+                                  className={`h-2 rounded-full bg-gradient-to-r ${metric.color} shadow-sm`}
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -344,66 +346,68 @@ const HomePage: React.FC = () => {
                       repeat: Infinity,
                       ease: "easeInOut"
                     }}
-                    className="absolute top-20 right-0 w-72 h-80 backdrop-blur-xl bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-shadow duration-500"
+                    className="absolute top-20 right-0 w-80 h-96 backdrop-blur-xl bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-shadow duration-500"
                   >
-                    <div className="space-y-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center shadow-lg">
-                          <span className="text-white text-sm">🤖</span>
-                        </div>
-                        <span className="text-text font-medium">Smart Coach</span>
-                        <motion.div
-                          className="ml-auto w-2 h-2 bg-green-500 rounded-full"
-                          animate={{ opacity: [1, 0.3, 1] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        />
-                      </div>
-                      
-                      <div className="space-y-3">
-                        <motion.div 
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 1 }}
-                          className="bg-white/10 rounded-2xl p-3 backdrop-blur-sm"
-                        >
-                          <p className="text-sm text-text">
-                            "Based on your sleep data, I recommend adjusting your magnesium intake to 400mg, taken 2 hours before bed..."
-                          </p>
-                        </motion.div>
-                        
-                        <motion.div 
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 2 }}
-                          className="bg-primary/20 rounded-2xl p-3 ml-6 backdrop-blur-sm"
-                        >
-                          <p className="text-sm text-text">
-                            "Tell me more about the timing"
-                          </p>
-                        </motion.div>
-                        
-                        <motion.div 
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 3 }}
-                          className="flex items-center space-x-2 text-text-muted"
-                        >
-                          <div className="flex space-x-1">
-                            {[0, 1, 2].map((i) => (
-                              <motion.div
-                                key={i}
-                                className="w-2 h-2 bg-primary rounded-full"
-                                animate={{ scale: [1, 1.5, 1] }}
-                                transition={{ 
-                                  duration: 1.5, 
-                                  repeat: Infinity,
-                                  delay: i * 0.2 
-                                }}
-                              />
-                            ))}
+                    <div className="h-full flex flex-col justify-between">
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+                            <span className="text-white text-sm">🤖</span>
                           </div>
-                          <span className="text-xs">AI is analyzing...</span>
-                        </motion.div>
+                          <span className="text-text font-medium truncate">Smart Coach</span>
+                          <motion.div
+                            className="ml-auto w-2 h-2 bg-green-500 rounded-full flex-shrink-0"
+                            animate={{ opacity: [1, 0.3, 1] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
+                        </div>
+                        
+                        <div className="space-y-3 flex-1">
+                          <motion.div 
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 1 }}
+                            className="bg-white/10 rounded-2xl p-3 backdrop-blur-sm"
+                          >
+                            <p className="text-sm text-text leading-relaxed">
+                              "Based on your sleep data, I recommend adjusting your magnesium intake to 400mg, taken 2 hours before bed..."
+                            </p>
+                          </motion.div>
+                          
+                          <motion.div 
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 2 }}
+                            className="bg-primary/20 rounded-2xl p-3 ml-6 backdrop-blur-sm"
+                          >
+                            <p className="text-sm text-text leading-relaxed">
+                              "Tell me more about the timing"
+                            </p>
+                          </motion.div>
+                          
+                          <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 3 }}
+                            className="flex items-center space-x-2 text-text-muted pt-2"
+                          >
+                            <div className="flex space-x-1">
+                              {[0, 1, 2].map((i) => (
+                                <motion.div
+                                  key={i}
+                                  className="w-2 h-2 bg-primary rounded-full"
+                                  animate={{ scale: [1, 1.5, 1] }}
+                                  transition={{ 
+                                    duration: 1.5, 
+                                    repeat: Infinity,
+                                    delay: i * 0.2 
+                                  }}
+                                />
+                              ))}
+                            </div>
+                            <span className="text-xs">AI is analyzing...</span>
+                          </motion.div>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -419,39 +423,43 @@ const HomePage: React.FC = () => {
                       repeat: Infinity,
                       ease: "easeInOut"
                     }}
-                    className="absolute bottom-0 left-10 w-64 h-48 backdrop-blur-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-shadow duration-500"
+                    className="absolute bottom-0 left-10 w-80 h-60 backdrop-blur-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-shadow duration-500"
                   >
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-text font-semibold">Supplement Stacks</h4>
-                        <motion.div
-                          className="text-xs bg-green-500/20 text-green-600 px-2 py-1 rounded-full"
-                          animate={{ scale: [1, 1.05, 1] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        >
-                          3/5 taken
-                        </motion.div>
+                    <div className="h-full flex flex-col justify-between">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-text font-semibold truncate pr-2">Supplement Stacks</h4>
+                          <motion.div
+                            className="text-xs bg-green-500/20 text-green-600 px-2 py-1 rounded-full whitespace-nowrap flex-shrink-0"
+                            animate={{ scale: [1, 1.05, 1] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          >
+                            3/5 taken
+                          </motion.div>
+                        </div>
+                        
+                        <div className="space-y-2 flex-1">
+                          {[
+                            { name: "Vitamin D3", time: "Morning", status: "✓", color: "text-green-500" },
+                            { name: "Omega-3", time: "With lunch", status: "⏰", color: "text-yellow-500" },
+                            { name: "Magnesium", time: "Evening", status: "○", color: "text-gray-400" }
+                          ].map((supplement, index) => (
+                            <motion.div 
+                              key={index}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 1 + index * 0.2 }}
+                              className="flex items-center justify-between hover:bg-white/10 p-2 rounded-lg transition-colors"
+                            >
+                              <div className="flex-1 min-w-0">
+                                <div className="text-sm font-medium text-text truncate">{supplement.name}</div>
+                                <div className="text-xs text-text-muted truncate">{supplement.time}</div>
+                              </div>
+                              <span className={`text-lg ${supplement.color} flex-shrink-0 ml-2`}>{supplement.status}</span>
+                            </motion.div>
+                          ))}
+                        </div>
                       </div>
-                      
-                      {[
-                        { name: "Vitamin D3", time: "Morning", status: "✓", color: "text-green-500" },
-                        { name: "Omega-3", time: "With lunch", status: "⏰", color: "text-yellow-500" },
-                        { name: "Magnesium", time: "Evening", status: "○", color: "text-gray-400" }
-                      ].map((supplement, index) => (
-                        <motion.div 
-                          key={index}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 1 + index * 0.2 }}
-                          className="flex items-center justify-between hover:bg-white/10 p-2 rounded-lg transition-colors"
-                        >
-                          <div>
-                            <div className="text-sm font-medium text-text">{supplement.name}</div>
-                            <div className="text-xs text-text-muted">{supplement.time}</div>
-                          </div>
-                          <span className={`text-lg ${supplement.color}`}>{supplement.status}</span>
-                        </motion.div>
-                      ))}
                     </div>
                   </motion.div>
                 </div>
