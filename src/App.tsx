@@ -37,6 +37,7 @@ import OnboardingPage from './pages/auth/OnboardingPage';
 import NotFoundPage from './pages/NotFoundPage';
 import DiagnosticsPage from './pages/DiagnosticsPage';
 import LandingPage from './pages/LandingPage';
+import SupabaseDebugPage from './pages/SupabaseDebugPage';
 
 // Payment pages
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
