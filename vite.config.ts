@@ -9,7 +9,7 @@ export default defineConfig({
     }),
   ],
   server: {
-    port: 5173, // Run on port 5173 instead of 3000
+    port: 5175, // Local development port (avoiding 5173 used by Bolt)
     hmr: {
       overlay: true,
     },
