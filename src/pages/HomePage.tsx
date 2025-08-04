@@ -83,7 +83,7 @@ const HomePage: React.FC = () => {
     <AdaptiveBackdrop animationSpeed="slow" overlay={true}>
       <div className="relative min-h-screen">
         {/* Fixed Elements - Complementary landmark for utility controls */}
-        <aside role="complementary" aria-label="Page controls" className="fixed top-6 right-6 z-50">
+        <aside role="complementary" aria-label="Page controls" className="fixed z-50 top-6 right-6">
           <ThemeToggle />
         </aside>
 
@@ -101,7 +101,7 @@ const HomePage: React.FC = () => {
                 repeat: Infinity,
                 ease: "linear"
               }}
-              className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-full blur-3xl"
+              className="absolute w-32 h-32 rounded-full top-20 left-20 bg-gradient-to-r from-primary/30 to-secondary/30 blur-3xl"
             />
             <motion.div
               animate={{
@@ -113,7 +113,7 @@ const HomePage: React.FC = () => {
                 repeat: Infinity,
                 ease: "linear"
               }}
-              className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-secondary/30 to-tertiary/30 rounded-full blur-3xl"
+              className="absolute w-40 h-40 rounded-full bottom-20 right-20 bg-gradient-to-r from-secondary/30 to-tertiary/30 blur-3xl"
             />
             <motion.div
               animate={{
@@ -125,12 +125,12 @@ const HomePage: React.FC = () => {
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
-              className="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-r from-tertiary/20 to-primary/20 rounded-full blur-2xl"
+              className="absolute w-24 h-24 rounded-full top-1/2 left-1/4 bg-gradient-to-r from-tertiary/20 to-primary/20 blur-2xl"
             />
           </div>
 
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="container relative z-10 px-4 mx-auto">
+            <div className="grid items-center gap-12 lg:grid-cols-2">
               {/* Left Column - Enhanced Hero Content */}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
@@ -153,7 +153,7 @@ const HomePage: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="inline-flex items-center space-x-2 surface-glass rounded-full px-6 py-3 hover:shadow-lg transition-all duration-300"
+                    className="inline-flex items-center px-6 py-3 space-x-2 transition-all duration-300 rounded-full surface-glass hover:shadow-lg"
                   >
                     <motion.span 
                       className="w-2 h-2 bg-green-500 rounded-full"
@@ -168,10 +168,10 @@ const HomePage: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="text-5xl sm:text-6xl md:text-7xl font-bold mb-8 tracking-tighter text-left leading-tight"
+                    className="mb-8 text-5xl font-bold leading-tight tracking-tighter text-left sm:text-6xl md:text-7xl"
                   >
                     <span className="text-text">Your Personal </span>
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary">
                       Smart Coach
                     </span>
                   </motion.h1>
@@ -180,7 +180,7 @@ const HomePage: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="text-xl sm:text-2xl mb-12 text-text-light max-w-3xl tracking-wide text-left leading-relaxed"
+                    className="max-w-3xl mb-12 text-xl leading-relaxed tracking-wide text-left sm:text-2xl text-text-light"
                   >
                     Transform your health with AI-powered insights, personalized nutrition, 
                     and evidence-based supplement recommendations. Connect your wearables, 
@@ -192,7 +192,7 @@ const HomePage: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="flex flex-col sm:flex-row gap-6 sm:gap-8 mb-16"
+                  className="flex flex-col gap-6 mb-16 sm:flex-row sm:gap-8"
                 >
                   <GlassButton
                     variant="primary"
@@ -201,7 +201,7 @@ const HomePage: React.FC = () => {
                     className="flex-1 sm:flex-none"
                   >
                     Start Your Journey
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                   </GlassButton>
 
                   <GlassButton
@@ -218,7 +218,7 @@ const HomePage: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7 }}
-                  className="grid grid-cols-2 lg:grid-cols-4 gap-6"
+                  className="grid grid-cols-2 gap-6 lg:grid-cols-4"
                 >
                   {stats.map((stat, index) => (
                     <motion.div
@@ -227,18 +227,18 @@ const HomePage: React.FC = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.8 + index * 0.1 }}
                       whileHover={{ scale: 1.05 }}
-                      className="text-center group surface-glass rounded-2xl p-4 hover:shadow-lg transition-all duration-300"
+                      className="p-4 text-center transition-all duration-300 group surface-glass rounded-2xl hover:shadow-lg"
                     >
-                      <div className="text-2xl font-bold text-primary group-hover:text-secondary transition-colors">
+                      <div className="text-2xl font-bold transition-colors text-primary group-hover:text-secondary">
                         {stat.value}
                       </div>
                       <div className="text-sm text-text-light">{stat.label}</div>
-                      <div className="text-xs text-green-500 font-medium">{stat.trend}</div>
+                      <div className="text-xs font-medium text-green-500">{stat.trend}</div>
                     </motion.div>
                   ))}
                 </motion.div>
 
-                <div className="flex flex-wrap gap-8 text-sm text-text-light tracking-wide">
+                <div className="flex flex-wrap gap-8 text-sm tracking-wide text-text-light">
                   {[
                     'Personalized recommendations',
                     'Science-backed approach',
@@ -252,8 +252,8 @@ const HomePage: React.FC = () => {
                       transition={{ delay: 0.9 + index * 0.1 }}
                       className="flex items-center group"
                     >
-                      <CheckCircle className="w-4 h-4 mr-2 text-primary group-hover:text-secondary transition-colors" />
-                      <span className="group-hover:text-text transition-colors">{feature}</span>
+                      <CheckCircle className="w-4 h-4 mr-2 transition-colors text-primary group-hover:text-secondary" />
+                      <span className="transition-colors group-hover:text-text">{feature}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -269,7 +269,7 @@ const HomePage: React.FC = () => {
           className="border-t border-white/20 dark:border-gray-700/30"
         >
           <motion.div 
-            className="mb-16 sm:mb-20 text-center"
+            className="mb-16 text-center sm:mb-20"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -277,16 +277,16 @@ const HomePage: React.FC = () => {
           >
             <h2 
               id="features-heading" 
-              className="text-4xl sm:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary"
+              className="mb-6 text-4xl font-bold text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary"
             >
               Intelligent Health Optimization
             </h2>
-            <p className="text-xl text-text-light max-w-3xl mx-auto leading-relaxed">
+            <p className="max-w-3xl mx-auto text-xl leading-relaxed text-text-light">
               Experience the future of personalized health with our AI-powered platform designed to optimize every aspect of your wellness journey.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {features.map((feature, index) => (
               <GlassFeatureCard
                 key={index}
@@ -299,31 +299,42 @@ const HomePage: React.FC = () => {
             ))}
           </div>
         </GlassSection>
+
+        {/* Enhanced Features Section */}
+        <GlassSection 
+          background="gradient" 
+          padding="xl"
+          className="border-t border-white/20 dark:border-gray-700/30"
+        >
+          <div className="text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
-                className="inline-flex items-center space-x-2 surface-glass rounded-full px-6 py-3 mb-6"
+                className="inline-flex items-center px-6 py-3 mb-6 space-x-2 rounded-full surface-glass"
               >
                 <Star className="w-5 h-5 text-primary" />
                 <span className="text-sm font-medium gradient-text">Premium Features</span>
               </motion.div>
 
-              <h2 id="features-heading" className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 tracking-tighter leading-tight text-balance">
+              <h2 id="features-heading" className="mb-6 text-4xl font-bold leading-tight tracking-tighter sm:text-5xl md:text-6xl sm:mb-8 text-balance">
                 <span className="text-text">Why Choose </span>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary">
                   Biowell?
                 </span>
               </h2>
-              <p className="text-xl sm:text-2xl text-text-light max-w-3xl mx-auto tracking-wide leading-relaxed text-balance">
+              <p className="max-w-3xl mx-auto text-xl leading-relaxed tracking-wide sm:text-2xl text-text-light text-balance">
                 Experience the future of personalized wellness with AI-powered insights
               </p>
             </motion.div>
 
             <motion.div 
-              className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"
+              className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -348,7 +359,7 @@ const HomePage: React.FC = () => {
                     y: -10,
                     rotateY: 5
                   }}
-                  className="group relative overflow-hidden cursor-pointer"
+                  className="relative overflow-hidden cursor-pointer group"
                   onClick={() => toggleCard(index)}
                 >
                   {/* Background Pattern */}
@@ -374,23 +385,23 @@ const HomePage: React.FC = () => {
                       
                       {/* Glow Effect */}
                       <motion.div
-                        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-500"
+                        className="absolute inset-0 transition-opacity duration-500 opacity-0 rounded-2xl group-hover:opacity-60"
                         style={{ 
                           background: `radial-gradient(circle, ${feature.gradient.includes('primary') ? 'var(--primary)' : 'var(--secondary)'}/40 0%, transparent 70%)`
                         }}
                       />
                     </motion.div>
                     
-                    <div className="text-center relative z-10">
+                    <div className="relative z-10 text-center">
                       <motion.h3 
-                        className="text-xl font-bold mb-4 text-text group-hover:text-primary transition-colors duration-300"
+                        className="mb-4 text-xl font-bold transition-colors duration-300 text-text group-hover:text-primary"
                         whileHover={{ scale: 1.05 }}
                       >
                         {feature.title}
                       </motion.h3>
                       
                       <motion.p 
-                        className="text-text-light leading-relaxed group-hover:text-text transition-colors duration-300"
+                        className="leading-relaxed transition-colors duration-300 text-text-light group-hover:text-text"
                         initial={{ opacity: 0.8 }}
                         whileHover={{ opacity: 1 }}
                       >
@@ -399,7 +410,7 @@ const HomePage: React.FC = () => {
 
                       {/* Expand/Collapse Indicator */}
                       <motion.div
-                        className="mt-4 flex justify-center"
+                        className="flex justify-center mt-4"
                         whileHover={{ scale: 1.1 }}
                       >
                         {expandedCard === index ? (
@@ -412,7 +423,7 @@ const HomePage: React.FC = () => {
 
                     {/* Animated Border Effect */}
                     <motion.div
-                      className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                      className="absolute inset-0 transition-opacity duration-500 opacity-0 pointer-events-none rounded-3xl group-hover:opacity-100"
                       style={{ 
                         background: `linear-gradient(45deg, transparent 30%, ${feature.gradient.includes('primary') ? 'var(--primary)' : 'var(--secondary)'}/20 50%, transparent 70%)`,
                         backgroundSize: '200% 200%',
@@ -428,11 +439,11 @@ const HomePage: React.FC = () => {
                     />
 
                     {/* Hover Particles Effect */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    <div className="absolute inset-0 transition-opacity duration-500 opacity-0 pointer-events-none group-hover:opacity-100">
                       {[...Array(8)].map((_, i) => (
                         <motion.div
                           key={i}
-                          className="absolute w-1 h-1 bg-primary/60 rounded-full"
+                          className="absolute w-1 h-1 rounded-full bg-primary/60"
                           style={{
                             left: `${15 + i * 10}%`,
                             top: `${20 + (i % 3) * 20}%`,
@@ -454,7 +465,7 @@ const HomePage: React.FC = () => {
 
                     {/* Corner Accent */}
                     <motion.div
-                      className="absolute top-4 right-4 w-2 h-2 rounded-full bg-primary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      className="absolute w-2 h-2 transition-opacity duration-500 rounded-full opacity-0 top-4 right-4 bg-primary/30 group-hover:opacity-100"
                       animate={{
                         scale: [1, 1.5, 1],
                       }}
@@ -468,10 +479,10 @@ const HomePage: React.FC = () => {
               ))}
             </motion.div>
           </div>
-        </section>
+        </GlassSection>
 
         {/* Enhanced Testimonials Section */}
-        <section role="region" aria-labelledby="testimonials-heading" className="py-24 sm:py-32 relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
+        <section role="region" aria-labelledby="testimonials-heading" className="relative py-24 overflow-hidden border-t sm:py-32 border-white/20 dark:border-gray-700/30">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
             <motion.div
@@ -485,40 +496,40 @@ const HomePage: React.FC = () => {
                 repeat: Infinity,
                 ease: "linear"
               }}
-              className="absolute top-1/3 left-1/3 w-32 h-32 bg-gradient-to-r from-secondary/15 to-tertiary/15 rounded-full blur-3xl"
+              className="absolute w-32 h-32 rounded-full top-1/3 left-1/3 bg-gradient-to-r from-secondary/15 to-tertiary/15 blur-3xl"
             />
           </div>
 
-          <div className="mobile-container relative z-10">
+          <div className="relative z-10 mobile-container">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="mb-16 text-center"
             >
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
-                className="inline-flex items-center space-x-2 surface-glass rounded-full px-6 py-3 mb-6"
+                className="inline-flex items-center px-6 py-3 mb-6 space-x-2 rounded-full surface-glass"
               >
                 <Star className="w-5 h-5 text-primary" />
                 <span className="text-sm font-medium gradient-text">User Reviews</span>
               </motion.div>
 
-              <h2 id="testimonials-heading" className="text-4xl sm:text-5xl font-bold mb-6 tracking-tight">
+              <h2 id="testimonials-heading" className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl">
                 <span className="text-text">What our </span>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary">
                   users say
                 </span>
               </h2>
-              <p className="text-xl text-text-light max-w-3xl mx-auto">
+              <p className="max-w-3xl mx-auto text-xl text-text-light">
                 Real stories from people who transformed their health with Biowell
               </p>
             </motion.div>
 
             <motion.div
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+              className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -543,18 +554,18 @@ const HomePage: React.FC = () => {
                   <GlassCard
                     variant="frosted"
                     interactive={true}
-                    className="p-8 h-full border border-white/20 hover:border-primary/30"
+                    className="h-full p-8 border border-white/20 hover:border-primary/30"
                   >
                     {/* Quote decoration */}
                     <motion.div
-                      className="absolute top-4 right-4 text-6xl text-primary/20 font-serif"
+                      className="absolute font-serif text-6xl top-4 right-4 text-primary/20"
                       whileHover={{ scale: 1.2, rotate: 10 }}
                     >
                       "
                     </motion.div>
                     
                     {/* Stars */}
-                    <div className="flex items-center space-x-1 mb-4">
+                    <div className="flex items-center mb-4 space-x-1">
                       {[...Array(testimonial.rating)].map((_, i) => (
                         <motion.div
                           key={i}
@@ -574,7 +585,7 @@ const HomePage: React.FC = () => {
                     </div>
                     
                     <motion.p
-                      className="text-text-light leading-relaxed mb-6 group-hover:text-text transition-colors duration-300"
+                      className="mb-6 leading-relaxed transition-colors duration-300 text-text-light group-hover:text-text"
                       initial={{ opacity: 0.8 }}
                       whileHover={{ opacity: 1 }}
                     >
@@ -583,14 +594,14 @@ const HomePage: React.FC = () => {
                     
                     <div className="flex items-center space-x-4">
                       <motion.div
-                        className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center shadow-lg text-2xl"
+                        className="flex items-center justify-center w-12 h-12 text-2xl rounded-full shadow-lg bg-gradient-to-br from-primary/30 to-secondary/30"
                         whileHover={{ scale: 1.1 }}
                       >
                         {testimonial.avatar}
                       </motion.div>
                       <div>
                         <motion.h4 
-                          className="font-semibold text-text group-hover:text-primary transition-colors"
+                          className="font-semibold transition-colors text-text group-hover:text-primary"
                           whileHover={{ scale: 1.05 }}
                         >
                           {testimonial.name}
@@ -601,7 +612,7 @@ const HomePage: React.FC = () => {
 
                     {/* Glow effect on hover */}
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"
+                      className="absolute inset-0 transition-opacity duration-500 opacity-0 pointer-events-none bg-gradient-to-r from-primary/10 to-secondary/10 group-hover:opacity-100 rounded-3xl"
                       initial={false}
                     />
                   </GlassCard>
@@ -612,9 +623,9 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Enhanced Logo Section */}
-        <section className="py-16 relative overflow-hidden">
+        <section className="relative py-16 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-tertiary/5" />
-          <div className="mobile-container relative z-10 text-center">
+          <div className="relative z-10 text-center mobile-container">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -622,16 +633,16 @@ const HomePage: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               className="flex justify-center"
             >
-              <div className="surface-glass rounded-3xl p-8 hover:shadow-xl transition-all duration-500">
+              <div className="p-8 transition-all duration-500 surface-glass rounded-3xl hover:shadow-xl">
                 <img 
                   src="/logos/biowell-dark.svg"
                   alt="Biowell Logo" 
-                  className="h-20 w-auto object-contain dark:hidden opacity-60 hover:opacity-100 transition-opacity" 
+                  className="object-contain w-auto h-20 transition-opacity dark:hidden opacity-60 hover:opacity-100" 
                 />
                 <img 
                   src="/logos/biowell-light.svg"
                   alt="Biowell Logo" 
-                  className="h-20 w-auto object-contain hidden dark:block opacity-60 hover:opacity-100 transition-opacity" 
+                  className="hidden object-contain w-auto h-20 transition-opacity dark:block opacity-60 hover:opacity-100" 
                 />
               </div>
             </motion.div>
@@ -645,7 +656,7 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Enhanced CTA Section */}
-        <section role="region" aria-labelledby="cta-heading" className="py-24 relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
+        <section role="region" aria-labelledby="cta-heading" className="relative py-24 overflow-hidden border-t border-white/20 dark:border-gray-700/30">
           {/* Background Elements */}
           <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
             <motion.div
@@ -658,27 +669,27 @@ const HomePage: React.FC = () => {
                 repeat: Infinity,
                 ease: "linear"
               }}
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-3xl"
+              className="absolute transform -translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 left-1/2 w-96 h-96 bg-gradient-to-r from-primary/10 to-secondary/10 blur-3xl"
             />
           </div>
 
-          <div className="mobile-container relative z-10">
+          <div className="relative z-10 mobile-container">
             <motion.div className="text-center">
               <motion.h2 
                 id="cta-heading"
-                className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 sm:mb-10 tracking-tighter leading-tight text-balance"
+                className="mb-8 text-4xl font-bold leading-tight tracking-tighter sm:text-5xl md:text-6xl sm:mb-10 text-balance"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary">
                   Ready to optimize your health?
                 </span>
               </motion.h2>
               
               <motion.p 
-                className="text-xl sm:text-2xl mb-12 sm:mb-16 text-text-light max-w-3xl mx-auto tracking-wide leading-relaxed text-balance"
+                className="max-w-3xl mx-auto mb-12 text-xl leading-relaxed tracking-wide sm:text-2xl sm:mb-16 text-text-light text-balance"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -698,22 +709,22 @@ const HomePage: React.FC = () => {
               >
                 <button
                   onClick={() => navigate('/signup')}
-                  className="gradient-primary text-white px-12 py-5 rounded-2xl font-semibold hover:shadow-2xl hover:shadow-primary/25 hover:-translate-y-2 transition-all duration-300 inline-flex items-center text-xl tracking-wide shadow-lg group relative overflow-hidden"
+                  className="relative inline-flex items-center px-12 py-5 overflow-hidden text-xl font-semibold tracking-wide text-white transition-all duration-300 shadow-lg gradient-primary rounded-2xl hover:shadow-2xl hover:shadow-primary/25 hover:-translate-y-2 group"
                 >
                   <span className="relative z-10 flex items-center space-x-3">
                     <span>Start Your Journey</span>
-                    <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
                   </span>
                   
                   {/* Button glow effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary-dark to-secondary-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+                  <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-r from-primary-dark to-secondary-dark group-hover:opacity-100 rounded-2xl" />
                   
                   {/* Animated particles */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                  <div className="absolute inset-0 transition-opacity duration-500 opacity-0 pointer-events-none group-hover:opacity-100">
                     {[...Array(6)].map((_, i) => (
                       <motion.div
                         key={i}
-                        className="absolute w-1 h-1 bg-white/60 rounded-full"
+                        className="absolute w-1 h-1 rounded-full bg-white/60"
                         style={{
                           left: `${20 + i * 15}%`,
                           top: `${30 + (i % 2) * 40}%`,
