@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '../../lib/utils';
+import { cn } from '../../utils/cn';
 
 // Glass Card Component
 interface GlassCardProps {
@@ -161,7 +161,7 @@ export const GlassInput: React.FC<GlassInputProps> = ({
           className
         )}
         whileFocus={{ scale: 1.01 }}
-        transition={{ type: "spring", stiffness: 300 }}
+        transition={{ duration: 0.2 }}
       />
       {error && (
         <p className="text-sm text-error">{error}</p>
@@ -320,7 +320,7 @@ export const GlassSection: React.FC<GlassSectionProps> = ({
       {background === 'pattern' && (
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/20 to-tertiary/20" />
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20" />
+          <div className="absolute inset-0 bg-dot-pattern opacity-20" />
         </div>
       )}
       <div className="mobile-container relative z-10">
@@ -353,8 +353,7 @@ export const GlassFeatureCard: React.FC<GlassFeatureCardProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       whileHover={{ 
         scale: 1.03, 
-        y: -8,
-        transition: { type: "spring", stiffness: 300 }
+        y: -8
       }}
       transition={{ duration: 0.4 }}
       viewport={{ once: true }}
@@ -370,7 +369,7 @@ export const GlassFeatureCard: React.FC<GlassFeatureCardProps> = ({
             scale: 1.2,
             rotate: [0, -10, 10, 0],
           }}
-          transition={{ type: "spring", stiffness: 300 }}
+          transition={{ duration: 0.3 }}
         >
           {icon}
         </motion.div>
@@ -387,7 +386,7 @@ export const GlassFeatureCard: React.FC<GlassFeatureCardProps> = ({
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
           {[...Array(6)].map((_, i) => (
             <motion.div
-              key={i}
+              key={`particle-${i}`}
               className="absolute w-1 h-1 bg-primary/60 rounded-full"
               style={{
                 left: `${15 + i * 12}%`,
@@ -410,16 +409,4 @@ export const GlassFeatureCard: React.FC<GlassFeatureCardProps> = ({
       </div>
     </motion.div>
   );
-};
-
-// Export all components
-export {
-  GlassCard,
-  GlassButton,
-  GlassInput,
-  GlassPanel,
-  GlassModal,
-  GlassNav,
-  GlassSection,
-  GlassFeatureCard,
 };

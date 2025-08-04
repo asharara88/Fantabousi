@@ -5,6 +5,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import AdaptiveBackdrop from '../../components/ui/AdaptiveBackdrop'
 import ThemeToggle from '../../components/ui/ThemeToggle'
+import { GlassCard, GlassButton, GlassInput } from '../../components/ui/GlassComponents'
 import { supabase } from '../../lib/supabase'
 
 const SignupPage: React.FC = () => {
@@ -80,17 +81,17 @@ const SignupPage: React.FC = () => {
   return (
     <AdaptiveBackdrop animationSpeed="medium" overlay={true}>
       <ThemeToggle />
-      <div className="min-h-screen flex items-center justify-center bg-white/30 dark:bg-black/20 backdrop-blur-sm py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-8 rounded-2xl border border-white/50 dark:border-gray-700/50 shadow-xl">
+      <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <GlassCard variant="elevated" className="max-w-md w-full space-y-8 p-8">
           <div>
-            <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+            <h1 className="mt-6 text-center text-3xl font-extrabold text-text">
               Create your account
             </h1>
-            <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+            <p className="mt-2 text-center text-sm text-text-light">
               Or{' '}
               <Link
                 to="/login"
-                className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+                className="font-medium text-primary hover:text-primary-dark transition-colors"
               >
               sign in to your existing account
             </Link>
