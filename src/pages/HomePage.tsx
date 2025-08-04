@@ -289,7 +289,7 @@ const HomePage: React.FC = () => {
                   >
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-text">Health Dashboard</h3>
+                        <h3 className="text-lg font-semibold text-text">Home</h3>
                         <motion.div 
                           className="w-3 h-3 bg-green-500 rounded-full"
                           animate={{ scale: [1, 1.5, 1] }}
@@ -351,7 +351,7 @@ const HomePage: React.FC = () => {
                         <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center shadow-lg">
                           <span className="text-white text-sm">🤖</span>
                         </div>
-                        <span className="text-text font-medium">AI Coach</span>
+                        <span className="text-text font-medium">Smart Coach</span>
                         <motion.div
                           className="ml-auto w-2 h-2 bg-green-500 rounded-full"
                           animate={{ opacity: [1, 0.3, 1] }}
@@ -423,7 +423,7 @@ const HomePage: React.FC = () => {
                   >
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <h4 className="text-text font-semibold">Today's Stack</h4>
+                        <h4 className="text-text font-semibold">Supplement Stacks</h4>
                         <motion.div
                           className="text-xs bg-green-500/20 text-green-600 px-2 py-1 rounded-full"
                           animate={{ scale: [1, 1.05, 1] }}
