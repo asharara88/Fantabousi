@@ -229,7 +229,7 @@ export async function debugAudioIssues(): Promise<AudioDiagnostics> {
   // Test actual text-to-speech if basic checks pass
   if (diagnostics.isUserAuthenticated && diagnostics.isElevenLabsConfigured && diagnostics.canAccessElevenLabsApi) {
     console.log('Basic checks passed, testing text-to-speech...')
-    const ttsResult = await debugger.testTextToSpeech()
+    const ttsResult = await audioDebugger.testTextToSpeech()
     if (!ttsResult) {
       console.log('❌ Text-to-speech test failed')
     }
