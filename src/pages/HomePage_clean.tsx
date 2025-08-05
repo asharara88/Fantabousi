@@ -44,15 +44,15 @@ const HomePage: React.FC = () => {
     <AdaptiveBackdrop animationSpeed="slow" overlay={true}>
       <div className="relative min-h-screen">
         {/* Fixed Elements - Complementary landmark for utility controls */}
-        <aside role="complementary" aria-label="Page controls" className="fixed top-6 right-6 z-50">
+        <aside role="complementary" aria-label="Page controls" className="fixed z-50 top-6 right-6">
           <ThemeToggle />
         </aside>
 
         {/* Hero Section with Enhanced Design */}
-        <section role="banner" className="relative pt-16 pb-24 sm:pt-24 sm:pb-32 lg:pt-32 lg:pb-40 overflow-hidden">
-          <div className="mobile-container relative z-10">
+        <section role="banner" className="relative pt-16 pb-24 overflow-hidden sm:pt-24 sm:pb-32 lg:pt-32 lg:pb-40">
+          <div className="relative z-10 mobile-container">
             <motion.div 
-              className="text-center max-w-5xl mx-auto"
+              className="max-w-5xl mx-auto text-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -61,25 +61,25 @@ const HomePage: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
-                className="inline-flex items-center space-x-2 surface-glass rounded-full px-6 py-3 mb-8"
+                className="inline-flex items-center px-6 py-3 mb-8 space-x-2 rounded-full surface-glass"
               >
                 <Star className="w-5 h-5 text-primary" />
                 <span className="text-sm font-medium gradient-text">Welcome to Biowell</span>
               </motion.div>
 
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-8 tracking-tighter leading-none">
+              <h1 className="mb-8 text-5xl font-bold leading-none tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
                 <span className="text-text">Your Personal </span>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary">
                   AI Health Coach
                 </span>
               </h1>
 
-              <p className="text-xl sm:text-2xl text-text-light max-w-3xl mx-auto mb-12 tracking-wide leading-relaxed">
+              <p className="max-w-3xl mx-auto mb-12 text-xl leading-relaxed tracking-wide sm:text-2xl text-text-light">
                 Transform your health with personalized, evidence-based recommendations powered by cutting-edge AI and biometric analysis.
               </p>
 
               <motion.div 
-                className="flex flex-col sm:flex-row gap-4 justify-center"
+                className="flex flex-col justify-center gap-4 sm:flex-row"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
@@ -88,7 +88,7 @@ const HomePage: React.FC = () => {
                   variant="primary"
                   size="lg"
                   onClick={() => navigate('/signup')}
-                  className="text-lg px-8 py-4"
+                  className="px-8 py-4 text-lg"
                 >
                   Start Your Journey
                   <ArrowRight className="w-5 h-5 ml-2" />
@@ -97,7 +97,7 @@ const HomePage: React.FC = () => {
                   variant="secondary" 
                   size="lg"
                   onClick={() => navigate('/about')}
-                  className="text-lg px-8 py-4"
+                  className="px-8 py-4 text-lg"
                 >
                   Learn More
                 </GlassButton>
@@ -113,7 +113,7 @@ const HomePage: React.FC = () => {
           className="border-t border-white/20 dark:border-gray-700/30"
         >
           <motion.div 
-            className="mb-16 sm:mb-20 text-center"
+            className="mb-16 text-center sm:mb-20"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -123,25 +123,25 @@ const HomePage: React.FC = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="inline-flex items-center space-x-2 surface-glass rounded-full px-6 py-3 mb-6"
+              className="inline-flex items-center px-6 py-3 mb-6 space-x-2 rounded-full surface-glass"
             >
               <Star className="w-5 h-5 text-primary" />
               <span className="text-sm font-medium gradient-text">Premium Features</span>
             </motion.div>
 
-            <h2 id="features-heading" className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 tracking-tighter leading-tight text-balance">
+            <h2 id="features-heading" className="mb-6 text-4xl font-bold leading-tight tracking-tighter sm:text-5xl md:text-6xl sm:mb-8 text-balance">
               <span className="text-text">Why Choose </span>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-tertiary">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary">
                 Biowell?
               </span>
             </h2>
-            <p className="text-xl sm:text-2xl text-text-light max-w-3xl mx-auto tracking-wide leading-relaxed text-balance">
+            <p className="max-w-3xl mx-auto text-xl leading-relaxed tracking-wide sm:text-2xl text-text-light text-balance">
               Experience the future of personalized wellness with AI-powered insights
             </p>
           </motion.div>
 
           <motion.div 
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -174,8 +174,8 @@ const HomePage: React.FC = () => {
         </GlassSection>
 
         {/* Call to Action Section */}
-        <section role="region" aria-labelledby="cta-heading" className="py-24 sm:py-32 relative overflow-hidden border-t border-white/20 dark:border-gray-700/30">
-          <div className="mobile-container relative z-10">
+        <section role="region" aria-labelledby="cta-heading" className="relative py-24 overflow-hidden border-t sm:py-32 border-white/20 dark:border-gray-700/30">
+          <div className="relative z-10 mobile-container">
             <motion.div 
               className="text-center"
               initial={{ opacity: 0, y: 20 }}
@@ -183,15 +183,15 @@ const HomePage: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 id="cta-heading" className="text-4xl sm:text-5xl font-bold mb-6 text-text">
+              <h2 id="cta-heading" className="mb-6 text-4xl font-bold sm:text-5xl text-text">
                 Ready to Transform Your Health?
               </h2>
-              <p className="text-xl text-text-light max-w-2xl mx-auto mb-12">
+              <p className="max-w-2xl mx-auto mb-12 text-xl text-text-light">
                 Join thousands of users who have already started their journey to optimal wellness
               </p>
               
               <motion.div 
-                className="flex flex-col sm:flex-row gap-4 justify-center"
+                className="flex flex-col justify-center gap-4 sm:flex-row"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -201,7 +201,7 @@ const HomePage: React.FC = () => {
                   variant="primary"
                   size="lg"
                   onClick={() => navigate('/signup')}
-                  className="text-lg px-8 py-4"
+                  className="px-8 py-4 text-lg"
                 >
                   Get Started Free
                   <ArrowRight className="w-5 h-5 ml-2" />
@@ -210,7 +210,7 @@ const HomePage: React.FC = () => {
                   variant="secondary"
                   size="lg"
                   onClick={() => navigate('/pricing')}
-                  className="text-lg px-8 py-4"
+                  className="px-8 py-4 text-lg"
                 >
                   View Pricing
                 </GlassButton>
