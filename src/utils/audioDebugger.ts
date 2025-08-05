@@ -223,8 +223,8 @@ export class AudioDebugger {
 export async function debugAudioIssues(): Promise<AudioDiagnostics> {
   console.log('🔍 Starting audio diagnostics...')
   
-  const debugger = new AudioDebugger()
-  const diagnostics = await debugger.runDiagnostics()
+  const audioDebugger = new AudioDebugger()
+  const diagnostics = await audioDebugger.runDiagnostics()
   
   // Test actual text-to-speech if basic checks pass
   if (diagnostics.isUserAuthenticated && diagnostics.isElevenLabsConfigured && diagnostics.canAccessElevenLabsApi) {
