@@ -235,7 +235,7 @@ export async function debugAudioIssues(): Promise<AudioDiagnostics> {
     }
   }
   
-  const report = debugger.generateReport(diagnostics)
+  const report = audioDebugger.generateReport(diagnostics)
   console.log(report)
   
   return diagnostics
