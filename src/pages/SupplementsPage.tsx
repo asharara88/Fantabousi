@@ -24,8 +24,8 @@ const TIER_ICONS = {
   orange: <Shield className="w-4 h-4 text-orange-600 dark:text-orange-400" />
 };
 
-function formatAED(price) {
-  return `${parseFloat(price).toFixed(2)} AED`;
+function formatAED(price: string | number): string {
+  return `${parseFloat(price.toString()).toFixed(2)} AED`;
 }
 
 export default function SupplementStorePage() {
@@ -34,10 +34,10 @@ export default function SupplementStorePage() {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [addingToCart, setAddingToCart] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  const [addingToCart, setAddingToCart] = useState<string | null>(null);
   const [showStackBuilder, setShowStackBuilder] = useState(false);
-  const [selectedSupplementId, setSelectedSupplementId] = useState(null);
+  const [selectedSupplementId, setSelectedSupplementId] = useState<string | null>(null);
   const [showTierInfo, setShowTierInfo] = useState(false);
 
   useEffect(() => {
@@ -51,60 +51,48 @@ export default function SupplementStorePage() {
       setSupplements(supplementData);
       setError(null);
     } catch (err) {
-      console.error("Error loading supplements:", err);
+      console.error('Error loading supplements:', err);
       setError("Failed to load supplements. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  // Get unique categories from loaded supplements
-  const categories = useMemo(() => {
-    return getUniqueCategories();
-  }, []);
+  const categories = useMemo(() => getUniqueCategories(), []);
 
-  // Filter supplements based on current filters
   const filteredSupplements = useMemo(() => {
     let filtered = supplements;
 
-    // Apply search filter
-    if (searchQuery.trim()) {
-      filtered = searchSupplements(searchQuery);
+    if (searchQuery) {
+      filtered = searchSupplements(filtered, searchQuery);
     }
 
-    // Apply tier filter
     if (tierFilter !== "all") {
-      filtered = filtered.filter(s => s.tier === tierFilter);
+      filtered = filtered.filter(supp => supp.tier === tierFilter);
     }
 
-    // Apply category filter
     if (categoryFilter !== "all") {
-      filtered = filtered.filter(s => s.category === categoryFilter);
+      filtered = filtered.filter(supp => supp.category === categoryFilter);
     }
 
     return filtered;
-  }, [supplements, tierFilter, categoryFilter, searchQuery]);
+  }, [supplements, searchQuery, tierFilter, categoryFilter]);
 
-  const handleAddToCart = (suppId) => {
+  const handleAddToCart = (suppId: string) => {
     setAddingToCart(suppId);
-    // Simulate adding to cart
-    setTimeout(() => {
-      setAddingToCart(null);
-    }, 1000);
+    console.log('Adding to cart:', suppId);
+    setTimeout(() => setAddingToCart(null), 1000);
   };
 
-  const handleAddToStack = (supplementId) => {
+  const handleAddToStack = (supplementId: string) => {
     setSelectedSupplementId(supplementId);
     setShowStackBuilder(true);
   };
 
-  const handleSaveStack = async (stackData) => {
-    try {
-      await supplementApi.createSupplementStack(stackData);
-    } catch (error) {
-      console.error('Error saving stack:', error);
-      throw error;
-    }
+  const handleSaveStack = async (stackData: any) => {
+    console.log('Saving stack:', stackData);
+    setShowStackBuilder(false);
+    setSelectedSupplementId(null);
   };
 
   return (
@@ -118,31 +106,36 @@ export default function SupplementStorePage() {
 
           {/* Tier Information */}
           <div className="mb-6">
-            <button 
+            <GlassButton 
+              variant="secondary" 
+              size="sm" 
               onClick={() => setShowTierInfo(!showTierInfo)}
-              className="flex items-center text-primary hover:text-primary-dark font-medium transition-colors"
+              className="mb-4"
             >
-              <Info className="w-5 h-5 mr-2" />
-              {showTierInfo ? 'Hide' : 'Show'} Evidence Tier Information
-            </button>
+              <Info className="w-4 h-4 mr-2" />
+              {showTierInfo ? 'Hide' : 'Show'} Tier Information
+            </GlassButton>
             
             {showTierInfo && (
-              <GlassCard variant="elevated" className="mt-4 p-6">
-                <h3 className="text-lg font-semibold mb-3 text-text">Evidence Tier Definitions</h3>
+              <GlassCard variant="frosted" className="p-6">
+                <h3 className="text-lg font-semibold text-text mb-4">Evidence Tiers Explained</h3>
                 <div className="space-y-3">
-                  <div className="flex items-start">
-                    <span className="inline-block px-2 py-1 rounded-full text-xs font-medium glass-panel bg-green-500/20 text-green-400 mr-3 mt-0.5">Green</span>
-                    <p className="text-text-light text-sm">Proven to work - backed by solid research and widely recommended by experts.</p>
+                  <div className="flex items-center gap-1">
+                    {TIER_ICONS.green}
+                    <span className="font-medium text-text">Tier 1:</span>
+                    <span className="text-text-light">Strong evidence & widely recommended</span>
                   </div>
-                  <div className="flex items-start">
-                    <span className="inline-block px-2 py-1 rounded-full text-xs font-medium glass-panel bg-yellow-500/20 text-yellow-400 mr-3 mt-0.5">Yellow</span>
-                    <p className="text-text-light text-sm">Promising results - some good studies available, but more research needed.</p>
+                  <div className="flex items-center gap-1">
+                    {TIER_ICONS.yellow}
+                    <span className="font-medium text-text">Tier 2:</span>
+                    <span className="text-text-light">Some studies & early research</span>
                   </div>
                 </div>
               </GlassCard>
             )}
           </div>
 
+          {/* Filters */}
           <GlassCard variant="strong" className="p-6 mb-8">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
@@ -163,78 +156,37 @@ export default function SupplementStorePage() {
                 className="w-full"
               />
             </div>
-            
-            {/* Filters */}
-            <div className="space-y-4">
-              {/* Tier Filter */}
-              <div className="flex flex-wrap gap-2">
-                <span className="text-sm font-medium text-text mr-2">Evidence Tier:</span>
-                <GlassButton
-                  variant={tierFilter === "all" ? "primary" : "default"}
-                  onClick={() => setTierFilter("all")}
-                  size="sm"
+
+            {/* Filter Controls */}
+            <div className="flex flex-wrap gap-4">
+              <div>
+                <label className="block text-sm font-medium text-text mb-2">Evidence Tier</label>
+                <select
+                  value={tierFilter}
+                  onChange={(e) => setTierFilter(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 rounded-md bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
                 >
-                  All Tiers
-                </GlassButton>
-                
-                <GlassButton
-                  variant={tierFilter === "green" ? "primary" : "default"}
-                  onClick={() => setTierFilter("green")}
-                  size="sm"
-                  className="flex items-center gap-1.5"
-                >
-                  {TIER_ICONS.green} Strong Evidence
-                </GlassButton>
-                
-                <GlassButton
-                  variant={tierFilter === "yellow" ? "primary" : "default"}
-                  onClick={() => setTierFilter("yellow")}
-                  size="sm"
-                  className="flex items-center gap-1.5"
-                >
-                  {TIER_ICONS.yellow} Moderate Evidence
-                </GlassButton>
+                  <option value="all">All Tiers</option>
+                  <option value="green">Tier 1 (Strong Evidence)</option>
+                  <option value="yellow">Tier 2 (Moderate Evidence)</option>
+                </select>
               </div>
-              
-              {/* Category Filter */}
-              <div className="flex flex-wrap gap-2">
-                <span className="text-sm font-medium text-text mr-2">Category:</span>
-                <GlassButton
-                  variant={categoryFilter === "all" ? "primary" : "default"}
-                  onClick={() => setCategoryFilter("all")}
-                  size="sm"
+
+              <div>
+                <label className="block text-sm font-medium text-text mb-2">Category</label>
+                <select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 rounded-md bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
                 >
-                  All Categories
-                </GlassButton>
-                {categories.slice(0, 8).map(category => (
-                  <GlassButton
-                    key={category}
-                    variant={categoryFilter === category ? "primary" : "default"}
-                    onClick={() => setCategoryFilter(category)}
-                    size="sm"
-                    className="text-xs"
-                  >
-                    {category}
-                  </GlassButton>
-                ))}
+                  <option value="all">All Categories</option>
+                  {categories.map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
+                </select>
               </div>
             </div>
-            
-            <GlassCard variant="frosted" className="mt-4 p-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                <div className="flex items-center gap-1">
-                  {TIER_ICONS.green}
-                  <span className="font-medium text-text">Tier 1:</span>
-                  <span className="text-text-light">Multiple clinical trials</span>
-                </div>
-                
-                <div className="flex items-center gap-1">
-                  {TIER_ICONS.yellow}
-                  <span className="font-medium text-text">Tier 2:</span>
-                  <span className="text-text-light">Some studies & early research</span>
-                </div>
-              </div>
-            </GlassCard>
+          </GlassCard>
 
           {loading ? (
             <GlassCard variant="elevated" className="p-12 text-center">
@@ -277,122 +229,73 @@ export default function SupplementStorePage() {
                     </GlassButton>
                   )}
                 </GlassCard>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {filteredSupplements.map((supp) => {
-                // Calculate discount price if available
-                const discount = supp.subscription_discount_percent || 0;
-                const price = parseFloat(supp.price_aed || 100);
-                const _discountedPrice = discount > 0 ? Math.round((price * (1 - discount / 100)) * 100) / 100 : price;
 
-                return (
-                  <Card key={supp.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col">
-                    <div className="relative h-48 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                      {/* Always show an image even if it's a placeholder */}
-                      <div className="w-full h-full relative overflow-hidden">
-                        <img 
-                          src={supp.image_url || "https://images.pexels.com/photos/3683074/pexels-photo-3683074.jpeg?auto=compress&cs=tinysrgb&w=300"} 
-                          alt={supp.name} 
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      
-                      <div className="absolute top-2 left-2">
-                        <div 
-                          className={`inline-flex items-center gap-1 px-2 py-1 text-xs rounded-lg border font-semibold ${TIER_COLORS[supp.tier]}`} 
-                          title={TIER_LABELS[supp.tier]}
-                        >
-                          <span className="flex items-center gap-1">
-                            {TIER_ICONS[supp.tier]}
-                            {supp.tier.charAt(0).toUpperCase() + supp.tier.slice(1)}
+                {/* Supplements Grid */}
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {filteredSupplements.map((supp) => {
+                    const tierColor = TIER_COLORS[supp.tier as keyof typeof TIER_COLORS] || TIER_COLORS.yellow;
+                    const price = parseFloat(supp.price_aed || '100');
+                    
+                    return (
+                      <Card key={supp.id} className="p-4 hover:shadow-lg transition-shadow">
+                        <div className="flex items-start justify-between mb-3">
+                          <h3 className="font-semibold text-text text-lg leading-tight">{supp.name}</h3>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${tierColor}`}>
+                            Tier {supp.tier === 'green' ? '1' : '2'}
                           </span>
                         </div>
-                      </div>
-                    </div>
-                    
-                    <div className="p-4 flex-1 flex flex-col">
-                      <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-1 line-clamp-1">
-                        {supp.name}
-                      </h3>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-                        {supp.brand} • {supp.category}
-                      </p>
-                      <p className="text-xs text-green-600 dark:text-green-400 mb-2">
-                        {supp.evidence_quality} Evidence • {supp.dosage}
-                      </p>
-                      <p className="text-sm text-gray-700 dark:text-gray-300 mb-4 flex-1 line-clamp-3">
-                        {supp.description}
-                      </p>
-                      
-                      <div className="flex items-baseline gap-2 mb-4">
-                        <span className="font-bold text-lg text-primary dark:text-primary-light">
-                          {formatAED(supp.discounted_price_aed || price)}
-                        </span>
-                        {discount > 0 && (
-                          <span className="line-through text-gray-400 text-xs">
-                            {formatAED(price)}
-                          </span>
-                        )}
-                        {discount > 0 && (
-                          <span className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 rounded px-2 py-0.5 text-xs font-semibold">
-                            {discount}% off Premium Users
-                          </span>
-                        )}
-                      </div>
-                      
-                      <div className="flex gap-2">
-                        <Button
-                          variant="outline"
-                          className="flex-1"
-                          onClick={() => {
-                            if (typeof handleAddToStack === 'function') {
-                              handleAddToStack(supp.id);
-                            } else {
-                              console.warn("handleAddToStack is not defined");
-                            }
-                          }}
-                        >
-                          Add to Stack
-                        </Button>
                         
-                        <Button
-                          className="flex-1"
-                          onClick={() => handleAddToCart(supp.id)}
-                          disabled={addingToCart === supp.id}
-                        >
-                          {addingToCart === supp.id ? (
-                            <>
-                              <CheckCircle className="w-4 h-4 mr-2" />
-                              Added
-                            </>
-                          ) : (
-                            "Buy Now"
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                );
-              })}
-            </div>
-            
-            {filteredSupplements.length === 0 && (
-              <GlassCard variant="elevated" className="col-span-full text-center py-12">
-                <p className="text-text-light mb-4">
-                  No supplements found matching your criteria.
-                </p>
-                <GlassButton 
-                  onClick={() => {
-                    setSearchQuery("");
-                    setTierFilter("all");
-                    setCategoryFilter("all");
-                  }}
-                >
-                  Clear All Filters
-                </GlassButton>
-              </GlassCard>
-            )}
-          </section>
+                        <p className="text-text-light text-sm mb-3 line-clamp-2">{supp.description}</p>
+                        
+                        <div className="flex items-center justify-between">
+                          <span className="text-lg font-bold text-primary">{formatAED(price)}</span>
+                          
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleAddToStack(supp.id)}
+                            >
+                              Add to Stack
+                            </Button>
+                            <Button
+                              size="sm"
+                              onClick={() => handleAddToCart(supp.id)}
+                              disabled={addingToCart === supp.id}
+                            >
+                              {addingToCart === supp.id ? (
+                                <>
+                                  <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                                  Adding...
+                                </>
+                              ) : (
+                                'Add to Cart'
+                              )}
+                            </Button>
+                          </div>
+                        </div>
+                      </Card>
+                    );
+                  })}
+                </div>
+                
+                {filteredSupplements.length === 0 && (
+                  <GlassCard variant="elevated" className="col-span-full text-center py-12">
+                    <p className="text-text-light mb-4">
+                      No supplements found matching your criteria.
+                    </p>
+                    <GlassButton 
+                      onClick={() => {
+                        setSearchQuery("");
+                        setTierFilter("all");
+                        setCategoryFilter("all");
+                      }}
+                    >
+                      Clear All Filters
+                    </GlassButton>
+                  </GlassCard>
+                )}
+              </section>
             </>
           )}
         </div>
