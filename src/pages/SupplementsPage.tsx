@@ -151,6 +151,7 @@ export default function SupplementStorePage() {
                   Supplements are categorized by the strength of scientific evidence supporting their efficacy
                 </p>
               </div>
+            </div>
             
             {/* Search Bar */}
             <div className="mb-4">
@@ -234,7 +235,6 @@ export default function SupplementStorePage() {
                 </div>
               </div>
             </GlassCard>
-          </GlassCard>
 
           {loading ? (
             <GlassCard variant="elevated" className="p-12 text-center">
@@ -392,7 +392,7 @@ export default function SupplementStorePage() {
                 </GlassButton>
               </GlassCard>
             )}
-            </section>
+          </section>
           </>
         )}
         </div>
