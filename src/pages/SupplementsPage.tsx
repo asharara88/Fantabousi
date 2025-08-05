@@ -393,8 +393,8 @@ export default function SupplementStorePage() {
               </GlassCard>
             )}
           </section>
-          </>
-        )}
+            </>
+          )}
         </div>
       </GlassSection>
       
