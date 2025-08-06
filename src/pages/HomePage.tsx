@@ -260,12 +260,12 @@ const HomePage: React.FC = () => {
                   <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary"></div>
                   <div className="ml-4">
                     <div className="font-semibold text-gray-900 dark:text-white">Your Health Dashboard</div>
-                    <div className="text-sm text-gray-500">Updated in real-time</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">Updated in real-time</div>
                   </div>
                 </div>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">Energy Level</span>
+                    <span className="text-gray-700 dark:text-gray-300">Energy Level</span>
                     <div className="flex items-center">
                       <div className="w-20 h-2 bg-gray-200 rounded-full mr-2">
                         <div className="w-16 h-2 bg-green-500 rounded-full"></div>
@@ -274,7 +274,7 @@ const HomePage: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">Sleep Quality</span>
+                    <span className="text-gray-700 dark:text-gray-300">Sleep Quality</span>
                     <div className="flex items-center">
                       <div className="w-20 h-2 bg-gray-200 rounded-full mr-2">
                         <div className="w-18 h-2 bg-blue-500 rounded-full"></div>
@@ -283,7 +283,7 @@ const HomePage: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600 dark:text-gray-400">Nutrition Score</span>
+                    <span className="text-gray-700 dark:text-gray-300">Nutrition Score</span>
                     <div className="flex items-center">
                       <div className="w-20 h-2 bg-gray-200 rounded-full mr-2">
                         <div className="w-14 h-2 bg-purple-500 rounded-full"></div>

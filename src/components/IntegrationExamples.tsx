@@ -157,7 +157,7 @@ const EnhancedStackBuilderModal: React.FC<EnhancedStackBuilderModalProps> = ({
           </h3>
           
           {selectedSupplements.length === 0 ? (
-            <div className="py-8 text-center text-gray-500">
+            <div className="py-8 text-center text-gray-600 dark:text-gray-300">
               <p>No supplements in your stack yet.</p>
               <p className="mt-1 text-sm">Add supplements from the list above.</p>
             </div>
@@ -170,7 +170,7 @@ const EnhancedStackBuilderModal: React.FC<EnhancedStackBuilderModalProps> = ({
                 >
                   <div className="flex-1">
                     <h4 className="font-medium">{supplement.name}</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-700 dark:text-gray-300">
                       {supplement.category} • {supplement.dosage}
                     </p>
                   </div>
@@ -194,7 +194,7 @@ const EnhancedStackBuilderModal: React.FC<EnhancedStackBuilderModalProps> = ({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 disabled:opacity-50"
+            className="px-4 py-2 text-gray-800 bg-gray-100 rounded-md hover:bg-gray-200 hover:text-gray-900 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-gray-500/20"
           >
             Cancel
           </button>
@@ -479,7 +479,7 @@ const EnhancedQuickWorkoutLogger: React.FC<EnhancedQuickWorkoutLoggerProps> = ({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 disabled:opacity-50"
+            className="px-4 py-2 text-gray-800 bg-gray-100 rounded-md hover:bg-gray-200 hover:text-gray-900 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-gray-500/20"
           >
             Cancel
           </button>
@@ -569,7 +569,7 @@ const EnhancedPWAInstallPrompt: React.FC<EnhancedPWAInstallPromptProps> = ({
             <h3 className="font-semibold text-gray-900 dark:text-white">
               Install BioWell App
             </h3>
-            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            <p className="mt-1 text-sm text-gray-700 dark:text-gray-300">
               Get faster access and offline capabilities by installing our app.
             </p>
 
@@ -610,7 +610,7 @@ const EnhancedPWAInstallPrompt: React.FC<EnhancedPWAInstallPromptProps> = ({
                 onClick={onDismiss}
                 disabled={isInstalling}
                 className="
-                  px-3 py-1.5 text-gray-600 dark:text-gray-400 text-sm
+                  px-3 py-1.5 text-gray-700 dark:text-gray-300 text-sm
                   hover:text-gray-900 dark:hover:text-gray-100
                   focus:outline-none focus:ring-2 focus:ring-gray-500/20
                   disabled:opacity-50
@@ -625,7 +625,7 @@ const EnhancedPWAInstallPrompt: React.FC<EnhancedPWAInstallPromptProps> = ({
             type="button"
             onClick={onDismiss}
             disabled={isInstalling}
-            className="flex-shrink-0 p-1 text-gray-400 rounded hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500/20 disabled:opacity-50"
+            className="flex-shrink-0 p-1 text-gray-600 rounded hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500/20 disabled:opacity-50 dark:text-gray-400 dark:hover:text-gray-200"
             aria-label="Dismiss installation prompt"
           >
             <X className="w-4 h-4" />
