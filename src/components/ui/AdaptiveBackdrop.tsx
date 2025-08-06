@@ -112,12 +112,12 @@ const AdaptiveBackdrop: React.FC<AdaptiveBackdropProps> = ({
                   <path
                     d="M50 200 Q200 50 350 200 T650 200"
                     fill="none"
-                    stroke="url(#blueGradient)"
+                    stroke="url(#darkBlueGradient)"
                     strokeWidth="3"
                     className="drop-shadow-lg"
                   />
                   <defs>
-                    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <linearGradient id="darkBlueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" stopColor="rgba(59, 130, 246, 0.8)" />
                       <stop offset="50%" stopColor="rgba(16, 185, 129, 0.8)" />
                       <stop offset="100%" stopColor="rgba(139, 92, 246, 0.8)" />
@@ -141,12 +141,12 @@ const AdaptiveBackdrop: React.FC<AdaptiveBackdropProps> = ({
                   <path
                     d="M350 200 Q200 350 50 200 T-250 200"
                     fill="none"
-                    stroke="url(#greenGradient)"
+                    stroke="url(#darkGreenGradient)"
                     strokeWidth="4"
                     className="drop-shadow-lg"
                   />
                   <defs>
-                    <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <linearGradient id="darkGreenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" stopColor="rgba(16, 185, 129, 0.9)" />
                       <stop offset="50%" stopColor="rgba(34, 197, 94, 0.9)" />
                       <stop offset="100%" stopColor="rgba(59, 130, 246, 0.9)" />

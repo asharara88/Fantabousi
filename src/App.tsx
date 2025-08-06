@@ -6,6 +6,7 @@ import './styles/enhanced-headings.css';
 import './styles/reading-optimization.css';
 import './styles/enhanced-interactions.css';
 import Layout from './components/layout/Layout';
+import TestPage from './pages/TestPage';
 
 // Lazy loaded pages for better performance
 import {
@@ -106,6 +107,7 @@ function App() {
         <Route path="cart" element={<CartPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="pricing" element={<PricingPage />} />
+        <Route path="test" element={<TestPage />} />
         <Route path="demo/live-time" element={<LiveTimeDemo />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

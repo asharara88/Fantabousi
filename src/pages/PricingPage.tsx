@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckIcon, UsersIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { Button } from '../components/ui/Button';
-import AdaptiveBackdrop from '../components/ui/AdaptiveBackdrop';
+import SimpleBackdrop from '../components/ui/SimpleBackdrop';
 import { GlassSection, GlassCard, GlassButton } from '../components/ui/GlassComponents';
 import { stripeService } from '../services/stripeService';
 import { SUBSCRIPTION_PRICE_IDS } from '../lib/stripe';
@@ -58,7 +58,7 @@ const PricingPage: React.FC = () => {
   };
 
   return (
-    <AdaptiveBackdrop>
+    <SimpleBackdrop className="backdrop-brightness-110 dark:backdrop-brightness-90">
       <GlassSection padding="xl" background="gradient">
         <div className="container mx-auto px-4">
           {/* Header */}
@@ -312,7 +312,7 @@ const PricingPage: React.FC = () => {
         </motion.div>
         </div>
       </GlassSection>
-    </AdaptiveBackdrop>
+    </SimpleBackdrop>
   );
 };
 
