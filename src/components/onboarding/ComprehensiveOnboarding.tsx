@@ -488,8 +488,6 @@ const ComprehensiveOnboarding: React.FC<ComprehensiveOnboardingProps> = ({ onCom
 };
 
 export default ComprehensiveOnboarding;
-  );
-}
 
 function NutritionStep({ formData, updateFormData }: any) {
   const diets = [
