@@ -77,16 +77,21 @@ const HomePage: React.FC = () => {
 
             {/* Main Headline */}
             <h1 className="mb-6 text-5xl font-bold leading-tight tracking-tighter sm:text-6xl md:text-7xl">
-              <span>Your Personal </span>
+              <span>Your </span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                Health Coach
+                Smart Coach
+              </span>
+              <br />
+              <span className="text-3xl sm:text-4xl md:text-5xl text-gray-700 dark:text-gray-300">
+                Personalized by Data. Powered by Science.
               </span>
             </h1>
 
             {/* Subheadline */}
             <p className="max-w-3xl mx-auto mb-8 text-xl leading-relaxed tracking-wide sm:text-2xl text-text-light">
-              Get personalized nutrition, supplements, and fitness plans powered by AI. 
-              <strong className="text-gray-900 dark:text-white"> Start your journey to optimal health.</strong>
+              <strong className="text-gray-900 dark:text-white">Sync your wearables. Get your personalized stack. Start optimizing.</strong>
+              <br />
+              From fertility to longevity - your data drives your wellness journey.
             </p>
 
             {/* Social Proof Stats */}

@@ -83,7 +83,7 @@ const RecipeDetailPage: React.FC = () => {
           />
         ) : (
           <div className="text-center py-20">
-            <p className="text-gray-500">Recipe not found</p>
+            <p className="text-gray-600 dark:text-gray-300">Recipe not found</p>
           </div>
         )}
       </div>

@@ -150,13 +150,13 @@ const MyStacksPage: React.FC = () => {
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{stack.name}</h3>
                     <div className="flex space-x-1">
                       <button 
-                        className="p-1 text-gray-500 hover:text-primary rounded-full"
+                        className="p-1 text-gray-600 hover:text-primary rounded-full dark:text-gray-400 dark:hover:text-primary"
                         aria-label="Edit stack"
                       >
                         <Edit className="w-4 h-4" />
                       </button>
                       <button 
-                        className="p-1 text-gray-500 hover:text-red-500 rounded-full"
+                        className="p-1 text-gray-600 hover:text-red-500 rounded-full dark:text-gray-400 dark:hover:text-red-400"
                         aria-label="Delete stack"
                         onClick={() => handleDeleteStack(stack.id)}
                       >
