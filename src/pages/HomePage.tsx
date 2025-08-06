@@ -20,9 +20,9 @@ const HomePage: React.FC = () => {
     },
     {
       icon: <Zap className="w-8 h-8 text-white" />,
-      title: 'Real Results',
-      description: 'Users report 40% increase in energy and 60% better sleep quality within 30 days.',
-      metric: '40% energy boost'
+      title: 'Optimize Performance',
+      description: 'Enhance your energy, focus, and overall well-being with targeted nutrition and lifestyle recommendations.',
+      metric: 'Personalized'
     },
     {
       icon: <Brain className="w-8 h-8 text-white" />,
@@ -33,10 +33,10 @@ const HomePage: React.FC = () => {
   ]
 
   const socialProof = [
-    { stat: '50K+', label: 'Active Users' },
-    { stat: '95%', label: 'Satisfaction Rate' },
-    { stat: '4.9★', label: 'App Store Rating' },
-    { stat: '30 days', label: 'Avg. to Results' }
+    { stat: 'AI-Powered', label: 'Recommendations' },
+    { stat: 'Science-Based', label: 'Approach' },
+    { stat: 'Personalized', label: 'Experience' },
+    { stat: 'Evidence-Backed', label: 'Content' }
   ]
 
   const benefits = [
@@ -72,21 +72,21 @@ const HomePage: React.FC = () => {
               transition={{ delay: 0.2 }}
             >
               <Star className="w-4 h-4 mr-2 text-yellow-500" />
-              <span className="text-gray-700 dark:text-gray-300">Trusted by 50,000+ health enthusiasts</span>
+              <span className="text-gray-700 dark:text-gray-300">Science-backed health optimization</span>
             </motion.div>
 
             {/* Main Headline */}
             <h1 className="mb-6 text-5xl font-bold leading-tight tracking-tighter sm:text-6xl md:text-7xl">
-              <span>Transform Your Health in </span>
+              <span>Your Personal </span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                30 Days
+                Health Coach
               </span>
             </h1>
 
             {/* Subheadline */}
             <p className="max-w-3xl mx-auto mb-8 text-xl leading-relaxed tracking-wide sm:text-2xl text-text-light">
               Get personalized nutrition, supplements, and fitness plans powered by AI. 
-              <strong className="text-gray-900 dark:text-white"> Join 50,000+ users seeing real results.</strong>
+              <strong className="text-gray-900 dark:text-white"> Start your journey to optimal health.</strong>
             </p>
 
             {/* Social Proof Stats */}
@@ -117,7 +117,7 @@ const HomePage: React.FC = () => {
                   to="/signup"
                   className="gradient-primary text-white px-12 py-5 rounded-2xl font-bold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 inline-flex items-center justify-center text-xl min-w-[280px] tracking-wide shadow-xl"
                 >
-                  Start Your Free Trial
+                  Get Started
                   <ArrowRight className="w-6 h-6 ml-3" />
                 </Link>
               </motion.div>
@@ -127,7 +127,7 @@ const HomePage: React.FC = () => {
                 whileHover={{ scale: 1.02 }}
               >
                 <Play className="w-5 h-5 mr-3" />
-                Watch Demo (2 min)
+                Learn More
               </motion.button>
             </motion.div>
             
@@ -135,15 +135,15 @@ const HomePage: React.FC = () => {
             <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600 dark:text-gray-400">
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>No credit card required</span>
+                <span>Free to get started</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>14-day free trial</span>
+                <span>Science-backed approach</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>Cancel anytime</span>
+                <span>Personalized for you</span>
               </div>
             </div>
           </motion.div>
@@ -162,11 +162,11 @@ const HomePage: React.FC = () => {
           >
             <h2 className="mb-6 text-4xl font-bold leading-tight tracking-tighter sm:text-5xl">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                Why 50,000+ Users Choose Biowell
+                Why Choose Biowell?
               </span>
             </h2>
             <p className="max-w-3xl mx-auto text-xl leading-relaxed text-text-light">
-              The most comprehensive, science-backed health platform designed for real results
+              A comprehensive, science-backed health platform designed for personalized wellness
             </p>
           </motion.div>
 
@@ -304,7 +304,7 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Social Proof & Testimonials */}
+      {/* Social Proof & About */}
       <section className="py-20 gradient-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
@@ -315,7 +315,7 @@ const HomePage: React.FC = () => {
           >
             <h2 className="mb-6 text-4xl font-bold">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                Join 50,000+ Users Getting Results
+                Built on Science, Designed for You
               </span>
             </h2>
           </motion.div>
@@ -323,24 +323,21 @@ const HomePage: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                name: "Sarah M.",
-                role: "Fitness Enthusiast",
-                content: "Lost 15 lbs and increased my energy by 40% in just 6 weeks. The personalized supplement recommendations were game-changing!",
-                rating: 5
+                title: "Evidence-Based Approach",
+                content: "Every recommendation is rooted in peer-reviewed research and clinical studies, ensuring you get reliable health guidance.",
+                icon: <Shield className="w-8 h-8 text-primary" />
               },
               {
-                name: "Mike R.",
-                role: "Busy Executive", 
-                content: "Finally found a health app that actually works. My sleep quality improved dramatically and I feel 10 years younger.",
-                rating: 5
+                title: "Personalized Experience", 
+                content: "Our AI analyzes your unique health profile to provide tailored recommendations that fit your lifestyle and goals.",
+                icon: <Brain className="w-8 h-8 text-primary" />
               },
               {
-                name: "Jennifer L.",
-                role: "Wellness Coach",
-                content: "As a professional, I'm impressed by the scientific accuracy. Biowell has become my go-to recommendation for clients.",
-                rating: 5
+                title: "Comprehensive Platform",
+                content: "Track nutrition, supplements, fitness, and wellness all in one place with intuitive tools and insights.",
+                icon: <Target className="w-8 h-8 text-primary" />
               }
-            ].map((testimonial, index) => (
+            ].map((item, index) => (
               <motion.div
                 key={index}
                 className="p-6 bg-white rounded-2xl shadow-lg dark:bg-gray-800"
@@ -349,16 +346,11 @@ const HomePage: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
+                <div className="flex items-center mb-4">
+                  {item.icon}
+                  <h3 className="ml-3 text-xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
                 </div>
-                <p className="mb-4 text-gray-600 dark:text-gray-300">"{testimonial.content}"</p>
-                <div>
-                  <div className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</div>
-                  <div className="text-sm text-gray-500">{testimonial.role}</div>
-                </div>
+                <p className="text-gray-600 dark:text-gray-300">{item.content}</p>
               </motion.div>
             ))}
           </div>
@@ -376,12 +368,12 @@ const HomePage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="mb-6 text-4xl font-bold leading-tight sm:text-5xl">
-              Ready to Transform Your Health?
+              Ready to Start Your Health Journey?
             </h2>
             <p className="mb-8 text-xl opacity-90">
-              Join 50,000+ users who have already started their journey to optimal health.
+              Take the first step towards optimizing your health with personalized, science-backed recommendations.
               <br />
-              <strong>Start your 14-day free trial today.</strong>
+              <strong>Get started today.</strong>
             </p>
             
             <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
@@ -390,7 +382,7 @@ const HomePage: React.FC = () => {
                   to="/signup"
                   className="bg-white text-primary px-12 py-5 rounded-2xl font-bold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 inline-flex items-center justify-center text-xl min-w-[280px] shadow-xl"
                 >
-                  Start Free Trial
+                  Get Started
                   <ArrowRight className="w-6 h-6 ml-3" />
                 </Link>
               </motion.div>
@@ -399,22 +391,36 @@ const HomePage: React.FC = () => {
             <div className="flex flex-wrap justify-center gap-8 mt-8 text-sm opacity-80">
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2" />
-                <span>14-day free trial</span>
+                <span>Free to get started</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2" />
-                <span>No credit card required</span>
+                <span>Science-backed recommendations</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2" />
-                <span>Cancel anytime</span>
-              </div>
-              <div className="flex items-center">
-                <CheckCircle className="w-4 h-4 mr-2" />
-                <span>30-day money-back guarantee</span>
+                <span>Personalized experience</span>
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Logo Section */}
+      <section className="py-16 text-center gradient-subtle">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center">
+            <img 
+              src="https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/biowelllogos/Biowell_logo_light_theme.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiaW93ZWxsbG9nb3MvQmlvd2VsbF9sb2dvX2xpZ2h0X3RoZW1lLnN2ZyIsImlhdCI6MTc1MjY2MzQ0NiwiZXhwIjoxNzg0MTk5NDQ2fQ.gypGnDpYXvYFyGCKWfeyCrH4fYBGEcNOKurPfcbUcWY"
+              alt="Biowell Logo" 
+              className="object-contain w-auto h-20 dark:hidden opacity-60" 
+            />
+            <img 
+              src="https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/biowelllogos/Biowell_Logo_Dark_Theme.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiaW93ZWxsbG9nb3MvQmlvd2VsbF9Mb2dvX0RhcmtfVGhlbWUuc3ZnIiwiaWF0IjoxNzUyNjYzNDE4LCJleHAiOjE3ODQxOTk0MTh9.itsGbwX4PiR9BYMO_jRyHY1KOGkDFiF-krdk2vW7cBE"
+              alt="Biowell Logo" 
+              className="hidden object-contain w-auto h-20 dark:block opacity-60" 
+            />
+          </div>
         </div>
       </section>
 
