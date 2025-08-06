@@ -98,11 +98,3 @@ export const createMockElement = (tag: string, attributes: Record<string, string
   });
   return element;
 };
-
-export const createAccessibilityTestWrapper = (children: React.ReactElement) => {
-  return (
-    <div role="application" aria-label="Test application">
-      {children}
-    </div>
-  );
-};
