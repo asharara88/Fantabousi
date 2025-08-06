@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, Star, Users, Trophy, Play, BarChart3, Target } from 'lucide-react'
+import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, Play, BarChart3, Target } from 'lucide-react'
 import EvidenceBasedHealthOptimization from '../components/health/EvidenceBasedHealthOptimization'
 import { motion } from 'framer-motion'
 
@@ -32,11 +32,31 @@ const HomePage: React.FC = () => {
     }
   ]
 
-  const socialProof = [
-    { stat: 'AI-Powered', label: 'Recommendations' },
-    { stat: 'Science-Based', label: 'Approach' },
-    { stat: 'Personalized', label: 'Experience' },
-    { stat: 'Evidence-Backed', label: 'Content' }
+  const smartCoachFeatures = [
+    { 
+      title: 'Smart Coach AI', 
+      preview: 'Real-time analysis of 50+ biomarkers',
+      details: 'Continuous glucose, sleep stages, HRV, and more',
+      icon: <Brain className="w-6 h-6" />
+    },
+    { 
+      title: 'Modular Verticals', 
+      preview: 'BioWell • Ubergene • Performance • Fertility',
+      details: 'Specialized protocols for every health goal',
+      icon: <Target className="w-6 h-6" />
+    },
+    { 
+      title: 'Stack Logic', 
+      preview: 'Precision dosing based on your genetics',
+      details: 'Interactions, timing, and bioavailability optimized',
+      icon: <Zap className="w-6 h-6" />
+    },
+    { 
+      title: 'Wearable Integration', 
+      preview: 'Oura • Whoop • Apple Health • Garmin',
+      details: 'Your body\'s data becomes your wellness strategy',
+      icon: <BarChart3 className="w-6 h-6" />
+    }
   ]
 
   const benefits = [
@@ -51,10 +71,31 @@ const HomePage: React.FC = () => {
     <div className="min-h-screen">
       {/* Hero Section - Primary CTA */}
       <section className="relative py-20 overflow-hidden text-gray-900 border-b gradient-subtle border-gray-200/30 dark:border-gray-700/30 dark:text-white sm:py-24 md:py-32">
-        {/* Animated background elements */}
+        {/* Enhanced animated background with data stream feel */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute rounded-full top-1/4 left-1/4 w-96 h-96 bg-primary/5 blur-3xl animate-pulse"></div>
           <div className="absolute rounded-full bottom-1/4 right-1/4 w-80 h-80 bg-secondary/5 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          
+          {/* Data stream lines */}
+          <div className="absolute inset-0">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-px bg-gradient-to-b from-transparent via-primary/20 to-transparent animate-pulse"
+                style={{
+                  left: `${15 + i * 12}%`,
+                  height: '100%',
+                  animationDelay: `${i * 0.5}s`,
+                  animationDuration: '3s'
+                }}
+              />
+            ))}
+          </div>
+          
+          {/* Floating data points */}
+          <div className="absolute top-1/3 left-1/5 w-2 h-2 bg-primary/40 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute top-2/3 right-1/4 w-2 h-2 bg-secondary/40 rounded-full animate-ping" style={{ animationDelay: '1.5s' }}></div>
+          <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-primary/40 rounded-full animate-ping" style={{ animationDelay: '2.5s' }}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,15 +105,16 @@ const HomePage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Badge */}
+            {/* Enhanced Badge with AI presence */}
             <motion.div
-              className="inline-flex items-center px-4 py-2 mb-8 text-sm font-medium tracking-wide transition-all duration-200 surface-glass rounded-full"
+              className="inline-flex items-center px-6 py-3 mb-8 text-sm font-medium tracking-wide transition-all duration-200 surface-glass rounded-full group"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <Star className="w-4 h-4 mr-2 text-yellow-500" />
-              <span className="text-gray-700 dark:text-gray-300">Science-backed health optimization</span>
+              <div className="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse"></div>
+              <Brain className="w-4 h-4 mr-2 text-primary" />
+              <span className="text-gray-700 dark:text-gray-300">Smart Coach AI Active • 24/7 Health Optimization</span>
             </motion.div>
 
             {/* Main Headline */}
@@ -94,61 +136,84 @@ const HomePage: React.FC = () => {
               From fertility to longevity - your data drives your wellness journey.
             </p>
 
-            {/* Social Proof Stats */}
-            <div className="grid grid-cols-2 gap-6 mb-12 sm:grid-cols-4">
-              {socialProof.map((item, index) => (
+            {/* Smart Coach Features - Interactive Hover Cards */}
+            <div className="grid grid-cols-1 gap-4 mb-12 sm:grid-cols-2 lg:grid-cols-4">
+              {smartCoachFeatures.map((feature, index) => (
                 <motion.div
                   key={index}
-                  className="text-center"
+                  className="group relative p-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 cursor-pointer"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + index * 0.1 }}
+                  whileHover={{ scale: 1.05, y: -5 }}
                 >
-                  <div className="text-2xl font-bold text-primary sm:text-3xl">{item.stat}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">{item.label}</div>
+                  <div className="flex items-center mb-2">
+                    <div className="text-primary">{feature.icon}</div>
+                    <h3 className="ml-2 text-sm font-semibold text-gray-900 dark:text-white">{feature.title}</h3>
+                  </div>
+                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">{feature.preview}</p>
+                  
+                  {/* Hover tooltip */}
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                    {feature.details}
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+                  </div>
                 </motion.div>
               ))}
             </div>
 
-            {/* Primary CTA */}
+            {/* Enhanced CTA with Segmentation */}
             <motion.div 
-              className="flex flex-col items-center gap-6 mb-12 sm:flex-row sm:justify-center sm:gap-8"
+              className="flex flex-col items-center gap-8 mb-12"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
+              {/* Primary CTA */}
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                 <Link
-                  to="/signup"
-                  className="gradient-primary text-white px-12 py-5 rounded-2xl font-bold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 inline-flex items-center justify-center text-xl min-w-[280px] tracking-wide shadow-xl"
+                  to="/onboarding"
+                  className="gradient-primary text-white px-16 py-6 rounded-2xl font-bold hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 inline-flex items-center justify-center text-2xl min-w-[320px] tracking-wide shadow-xl relative overflow-hidden group"
                 >
-                  Get Started
-                  <ArrowRight className="w-6 h-6 ml-3" />
+                  <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                  <span className="relative z-10">Start My Plan</span>
+                  <ArrowRight className="w-7 h-7 ml-4 relative z-10" />
                 </Link>
               </motion.div>
               
-              <motion.button
-                className="flex items-center px-6 py-3 text-lg font-medium text-gray-700 transition-all duration-200 bg-white border-2 border-gray-200 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 rounded-2xl hover:border-primary hover:text-primary"
-                whileHover={{ scale: 1.02 }}
-              >
-                <Play className="w-5 h-5 mr-3" />
-                Learn More
-              </motion.button>
+              {/* Secondary CTAs - Segmentation */}
+              <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-8">
+                <motion.button
+                  className="flex items-center px-6 py-3 text-lg font-medium text-gray-700 transition-all duration-200 bg-white/80 backdrop-blur-sm border border-gray-200 dark:text-gray-300 dark:bg-gray-800/80 dark:border-gray-600 rounded-xl hover:border-primary hover:text-primary hover:shadow-lg"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <Play className="w-5 h-5 mr-3" />
+                  Try Demo
+                </motion.button>
+                
+                <motion.button
+                  className="flex items-center px-6 py-3 text-lg font-medium text-gray-700 transition-all duration-200 bg-white/80 backdrop-blur-sm border border-gray-200 dark:text-gray-300 dark:bg-gray-800/80 dark:border-gray-600 rounded-xl hover:border-secondary hover:text-secondary hover:shadow-lg"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <Target className="w-5 h-5 mr-3" />
+                  Choose Your Goal
+                </motion.button>
+              </div>
             </motion.div>
             
-            {/* Trust indicators */}
+            {/* Enhanced trust indicators */}
             <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600 dark:text-gray-400">
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>Free to get started</span>
+                <span>50+ biomarkers tracked</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>Science-backed approach</span>
+                <span>Clinical-grade precision</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>Personalized for you</span>
+                <span>Real-time optimization</span>
               </div>
             </div>
           </motion.div>
@@ -373,12 +438,12 @@ const HomePage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="mb-6 text-4xl font-bold leading-tight sm:text-5xl">
-              Ready to Start Your Health Journey?
+              Ready to Optimize Your Biology?
             </h2>
             <p className="mb-8 text-xl opacity-90">
-              Take the first step towards optimizing your health with personalized, science-backed recommendations.
+              Join the future of personalized wellness. Your data becomes your advantage.
               <br />
-              <strong>Get started today.</strong>
+              <strong>Start with Smart Coach today.</strong>
             </p>
             
             <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
@@ -396,15 +461,15 @@ const HomePage: React.FC = () => {
             <div className="flex flex-wrap justify-center gap-8 mt-8 text-sm opacity-80">
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2" />
-                <span>Free to get started</span>
+                <span>Wearables integrated</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2" />
-                <span>Science-backed recommendations</span>
+                <span>Precision stacking</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2" />
-                <span>Personalized experience</span>
+                <span>Smart Coach AI</span>
               </div>
             </div>
           </motion.div>
