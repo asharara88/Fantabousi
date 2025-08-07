@@ -6,11 +6,11 @@ import { GlassCard, GlassButton } from '../ui/GlassComponents';
 export default function HeroSection() {
   return (
     <SimpleBackdrop className="backdrop-brightness-105 dark:backdrop-brightness-95">
-      <section className="relative isolate px-6 pt-28 pb-24 lg:pt-36 lg:pb-36">
-        <div className="max-w-6xl mx-auto text-center flex flex-col items-center space-y-8">
+      <section className="relative px-6 pb-24 isolate pt-28 lg:pt-36 lg:pb-36">
+        <div className="flex flex-col items-center max-w-6xl mx-auto space-y-8 text-center">
 
           <motion.div
-            className="glass-card inline-block px-6 py-3 rounded-full"
+            className="inline-block px-6 py-3 rounded-full glass-card"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.5 }}
@@ -21,7 +21,7 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.h1 
-            className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight"
+            className="text-4xl font-extrabold leading-tight tracking-tight md:text-6xl text-slate-900 dark:text-white"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
@@ -30,7 +30,7 @@ export default function HeroSection() {
           </motion.h1>
 
           <motion.p 
-            className="text-lg md:text-xl max-w-2xl text-slate-600 dark:text-slate-300 leading-relaxed"
+            className="max-w-2xl text-lg leading-relaxed md:text-xl text-slate-600 dark:text-slate-300"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
@@ -39,7 +39,7 @@ export default function HeroSection() {
           </motion.p>
 
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            className="flex flex-col items-center justify-center gap-4 sm:flex-row"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
@@ -47,7 +47,7 @@ export default function HeroSection() {
             <GlassButton 
               variant="primary" 
               size="lg"
-              className="text-white font-semibold shadow-xl hover:shadow-2xl"
+              className="font-semibold text-white shadow-xl hover:shadow-2xl"
             >
               Start My Plan <ArrowRight size={16} className="ml-2" />
             </GlassButton>
@@ -55,7 +55,7 @@ export default function HeroSection() {
             <GlassButton 
               variant="secondary" 
               size="lg"
-              className="text-blue-700 dark:text-blue-300 font-medium"
+              className="font-medium text-blue-700 dark:text-blue-300"
             >
               <PlayCircle size={20} className="mr-2" /> Try Live Demo
             </GlassButton>
@@ -75,7 +75,7 @@ export default function HeroSection() {
             ].map((feature, index) => (
               <motion.div
                 key={index}
-                className="glass-panel px-4 py-2 rounded-full"
+                className="px-4 py-2 rounded-full glass-panel"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 + index * 0.1, duration: 0.4 }}
