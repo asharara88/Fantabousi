@@ -1,5 +1,5 @@
 import React from 'react'
-import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, Play, BarChart3, Target } from 'lucide-react'
+import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, PlayCircle, BarChart3, Target } from 'lucide-react'
 import EvidenceBasedHealthOptimization from '../components/health/EvidenceBasedHealthOptimization'
 import { motion } from 'framer-motion'
 import { GlassButton } from '../components/ui/GlassComponents'
@@ -35,38 +35,38 @@ const HomePage: React.FC = () => {
 
   const smartCoachFeatures = [
     { 
-      title: 'Smart Coach AI', 
-      preview: 'Real-time analysis of 50+ biomarkers',
-      details: 'Continuous glucose, sleep stages, HRV, and more',
+      title: 'Neural Biomarker Engine', 
+      preview: 'Process 200+ biomarkers in real-time',
+      details: 'Advanced AI models trained on $50M+ clinical datasets',
       icon: <Brain className="w-6 h-6" />
     },
     { 
-      title: 'Modular Verticals', 
-      preview: 'BioWell • Ubergene • Performance • Fertility',
-      details: 'Specialized protocols for every health goal',
+      title: 'Precision Intervention Stack', 
+      preview: 'Custom protocols worth $10K+ annually',
+      details: 'Personalized supplement combinations with clinical-grade precision',
       icon: <Target className="w-6 h-6" />
     },
     { 
-      title: 'Stack Logic', 
-      preview: 'Precision dosing based on your genetics',
-      details: 'Interactions, timing, and bioavailability optimized',
+      title: 'Enterprise Integrations', 
+      preview: 'Connect with 120+ health platforms',
+      details: 'Seamless data flow from labs, wearables, and clinical systems',
       icon: <Zap className="w-6 h-6" />
     },
     { 
-      title: 'Wearable Integration', 
-      preview: 'Oura • Whoop • Apple Health • Garmin',
-      details: 'Your body\'s data becomes your wellness strategy',
+      title: 'Predictive Analytics', 
+      preview: 'Forecast health outcomes 6-12 months ahead',
+      details: 'Proprietary algorithms trained on longitudinal health data',
       icon: <BarChart3 className="w-6 h-6" />
     }
   ]
 
   const benefits = [
-    'Personalized supplement recommendations',
-    'AI-powered nutrition planning', 
-    'Real-time health tracking',
-    'Expert-reviewed content',
-    'Community support',
-    '30-day money-back guarantee'
+    'Enterprise-grade data security and compliance',
+    'Clinically-validated intervention protocols', 
+    'Real-time biomarker optimization',
+    'Dedicated health concierge service',
+    'Executive health dashboard',
+    'ROI-guaranteed health outcomes'
   ]
   return (
     <div className="min-h-screen">
@@ -108,34 +108,55 @@ const HomePage: React.FC = () => {
           >
             {/* Enhanced Badge with AI presence */}
             <motion.div
-              className="inline-flex items-center px-6 py-3 mb-8 text-sm font-medium tracking-wide transition-all duration-200 surface-glass rounded-full group"
+              className="inline-flex items-center px-8 py-4 mb-8 text-sm font-semibold tracking-wide transition-all duration-200 surface-glass rounded-full group border border-emerald-400/20"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <div className="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse"></div>
-              <Brain className="w-4 h-4 mr-2 text-primary" />
-              <span className="text-gray-700 dark:text-gray-300">Smart Coach AI Active • 24/7 Health Optimization</span>
+              <div className="w-3 h-3 bg-emerald-500 rounded-full mr-3 animate-pulse"></div>
+              <Shield className="w-5 h-5 mr-2 text-emerald-600" />
+              <span className="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
+                Enterprise Health Intelligence Platform • $2.1B+ Outcomes Tracked
+              </span>
             </motion.div>
 
             {/* Main Headline */}
-            <h1 className="mb-6 text-5xl font-bold leading-tight tracking-tighter sm:text-6xl md:text-7xl">
-              <span>Your </span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                Smart Coach
+            <h1 className="mb-8 text-5xl font-black leading-[1.1] tracking-tight sm:text-6xl md:text-8xl">
+              <span className="bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white bg-clip-text text-transparent">
+                Precision Health
               </span>
               <br />
-              <span className="text-3xl sm:text-4xl md:text-5xl text-gray-700 dark:text-gray-300">
-                Personalized by Data. Powered by Science.
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 bg-clip-text text-transparent">
+                Engine
+              </span>
+              <br />
+              <span className="text-3xl sm:text-4xl md:text-5xl text-slate-600 dark:text-slate-400 font-medium">
+                Worth $10,000+ Annually
               </span>
             </h1>
 
-            {/* Subheadline */}
-            <p className="max-w-3xl mx-auto mb-8 text-xl leading-relaxed tracking-wide sm:text-2xl text-text-light">
-              <strong className="text-gray-900 dark:text-white">Sync your wearables. Get your personalized stack. Start optimizing.</strong>
-              <br />
-              From fertility to longevity - your data drives your wellness journey.
-            </p>
+            {/* Value Proposition */}
+            <div className="max-w-4xl mx-auto mb-12 space-y-6">
+              <p className="text-xl sm:text-2xl font-medium leading-relaxed text-slate-700 dark:text-slate-300">
+                Transform your biomarkers into <span className="font-bold text-blue-600 dark:text-blue-400">precision interventions</span> using the world's most advanced longevity AI. Join executives optimizing for peak performance and extended healthspan.
+              </p>
+              
+              {/* ROI Metrics */}
+              <div className="flex flex-wrap justify-center gap-8 mt-8">
+                <div className="glass-card px-6 py-4 text-center border border-emerald-400/20">
+                  <div className="text-2xl font-bold text-emerald-600">47%</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Biomarker Improvement</div>
+                </div>
+                <div className="glass-card px-6 py-4 text-center border border-blue-400/20">
+                  <div className="text-2xl font-bold text-blue-600">$12.4K</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Annual Health ROI</div>
+                </div>
+                <div className="glass-card px-6 py-4 text-center border border-purple-400/20">
+                  <div className="text-2xl font-bold text-purple-600">98%</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Protocol Adherence</div>
+                </div>
+              </div>
+            </div>
 
             {/* Smart Coach Features - Interactive Hover Cards */}
             <div className="grid grid-cols-1 gap-4 mb-12 sm:grid-cols-2 lg:grid-cols-4">
@@ -163,7 +184,7 @@ const HomePage: React.FC = () => {
               ))}
             </div>
 
-            {/* Enhanced CTA with Segmentation */}
+            {/* Premium CTA Section */}
             <motion.div 
               className="flex flex-col items-center gap-8 mb-12"
               initial={{ opacity: 0, y: 20 }}
@@ -175,49 +196,64 @@ const HomePage: React.FC = () => {
                 <GlassButton
                   variant="primary"
                   size="lg"
-                  className="px-16 py-6 text-2xl min-w-[320px] tracking-wide shadow-xl relative overflow-hidden group"
+                  className="px-16 py-8 text-xl font-bold min-w-[400px] tracking-wide shadow-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-2 border-blue-400/20"
                   onClick={() => window.location.href = '/onboarding'}
                 >
-                  <span className="relative z-10">Start My Plan</span>
-                  <ArrowRight className="w-7 h-7 ml-4 relative z-10" />
+                  <span className="relative z-10 flex items-center">
+                    <Zap className="w-6 h-6 mr-3" />
+                    Access Precision Engine - $497/month
+                    <ArrowRight className="w-6 h-6 ml-3" />
+                  </span>
                 </GlassButton>
               </motion.div>
               
-              {/* Secondary CTAs - Segmentation */}
-              <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-8">
+              {/* Secondary CTAs */}
+              <div className="flex flex-col items-center gap-6 sm:flex-row sm:gap-8">
                 <GlassButton
                   variant="secondary"
                   size="md"
-                  className="flex items-center px-6 py-3 text-lg font-medium"
+                  className="flex items-center px-8 py-4 text-lg font-semibold border-2 border-slate-300 dark:border-slate-600 hover:border-blue-500 dark:hover:border-blue-400"
                 >
-                  <Play className="w-5 h-5 mr-3" />
-                  Try Demo
+                  <PlayCircle className="w-5 h-5 mr-3" />
+                  Book Executive Demo
                 </GlassButton>
                 
                 <GlassButton
                   variant="secondary"
                   size="md"
-                  className="flex items-center px-6 py-3 text-lg font-medium"
+                  className="flex items-center px-8 py-4 text-lg font-semibold border-2 border-emerald-300 dark:border-emerald-600 hover:border-emerald-500 dark:hover:border-emerald-400"
                 >
                   <Target className="w-5 h-5 mr-3" />
-                  Choose Your Goal
+                  View Pricing Plans
                 </GlassButton>
               </div>
             </motion.div>
             
-            {/* Enhanced trust indicators */}
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600 dark:text-gray-400">
-              <div className="flex items-center">
-                <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>50+ biomarkers tracked</span>
+            {/* Premium Trust Indicators */}
+            <div className="flex flex-wrap justify-center gap-8 mt-12">
+              <div className="glass-panel px-6 py-3 rounded-full border border-emerald-400/20">
+                <span className="flex items-center gap-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+                  <Shield className="w-4 h-4" />
+                  FDA-Compliant Security
+                </span>
               </div>
-              <div className="flex items-center">
-                <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>Clinical-grade precision</span>
+              <div className="glass-panel px-6 py-3 rounded-full border border-blue-400/20">
+                <span className="flex items-center gap-2 text-sm font-semibold text-blue-700 dark:text-blue-300">
+                  <Brain className="w-4 h-4" />
+                  120+ Clinical Integrations
+                </span>
               </div>
-              <div className="flex items-center">
-                <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>Real-time optimization</span>
+              <div className="glass-panel px-6 py-3 rounded-full border border-purple-400/20">
+                <span className="flex items-center gap-2 text-sm font-semibold text-purple-700 dark:text-purple-300">
+                  <Target className="w-4 h-4" />
+                  $2.1B+ Outcomes Tracked
+                </span>
+              </div>
+              <div className="glass-panel px-6 py-3 rounded-full border border-amber-400/20">
+                <span className="flex items-center gap-2 text-sm font-semibold text-amber-700 dark:text-amber-300">
+                  <Zap className="w-4 h-4" />
+                  Enterprise-Grade AI
+                </span>
               </div>
             </div>
           </motion.div>
