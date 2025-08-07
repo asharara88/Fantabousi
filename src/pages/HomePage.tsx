@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, Play, BarChart3, Target } from 'lucide-react'
 import EvidenceBasedHealthOptimization from '../components/health/EvidenceBasedHealthOptimization'
 import { motion } from 'framer-motion'
+import { GlassButton } from '../components/ui/GlassComponents'
 
 const HomePage: React.FC = () => {
   const features = [
@@ -141,7 +141,7 @@ const HomePage: React.FC = () => {
               {smartCoachFeatures.map((feature, index) => (
                 <motion.div
                   key={index}
-                  className="group relative p-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                  className="group relative glass-card p-4 cursor-pointer"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + index * 0.1 }}
@@ -154,9 +154,9 @@ const HomePage: React.FC = () => {
                   <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">{feature.preview}</p>
                   
                   {/* Hover tooltip */}
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 glass-panel text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
                     {feature.details}
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
                   </div>
                 </motion.div>
               ))}
@@ -171,33 +171,36 @@ const HomePage: React.FC = () => {
             >
               {/* Primary CTA */}
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  to="/onboarding"
-                  className="gradient-primary text-white px-16 py-6 rounded-2xl font-bold hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 inline-flex items-center justify-center text-2xl min-w-[320px] tracking-wide shadow-xl relative overflow-hidden group"
+                <GlassButton
+                  variant="primary"
+                  size="lg"
+                  className="px-16 py-6 text-2xl min-w-[320px] tracking-wide shadow-xl relative overflow-hidden group"
+                  onClick={() => window.location.href = '/onboarding'}
                 >
-                  <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                   <span className="relative z-10">Start My Plan</span>
                   <ArrowRight className="w-7 h-7 ml-4 relative z-10" />
-                </Link>
+                </GlassButton>
               </motion.div>
               
               {/* Secondary CTAs - Segmentation */}
               <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-8">
-                <motion.button
-                  className="flex items-center px-6 py-3 text-lg font-medium text-gray-700 transition-all duration-200 bg-white/80 backdrop-blur-sm border border-gray-200 dark:text-gray-300 dark:bg-gray-800/80 dark:border-gray-600 rounded-xl hover:border-primary hover:text-primary hover:shadow-lg"
-                  whileHover={{ scale: 1.02 }}
+                <GlassButton
+                  variant="secondary"
+                  size="md"
+                  className="flex items-center px-6 py-3 text-lg font-medium"
                 >
                   <Play className="w-5 h-5 mr-3" />
                   Try Demo
-                </motion.button>
+                </GlassButton>
                 
-                <motion.button
-                  className="flex items-center px-6 py-3 text-lg font-medium text-gray-700 transition-all duration-200 bg-white/80 backdrop-blur-sm border border-gray-200 dark:text-gray-300 dark:bg-gray-800/80 dark:border-gray-600 rounded-xl hover:border-secondary hover:text-secondary hover:shadow-lg"
-                  whileHover={{ scale: 1.02 }}
+                <GlassButton
+                  variant="secondary"
+                  size="md"
+                  className="flex items-center px-6 py-3 text-lg font-medium"
                 >
                   <Target className="w-5 h-5 mr-3" />
                   Choose Your Goal
-                </motion.button>
+                </GlassButton>
               </div>
             </motion.div>
             
@@ -325,7 +328,7 @@ const HomePage: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="p-8 bg-white rounded-2xl shadow-2xl dark:bg-gray-800">
+              <div className="p-8 glass-card shadow-2xl">
                 <div className="flex items-center mb-6">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary"></div>
                   <div className="ml-4">
@@ -410,7 +413,7 @@ const HomePage: React.FC = () => {
             ].map((item, index) => (
               <motion.div
                 key={index}
-                className="p-6 bg-white rounded-2xl shadow-lg dark:bg-gray-800"
+                className="p-6 glass-card"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -448,13 +451,15 @@ const HomePage: React.FC = () => {
             
             <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  to="/signup"
-                  className="bg-white text-primary px-12 py-5 rounded-2xl font-bold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 inline-flex items-center justify-center text-xl min-w-[280px] shadow-xl"
+                <GlassButton
+                  variant="secondary"
+                  size="lg"
+                  className="px-12 py-5 text-xl min-w-[280px] shadow-xl bg-white text-primary"
+                  onClick={() => window.location.href = '/signup'}
                 >
                   Get Started
                   <ArrowRight className="w-6 h-6 ml-3" />
-                </Link>
+                </GlassButton>
               </motion.div>
             </div>
 

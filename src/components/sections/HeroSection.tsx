@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, PlayCircle } from 'lucide-react';
 import SimpleBackdrop from '../ui/SimpleBackdrop';
+import { GlassCard, GlassButton } from '../ui/GlassComponents';
 
 export default function HeroSection() {
   return (
@@ -8,14 +9,16 @@ export default function HeroSection() {
       <section className="relative isolate px-6 pt-28 pb-24 lg:pt-36 lg:pb-36">
         <div className="max-w-6xl mx-auto text-center flex flex-col items-center space-y-8">
 
-          <motion.span 
-            className="inline-block rounded-full border border-blue-200/80 bg-blue-50/80 backdrop-blur-sm px-4 py-1.5 text-sm font-medium text-blue-700 dark:border-blue-400/30 dark:bg-blue-900/30 dark:text-blue-300"
+          <motion.div
+            className="glass-card inline-block px-6 py-3 rounded-full"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.5 }}
           >
-            AI-Powered, Human-Centered
-          </motion.span>
+            <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
+              AI-Powered, Human-Centered
+            </span>
+          </motion.div>
 
           <motion.h1 
             className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight"
@@ -41,24 +44,49 @@ export default function HeroSection() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            <button className="inline-flex items-center gap-2 rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-200 backdrop-blur-sm">
-              Start My Plan <ArrowRight size={16} />
-            </button>
-            <button className="inline-flex items-center gap-2 text-blue-700 dark:text-blue-300 font-medium hover:underline transition-colors duration-200">
-              <PlayCircle size={20} /> Try Live Demo
-            </button>
+            <GlassButton 
+              variant="primary" 
+              size="lg"
+              className="text-white font-semibold shadow-xl hover:shadow-2xl"
+            >
+              Start My Plan <ArrowRight size={16} className="ml-2" />
+            </GlassButton>
+            
+            <GlassButton 
+              variant="secondary" 
+              size="lg"
+              className="text-blue-700 dark:text-blue-300 font-medium"
+            >
+              <PlayCircle size={20} className="mr-2" /> Try Live Demo
+            </GlassButton>
           </motion.div>
 
           <motion.div 
-            className="flex flex-wrap justify-center gap-5 text-xs mt-8 text-slate-500 dark:text-slate-400 font-medium"
+            className="flex flex-wrap justify-center gap-4 mt-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.6 }}
           >
-            <span className="flex items-center gap-1 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm px-3 py-1 rounded-full">🛡 HIPAA-Ready</span>
-            <span className="flex items-center gap-1 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm px-3 py-1 rounded-full">⚡ Real-Time Analysis</span>
-            <span className="flex items-center gap-1 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm px-3 py-1 rounded-full">✅ Evidence-Based Protocols</span>
-            <span className="flex items-center gap-1 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm px-3 py-1 rounded-full">🧬 Personalized Supplement Engine</span>
+            {[
+              { icon: '🛡', text: 'HIPAA-Ready' },
+              { icon: '⚡', text: 'Real-Time Analysis' },
+              { icon: '✅', text: 'Evidence-Based Protocols' },
+              { icon: '🧬', text: 'Personalized Supplement Engine' }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                className="glass-panel px-4 py-2 rounded-full"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 + index * 0.1, duration: 0.4 }}
+                whileHover={{ scale: 1.05, y: -2 }}
+              >
+                <span className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-300">
+                  <span className="text-sm">{feature.icon}</span>
+                  {feature.text}
+                </span>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
