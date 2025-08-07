@@ -7,10 +7,10 @@
 
 export const BIOWELL_LOGOS = {
   // Light theme logo (shows in light mode)
-  LIGHT_THEME: "https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/biowelllogos/Biowell_logo_light_theme.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiaW93ZWxsbG9nb3MvQmlvd2VsbF9sb2dvX2xpZ2h0X3RoZW1lLnN2ZyIsImlhdCI6MTc1MjY2MzQ0NiwiZXhwIjoxNzg0MTk5NDQ2fQ.gypGnDpYXvYFyGCKWfeyCrH4fYBGEcNOKurPfcbUcWY",
+  LIGHT_THEME: "https://gokabiyxdubdablehnpz.supabase.co/storage/v1/object/sign/logos/light%20theme%20logo.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNzQ5MDc4Yi1iZTZjLTQ4NWUtODRlMC0zNjlhZWQyNDk3N2YiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsb2dvcy9saWdodCB0aGVtZSBsb2dvLnN2ZyIsImlhdCI6MTc1NDUzMTIwNCwiZXhwIjoxNzg2MDY3MjA0fQ.jsNvoPte7e-QcOu7-TxpYSQF4RbmBWnTJjlw_9VQrxY",
   
   // Dark theme logo (shows in dark mode)
-  DARK_THEME: "https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/biowelllogos/Biowell_Logo_Dark_Theme.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiaW93ZWxsbG9nb3MvQmlvd2VsbF9Mb2dvX0RhcmtfVGhlbWUuc3ZnIiwiaWF0IjoxNzUyNjYzNDE4LCJleHAiOjE3ODQxOTk0MTh9.itsGbwX4PiR9BYMO_jRyHY1KOGkDFiF-krdk2vW7cBE"
+  DARK_THEME: "https://gokabiyxdubdablehnpz.supabase.co/storage/v1/object/sign/logos/dark%20theme%20logo.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9hNzQ5MDc4Yi1iZTZjLTQ4NWUtODRlMC0zNjlhZWQyNDk3N2YiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsb2dvcy9kYXJrIHRoZW1lIGxvZ28uc3ZnIiwiaWF0IjoxNzU0NTMxMTA3LCJleHAiOjE3ODYwNjcxMDd9.Kb2ZGPjnl4ce41j_H4aE_ux5rIt_0hVihhkTkBXIxn0"
 } as const;
 
 /**

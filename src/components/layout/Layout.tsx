@@ -4,6 +4,7 @@ import { useNavigate, Outlet } from 'react-router-dom'
 import MinimalNav from './MinimalNav'
 import MobileNav from '../ui/MobileNav'
 import { createClient } from '@supabase/supabase-js'
+import { BIOWELL_LOGOS } from '../../constants/branding'
 
 // Initialize Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -124,12 +125,12 @@ const Layout: React.FC = () => {
             <div className="flex items-center mb-5 md:mb-0 text-left">
               {/* Using Supabase biowelllogos bucket for consistent branding */}
               <img
-                src="https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/biowelllogos/Biowell_logo_light_theme.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiaW93ZWxsbG9nb3MvQmlvd2VsbF9sb2dvX2xpZ2h0X3RoZW1lLnN2ZyIsImlhdCI6MTc1MjY2MzQ0NiwiZXhwIjoxNzg0MTk5NDQ2fQ.gypGnDpYXvYFyGCKWfeyCrH4fYBGEcNOKurPfcbUcWY"
+                src={BIOWELL_LOGOS.LIGHT_THEME}
                 alt="Biowell Logo"
                 className="h-24 w-auto dark:hidden opacity-70"
               />
               <img
-                src="https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/biowelllogos/Biowell_Logo_Dark_Theme.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiaW93ZWxsbG9nb3MvQmlvd2VsbF9Mb2dvX0RhcmtfVGhlbWUuc3ZnIiwiaWF0IjoxNzUyNjYzNDE4LCJleHAiOjE3ODQxOTk0MTh9.itsGbwX4PiR9BYMO_jRyHY1KOGkDFiF-krdk2vW7cBE"
+                src={BIOWELL_LOGOS.DARK_THEME}
                 alt="Biowell Logo"
                 className="h-24 w-auto hidden dark:block opacity-70"
               />
