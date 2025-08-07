@@ -10,8 +10,14 @@ export default defineConfig({
   ],
   server: {
     port: 4000, // Run on port 4000
+    host: true, // Allow external connections
     hmr: {
       overlay: true,
+      port: 4001, // Use different port for HMR WebSocket
+      clientPort: 4001,
+    },
+    watch: {
+      usePolling: true, // Better file watching
     },
   },
   build: {
