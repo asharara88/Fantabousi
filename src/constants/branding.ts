@@ -45,6 +45,6 @@ export const BIOWELL_COPY = {
  * Logo Component Helper
  * Returns the appropriate logo URL based on theme
  */
-export const getBiowellLogo = (isDarkMode: boolean): string => {
-  return isDarkMode ? BIOWELL_LOGOS.DARK_THEME : BIOWELL_LOGOS.LIGHT_THEME;
+export const getBiowellLogo = (actualTheme: 'light' | 'dark'): string => {
+  return actualTheme === 'dark' ? BIOWELL_LOGOS.DARK_THEME : BIOWELL_LOGOS.LIGHT_THEME;
 };

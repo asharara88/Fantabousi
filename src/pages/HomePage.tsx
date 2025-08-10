@@ -3,29 +3,33 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, ChevronDown, ChevronUp } from 'lucide-react'
 import EvidenceBasedHealthOptimization from '../components/health/EvidenceBasedHealthOptimization'
 import { motion, AnimatePresence } from 'framer-motion'
+import ThemeToggle from '../components/ui/ThemeToggle'
+import { useTheme } from '../contexts/ThemeContext'
+import { getBiowellLogo } from '../constants/branding'
 
 // Features data
 const HomePage: React.FC = () => {
   const [expandedCard, setExpandedCard] = React.useState<number | null>(null);
+  const { actualTheme } = useTheme();
 
   const features = [
     {
-      icon: <Heart className="w-10 h-10 text-primary" />,
+      icon: <Heart className="w-10 h-10" style={{ color: '#00ff88' }} />,
       title: 'Personalized Health',
       description: 'Get personalized health insights—covering supplements, habits, nutrition, and recovery—based on your unique data and daily metrics.'
     },
     {
-      icon: <Shield className="w-10 h-10 text-secondary" />,
+      icon: <Shield className="w-10 h-10" style={{ color: '#00ff88' }} />,
       title: 'Science-Backed',
       description: 'All recommendations are based on the latest scientific research and clinical studies.'
     },
     {
-      icon: <Zap className="w-10 h-10 text-tertiary" />,
+      icon: <Zap className="w-10 h-10" style={{ color: '#00ff88' }} />,
       title: 'Optimize Performance',
       description: 'Enhance your energy, focus, and overall well-being with targeted nutrition.'
     },
     {
-      icon: <Brain className="w-10 h-10 text-secondary-light" />,
+      icon: <Brain className="w-10 h-10" style={{ color: '#00ff88' }} />,
       title: 'AI-Powered Coach',
       description: 'Get personalized guidance from our AI health coach to help you reach your wellness goals.'
     }
@@ -36,6 +40,9 @@ const HomePage: React.FC = () => {
   };
   return (
     <div className="min-h-screen">
+      {/* Theme Toggle */}
+      <ThemeToggle />
+      
       {/* Hero Section with consistent styling */}
       <section className="relative py-32 overflow-hidden text-gray-900 border-b gradient-subtle border-gray-200/30 dark:border-gray-700/30 dark:text-white sm:py-40 md:py-48">
         {/* Animated background elements */}
@@ -198,14 +205,9 @@ const HomePage: React.FC = () => {
         <div className="mobile-container">
           <div className="flex justify-center">
             <img 
-              src="https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/biowelllogos/Biowell_logo_light_theme.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiaW93ZWxsbG9nb3MvQmlvd2VsbF9sb2dvX2xpZ2h0X3RoZW1lLnN2ZyIsImlhdCI6MTc1MjY2MzQ0NiwiZXhwIjoxNzg0MTk5NDQ2fQ.gypGnDpYXvYFyGCKWfeyCrH4fYBGEcNOKurPfcbUcWY"
+              src={getBiowellLogo(actualTheme)}
               alt="Biowell Logo" 
-              className="object-contain w-auto h-20 dark:hidden opacity-60" 
-            />
-            <img 
-              src="https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/biowelllogos/Biowell_Logo_Dark_Theme.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiaW93ZWxsbG9nb3MvQmlvd2VsbF9Mb2dvX0RhcmtfVGhlbWUuc3ZnIiwiaWF0IjoxNzUyNjYzNDE4LCJleHAiOjE3ODQxOTk0MTh9.itsGbwX4PiR9BYMO_jRyHY1KOGkDFiF-krdk2vW7cBE"
-              alt="Biowell Logo" 
-              className="hidden object-contain w-auto h-20 dark:block opacity-60" 
+              className="object-contain w-auto h-20 opacity-60" 
             />
           </div>
         </div>

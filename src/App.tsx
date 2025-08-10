@@ -7,6 +7,7 @@ import './styles/reading-optimization.css';
 import './styles/enhanced-interactions.css';
 import Layout from './components/layout/Layout';
 import TestPage from './pages/TestPage';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 // Lazy loaded pages for better performance
 import {
@@ -71,47 +72,49 @@ const BioclockPage = withSuspense(LazyBioclockPage);
 
 function App() {
   return (
-    <Routes>
-      {/* Public routes */}
-      <Route path="/welcome" element={<HomePage />} />
-      <Route path="/landing" element={<LandingPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/onboarding" element={<OnboardingPage />} />
-      <Route path="/diagnostics" element={<DiagnosticsPage />} />
-      <Route path="/debug" element={<SupabaseDebugPage />} />
-      <Route path="/glassmorphism" element={<GlassmorphismShowcase />} />
-      
-      {/* Payment routes */}
-      <Route path="/payment-success" element={<PaymentSuccessPage />} />
-      <Route path="/payment-cancel" element={<PaymentCancelPage />} />
-      
-      {/* Protected routes wrapped in Layout */}
-      <Route path="/" element={<Layout />}>
-        <Route index element={<DashboardPage />} />
-        <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="mycoach" element={<MyCoachPage />} />
-        <Route path="nutrition" element={<NutritionPage />} />
-        <Route path="nutrition/dashboard" element={<NutritionDashboardPage />} />
-        <Route path="fitness" element={<FitnessPage />} />
-        <Route path="supplements" element={<SupplementsPage />} />
-        <Route path="supplements/store" element={<SupplementStorePage />} />
-        <Route path="supplements/stacks" element={<MyStacksPage />} />
-        <Route path="supplements/recommendations" element={<SupplementRecommendationsPage />} />
-        <Route path="supplements/:id" element={<SupplementDetailPage />} />
-        <Route path="recipes" element={<RecipesPage />} />
-        <Route path="recipes/saved" element={<SavedRecipesPage />} />
-        <Route path="recipes/:id" element={<RecipeDetailPage />} />
-        <Route path="metabolism" element={<MetabolismPage />} />
-        <Route path="bioclock" element={<BioclockPage />} />
-        <Route path="cart" element={<CartPage />} />
-        <Route path="about" element={<AboutPage />} />
-        <Route path="pricing" element={<PricingPage />} />
-        <Route path="test" element={<TestPage />} />
-        <Route path="demo/live-time" element={<LiveTimeDemo />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Route>
-    </Routes>
+    <ThemeProvider>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/welcome" element={<HomePage />} />
+        <Route path="/landing" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/diagnostics" element={<DiagnosticsPage />} />
+        <Route path="/debug" element={<SupabaseDebugPage />} />
+        <Route path="/glassmorphism" element={<GlassmorphismShowcase />} />
+        
+        {/* Payment routes */}
+        <Route path="/payment-success" element={<PaymentSuccessPage />} />
+        <Route path="/payment-cancel" element={<PaymentCancelPage />} />
+        
+        {/* Protected routes wrapped in Layout */}
+        <Route path="/" element={<Layout />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="mycoach" element={<MyCoachPage />} />
+          <Route path="nutrition" element={<NutritionPage />} />
+          <Route path="nutrition/dashboard" element={<NutritionDashboardPage />} />
+          <Route path="fitness" element={<FitnessPage />} />
+          <Route path="supplements" element={<SupplementsPage />} />
+          <Route path="supplements/store" element={<SupplementStorePage />} />
+          <Route path="supplements/stacks" element={<MyStacksPage />} />
+          <Route path="supplements/recommendations" element={<SupplementRecommendationsPage />} />
+          <Route path="supplements/:id" element={<SupplementDetailPage />} />
+          <Route path="recipes" element={<RecipesPage />} />
+          <Route path="recipes/saved" element={<SavedRecipesPage />} />
+          <Route path="recipes/:id" element={<RecipeDetailPage />} />
+          <Route path="metabolism" element={<MetabolismPage />} />
+          <Route path="bioclock" element={<BioclockPage />} />
+          <Route path="cart" element={<CartPage />} />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="pricing" element={<PricingPage />} />
+          <Route path="test" element={<TestPage />} />
+          <Route path="demo/live-time" element={<LiveTimeDemo />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </ThemeProvider>
   );
 }
 
