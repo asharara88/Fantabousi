@@ -1,6 +1,5 @@
-port React from 'react'
-import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, PlayCircle, BarChart3, Target } from 'lucide-react'
-import EvidenceBasedHealthOptimization from '../components/health/EvidenceBasedHealthOptimization'
+import React from 'react'
+import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, PlayCircle, Users, Target, Star, ArrowDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { GlassButton } from '../components/ui/GlassComponents'
 import { BIOWELL_LOGOS } from '../constants/branding'
@@ -8,46 +7,511 @@ import { BIOWELL_LOGOS } from '../constants/branding'
 const HomePage: React.FC = () => {
   const features = [
     {
-      icon: <Heart className="w-8 h-8 text-white" />,
-      title: 'Personalized Health',
-      description: 'AI-driven recommendations tailored to your unique biology, lifestyle, and goals.',
-      metric: '95% accuracy'
+      icon: <Brain className="w-8 h-8 text-white" />,
+      title: 'Personalized Smart Coach',
+      description: 'AI-driven recommendations tailored to your unique biology, lifestyle, and goals.'
     },
     {
       icon: <Shield className="w-8 h-8 text-white" />,
-      title: 'Science-Backed',
-      description: 'Every recommendation is rooted in peer-reviewed research and clinical studies.',
-      metric: '10,000+ studies'
+      title: 'Science-Backed Supplements',
+      description: 'Every recommendation is rooted in peer-reviewed research and clinical studies.'
     },
     {
       icon: <Zap className="w-8 h-8 text-white" />,
-      title: 'Optimize Performance',
-      description: 'Enhance your energy, focus, and overall well-being with targeted nutrition and lifestyle recommendations.',
-      metric: 'Personalized'
-    },
-    {
-      icon: <Brain className="w-8 h-8 text-white" />,
-      title: 'AI Coach',
-      description: 'Your personal health coach available 24/7 to guide your wellness journey.',
-      metric: '24/7 support'
+      title: 'Wearable & App Integration',
+      description: 'Connect your health data from wearables and apps for comprehensive insights.'
     }
   ]
 
-  const smartCoachFeatures = [
-    { 
-      title: 'Neural Biomarker Engine', 
-      preview: 'Process 200+ biomarkers in real-time',
-      details: 'Advanced AI models trained on $50M+ clinical datasets',
-      icon: <Brain className="w-6 h-6" />
+  const howItWorks = [
+    {
+      step: 1,
+      title: 'Take Your Health Quiz',
+      description: 'Answer questions about your health goals, lifestyle, and current wellness routine.'
     },
-    { 
-      title: 'Precision Intervention Stack', 
-      preview: 'Custom protocols worth $10K+ annually',
-      details: 'Personalized supplement combinations with clinical-grade precision',
-      icon: <Target className="w-6 h-6" />
+    {
+      step: 2,
+      title: 'Connect Your Wearable Data',
+      description: 'Sync your fitness trackers and health apps for personalized insights.'
     },
-    { 
-      title: 'Enterprise Integrations', 
+    {
+      step: 3,
+      title: 'Receive Your Personalized Plan',
+      description: 'Get custom supplement recommendations and health coaching tailored to you.'
+    }
+  ]
+
+  const testimonials = [
+    {
+      name: "Sarah Ahmed",
+      quote: "Biowell helped me optimize my supplement routine. I feel more energetic and focused.",
+      image: "/api/placeholder/60/60"
+    },
+    {
+      name: "Mohammad Ali",
+      quote: "The personalized coaching made all the difference in achieving my health goals.",
+      image: "/api/placeholder/60/60"
+    },
+    {
+      name: "Fatima Hassan",
+      quote: "Love how easy it is to track my progress and get science-backed recommendations.",
+      image: "/api/placeholder/60/60"
+    }
+  ]
+
+  const faqs = [
+    {
+      question: "How does Biowell personalize my health plan?",
+      answer: "We analyze your health quiz responses, wearable data, and goals to create personalized supplement and lifestyle recommendations using AI."
+    },
+    {
+      question: "Are the supplements safe and tested?",
+      answer: "Yes, all our supplement recommendations are based on peer-reviewed research and sourced from reputable manufacturers."
+    },
+    {
+      question: "Can I cancel my subscription anytime?",
+      answer: "Absolutely. You can cancel your subscription at any time from your account settings."
+    },
+    {
+      question: "How often do you update my recommendations?",
+      answer: "Your recommendations are updated monthly based on your progress and any new health data you provide."
+    }
+  ]
+
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative py-20 overflow-hidden text-gray-900 border-b gradient-subtle border-gray-200/30 dark:border-gray-700/30 dark:text-white sm:py-24 md:py-32">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute rounded-full top-1/4 left-1/4 w-96 h-96 bg-primary/5 blur-3xl animate-pulse"></div>
+          <div className="absolute rounded-full bottom-1/4 right-1/4 w-80 h-80 bg-secondary/5 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="relative z-10 max-w-4xl mx-auto text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Hero Content */}
+            <h1 className="mb-8 text-5xl font-black leading-[1.1] tracking-tight sm:text-6xl md:text-7xl">
+              <span className="bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white bg-clip-text text-transparent">
+                Optimize Your Health,
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Every Day.
+              </span>
+            </h1>
+
+            <p className="text-xl sm:text-2xl font-medium leading-relaxed text-slate-700 dark:text-slate-300 mb-12 max-w-3xl mx-auto">
+              Personalized programs, science-backed supplements, and smart integrations to help you achieve your health goals.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-col items-center gap-6 mb-16 sm:flex-row sm:justify-center">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                <GlassButton
+                  variant="primary"
+                  size="lg"
+                  className="px-12 py-5 text-xl font-bold min-w-[280px] shadow-xl bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700"
+                  onClick={() => document.getElementById('signup')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  <span className="flex items-center">
+                    Get Started
+                    <ArrowRight className="w-6 h-6 ml-3" />
+                  </span>
+                </GlassButton>
+              </motion.div>
+              
+              <GlassButton
+                variant="secondary"
+                size="lg"
+                className="px-12 py-5 text-xl font-semibold min-w-[280px]"
+                onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                <span className="flex items-center">
+                  Learn More
+                  <ArrowDown className="w-5 h-5 ml-3" />
+                </span>
+              </GlassButton>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-20 gradient-subtle">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="mb-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="mb-6 text-4xl font-bold leading-tight tracking-tighter sm:text-5xl">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-blue-600">
+                Everything You Need
+              </span>
+            </h2>
+            <p className="max-w-3xl mx-auto text-xl leading-relaxed text-gray-600 dark:text-gray-400">
+              A comprehensive, science-backed health platform designed for personalized wellness
+            </p>
+          </motion.div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {features.map((feature, index) => (
+              <motion.div 
+                key={index} 
+                className="relative p-8 text-white transition-all duration-300 transform rounded-2xl bg-gradient-to-br from-emerald-600 to-blue-600 hover:shadow-2xl hover:-translate-y-2"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="flex items-center mb-6">
+                  <div className="p-3 rounded-xl bg-white/20 backdrop-blur-sm">
+                    {feature.icon}
+                  </div>
+                </div>
+                <h3 className="mb-4 text-xl font-bold text-white">
+                  {feature.title}
+                </h3>
+                <p className="text-base leading-relaxed text-white/90">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="mb-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="mb-6 text-4xl font-bold leading-tight tracking-tighter sm:text-5xl">
+              How It <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-blue-600">Works</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {howItWorks.map((step, index) => (
+              <motion.div
+                key={index}
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.2, duration: 0.6 }}
+              >
+                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-emerald-600 to-blue-600 rounded-full flex items-center justify-center">
+                  <span className="text-2xl font-bold text-white">{step.step}</span>
+                </div>
+                <h3 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">{step.title}</h3>
+                <p className="text-gray-600 dark:text-gray-400">{step.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 gradient-subtle">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="mb-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="mb-6 text-4xl font-bold leading-tight tracking-tighter sm:text-5xl">
+              What Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-blue-600">Users Say</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                className="p-6 glass-card"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+              >
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-emerald-600 to-blue-600 rounded-full flex items-center justify-center mr-4">
+                    <span className="text-white font-bold">{testimonial.name[0]}</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</h4>
+                    <div className="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-current" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 italic">"{testimonial.quote}"</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="py-20 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="mb-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="mb-6 text-4xl font-bold leading-tight tracking-tighter sm:text-5xl">
+              Simple <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-blue-600">Pricing</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+            <motion.div
+              className="p-8 glass-card border-2 border-gray-200 dark:border-gray-700"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+            >
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Monthly</h3>
+              <div className="text-4xl font-bold text-emerald-600 mb-6">
+                AED 199<span className="text-lg text-gray-600 dark:text-gray-400">/month</span>
+              </div>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-emerald-600 mr-3" />
+                  <span className="text-gray-700 dark:text-gray-300">Personalized health coaching</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-emerald-600 mr-3" />
+                  <span className="text-gray-700 dark:text-gray-300">Supplement recommendations</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-emerald-600 mr-3" />
+                  <span className="text-gray-700 dark:text-gray-300">Wearable data integration</span>
+                </li>
+              </ul>
+              <GlassButton
+                variant="secondary"
+                size="lg"
+                className="w-full"
+              >
+                Get Started
+              </GlassButton>
+            </motion.div>
+
+            <motion.div
+              className="p-8 glass-card border-2 border-emerald-600 relative"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+            >
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-gradient-to-r from-emerald-600 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium">
+                  Best Value
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Annual</h3>
+              <div className="text-4xl font-bold text-emerald-600 mb-2">
+                AED 149<span className="text-lg text-gray-600 dark:text-gray-400">/month</span>
+              </div>
+              <p className="text-sm text-emerald-600 mb-6">Billed annually • Save AED 600</p>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-emerald-600 mr-3" />
+                  <span className="text-gray-700 dark:text-gray-300">Everything in Monthly</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-emerald-600 mr-3" />
+                  <span className="text-gray-700 dark:text-gray-300">Priority support</span>
+                </li>
+                <li className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-emerald-600 mr-3" />
+                  <span className="text-gray-700 dark:text-gray-300">Advanced analytics</span>
+                </li>
+              </ul>
+              <GlassButton
+                variant="primary"
+                size="lg"
+                className="w-full bg-gradient-to-r from-emerald-600 to-blue-600"
+              >
+                Get Started
+              </GlassButton>
+            </motion.div>
+          </div>
+
+          <div className="text-center mt-8">
+            <p className="text-gray-600 dark:text-gray-400">
+              Upgrade for specialized coaches from <span className="font-semibold text-emerald-600">AED 99/month</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 gradient-subtle">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="mb-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="mb-6 text-4xl font-bold leading-tight tracking-tighter sm:text-5xl">
+              Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-blue-600">Questions</span>
+            </h2>
+          </motion.div>
+
+          <div className="space-y-6">
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                className="p-6 glass-card"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+              >
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">{faq.question}</h3>
+                <p className="text-gray-600 dark:text-gray-400">{faq.answer}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Banner */}
+      <section className="py-20 bg-gradient-to-r from-emerald-600 to-blue-600 text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="mb-6 text-4xl font-bold leading-tight sm:text-5xl">
+              Your Health Journey Starts Today
+            </h2>
+            <p className="mb-8 text-xl opacity-90">
+              Join thousands of users taking control of their health with personalized insights.
+            </p>
+            
+            <GlassButton
+              variant="secondary"
+              size="lg"
+              className="px-12 py-5 text-xl font-bold bg-white text-emerald-600 hover:bg-gray-100"
+              onClick={() => document.getElementById('signup')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              Join Now
+              <ArrowRight className="w-6 h-6 ml-3" />
+            </GlassButton>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Signup Form */}
+      <section id="signup" className="py-20 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="glass-card p-8">
+              <h3 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
+                Create Your Account
+              </h3>
+              <form className="space-y-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    placeholder="Enter your email"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    placeholder="Create a password"
+                  />
+                </div>
+                <GlassButton
+                  variant="primary"
+                  size="lg"
+                  className="w-full bg-gradient-to-r from-emerald-600 to-blue-600"
+                >
+                  Create My Account
+                </GlassButton>
+              </form>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Logo Section */}
+      <section className="py-16 text-center gradient-subtle">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center">
+            <img 
+              src={BIOWELL_LOGOS.LIGHT_THEME}
+              alt="Biowell Logo" 
+              className="object-contain w-auto h-20 dark:hidden opacity-60" 
+            />
+            <img 
+              src={BIOWELL_LOGOS.DARK_THEME}
+              alt="Biowell Logo" 
+              className="hidden object-contain w-auto h-20 dark:block opacity-60" 
+            />
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+export default HomePage 
       preview: 'Connect with 120+ health platforms',
       details: 'Seamless data flow from labs, wearables, and clinical systems',
       icon: <Zap className="w-6 h-6" />
