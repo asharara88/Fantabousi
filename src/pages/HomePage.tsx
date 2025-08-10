@@ -1,4 +1,4 @@
-import React from 'react'
+port React from 'react'
 import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, PlayCircle, BarChart3, Target } from 'lucide-react'
 import EvidenceBasedHealthOptimization from '../components/health/EvidenceBasedHealthOptimization'
 import { motion } from 'framer-motion'
@@ -94,12 +94,12 @@ const HomePage: React.FC = () => {
           </div>
           
           {/* Floating data points */}
-          <div className="absolute top-1/3 left-1/5 w-2 h-2 bg-primary/40 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
-          <div className="absolute top-2/3 right-1/4 w-2 h-2 bg-secondary/40 rounded-full animate-ping" style={{ animationDelay: '1.5s' }}></div>
-          <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-primary/40 rounded-full animate-ping" style={{ animationDelay: '2.5s' }}></div>
+          <div className="absolute w-2 h-2 rounded-full top-1/3 left-1/5 bg-primary/40 animate-ping" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute w-2 h-2 rounded-full top-2/3 right-1/4 bg-secondary/40 animate-ping" style={{ animationDelay: '1.5s' }}></div>
+          <div className="absolute w-2 h-2 rounded-full bottom-1/3 left-1/3 bg-primary/40 animate-ping" style={{ animationDelay: '2.5s' }}></div>
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <motion.div 
             className="relative z-10 max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -108,50 +108,50 @@ const HomePage: React.FC = () => {
           >
             {/* Enhanced Badge with AI presence */}
             <motion.div
-              className="inline-flex items-center px-8 py-4 mb-8 text-sm font-semibold tracking-wide transition-all duration-200 surface-glass rounded-full group border border-emerald-400/20"
+              className="inline-flex items-center px-8 py-4 mb-8 text-sm font-semibold tracking-wide transition-all duration-200 border rounded-full surface-glass group border-emerald-400/20"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <div className="w-3 h-3 bg-emerald-500 rounded-full mr-3 animate-pulse"></div>
+              <div className="w-3 h-3 mr-3 rounded-full bg-emerald-500 animate-pulse"></div>
               <Shield className="w-5 h-5 mr-2 text-emerald-600" />
-              <span className="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
+              <span className="text-transparent bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text">
                 Enterprise Health Intelligence Platform • $2.1B+ Outcomes Tracked
               </span>
             </motion.div>
 
             {/* Main Headline */}
             <h1 className="mb-8 text-5xl font-black leading-[1.1] tracking-tight sm:text-6xl md:text-8xl">
-              <span className="bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white bg-clip-text text-transparent">
+              <span className="text-transparent bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white bg-clip-text">
                 Precision Health
               </span>
               <br />
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 bg-clip-text text-transparent">
+              <span className="text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 bg-clip-text">
                 Engine
               </span>
               <br />
-              <span className="text-3xl sm:text-4xl md:text-5xl text-slate-600 dark:text-slate-400 font-medium">
+              <span className="text-3xl font-medium sm:text-4xl md:text-5xl text-slate-600 dark:text-slate-400">
                 Worth $10,000+ Annually
               </span>
             </h1>
 
             {/* Value Proposition */}
             <div className="max-w-4xl mx-auto mb-12 space-y-6">
-              <p className="text-xl sm:text-2xl font-medium leading-relaxed text-slate-700 dark:text-slate-300">
+              <p className="text-xl font-medium leading-relaxed sm:text-2xl text-slate-700 dark:text-slate-300">
                 Transform your biomarkers into <span className="font-bold text-blue-600 dark:text-blue-400">precision interventions</span> using the world's most advanced longevity AI. Join executives optimizing for peak performance and extended healthspan.
               </p>
               
               {/* ROI Metrics */}
               <div className="flex flex-wrap justify-center gap-8 mt-8">
-                <div className="glass-card px-6 py-4 text-center border border-emerald-400/20">
+                <div className="px-6 py-4 text-center border glass-card border-emerald-400/20">
                   <div className="text-2xl font-bold text-emerald-600">47%</div>
                   <div className="text-sm text-slate-600 dark:text-slate-400">Biomarker Improvement</div>
                 </div>
-                <div className="glass-card px-6 py-4 text-center border border-blue-400/20">
+                <div className="px-6 py-4 text-center border glass-card border-blue-400/20">
                   <div className="text-2xl font-bold text-blue-600">$12.4K</div>
                   <div className="text-sm text-slate-600 dark:text-slate-400">Annual Health ROI</div>
                 </div>
-                <div className="glass-card px-6 py-4 text-center border border-purple-400/20">
+                <div className="px-6 py-4 text-center border glass-card border-purple-400/20">
                   <div className="text-2xl font-bold text-purple-600">98%</div>
                   <div className="text-sm text-slate-600 dark:text-slate-400">Protocol Adherence</div>
                 </div>
@@ -163,7 +163,7 @@ const HomePage: React.FC = () => {
               {smartCoachFeatures.map((feature, index) => (
                 <motion.div
                   key={index}
-                  className="group relative glass-card p-4 cursor-pointer"
+                  className="relative p-4 cursor-pointer group glass-card"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + index * 0.1 }}
@@ -173,12 +173,12 @@ const HomePage: React.FC = () => {
                     <div className="text-primary">{feature.icon}</div>
                     <h3 className="ml-2 text-sm font-semibold text-gray-900 dark:text-white">{feature.title}</h3>
                   </div>
-                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">{feature.preview}</p>
+                  <p className="mb-1 text-xs text-gray-700 dark:text-gray-300">{feature.preview}</p>
                   
                   {/* Hover tooltip */}
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 glass-panel text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                  <div className="absolute z-10 px-3 py-2 mb-2 text-xs transition-opacity duration-200 transform -translate-x-1/2 rounded-lg opacity-0 pointer-events-none bottom-full left-1/2 glass-panel group-hover:opacity-100 whitespace-nowrap">
                     {feature.details}
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
+                    <div className="absolute transform -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-900 dark:border-t-gray-700"></div>
                   </div>
                 </motion.div>
               ))}
@@ -231,25 +231,25 @@ const HomePage: React.FC = () => {
             
             {/* Premium Trust Indicators */}
             <div className="flex flex-wrap justify-center gap-8 mt-12">
-              <div className="glass-panel px-6 py-3 rounded-full border border-emerald-400/20">
+              <div className="px-6 py-3 border rounded-full glass-panel border-emerald-400/20">
                 <span className="flex items-center gap-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
                   <Shield className="w-4 h-4" />
                   FDA-Compliant Security
                 </span>
               </div>
-              <div className="glass-panel px-6 py-3 rounded-full border border-blue-400/20">
+              <div className="px-6 py-3 border rounded-full glass-panel border-blue-400/20">
                 <span className="flex items-center gap-2 text-sm font-semibold text-blue-700 dark:text-blue-300">
                   <Brain className="w-4 h-4" />
                   120+ Clinical Integrations
                 </span>
               </div>
-              <div className="glass-panel px-6 py-3 rounded-full border border-purple-400/20">
+              <div className="px-6 py-3 border rounded-full glass-panel border-purple-400/20">
                 <span className="flex items-center gap-2 text-sm font-semibold text-purple-700 dark:text-purple-300">
                   <Target className="w-4 h-4" />
                   $2.1B+ Outcomes Tracked
                 </span>
               </div>
-              <div className="glass-panel px-6 py-3 rounded-full border border-amber-400/20">
+              <div className="px-6 py-3 border rounded-full glass-panel border-amber-400/20">
                 <span className="flex items-center gap-2 text-sm font-semibold text-amber-700 dark:text-amber-300">
                   <Zap className="w-4 h-4" />
                   Enterprise-Grade AI
@@ -262,7 +262,7 @@ const HomePage: React.FC = () => {
 
       {/* Features Section - Value Proposition */}
       <section className="relative py-20 overflow-hidden gradient-subtle">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <motion.div 
             className="mb-16 text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -323,8 +323,8 @@ const HomePage: React.FC = () => {
 
       {/* Benefits Section - What You Get */}
       <section className="py-20 bg-gray-50 dark:bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="grid items-center gap-16 lg:grid-cols-2">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -350,7 +350,7 @@ const HomePage: React.FC = () => {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1, duration: 0.5 }}
                   >
-                    <CheckCircle className="w-5 h-5 mr-3 text-green-500 flex-shrink-0" />
+                    <CheckCircle className="flex-shrink-0 w-5 h-5 mr-3 text-green-500" />
                     <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
                   </motion.div>
                 ))}
@@ -365,7 +365,7 @@ const HomePage: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="p-8 glass-card shadow-2xl">
+              <div className="p-8 shadow-2xl glass-card">
                 <div className="flex items-center mb-6">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary"></div>
                   <div className="ml-4">
@@ -374,36 +374,36 @@ const HomePage: React.FC = () => {
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="text-gray-700 dark:text-gray-300">Energy Level</span>
                     <div className="flex items-center">
-                      <div className="w-20 h-2 bg-gray-200 rounded-full mr-2">
+                      <div className="w-20 h-2 mr-2 bg-gray-200 rounded-full">
                         <div className="w-16 h-2 bg-green-500 rounded-full"></div>
                       </div>
                       <span className="text-sm font-medium">85%</span>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="text-gray-700 dark:text-gray-300">Sleep Quality</span>
                     <div className="flex items-center">
-                      <div className="w-20 h-2 bg-gray-200 rounded-full mr-2">
-                        <div className="w-18 h-2 bg-blue-500 rounded-full"></div>
+                      <div className="w-20 h-2 mr-2 bg-gray-200 rounded-full">
+                        <div className="h-2 bg-blue-500 rounded-full w-18"></div>
                       </div>
                       <span className="text-sm font-medium">92%</span>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="text-gray-700 dark:text-gray-300">Nutrition Score</span>
                     <div className="flex items-center">
-                      <div className="w-20 h-2 bg-gray-200 rounded-full mr-2">
-                        <div className="w-14 h-2 bg-purple-500 rounded-full"></div>
+                      <div className="w-20 h-2 mr-2 bg-gray-200 rounded-full">
+                        <div className="h-2 bg-purple-500 rounded-full w-14"></div>
                       </div>
                       <span className="text-sm font-medium">78%</span>
                     </div>
                   </div>
                 </div>
-                <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <div className="text-sm font-medium text-gray-900 dark:text-white mb-2">Today's Recommendation</div>
+                <div className="p-4 mt-6 rounded-lg bg-gray-50 dark:bg-gray-700">
+                  <div className="mb-2 text-sm font-medium text-gray-900 dark:text-white">Today's Recommendation</div>
                   <div className="text-sm text-gray-600 dark:text-gray-400">
                     Add Omega-3 supplement to improve recovery and reduce inflammation
                   </div>
@@ -416,9 +416,9 @@ const HomePage: React.FC = () => {
 
       {/* Social Proof & About */}
       <section className="py-20 gradient-subtle">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <motion.div 
-            className="text-center mb-16"
+            className="mb-16 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -430,7 +430,7 @@ const HomePage: React.FC = () => {
             </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid gap-8 md:grid-cols-3">
             {[
               {
                 title: "Evidence-Based Approach",
@@ -470,7 +470,7 @@ const HomePage: React.FC = () => {
       {/* Final CTA Section - Conversion Focused */}
       <section className="relative py-20 overflow-hidden text-white bg-gradient-to-r from-primary to-secondary">
         <div className="absolute inset-0 bg-black/10"></div>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div className="relative z-10 max-w-4xl px-4 mx-auto text-center sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -520,7 +520,7 @@ const HomePage: React.FC = () => {
 
       {/* Logo Section */}
       <section className="py-16 text-center gradient-subtle">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex justify-center">
             <img 
               src={BIOWELL_LOGOS.LIGHT_THEME}
