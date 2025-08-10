@@ -1,8 +1,8 @@
 import React from 'react'
-import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, Play, BarChart3, Target } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, Star, Users, Trophy, Play, BarChart3, Target } from 'lucide-react'
 import EvidenceBasedHealthOptimization from '../components/health/EvidenceBasedHealthOptimization'
 import { motion } from 'framer-motion'
-import { GlassButton } from '../components/ui/GlassComponents'
 
 const HomePage: React.FC = () => {
   const features = [
@@ -32,31 +32,11 @@ const HomePage: React.FC = () => {
     }
   ]
 
-  const smartCoachFeatures = [
-    { 
-      title: 'Smart Coach AI', 
-      preview: 'Real-time analysis of 50+ biomarkers',
-      details: 'Continuous glucose, sleep stages, HRV, and more',
-      icon: <Brain className="w-6 h-6" />
-    },
-    { 
-      title: 'Modular Verticals', 
-      preview: 'BioWell • Ubergene • Performance • Fertility',
-      details: 'Specialized protocols for every health goal',
-      icon: <Target className="w-6 h-6" />
-    },
-    { 
-      title: 'Stack Logic', 
-      preview: 'Precision dosing based on your genetics',
-      details: 'Interactions, timing, and bioavailability optimized',
-      icon: <Zap className="w-6 h-6" />
-    },
-    { 
-      title: 'Wearable Integration', 
-      preview: 'Oura • Whoop • Apple Health • Garmin',
-      details: 'Your body\'s data becomes your wellness strategy',
-      icon: <BarChart3 className="w-6 h-6" />
-    }
+  const socialProof = [
+    { stat: 'AI-Powered', label: 'Recommendations' },
+    { stat: 'Science-Based', label: 'Approach' },
+    { stat: 'Personalized', label: 'Experience' },
+    { stat: 'Evidence-Backed', label: 'Content' }
   ]
 
   const benefits = [
@@ -71,31 +51,10 @@ const HomePage: React.FC = () => {
     <div className="min-h-screen">
       {/* Hero Section - Primary CTA */}
       <section className="relative py-20 overflow-hidden text-gray-900 border-b gradient-subtle border-gray-200/30 dark:border-gray-700/30 dark:text-white sm:py-24 md:py-32">
-        {/* Enhanced animated background with data stream feel */}
+        {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute rounded-full top-1/4 left-1/4 w-96 h-96 bg-primary/5 blur-3xl animate-pulse"></div>
           <div className="absolute rounded-full bottom-1/4 right-1/4 w-80 h-80 bg-secondary/5 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          
-          {/* Data stream lines */}
-          <div className="absolute inset-0">
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-px bg-gradient-to-b from-transparent via-primary/20 to-transparent animate-pulse"
-                style={{
-                  left: `${15 + i * 12}%`,
-                  height: '100%',
-                  animationDelay: `${i * 0.5}s`,
-                  animationDuration: '3s'
-                }}
-              />
-            ))}
-          </div>
-          
-          {/* Floating data points */}
-          <div className="absolute top-1/3 left-1/5 w-2 h-2 bg-primary/40 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
-          <div className="absolute top-2/3 right-1/4 w-2 h-2 bg-secondary/40 rounded-full animate-ping" style={{ animationDelay: '1.5s' }}></div>
-          <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-primary/40 rounded-full animate-ping" style={{ animationDelay: '2.5s' }}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -105,118 +64,86 @@ const HomePage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Enhanced Badge with AI presence */}
+            {/* Badge */}
             <motion.div
-              className="inline-flex items-center px-6 py-3 mb-8 text-sm font-medium tracking-wide transition-all duration-200 surface-glass rounded-full group"
+              className="inline-flex items-center px-4 py-2 mb-8 text-sm font-medium tracking-wide transition-all duration-200 surface-glass rounded-full"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <div className="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse"></div>
-              <Brain className="w-4 h-4 mr-2 text-primary" />
-              <span className="text-gray-700 dark:text-gray-300">Smart Coach AI Active • 24/7 Health Optimization</span>
+              <Star className="w-4 h-4 mr-2 text-yellow-500" />
+              <span className="text-gray-700 dark:text-gray-300">Science-backed health optimization</span>
             </motion.div>
 
             {/* Main Headline */}
             <h1 className="mb-6 text-5xl font-bold leading-tight tracking-tighter sm:text-6xl md:text-7xl">
-              <span>Your </span>
+              <span>Your Personal </span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                Smart Coach
-              </span>
-              <br />
-              <span className="text-3xl sm:text-4xl md:text-5xl text-gray-700 dark:text-gray-300">
-                Personalized by Data. Powered by Science.
+                Health Coach
               </span>
             </h1>
 
             {/* Subheadline */}
             <p className="max-w-3xl mx-auto mb-8 text-xl leading-relaxed tracking-wide sm:text-2xl text-text-light">
-              <strong className="text-gray-900 dark:text-white">Sync your wearables. Get your personalized stack. Start optimizing.</strong>
-              <br />
-              From fertility to longevity - your data drives your wellness journey.
+              Get personalized nutrition, supplements, and fitness plans powered by AI. 
+              <strong className="text-gray-900 dark:text-white"> Start your journey to optimal health.</strong>
             </p>
 
-            {/* Smart Coach Features - Interactive Hover Cards */}
-            <div className="grid grid-cols-1 gap-4 mb-12 sm:grid-cols-2 lg:grid-cols-4">
-              {smartCoachFeatures.map((feature, index) => (
+            {/* Social Proof Stats */}
+            <div className="grid grid-cols-2 gap-6 mb-12 sm:grid-cols-4">
+              {socialProof.map((item, index) => (
                 <motion.div
                   key={index}
-                  className="group relative glass-card p-4 cursor-pointer"
+                  className="text-center"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
                 >
-                  <div className="flex items-center mb-2">
-                    <div className="text-primary">{feature.icon}</div>
-                    <h3 className="ml-2 text-sm font-semibold text-gray-900 dark:text-white">{feature.title}</h3>
-                  </div>
-                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">{feature.preview}</p>
-                  
-                  {/* Hover tooltip */}
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 glass-panel text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-                    {feature.details}
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
-                  </div>
+                  <div className="text-2xl font-bold text-primary sm:text-3xl">{item.stat}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{item.label}</div>
                 </motion.div>
               ))}
             </div>
 
-            {/* Enhanced CTA with Segmentation */}
+            {/* Primary CTA */}
             <motion.div 
-              className="flex flex-col items-center gap-8 mb-12"
+              className="flex flex-col items-center gap-6 mb-12 sm:flex-row sm:justify-center sm:gap-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              {/* Primary CTA */}
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                <GlassButton
-                  variant="primary"
-                  size="lg"
-                  className="px-16 py-6 text-2xl min-w-[320px] tracking-wide shadow-xl relative overflow-hidden group"
-                  onClick={() => window.location.href = '/onboarding'}
+                <Link
+                  to="/signup"
+                  className="gradient-primary text-white px-12 py-5 rounded-2xl font-bold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 inline-flex items-center justify-center text-xl min-w-[280px] tracking-wide shadow-xl"
                 >
-                  <span className="relative z-10">Start My Plan</span>
-                  <ArrowRight className="w-7 h-7 ml-4 relative z-10" />
-                </GlassButton>
+                  Get Started
+                  <ArrowRight className="w-6 h-6 ml-3" />
+                </Link>
               </motion.div>
               
-              {/* Secondary CTAs - Segmentation */}
-              <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-8">
-                <GlassButton
-                  variant="secondary"
-                  size="md"
-                  className="flex items-center px-6 py-3 text-lg font-medium"
-                >
-                  <Play className="w-5 h-5 mr-3" />
-                  Try Demo
-                </GlassButton>
-                
-                <GlassButton
-                  variant="secondary"
-                  size="md"
-                  className="flex items-center px-6 py-3 text-lg font-medium"
-                >
-                  <Target className="w-5 h-5 mr-3" />
-                  Choose Your Goal
-                </GlassButton>
-              </div>
+              <motion.button
+                className="flex items-center px-6 py-3 text-lg font-medium text-gray-700 transition-all duration-200 bg-white border-2 border-gray-200 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 rounded-2xl hover:border-primary hover:text-primary"
+                whileHover={{ scale: 1.02 }}
+              >
+                <Play className="w-5 h-5 mr-3" />
+                Learn More
+              </motion.button>
             </motion.div>
             
-            {/* Enhanced trust indicators */}
+            {/* Trust indicators */}
             <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600 dark:text-gray-400">
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>50+ biomarkers tracked</span>
+                <span>Free to get started</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>Clinical-grade precision</span>
+                <span>Science-backed approach</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                <span>Real-time optimization</span>
+                <span>Personalized for you</span>
               </div>
             </div>
           </motion.div>
@@ -328,7 +255,7 @@ const HomePage: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="p-8 glass-card shadow-2xl">
+              <div className="p-8 bg-white rounded-2xl shadow-2xl dark:bg-gray-800">
                 <div className="flex items-center mb-6">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary"></div>
                   <div className="ml-4">
@@ -413,7 +340,7 @@ const HomePage: React.FC = () => {
             ].map((item, index) => (
               <motion.div
                 key={index}
-                className="p-6 glass-card"
+                className="p-6 bg-white rounded-2xl shadow-lg dark:bg-gray-800"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -441,40 +368,38 @@ const HomePage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="mb-6 text-4xl font-bold leading-tight sm:text-5xl">
-              Ready to Optimize Your Biology?
+              Ready to Start Your Health Journey?
             </h2>
             <p className="mb-8 text-xl opacity-90">
-              Join the future of personalized wellness. Your data becomes your advantage.
+              Take the first step towards optimizing your health with personalized, science-backed recommendations.
               <br />
-              <strong>Start with Smart Coach today.</strong>
+              <strong>Get started today.</strong>
             </p>
             
             <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                <GlassButton
-                  variant="secondary"
-                  size="lg"
-                  className="px-12 py-5 text-xl min-w-[280px] shadow-xl bg-white text-primary"
-                  onClick={() => window.location.href = '/signup'}
+                <Link
+                  to="/signup"
+                  className="bg-white text-primary px-12 py-5 rounded-2xl font-bold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 inline-flex items-center justify-center text-xl min-w-[280px] shadow-xl"
                 >
                   Get Started
                   <ArrowRight className="w-6 h-6 ml-3" />
-                </GlassButton>
+                </Link>
               </motion.div>
             </div>
 
             <div className="flex flex-wrap justify-center gap-8 mt-8 text-sm opacity-80">
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2" />
-                <span>Wearables integrated</span>
+                <span>Free to get started</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2" />
-                <span>Precision stacking</span>
+                <span>Science-backed recommendations</span>
               </div>
               <div className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-2" />
-                <span>Smart Coach AI</span>
+                <span>Personalized experience</span>
               </div>
             </div>
           </motion.div>
