@@ -1,0 +1,18 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- BIOWELL wordmark for light theme (dark text) -->
+  <g>
+    <!-- BIO text -->
+    <text x="0" y="45" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#000000">BIO</text>
+    
+    <!-- W text -->
+    <text x="90" y="45" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#000000">W</text>
+    
+    <!-- Logo mark bars replacing the E -->
+    <rect x="135" y="15" width="25" height="8" rx="2" fill="#87CEEB"/>
+    <rect x="135" y="25" width="25" height="8" rx="2" fill="#4A90E2"/>
+    <rect x="135" y="35" width="25" height="8" rx="2" fill="#1E3A8A"/>
+    
+    <!-- LL text -->
+    <text x="170" y="45" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#000000">LL</text>
+  </g>
+</svg>
