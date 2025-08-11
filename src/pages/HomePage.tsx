@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, ChevronDown, ChevronUp } from 'lucide-react'
+import { ArrowRight, Heart, Shield, Zap, Brain, CheckCircle, ChevronDown, ChevronUp, Menu, X } from 'lucide-react'
 import EvidenceBasedHealthOptimization from '../components/health/EvidenceBasedHealthOptimization'
 import { motion, AnimatePresence } from 'framer-motion'
 import ThemeToggle from '../components/ui/ThemeToggle'
