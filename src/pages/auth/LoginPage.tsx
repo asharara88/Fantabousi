@@ -121,6 +121,7 @@ const LoginPage: React.FC = () => {
               <GlassInput
                 label="Email address"
                 type="email"
+                name="email"
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={(e) => handleChange(e)}
@@ -134,6 +135,7 @@ const LoginPage: React.FC = () => {
                 <div className="relative">
                   <GlassInput
                     type={showPassword ? 'text' : 'password'}
+                    name="password"
                     placeholder="Enter your password"
                     value={formData.password}
                     onChange={(e) => handleChange(e)}
