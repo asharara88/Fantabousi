@@ -10,7 +10,17 @@ import { getBiowellLogo } from '../constants/branding'
 // Features data
 const HomePage: React.FC = () => {
   const [expandedCard, setExpandedCard] = React.useState<number | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { actualTheme } = useTheme();
+
+  const navigationItems = [
+    { name: 'Features', href: '#features' },
+    { name: 'Science', href: '#evidence-based-health' },
+    { name: 'About', href: '#about' },
+    { name: 'Contact', href: '#contact' }
+  ];
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const features = [
     {
