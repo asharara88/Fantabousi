@@ -62,15 +62,12 @@ const HomePage: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <Link to="/" className="flex items-center space-x-3">
+              <Link to="/" className="flex items-center">
                 <img 
                   src={getBiowellLogo(actualTheme)}
                   alt="Biowell" 
                   className="object-contain w-auto h-8 sm:h-10" 
                 />
-                <span className="text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">
-                  Biowell
-                </span>
               </Link>
             </motion.div>
 
