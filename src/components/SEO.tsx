@@ -1,4 +1,3 @@
-import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 interface SEOProps {
@@ -15,6 +14,7 @@ interface SEOProps {
   tags?: string[];
   noindex?: boolean;
   canonical?: string;
+  structuredData?: object;
 }
 
 const defaultMeta = {
@@ -41,20 +41,64 @@ export function SEO({
   publishedTime,
   modifiedTime,
   tags,
-  structuredData
-}: Readonly<{
-  title: string;
-  description?: string;
-  keywords?: string;
-  image?: string;
-  url?: string;
-  type?: string;
-  author?: string;
-  publishedTime?: string;
-  modifiedTime?: string;
-  tags?: string[];
-  structuredData?: object;
-}>)
+  structuredData,
+  noindex = false,
+  canonical
+}: SEOProps) {
+  const fullTitle = title ? `${title} | ${defaultMeta.title}` : defaultMeta.title;
+  const keywordString = Array.isArray(keywords) ? keywords.join(', ') : keywords;
+
+  return (
+    <Helmet>
+      {/* Basic Meta Tags */}
+      <title>{fullTitle}</title>
+      <meta name="description" content={description} />
+      {keywordString && <meta name="keywords" content={keywordString} />}
+      <meta name="author" content={author} />
+      
+      {/* Robots */}
+      {noindex && <meta name="robots" content="noindex,nofollow" />}
+      
+      {/* Canonical URL */}
+      {canonical && <link rel="canonical" href={canonical} />}
+      
+      {/* Open Graph */}
+      <meta property="og:title" content={fullTitle} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={image} />
+      <meta property="og:url" content={url} />
+      <meta property="og:type" content={type} />
+      <meta property="og:site_name" content="BIOWELL" />
+      
+      {/* Twitter Card */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={fullTitle} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={image} />
+      
+      {/* Article specific */}
+      {type === 'article' && publishedTime && (
+        <meta property="article:published_time" content={publishedTime} />
+      )}
+      {type === 'article' && modifiedTime && (
+        <meta property="article:modified_time" content={modifiedTime} />
+      )}
+      {type === 'article' && author && (
+        <meta property="article:author" content={author} />
+      )}
+      {tags?.map((tag) => (
+        <meta key={tag} property="article:tag" content={tag} />
+      ))}
+      
+      {/* Structured Data */}
+      {structuredData && (
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+      )}
+    </Helmet>
+  );
+}
 
 // Page-specific SEO components
 export function HomeSEO() {
