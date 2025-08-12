@@ -251,13 +251,12 @@ const HomePage: React.FC = () => {
             transition={{ duration: 0.8 }}
           >
             <h1 className="mb-8 text-5xl font-bold leading-tight tracking-tighter sm:text-6xl md:text-7xl text-balance">
-              A Suite of Specialized{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                Smart Coaches
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-blue-600 to-blue-300">
+                Optimize yourself everyday.
               </span>
             </h1>
             <p className="max-w-3xl mx-auto mb-8 text-xl leading-relaxed tracking-wide sm:text-2xl text-text-light text-balance">
-              Each with a unique personality and scientific expertise—delivering research‑backed, personalized guidance. Powered by advanced AI, secured with enterprise‑grade encryption, and built for your privacy.
+              A Suite of Specialized Smart Coaches—each with a unique personality and scientific expertise—delivering research‑backed, personalized guidance.
             </p>
             
             {/* Microproof */}
