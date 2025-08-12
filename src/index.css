@@ -199,9 +199,10 @@
   }
   
   body {
-    @apply bg-background text-text transition-colors duration-300;
+    @apply bg-background text-text transition-colors duration-300 font-sans;
     font-size: var(--text-base);
     line-height: var(--leading-normal);
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -242,7 +243,18 @@
   }
 }
 
-@layer components {
+@layer utilities {
+  /* Font utilities */
+  .font-poppins {
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+  }
+  
+  .text-brand {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
   /* Enhanced glass morphism system */
   .glass {
     background: hsl(var(--glass-bg));
