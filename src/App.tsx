@@ -8,6 +8,7 @@ import './styles/enhanced-interactions.css';
 import Layout from './components/layout/Layout';
 import TestPage from './pages/TestPage';
 import { ThemeProvider } from './contexts/ThemeContext';
+import PerformanceDashboard from './components/ui/PerformanceDashboard';
 
 // Lazy loaded pages for better performance
 import {
@@ -114,6 +115,9 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
+      
+      {/* Performance monitoring dashboard for development */}
+      <PerformanceDashboard />
     </ThemeProvider>
   );
 }

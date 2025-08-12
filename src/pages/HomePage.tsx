@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Shield, Lock, Activity, Users, Zap, Heart, Brain, Baby, Target, CheckCircle, Menu, X, Monitor, Award, Database, Smartphone } from 'lucide-react'
+import { ArrowRight, Shield, Lock, Activity, Users, Zap, Heart, Brain, Baby, Target, CheckCircle, Menu, X, Monitor, Award, Database, Smartphone, ChevronDown, ChevronUp } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import { useTheme } from '../contexts/ThemeContext'
@@ -8,6 +8,7 @@ import { getBiowellLogo } from '../constants/branding'
 
 const HomePage: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isLearnMoreExpanded, setIsLearnMoreExpanded] = React.useState(false);
   const { actualTheme } = useTheme();
 
   const navigationItems = [
@@ -279,13 +280,71 @@ const HomePage: React.FC = () => {
                   <ArrowRight className="w-5 h-5 ml-3" />
                 </Link>
               </motion.div>
-              <Link
-                to="#how-it-works"
-                className="font-medium tracking-wide text-gray-600 underline transition-colors duration-200 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light underline-offset-4"
+              <button
+                onClick={() => setIsLearnMoreExpanded(!isLearnMoreExpanded)}
+                className="font-medium tracking-wide text-gray-600 transition-colors duration-200 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light inline-flex items-center gap-2"
               >
                 Learn More
-              </Link>
+                {isLearnMoreExpanded ? (
+                  <ChevronUp className="w-4 h-4" />
+                ) : (
+                  <ChevronDown className="w-4 h-4" />
+                )}
+              </button>
             </motion.div>
+
+            {/* Expandable Learn More Section */}
+            <AnimatePresence>
+              {isLearnMoreExpanded && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="mb-12 overflow-hidden"
+                >
+                  <div className="max-w-4xl mx-auto p-8 border border-gray-200/30 surface-glass rounded-3xl dark:border-gray-700/30">
+                    <h3 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
+                      How Our Smart Coaches Transform Your Health
+                    </h3>
+                    <div className="grid gap-6 md:grid-cols-2">
+                      <div>
+                        <h4 className="mb-3 text-lg font-semibold text-primary">
+                          🧬 Personalized Science
+                        </h4>
+                        <p className="text-text-light leading-relaxed">
+                          Each Smart Coach analyzes your unique health data, goals, and preferences to create personalized recommendations backed by the latest research in their specialty area.
+                        </p>
+                      </div>
+                      <div>
+                        <h4 className="mb-3 text-lg font-semibold text-primary">
+                          🎯 Specialized Expertise
+                        </h4>
+                        <p className="text-text-light leading-relaxed">
+                          Unlike generic wellness apps, our coaches specialize in specific health domains—from metabolic optimization to reproductive health—providing deep, targeted guidance.
+                        </p>
+                      </div>
+                      <div>
+                        <h4 className="mb-3 text-lg font-semibold text-primary">
+                          🔄 Continuous Learning
+                        </h4>
+                        <p className="text-text-light leading-relaxed">
+                          Your coaches adapt and evolve their recommendations as they learn more about your responses, preferences, and progress toward your health goals.
+                        </p>
+                      </div>
+                      <div>
+                        <h4 className="mb-3 text-lg font-semibold text-primary">
+                          🔒 Privacy First
+                        </h4>
+                        <p className="text-text-light leading-relaxed">
+                          All your health data is encrypted and stays under your control. You decide what to share and can revoke access at any time.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Trust Badges */}
             <div className="flex flex-wrap justify-center gap-6 text-sm tracking-wide text-text-light">

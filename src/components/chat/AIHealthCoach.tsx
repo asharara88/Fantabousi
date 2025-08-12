@@ -1,32 +1,34 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo } from 'react';
 import { Send, VolumeX, Volume2, AlertCircle, CheckCircle, Loader2, HelpCircle, Mic, MicOff, MessageCircle } from 'lucide-react';
 import { elevenlabsApi } from '../../api/elevenlabsApi';
-import { debugAudioIssues, handleAudioError, AudioDiagnostics } from '../../utils/audioDebugger';
+import { debugAudioIssues, handleAudioError } from '../../utils/audioDebugger';
 import { motion } from 'framer-motion';
 import { Button } from '../ui/Button';
 import ChatMessage from './ChatMessage';
 import { createClient } from '@supabase/supabase-js';
 import { cn } from '../../utils/cn';
 import { BIOWELL_LOGOS } from '../../constants/branding';
+import { usePerformanceMonitor } from '../../utils/performance.tsx';
+import { useDebounce } from '../../utils/hooks';
 
 // Extend Window interface for Speech Recognition
 declare global {
   interface Window {
-    SpeechRecognition: new () => SpeechRecognition;
-    webkitSpeechRecognition: new () => SpeechRecognition;
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
   }
 }
 
-interface SpeechRecognition extends EventTarget {
+interface ISpeechRecognition extends EventTarget {
   continuous: boolean;
   interimResults: boolean;
   lang: string;
   start(): void;
   stop(): void;
-  onstart: ((this: SpeechRecognition, ev: Event) => any) | null;
-  onresult: ((this: SpeechRecognition, ev: SpeechRecognitionEvent) => any) | null;
-  onerror: ((this: SpeechRecognition, ev: SpeechRecognitionErrorEvent) => any) | null;
-  onend: ((this: SpeechRecognition, ev: Event) => any) | null;
+  onstart: ((this: ISpeechRecognition, ev: Event) => any) | null;
+  onresult: ((this: ISpeechRecognition, ev: SpeechRecognitionEvent) => any) | null;
+  onerror: ((this: ISpeechRecognition, ev: SpeechRecognitionErrorEvent) => any) | null;
+  onend: ((this: ISpeechRecognition, ev: Event) => any) | null;
 }
 
 interface SpeechRecognitionEvent extends Event {
@@ -99,7 +101,201 @@ interface Message {
   timestamp: Date;
 }
 
-const AIHealthCoach: React.FC = () => {
+// Helper function to get button styles
+const getButtonStyles = (condition: boolean, baseStyle: string, activeStyle: string, inactiveStyle: string): string => {
+  return `${baseStyle} ${condition ? activeStyle : inactiveStyle}`;
+};
+
+// Helper function to get voice button styles
+const getVoiceButtonStyles = (voiceEnabled: boolean, audioStatus: string): string => {
+  if (voiceEnabled && audioStatus === 'ready') {
+    return 'bg-green-500 hover:bg-green-600 text-white';
+  }
+  if (audioStatus === 'error') {
+    return 'bg-red-500 hover:bg-red-600 text-white opacity-50 cursor-not-allowed';
+  }
+  return 'bg-white/20 hover:bg-white/30 text-white';
+};
+
+// Helper function to get microphone button styles
+const getMicButtonStyles = (micPermission: string, isRecording: boolean): string => {
+  if (micPermission === 'granted') {
+    return isRecording 
+      ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
+      : 'bg-blue-500 hover:bg-blue-600 text-white';
+  }
+  if (micPermission === 'denied') {
+    return 'bg-red-500 hover:bg-red-600 text-white opacity-75';
+  }
+  return 'bg-yellow-500 hover:bg-yellow-600 text-white';
+};
+
+// Helper function to get voice button labels
+const getVoiceButtonLabel = (audioStatus: string, voiceEnabled: boolean): string => {
+  if (audioStatus === 'error') return "Audio unavailable";
+  if (audioStatus === 'testing') return "Testing audio system";
+  return voiceEnabled ? "Disable voice responses" : "Enable voice responses";
+};
+
+// Helper function to get microphone button labels
+const getMicButtonLabel = (micPermission: string, isRecording: boolean): string => {
+  if (micPermission === 'granted') {
+    return isRecording ? "Stop voice input" : "Start voice input";
+  }
+  if (micPermission === 'denied') {
+    return "Microphone access denied";
+  }
+  return "Request microphone access";
+};
+
+// Helper function to get microphone button titles
+const getMicButtonTitle = (micPermission: string, isRecording: boolean): string => {
+  if (micPermission === 'granted') {
+    return isRecording ? "Click to stop listening" : "Click to start voice input";
+  }
+  if (micPermission === 'denied') {
+    return "Microphone access denied. Check browser settings.";
+  }
+  return "Click to request microphone access";
+};
+
+// Helper function to get recording button styles
+const getRecordingButtonStyles = (isRecording: boolean): string => {
+  return isRecording
+    ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse'
+    : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300';
+};
+
+// Helper function to get category color
+const getCategoryColor = (category: string): string => {
+  const colorMap: Record<string, string> = {
+    sleep: 'bg-purple-500',
+    supplements: 'bg-green-500',
+    nutrition: 'bg-blue-500',
+    fitness: 'bg-orange-500',
+    metabolism: 'bg-red-500',
+    hydration: 'bg-cyan-500',
+    stress: 'bg-pink-500',
+    energy: 'bg-yellow-500',
+    recovery: 'bg-indigo-500',
+    cognitive: 'bg-emerald-500',
+    longevity: 'bg-violet-500',
+    tracking: 'bg-amber-500',
+    health: 'bg-teal-500'
+  };
+  return colorMap[category] || 'bg-gray-500';
+};
+
+// Audio diagnostics hook
+const useAudioDiagnostics = () => {
+  const [audioStatus, setAudioStatus] = useState<'idle' | 'testing' | 'ready' | 'error'>('idle');
+  const [audioError, setAudioError] = useState<string | null>(null);
+
+  const runAudioDiagnostics = async () => {
+    setAudioStatus('testing');
+    setAudioError(null);
+    
+    try {
+      const diagnostics = await debugAudioIssues();
+      
+      if (diagnostics.isUserAuthenticated && diagnostics.isElevenLabsConfigured && diagnostics.canAccessElevenLabsApi) {
+        setAudioStatus('ready');
+      } else {
+        setAudioStatus('error');
+        const firstError = diagnostics.errorMessages[0] || 'Audio system not available';
+        setAudioError(firstError);
+      }
+    } catch (error) {
+      console.error('Audio diagnostics failed:', error);
+      setAudioStatus('error');
+      setAudioError('Failed to test audio system');
+    }
+  };
+
+  return { audioStatus, audioError, runAudioDiagnostics, setAudioError };
+};
+
+// Microphone permission hook
+const useMicrophonePermission = () => {
+  type MicPermission = 'prompt' | 'granted' | 'denied';
+  const [micPermission, setMicPermission] = useState<MicPermission>('prompt');
+  const [isCheckingMic, setIsCheckingMic] = useState(false);
+
+  const checkMicrophonePermission = async () => {
+    setIsCheckingMic(true);
+    
+    try {
+      if ('permissions' in navigator) {
+        const permission = await navigator.permissions.query({ name: 'microphone' as PermissionName });
+        setMicPermission(permission.state as MicPermission);
+        
+        permission.onchange = () => {
+          setMicPermission(permission.state as MicPermission);
+        };
+      } else {
+        try {
+          const nav = navigator as any;
+          if ('mediaDevices' in nav && 'getUserMedia' in nav.mediaDevices) {
+            const stream = await nav.mediaDevices.getUserMedia({ audio: true });
+            stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
+            setMicPermission('granted');
+          } else {
+            setMicPermission('denied');
+          }
+        } catch (error) {
+          console.warn('Microphone permission check failed:', error);
+          setMicPermission('denied');
+        }
+      }
+    } catch (error) {
+      console.error('Error checking microphone permission:', error);
+      setMicPermission('prompt');
+    } finally {
+      setIsCheckingMic(false);
+    }
+  };
+
+  const requestMicrophonePermission = async () => {
+    setIsCheckingMic(true);
+    
+    try {
+      const nav = navigator as any;
+      if ('mediaDevices' in nav && 'getUserMedia' in nav.mediaDevices) {
+        const stream = await nav.mediaDevices.getUserMedia({ 
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          }
+        });
+        
+        stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
+        setMicPermission('granted');
+        console.log('🎤 Microphone permission granted');
+      } else {
+        throw new Error('getUserMedia not supported');
+      }
+      
+    } catch (error) {
+      console.error('Microphone permission denied:', error);
+      setMicPermission('denied');
+    } finally {
+      setIsCheckingMic(false);
+    }
+  };
+
+  return { 
+    micPermission, 
+    isCheckingMic, 
+    checkMicrophonePermission, 
+    requestMicrophonePermission 
+  };
+};
+
+const AIHealthCoach: React.FC = memo(() => {
+  // Performance monitoring
+  usePerformanceMonitor('AIHealthCoach');
+  
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -108,21 +304,13 @@ const AIHealthCoach: React.FC = () => {
   const [currentQuestionSetIndex, setCurrentQuestionSetIndex] = useState(0);
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
-  const [audioError, setAudioError] = useState<string | null>(null);
-  const [audioStatus, setAudioStatus] = useState<'idle' | 'testing' | 'ready' | 'error'>('idle');
-  const [audioDiagnostics, setAudioDiagnostics] = useState<AudioDiagnostics | null>(null);
   
   // Voice input states
   const [isRecording, setIsRecording] = useState(false);
   const [voiceInputEnabled, setVoiceInputEnabled] = useState(false);
-  const [speechRecognition, setSpeechRecognition] = useState<any>(null);
+  const [speechRecognition, setSpeechRecognition] = useState<ISpeechRecognition | null>(null);
   const [voiceInputError, setVoiceInputError] = useState<string | null>(null);
   const [interimTranscript, setInterimTranscript] = useState('');
-  
-  // Microphone permission states
-  type MicPermission = 'prompt' | 'granted' | 'denied';
-  const [micPermission, setMicPermission] = useState<MicPermission>('prompt');
-  const [isCheckingMic, setIsCheckingMic] = useState(false);
   
   // Voice-to-Voice mode states
   const [voiceToVoiceMode, setVoiceToVoiceMode] = useState(false);
@@ -131,6 +319,10 @@ const AIHealthCoach: React.FC = () => {
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Custom hooks
+  const { audioStatus, audioError, runAudioDiagnostics, setAudioError } = useAudioDiagnostics();
+  const { micPermission, isCheckingMic, checkMicrophonePermission, requestMicrophonePermission } = useMicrophonePermission();
 
   // Initialize Supabase client
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
@@ -167,7 +359,6 @@ const AIHealthCoach: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent, questionText?: string) => {
     e.preventDefault();
     
-    // Use either the provided question or the input field value
     const messageText = questionText || input.trim();
     if (!messageText || isLoading) return;
 
@@ -184,7 +375,6 @@ const AIHealthCoach: React.FC = () => {
     setError(null);
 
     try {
-      // Call OpenAI proxy function
       const { data, error: apiError } = await supabase.functions.invoke('openai-proxy', {
         body: {
           messages: [
@@ -205,7 +395,6 @@ const AIHealthCoach: React.FC = () => {
 
       setMessages(prev => [...prev, assistantMessage]);
 
-      // Save to chat history
       await supabase.from('chat_history').insert([
         {
           user_id: (await supabase.auth.getUser()).data.user?.id,
@@ -216,21 +405,17 @@ const AIHealthCoach: React.FC = () => {
         }
       ]);
 
-      // If voice is enabled, convert response to speech
       if (voiceEnabled) {
         await playTextToSpeech(data.result);
       }
       
-      // In voice-to-voice mode, restart listening after response is spoken
       if (voiceToVoiceMode) {
         setIsWaitingForResponse(false);
-        // Small delay to ensure TTS is complete before restarting voice input
         setTimeout(() => {
           startVoiceInput();
         }, 2000);
       }
       
-      // Update question set after each response
       setCurrentQuestionSetIndex((prevIndex) => 
         (prevIndex + 1) % QUESTION_SETS.length
       );
@@ -248,36 +433,11 @@ const AIHealthCoach: React.FC = () => {
     setRecentlyClickedQuestion(question);
     handleSubmit(e, question);
     
-    // Clear the recently clicked question after a delay
     setTimeout(() => {
       setRecentlyClickedQuestion(null);
     }, 2000);
   };
 
-  // Audio diagnostics and testing
-  const runAudioDiagnostics = async () => {
-    setAudioStatus('testing');
-    setAudioError(null);
-    
-    try {
-      const diagnostics = await debugAudioIssues();
-      setAudioDiagnostics(diagnostics);
-      
-      if (diagnostics.isUserAuthenticated && diagnostics.isElevenLabsConfigured && diagnostics.canAccessElevenLabsApi) {
-        setAudioStatus('ready');
-      } else {
-        setAudioStatus('error');
-        const firstError = diagnostics.errorMessages[0] || 'Audio system not available';
-        setAudioError(firstError);
-      }
-    } catch (error) {
-      console.error('Audio diagnostics failed:', error);
-      setAudioStatus('error');
-      setAudioError('Failed to test audio system');
-    }
-  };
-
-  // Enhanced text-to-speech function with better error handling and user feedback
   const playTextToSpeech = async (text: string) => {
     if (!voiceEnabled || isGeneratingAudio) return;
     
@@ -287,16 +447,14 @@ const AIHealthCoach: React.FC = () => {
     try {
       console.log('🎵 Generating audio for text:', text.substring(0, 50) + '...');
       
-      // Check if ElevenLabs is available
       const isConfigured = await elevenlabsApi.isConfigured();
       if (!isConfigured) {
         throw new Error('ElevenLabs API not configured');
       }
       
-      // Use ElevenLabs API to generate audio
       const audioBuffer = await elevenlabsApi.textToSpeech(
         text,
-        'EXAVITQu4vr4xnSDxMaL', // Default voice ID (Adam from ElevenLabs)
+        'EXAVITQu4vr4xnSDxMaL',
         { 
           stability: 0.5, 
           similarity_boost: 0.75 
@@ -307,35 +465,24 @@ const AIHealthCoach: React.FC = () => {
         throw new Error('Failed to generate audio - no data returned');
       }
       
-      // Create audio blob and play
       const audioBlob = new Blob([audioBuffer], { type: 'audio/mpeg' });
       const audioUrl = URL.createObjectURL(audioBlob);
       
-      // Clean up previous audio
       if (audioElementRef.current) {
         audioElementRef.current.pause();
         URL.revokeObjectURL(audioElementRef.current.src);
       }
       
-      // Create and play new audio
       const audio = new Audio(audioUrl);
       audioElementRef.current = audio;
       
-      // Set up event handlers
-      audio.onloadstart = () => {
-        console.log('🎵 Audio loading started');
-      };
-      
-      audio.oncanplay = () => {
-        console.log('🎵 Audio can start playing');
-      };
-      
+      audio.onloadstart = () => console.log('🎵 Audio loading started');
+      audio.oncanplay = () => console.log('🎵 Audio can start playing');
       audio.onended = () => {
         console.log('🎵 Audio playback completed');
         URL.revokeObjectURL(audioUrl);
         setIsGeneratingAudio(false);
       };
-      
       audio.onerror = (e) => {
         console.error('🎵 Audio playback error:', e);
         setAudioError('Failed to play audio - check your device audio settings');
@@ -343,7 +490,6 @@ const AIHealthCoach: React.FC = () => {
         setIsGeneratingAudio(false);
       };
       
-      // Start playback
       await audio.play();
       console.log('✅ Audio playback started successfully');
       
@@ -354,7 +500,6 @@ const AIHealthCoach: React.FC = () => {
       setAudioError(errorInfo.userMessage);
       setIsGeneratingAudio(false);
       
-      // Show detailed error in development
       if (process.env.NODE_ENV === 'development') {
         console.error('Detailed TTS error:', {
           error: errorInfo.technicalDetails,
@@ -362,10 +507,8 @@ const AIHealthCoach: React.FC = () => {
         });
       }
       
-      // Provide fallback feedback
       console.log('💡 TTS failed, consider using browser\'s built-in speech synthesis as fallback');
       
-      // Try browser's built-in speech synthesis as fallback
       if ('speechSynthesis' in window && window.speechSynthesis) {
         try {
           const utterance = new SpeechSynthesisUtterance(text);
@@ -399,22 +542,17 @@ const AIHealthCoach: React.FC = () => {
     }
   };
 
-  // Test audio on voice enable
   const handleVoiceToggle = async () => {
     if (!voiceEnabled) {
-      // Enabling voice - run diagnostics first
       await runAudioDiagnostics();
       if (audioStatus === 'ready') {
         setVoiceEnabled(true);
-        // Test with a short phrase
         await playTextToSpeech('Audio is now enabled.');
       }
     } else {
-      // Disabling voice
       setVoiceEnabled(false);
       setAudioError(null);
       
-      // Stop any playing audio
       if (audioElementRef.current) {
         audioElementRef.current.pause();
         URL.revokeObjectURL(audioElementRef.current.src);
@@ -422,93 +560,17 @@ const AIHealthCoach: React.FC = () => {
     }
   };
 
-  // Run initial audio check on component mount
   useEffect(() => {
     runAudioDiagnostics();
     checkMicrophonePermission();
   }, []);
 
-  // Microphone permission management
-  const checkMicrophonePermission = async () => {
-    setIsCheckingMic(true);
-    
-    try {
-      // Check if navigator.permissions is available
-      if ('permissions' in navigator) {
-        const permission = await navigator.permissions.query({ name: 'microphone' as PermissionName });
-        setMicPermission(permission.state as 'granted' | 'denied' | 'prompt');
-        
-        // Listen for permission changes
-        permission.onchange = () => {
-          setMicPermission(permission.state as 'granted' | 'denied' | 'prompt');
-        };
-      } else {
-        // Fallback: try to access microphone directly
-        try {
-          if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            stream.getTracks().forEach((track: MediaStreamTrack) => track.stop()); // Clean up
-            setMicPermission('granted');
-          } else {
-            setMicPermission('denied');
-          }
-        } catch (error) {
-          console.warn('Microphone permission check failed:', error);
-          setMicPermission('denied');
-        }
-      }
-    } catch (error) {
-      console.error('Error checking microphone permission:', error);
-      setMicPermission('prompt');
-    } finally {
-      setIsCheckingMic(false);
-    }
-  };
-
-  const requestMicrophonePermission = async () => {
-    setIsCheckingMic(true);
-    setVoiceInputError(null);
-    
-    try {
-      if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          audio: {
-            echoCancellation: true,
-            noiseSuppression: true,
-            autoGainControl: true
-          }
-        });
-        
-        // Permission granted, clean up the stream
-        stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
-        setMicPermission('granted');
-        console.log('🎤 Microphone permission granted');
-        
-        // Initialize speech recognition if not already done
-        if (!speechRecognition) {
-          // This will trigger on next render due to dependency array
-          console.log('🎤 Initializing speech recognition...');
-        }
-      } else {
-        throw new Error('getUserMedia not supported');
-      }
-      
-    } catch (error) {
-      console.error('Microphone permission denied:', error);
-      setMicPermission('denied');
-      setVoiceInputError('Microphone access denied. Please allow microphone access in your browser settings.');
-    } finally {
-      setIsCheckingMic(false);
-    }
-  };
-
-  // Initialize Speech Recognition
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       
       if (SpeechRecognition) {
-        const recognition = new SpeechRecognition();
+        const recognition = new SpeechRecognition() as ISpeechRecognition;
         recognition.continuous = false;
         recognition.interimResults = true;
         recognition.lang = 'en-US';
@@ -539,13 +601,11 @@ const AIHealthCoach: React.FC = () => {
             setInput(newInputValue);
             setInterimTranscript('');
             
-            // In voice-to-voice mode, auto-submit after a pause
             if (voiceToVoiceMode) {
               setTimeout(() => {
                 handleVoiceInputComplete(newInputValue);
-              }, 1000); // Wait 1 second to see if user continues speaking
+              }, 1000);
             } else {
-              // Auto-submit if the user said something like "send" or appears to be done
               const trimmedFinal = finalTranscript.trim().toLowerCase();
               if (trimmedFinal.endsWith('send') || 
                   trimmedFinal.endsWith('submit') || 
@@ -554,7 +614,7 @@ const AIHealthCoach: React.FC = () => {
                   trimmedFinal.endsWith('!')) {
                 setTimeout(() => {
                   handleVoiceInputComplete(newInputValue);
-                }, 500); // Small delay to ensure state updates
+                }, 500);
               }
             }
           }
@@ -571,11 +631,10 @@ const AIHealthCoach: React.FC = () => {
           setIsRecording(false);
           setInterimTranscript('');
           
-          // In voice-to-voice mode, restart listening after AI response
           if (voiceToVoiceMode && !isWaitingForResponse) {
             setTimeout(() => {
               startVoiceInput();
-            }, 1500); // Wait a bit before restarting to avoid cutting off AI speech
+            }, 1500);
           }
         };
         
@@ -588,23 +647,17 @@ const AIHealthCoach: React.FC = () => {
     }
   }, []);
 
-  // Enhanced voice input functions with better UX
   const startVoiceInput = async () => {
-    // Check microphone permission first
     if (micPermission !== 'granted') {
       await requestMicrophonePermission();
-      if (micPermission !== 'granted') {
-        return;
-      }
+      return;
     }
 
     if (speechRecognition && !isRecording) {
       try {
-        // Clear any previous input errors
         setVoiceInputError(null);
         setInterimTranscript('');
         
-        // Configure for voice-to-voice mode
         if (voiceToVoiceMode) {
           speechRecognition.continuous = true;
           speechRecognition.interimResults = true;
@@ -613,7 +666,6 @@ const AIHealthCoach: React.FC = () => {
           speechRecognition.interimResults = true;
         }
         
-        // Start recognition
         speechRecognition.start();
         console.log('🎙️ Voice input started');
       } catch (error) {
@@ -638,11 +690,9 @@ const AIHealthCoach: React.FC = () => {
     setVoiceToVoiceMode(!voiceToVoiceMode);
     
     if (!voiceToVoiceMode && micPermission !== 'granted') {
-      // Request permission when enabling voice-to-voice mode
       requestMicrophonePermission();
     }
     
-    // Stop current listening if switching modes
     if (isRecording) {
       stopVoiceInput();
     }
@@ -656,15 +706,12 @@ const AIHealthCoach: React.FC = () => {
     }
   };
 
-  // Auto-submit when voice input is complete (after a pause)
   const handleVoiceInputComplete = (finalText: string) => {
     if (finalText.trim()) {
-      // In voice-to-voice mode, set waiting state
       if (voiceToVoiceMode) {
         setIsWaitingForResponse(true);
       }
       
-      // Create a proper synthetic event
       const syntheticEvent = {
         preventDefault: () => {},
       } as unknown as React.FormEvent;
@@ -767,22 +814,13 @@ const AIHealthCoach: React.FC = () => {
           <button
             onClick={handleVoiceToggle}
             disabled={audioStatus === 'testing' || isGeneratingAudio}
-            className={`p-2 rounded-full transition-all duration-200 ${
-              voiceEnabled && audioStatus === 'ready'
-                ? 'bg-green-500 hover:bg-green-600 text-white' 
-                : audioStatus === 'error'
-                ? 'bg-red-500 hover:bg-red-600 text-white opacity-50 cursor-not-allowed'
-                : 'bg-white/20 hover:bg-white/30 text-white'
-            } ${audioStatus === 'testing' ? 'opacity-50 cursor-wait' : ''}`}
-            aria-label={
-              audioStatus === 'error' 
-                ? "Audio unavailable" 
-                : audioStatus === 'testing'
-                ? "Testing audio system"
-                : voiceEnabled 
-                ? "Disable voice responses" 
-                : "Enable voice responses"
-            }
+            className={getButtonStyles(
+              audioStatus === 'testing',
+              'p-2 rounded-full transition-all duration-200',
+              'opacity-50 cursor-wait',
+              getVoiceButtonStyles(voiceEnabled, audioStatus)
+            )}
+            aria-label={getVoiceButtonLabel(audioStatus, voiceEnabled)}
             title={
               audioError 
                 ? `Audio Error: ${audioError}` 
@@ -817,29 +855,14 @@ const AIHealthCoach: React.FC = () => {
             <button
               onClick={micPermission === 'granted' ? startVoiceInput : requestMicrophonePermission}
               disabled={isCheckingMic || isRecording}
-              className={`p-2 rounded-full transition-all duration-200 ${
-                micPermission === 'granted'
-                  ? isRecording 
-                    ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
-                    : 'bg-blue-500 hover:bg-blue-600 text-white'
-                  : micPermission === 'denied'
-                  ? 'bg-red-500 hover:bg-red-600 text-white opacity-75'
-                  : 'bg-yellow-500 hover:bg-yellow-600 text-white'
-              } ${isCheckingMic ? 'opacity-50 cursor-wait' : ''}`}
-              aria-label={
-                micPermission === 'granted'
-                  ? isRecording ? "Stop voice input" : "Start voice input"
-                  : micPermission === 'denied'
-                  ? "Microphone access denied"
-                  : "Request microphone access"
-              }
-              title={
-                micPermission === 'granted'
-                  ? isRecording ? "Click to stop listening" : "Click to start voice input"
-                  : micPermission === 'denied'
-                  ? "Microphone access denied. Check browser settings."
-                  : "Click to request microphone access"
-              }
+              className={getButtonStyles(
+                isCheckingMic,
+                'p-2 rounded-full transition-all duration-200',
+                'opacity-50 cursor-wait',
+                getMicButtonStyles(micPermission, isRecording)
+              )}
+              aria-label={getMicButtonLabel(micPermission, isRecording)}
+              title={getMicButtonTitle(micPermission, isRecording)}
             >
               {isCheckingMic ? (
                 <div className="w-5 h-5 border-2 border-white rounded-full animate-spin border-t-transparent"></div>
@@ -856,11 +879,12 @@ const AIHealthCoach: React.FC = () => {
             <button
               onClick={toggleVoiceToVoiceMode}
               disabled={isCheckingMic}
-              className={`p-2 rounded-full transition-all duration-200 ${
-                voiceToVoiceMode
-                  ? 'bg-purple-500 hover:bg-purple-600 text-white'
-                  : 'bg-white/20 hover:bg-white/30 text-white'
-              }`}
+              className={getButtonStyles(
+                voiceToVoiceMode,
+                'p-2 rounded-full transition-all duration-200',
+                'bg-purple-500 hover:bg-purple-600 text-white',
+                'bg-white/20 hover:bg-white/30 text-white'
+              )}
               aria-label={voiceToVoiceMode ? "Disable voice-to-voice mode" : "Enable voice-to-voice mode"}
               title={
                 voiceToVoiceMode 
@@ -907,7 +931,7 @@ const AIHealthCoach: React.FC = () => {
             </div>
             {currentQuestions.map((questionObj, index) => (
               <motion.button
-                key={index}
+                key={`question-${currentQuestionSetIndex}-${index}`}
                 onClick={(e) => handleQuestionClick(questionObj.text)(e)}
                 className={cn(
                   "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-sm hover:shadow",
@@ -976,11 +1000,7 @@ const AIHealthCoach: React.FC = () => {
               type="button"
               onClick={toggleVoiceInput}
               disabled={isLoading}
-              className={`flex items-center justify-center w-10 h-10 p-0 rounded-full transition-all duration-200 ${
-                isRecording
-                  ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse'
-                  : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300'
-              }`}
+              className={`flex items-center justify-center w-10 h-10 p-0 rounded-full transition-all duration-200 ${getRecordingButtonStyles(isRecording)}`}
               aria-label={isRecording ? "Stop voice input" : "Start voice input"}
               title={isRecording ? "Click to stop recording" : "Click to start voice input"}
             >
@@ -1043,40 +1063,6 @@ const AIHealthCoach: React.FC = () => {
       </form>
     </div>
   );
-  
-  // Helper function to get color based on category
-  function getCategoryColor(category: string): string {
-    switch (category) {
-      case 'sleep':
-        return 'bg-purple-500';
-      case 'supplements':
-        return 'bg-green-500';
-      case 'nutrition':
-        return 'bg-blue-500';
-      case 'fitness':
-        return 'bg-orange-500';
-      case 'metabolism':
-        return 'bg-red-500';
-      case 'hydration':
-        return 'bg-cyan-500';
-      case 'stress':
-        return 'bg-pink-500';
-      case 'energy':
-        return 'bg-yellow-500';
-      case 'recovery':
-        return 'bg-indigo-500';
-      case 'cognitive':
-        return 'bg-emerald-500';
-      case 'longevity':
-        return 'bg-violet-500';
-      case 'tracking':
-        return 'bg-amber-500';
-      case 'health':
-        return 'bg-teal-500';
-      default:
-        return 'bg-gray-500';
-    }
-  }
-};
+});
 
 export default AIHealthCoach;
