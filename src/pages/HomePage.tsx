@@ -322,56 +322,58 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Evidence-Based Health Optimization Section */}
+            {/* Evidence-Based Health Optimization Section */}
       <section id="evidence-based-health">
         <EvidenceBasedHealthOptimization expanded={false} />
       </section>
 
-      {/* CTA Section */}
-      <section className="relative py-24 overflow-hidden text-gray-900 transition-all duration-300 border-t gradient-subtle border-gray-200/30 dark:border-gray-700/30 dark:text-white">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute rounded-full top-1/3 right-1/3 w-72 h-72 bg-primary/5 blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-          <div className="absolute w-64 h-64 rounded-full bottom-1/3 left-1/3 bg-tertiary/5 blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-        </div>
-        
+      {/* About Section */}
+      <section id="about" className="relative py-24 overflow-hidden gradient-subtle sm:py-28 md:py-32">
         <div className="mobile-container">
-          <motion.div className="relative z-10">
-            <motion.h2 
-            className="mb-8 text-4xl font-bold leading-tight tracking-tighter text-left sm:text-5xl md:text-6xl sm:mb-10 text-balance"
+          <motion.div 
+            className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
           >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-              Ready to optimize your health?
-            </span>
-          </motion.h2>
-          <motion.p 
-            className="max-w-3xl mb-12 text-xl leading-relaxed tracking-wide text-left sm:text-2xl sm:mb-16 text-text-light text-balance"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Join thousands of users who have transformed their wellness journey
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Link
-             to="/signup"
-              className="inline-flex items-center px-10 py-4 text-lg font-semibold tracking-wide text-white transition-all duration-200 shadow-lg gradient-primary sm:px-12 rounded-2xl hover:shadow-xl hover:-translate-y-1"
-            >
-             Get Started
-              <ArrowRight className="w-6 h-6 ml-3" />
-            </Link>
+            <h2 className="mb-6 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl md:text-5xl">
+              About Biowell
+            </h2>
+            <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 sm:text-xl">
+              We're dedicated to transforming personal health through evidence-based optimization. 
+              Our AI-powered platform combines the latest scientific research with personalized 
+              recommendations to help you achieve optimal wellness.
+            </p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="relative py-24 overflow-hidden sm:py-28 md:py-32">
+        <div className="mobile-container">
+          <motion.div 
+            className="max-w-4xl mx-auto text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="mb-6 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl md:text-5xl">
+              Get in Touch
+            </h2>
+            <p className="mb-8 text-lg leading-relaxed text-gray-700 dark:text-gray-300 sm:text-xl">
+              Ready to start your health optimization journey? We're here to help.
+            </p>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Link
+                to="/signup"
+                className="inline-flex items-center px-10 py-4 text-lg font-semibold text-white transition-all duration-200 rounded-2xl gradient-primary hover:shadow-xl hover:-translate-y-1 sm:px-12"
+              >
+               Get Started
+                <ArrowRight className="w-6 h-6 ml-3" />
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </section>
