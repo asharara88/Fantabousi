@@ -1,13 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Shield, Lock, Activity, Users, Zap, Heart, Brain, Baby, Target, CheckCircle, ChevronDown, ChevronUp, Menu, X, Monitor, Award, Database, Smartphone } from 'lucide-react'
+import { ArrowRight, Shield, Lock, Activity, Users, Zap, Heart, Brain, Baby, Target, CheckCircle, Menu, X, Monitor, Award, Database, Smartphone } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import { useTheme } from '../contexts/ThemeContext'
 import { getBiowellLogo } from '../constants/branding'
 
 const HomePage: React.FC = () => {
-  const [expandedFAQ, setExpandedFAQ] = React.useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { actualTheme } = useTheme();
 
@@ -19,29 +18,26 @@ const HomePage: React.FC = () => {
   ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const toggleFAQ = (index: number) => {
-    setExpandedFAQ(expandedFAQ === index ? null : index);
-  };
 
   const smartCoaches = [
     {
       name: 'Biowell',
       icon: <Heart className="w-8 h-8" style={{ color: '#00ff88' }} />,
-      focus: 'Comprehensive Health & Performance',
+      specialty: 'Comprehensive Health & Performance',
       description: 'Complete health optimization including fitness, sleep, and mental & cognitive health. Features cognitive exercises, breathwork, meditation, and tailored supplements/nutrition.',
       features: ['Fitness Optimization', 'Sleep Enhancement', 'Mental Health', 'Cognitive Exercises', 'Breathwork & Meditation']
     },
     {
       name: 'Ubergene',
       icon: <Baby className="w-8 h-8" style={{ color: '#00ff88' }} />,
-      focus: 'Reproductive Health & Fertility',
+      specialty: 'Reproductive Health & Fertility',
       description: 'Specialized reproductive health and fertility support with targeted fitness routines to optimize fertility. Includes nutrition and supplements specific to reproductive goals.',
       features: ['Fertility Optimization', 'Reproductive Health', 'Specialized Fitness', 'Targeted Nutrition', 'Hormone Support']
     },
     {
       name: 'Metaflex',
       icon: <Zap className="w-8 h-8" style={{ color: '#00ff88' }} />,
-      focus: 'Nutrition & Metabolic Health',
+      specialty: 'Nutrition & Metabolic Health',
       description: 'Advanced nutrition and metabolic health optimization with CGM trend analysis. Features metabolic optimization activities like pre-meal workouts, post-meal exercises, and walks.',
       features: ['CGM Analysis', 'Metabolic Flexibility', 'Nutrition Timing', 'Activity Optimization', 'Blood Sugar Management']
     }
@@ -74,19 +70,24 @@ const HomePage: React.FC = () => {
     }
   ];
 
-  const coreMethodologies = [
+    const coreMethodologies = [
     {
-      title: 'HOME Dashboard',
-      description: 'Your simple, intuitive health dashboard showing key metrics for each enabled coach.',
+      name: 'Data-Driven Health Insights',
+      description: 'Advanced analytics and trending of your biomarkers to provide personalized recommendations.',
       icon: <Monitor className="w-6 h-6" />
     },
     {
-      title: 'Personalized Nutrition & Supplements',
+      name: 'Evidence-Based Protocols',
+      description: 'Every recommendation is backed by peer-reviewed research and proven methodologies.',
+      icon: <Activity className="w-6 h-6" />
+    },
+    {
+      name: 'Personalized Nutrition & Supplements',
       description: 'Tailored plans and coordinated supplement protocols aligned to your goals.',
       icon: <Heart className="w-6 h-6" />
     },
     {
-      title: 'Specialized Guidance & Activities',
+      name: 'Specialized Guidance & Activities',
       description: 'Unique exercises, routines, and practices from each coach\'s expertise.',
       icon: <Users className="w-6 h-6" />
     }
@@ -300,143 +301,307 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Features Section with responsive spacing */}
-      <section id="features" className="relative py-24 overflow-hidden transition-all duration-300 sm:py-28 md:py-32 gradient-subtle">
-        {/* Background accent */}
-        <div className="absolute top-0 right-0 w-1/3 rounded-bl-full h-1/3 bg-gradient-to-br from-primary/10 to-secondary/10 blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-1/4 rounded-tr-full h-1/4 bg-gradient-to-tr from-tertiary/10 to-primary/10 blur-3xl"></div>
-        
-        <div className="mobile-container">
+      {/* How It Works Section */}
+      <section id="how-it-works" className="py-24 sm:py-32">
+        <div className="max-w-6xl mx-auto mobile-container">
           <motion.div 
-            className="mb-16 text-left sm:mb-20"
+            className="max-w-4xl mx-auto mb-16 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
           >
-            <h2 className="mb-6 text-4xl font-bold leading-tight tracking-tighter sm:text-5xl md:text-6xl sm:mb-8 text-balance">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-              Why Choose Biowell?
-              </span>
+            <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl dark:text-white">
+              How it works
             </h2>
-            <p className="max-w-3xl text-xl leading-relaxed tracking-wide sm:text-2xl text-text-light text-balance">
-              Experience the future of personalized wellness
+            <p className="text-xl leading-relaxed text-text-light text-balance">
+              Simple steps to transform your health journey
             </p>
           </motion.div>
-
-          <motion.div 
-            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ staggerChildren: 0.1, delayChildren: 0.2 }}
-          >
-            {features.map((feature, index) => (
-              <motion.div 
-                key={`feature-${feature.title}-${index}`} 
-                className="relative p-8 overflow-hidden text-white transition-all duration-300 transform cursor-pointer rounded-2xl card-elevated hover:shadow-2xl hover:-translate-y-2 gradient-primary group"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 }
-                }}
-                initial="hidden"
-                whileInView="visible"
+          
+          <div className="grid gap-12 md:grid-cols-3">
+            {howItWorksSteps.map((step, index) => (
+              <motion.div
+                key={index}
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.8 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                whileHover={{ scale: 1.02 }}
-                onClick={() => toggleCard(index)}
               >
-                {/* Hover glow effect */}
-                <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-br from-white/10 to-transparent group-hover:opacity-100"></div>
-                
-                <div className="flex mb-6">
-                  <div className="inline-flex p-4 shadow-lg rounded-2xl bg-white/20 backdrop-blur-sm">
-                    {feature.icon}
-                  </div>
+                <div className="inline-flex items-center justify-center w-16 h-16 mb-6 text-white rounded-2xl gradient-primary">
+                  {step.icon}
                 </div>
-                <div className="relative z-10 flex items-center justify-between mb-2">
-                  <h3 className="text-2xl font-bold tracking-tight text-left text-white">
-                    {feature.title}
-                  </h3>
-                  {expandedCard === index ? (
-                    <ChevronUp className="w-6 h-6 text-white/80" />
-                  ) : (
-                    <ChevronDown className="w-6 h-6 text-white/80" />
-                  )}
-                </div>
-                
-                <AnimatePresence>
-                  {expandedCard === index && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="relative z-10 pt-3 text-base leading-relaxed tracking-wide text-left text-white/90">
-                        {feature.description}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <h3 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
+                  {step.title}
+                </h3>
+                <p className="leading-relaxed text-text-light">
+                  {step.description}
+                </p>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Evidence-Based Health Optimization Section */}
-            {/* Evidence-Based Health Optimization Section */}
-      <section id="evidence-based-health">
-        <EvidenceBasedHealthOptimization expanded={false} />
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="relative py-24 overflow-hidden gradient-subtle sm:py-28 md:py-32">
-        <div className="mobile-container">
+      {/* Smart Coach Section */}
+      <section className="py-24 border-t border-gray-200/30 dark:border-gray-700/30 sm:py-32">
+        <div className="max-w-6xl mx-auto mobile-container">
           <motion.div 
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-4xl mx-auto mb-16 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="mb-6 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl md:text-5xl">
-              About Biowell
+            <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl dark:text-white">
+              Meet Your Smart Coaches
             </h2>
-            <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 sm:text-xl">
-              We're dedicated to transforming personal health through evidence-based optimization. 
-              Our AI-powered platform combines the latest scientific research with personalized 
-              recommendations to help you achieve optimal wellness.
+            <p className="text-xl leading-relaxed text-text-light text-balance">
+              Each coach has a unique personality and scientific expertise
             </p>
           </motion.div>
+          
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {smartCoaches.map((coach, index) => (
+              <motion.div
+                key={index}
+                className="p-8 border border-gray-200/30 surface-glass rounded-3xl dark:border-gray-700/30"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.8 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="mb-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 mb-4 text-white rounded-2xl gradient-primary">
+                    {coach.icon}
+                  </div>
+                  <h3 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
+                    {coach.name}
+                  </h3>
+                  <p className="mb-4 text-lg font-medium text-primary">
+                    {coach.specialty}
+                  </p>
+                  <p className="leading-relaxed text-text-light">
+                    {coach.description}
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  {coach.features.map((feature, featureIndex) => (
+                    <div key={featureIndex} className="flex items-center text-sm text-text-light">
+                      <CheckCircle className="w-4 h-4 mr-2 text-primary" />
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="relative py-24 overflow-hidden sm:py-28 md:py-32">
-        <div className="mobile-container">
+      {/* Core Methodologies Section */}
+      <section className="py-24 border-t border-gray-200/30 dark:border-gray-700/30 sm:py-32 gradient-subtle">
+        <div className="max-w-6xl mx-auto mobile-container">
           <motion.div 
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-4xl mx-auto mb-16 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="mb-6 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl md:text-5xl">
-              Get in Touch
+            <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl dark:text-white">
+              Our Core Methodologies
             </h2>
-            <p className="mb-8 text-lg leading-relaxed text-gray-700 dark:text-gray-300 sm:text-xl">
-              Ready to start your health optimization journey? We're here to help.
+            <p className="text-xl leading-relaxed text-text-light text-balance">
+              Evidence-based approaches that power your health transformation
             </p>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+          </motion.div>
+          
+          <div className="grid gap-8 md:grid-cols-2">
+            {coreMethodologies.map((methodology, index) => (
+              <motion.div
+                key={index}
+                className="p-8 border border-gray-200/30 surface-glass rounded-3xl dark:border-gray-700/30"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <div className="inline-flex items-center justify-center w-12 h-12 mb-4 text-white rounded-xl gradient-primary">
+                  {methodology.icon}
+                </div>
+                <h3 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
+                  {methodology.name}
+                </h3>
+                <p className="leading-relaxed text-text-light">
+                  {methodology.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-24 border-t border-gray-200/30 dark:border-gray-700/30 sm:py-32">
+        <div className="max-w-4xl mx-auto mobile-container">
+          <motion.div 
+            className="mb-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl dark:text-white">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-xl leading-relaxed text-text-light text-balance">
+              Everything you need to know about our Smart Coaches
+            </p>
+          </motion.div>
+          
+          <div className="space-y-6">
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                className="p-6 border border-gray-200/30 surface-glass rounded-2xl dark:border-gray-700/30"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <h3 className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
+                  {faq.question}
+                </h3>
+                <p className="leading-relaxed text-text-light">
+                  {faq.answer}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Security & Privacy Section */}
+      <section className="py-24 border-t border-gray-200/30 dark:border-gray-700/30 sm:py-32 gradient-subtle">
+        <div className="max-w-6xl mx-auto mobile-container">
+          <motion.div 
+            className="max-w-4xl mx-auto mb-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl dark:text-white">
+              Your Privacy, Secured
+            </h2>
+            <p className="text-xl leading-relaxed text-text-light text-balance">
+              Enterprise-grade security for your most personal health data
+            </p>
+          </motion.div>
+          
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <motion.div
+              className="p-6 text-center border border-gray-200/30 surface-glass rounded-2xl dark:border-gray-700/30"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <Shield className="w-8 h-8 mx-auto mb-4 text-primary" />
+              <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                End-to-End Encryption
+              </h3>
+              <p className="text-sm text-text-light">
+                Your data is encrypted at rest and in transit
+              </p>
+            </motion.div>
+            
+            <motion.div
+              className="p-6 text-center border border-gray-200/30 surface-glass rounded-2xl dark:border-gray-700/30"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <Database className="w-8 h-8 mx-auto mb-4 text-primary" />
+              <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                Private by Design
+              </h3>
+              <p className="text-sm text-text-light">
+                Your health data never leaves your control
+              </p>
+            </motion.div>
+            
+            <motion.div
+              className="p-6 text-center border border-gray-200/30 surface-glass rounded-2xl dark:border-gray-700/30"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <CheckCircle className="w-8 h-8 mx-auto mb-4 text-primary" />
+              <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                HIPAA Compliant
+              </h3>
+              <p className="text-sm text-text-light">
+                Meeting the highest healthcare standards
+              </p>
+            </motion.div>
+            
+            <motion.div
+              className="p-6 text-center border border-gray-200/30 surface-glass rounded-2xl dark:border-gray-700/30"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <Award className="w-8 h-8 mx-auto mb-4 text-primary" />
+              <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
+                SOC 2 Certified
+              </h3>
+              <p className="text-sm text-text-light">
+                Independently verified security controls
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA Section */}
+      <section className="py-24 border-t border-gray-200/30 dark:border-gray-700/30 sm:py-32">
+        <div className="max-w-4xl mx-auto text-center mobile-container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl dark:text-white">
+              Ready to meet your Smart Coach?
+            </h2>
+            <p className="mb-12 text-xl leading-relaxed text-text-light text-balance">
+              Join thousands who've transformed their health with personalized, science-backed guidance.
+            </p>
+            
+            <motion.div 
+              className="flex flex-col gap-6 sm:flex-row sm:gap-8 sm:justify-center"
+              whileHover={{ scale: 1.02 }}
+            >
               <Link
                 to="/signup"
-                className="inline-flex items-center px-10 py-4 text-lg font-semibold text-white transition-all duration-200 rounded-2xl gradient-primary hover:shadow-xl hover:-translate-y-1 sm:px-12"
+                className="gradient-primary text-white px-10 sm:px-12 py-4 rounded-2xl font-semibold hover:shadow-xl hover:-translate-y-1 transition-all duration-200 inline-flex items-center justify-center text-lg min-w-[200px] tracking-wide shadow-lg"
               >
-               Get Started
-                <ArrowRight className="w-6 h-6 ml-3" />
+                Start Your Journey
+                <ArrowRight className="w-5 h-5 ml-3" />
+              </Link>
+              <Link
+                to="/login"
+                className="px-10 py-4 font-semibold text-gray-700 transition-all duration-200 border-2 border-gray-300 dark:text-gray-300 dark:border-gray-600 rounded-2xl hover:border-primary dark:hover:border-primary-light hover:text-primary dark:hover:text-primary-light sm:px-12"
+              >
+                Sign In
               </Link>
             </motion.div>
           </motion.div>
