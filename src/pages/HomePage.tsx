@@ -321,19 +321,6 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Logo Section */}
-      <section className="py-16 text-center gradient-subtle">
-        <div className="mobile-container">
-          <div className="flex justify-center">
-            <img 
-              src={getBiowellLogo(actualTheme)}
-              alt="Biowell Logo" 
-              className="object-contain w-auto h-20 opacity-60" 
-            />
-          </div>
-        </div>
-      </section>
-
       {/* Evidence-Based Health Optimization Section */}
       <section id="evidence-based-health">
         <EvidenceBasedHealthOptimization expanded={false} />
