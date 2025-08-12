@@ -54,7 +54,7 @@ const HomePage: React.FC = () => {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-md dark:bg-gray-900/80 border-b border-gray-200/30 dark:border-gray-700/30">
         <div className="max-w-7xl mx-auto mobile-container">
-          <div className="flex items-center justify-between h-16 sm:h-20">
+          <div className="flex items-center justify-between h-20 sm:h-24">
             {/* Logo */}
             <motion.div 
               className="flex items-center"
@@ -66,7 +66,7 @@ const HomePage: React.FC = () => {
                 <img 
                   src={getBiowellLogo(actualTheme)}
                   alt="Biowell" 
-                  className="object-contain w-auto h-8 sm:h-10" 
+                  className="object-contain w-auto h-16 sm:h-20" 
                 />
               </Link>
             </motion.div>
@@ -162,7 +162,7 @@ const HomePage: React.FC = () => {
       </nav>
       
       {/* Hero Section with consistent styling - add top padding for fixed nav */}
-      <section className="relative pt-20 pb-32 overflow-hidden text-gray-900 border-b gradient-subtle border-gray-200/30 dark:border-gray-700/30 dark:text-white sm:pt-24 sm:pb-40 md:pt-28 md:pb-48">
+      <section className="relative pt-24 pb-32 overflow-hidden text-gray-900 border-b gradient-subtle border-gray-200/30 dark:border-gray-700/30 dark:text-white sm:pt-28 sm:pb-40 md:pt-32 md:pb-48">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute rounded-full top-1/4 left-1/4 w-96 h-96 bg-primary/5 blur-3xl animate-pulse"></div>
