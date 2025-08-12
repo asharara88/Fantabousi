@@ -191,6 +191,21 @@ const HomePage: React.FC = () => {
             <p className="max-w-3xl mb-12 text-xl leading-relaxed tracking-wide text-left sm:text-2xl sm:mb-16 text-text-light text-balance">
               Optimize your everyday.
             </p>
+            
+            {/* Biowell AI Suite Description */}
+            <motion.div 
+              className="max-w-4xl mb-12 sm:mb-16"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            >
+              <div className="p-6 rounded-2xl surface-glass border border-gray-200/20 dark:border-gray-700/20">
+                <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 text-center sm:text-base">
+                  <span className="font-semibold text-primary">Biowell</span> for overall health and performance. <span className="font-semibold text-primary">Ubergene</span> for reproductive health and fertility. <span className="font-semibold text-primary">Metaflex</span> for metabolism and joint health. <span className="font-semibold text-primary">Metaflex Nutrition</span> for personalized nutrition to elevate health and performance — all powered by advanced AI, secured with enterprise-grade encryption, and built with your privacy in mind.
+                </p>
+              </div>
+            </motion.div>
+            
             <motion.div 
               className="flex flex-col gap-6 mb-16 sm:flex-row sm:gap-8"
               initial={{ opacity: 0, y: 20 }}
