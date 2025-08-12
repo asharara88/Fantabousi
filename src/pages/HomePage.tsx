@@ -6,47 +6,121 @@ import ThemeToggle from '../components/ui/ThemeToggle'
 import { useTheme } from '../contexts/ThemeContext'
 import { getBiowellLogo } from '../constants/branding'
 
-// Features data
 const HomePage: React.FC = () => {
-  const [expandedCard, setExpandedCard] = React.useState<number | null>(null);
+  const [expandedFAQ, setExpandedFAQ] = React.useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { actualTheme } = useTheme();
 
   const navigationItems = [
-    { name: 'Features', href: '#features' },
-    { name: 'Science', href: '#evidence-based-health' },
-    { name: 'About', href: '#about' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'How It Works', href: '#how-it-works' },
+    { name: 'Smart Coaches', href: '#smart-coaches' },
+    { name: 'Security', href: '#security' },
+    { name: 'FAQ', href: '#faq' }
   ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  const features = [
-    {
-      icon: <Heart className="w-10 h-10" style={{ color: '#00ff88' }} />,
-      title: 'Personalized Health',
-      description: 'Get personalized health insights—covering supplements, habits, nutrition, and recovery—based on your unique data and daily metrics.'
-    },
-    {
-      icon: <Shield className="w-10 h-10" style={{ color: '#00ff88' }} />,
-      title: 'Science-Backed',
-      description: 'All recommendations are based on the latest scientific research and clinical studies.'
-    },
-    {
-      icon: <Zap className="w-10 h-10" style={{ color: '#00ff88' }} />,
-      title: 'Optimize Performance',
-      description: 'Enhance your energy, focus, and overall well-being with targeted nutrition.'
-    },
-    {
-      icon: <Brain className="w-10 h-10" style={{ color: '#00ff88' }} />,
-      title: 'AI-Powered Coach',
-      description: 'Get personalized guidance from our AI health coach to help you reach your wellness goals.'
-    }
-  ]
-
-  const toggleCard = (index: number) => {
-    setExpandedCard(expandedCard === index ? null : index);
+  const toggleFAQ = (index: number) => {
+    setExpandedFAQ(expandedFAQ === index ? null : index);
   };
+
+  const smartCoaches = [
+    {
+      name: 'Biowell',
+      icon: <Heart className="w-8 h-8" style={{ color: '#00ff88' }} />,
+      focus: 'Comprehensive Health & Performance',
+      description: 'Complete health optimization including fitness, sleep, and mental & cognitive health. Features cognitive exercises, breathwork, meditation, and tailored supplements/nutrition.',
+      features: ['Fitness Optimization', 'Sleep Enhancement', 'Mental Health', 'Cognitive Exercises', 'Breathwork & Meditation']
+    },
+    {
+      name: 'Ubergene',
+      icon: <Baby className="w-8 h-8" style={{ color: '#00ff88' }} />,
+      focus: 'Reproductive Health & Fertility',
+      description: 'Specialized reproductive health and fertility support with targeted fitness routines to optimize fertility. Includes nutrition and supplements specific to reproductive goals.',
+      features: ['Fertility Optimization', 'Reproductive Health', 'Specialized Fitness', 'Targeted Nutrition', 'Hormone Support']
+    },
+    {
+      name: 'Metaflex',
+      icon: <Zap className="w-8 h-8" style={{ color: '#00ff88' }} />,
+      focus: 'Nutrition & Metabolic Health',
+      description: 'Advanced nutrition and metabolic health optimization with CGM trend analysis. Features metabolic optimization activities like pre-meal workouts, post-meal exercises, and walks.',
+      features: ['CGM Analysis', 'Metabolic Flexibility', 'Nutrition Timing', 'Activity Optimization', 'Blood Sugar Management']
+    }
+  ];
+
+  const howItWorksSteps = [
+    {
+      step: '1',
+      title: 'Set Your Goals',
+      description: 'Simple onboarding to define priorities and choose Smart Coaches (Biowell, Ubergene, Metaflex).',
+      icon: <Target className="w-6 h-6" />
+    },
+    {
+      step: '2',
+      title: 'Connect Securely',
+      description: 'Sync wearables/apps or enter details manually; encryption end-to-end.',
+      icon: <Shield className="w-6 h-6" />
+    },
+    {
+      step: '3',
+      title: 'Get Your Plan',
+      description: 'Guidance, relevant nutrition (with recipes), and supplements — all managed through Biowell.',
+      icon: <Brain className="w-6 h-6" />
+    },
+    {
+      step: '4',
+      title: 'Track & Evolve',
+      description: 'Real-time progress tracking with plans adapting as your data and goals change.',
+      icon: <Activity className="w-6 h-6" />
+    }
+  ];
+
+  const coreMethodologies = [
+    {
+      title: 'HOME Dashboard',
+      description: 'Your simple, intuitive health dashboard showing key metrics for each enabled coach.',
+      icon: <Monitor className="w-6 h-6" />
+    },
+    {
+      title: 'Personalized Nutrition & Supplements',
+      description: 'Tailored plans and coordinated supplement protocols aligned to your goals.',
+      icon: <Heart className="w-6 h-6" />
+    },
+    {
+      title: 'Specialized Guidance & Activities',
+      description: 'Unique exercises, routines, and practices from each coach\'s expertise.',
+      icon: <Users className="w-6 h-6" />
+    }
+  ];
+
+  const trustBadges = [
+    { icon: <Award className="w-5 h-5" />, text: 'Research‑backed insights' },
+    { icon: <Lock className="w-5 h-5" />, text: 'Enterprise‑grade encryption' },
+    { icon: <Shield className="w-5 h-5" />, text: 'Privacy‑first design' },
+    { icon: <Smartphone className="w-5 h-5" />, text: 'Works with leading wearables' }
+  ];
+
+  const faqs = [
+    {
+      question: 'What is a Smart Coach?',
+      answer: 'A Smart Coach is a specialized AI-powered health advisor with expertise in specific areas like metabolic health, reproductive wellness, or comprehensive fitness. Each coach has a unique personality and scientific focus.'
+    },
+    {
+      question: 'How is guidance created?',
+      answer: 'Our guidance is based on peer-reviewed research, your personal health data, and proven methodologies. Each recommendation is tailored to your specific goals and current health status.'
+    },
+    {
+      question: 'Is my data secure?',
+      answer: 'Yes. Your health data is encrypted in transit and at rest with enterprise-grade security. You control all connections and can revoke access anytime.'
+    },
+    {
+      question: 'Can I switch coaches?',
+      answer: 'Absolutely. You can enable or disable any Smart Coach at any time. Your data and progress remain secure as you customize your experience.'
+    },
+    {
+      question: 'Do you support wearables?',
+      answer: 'Yes, we integrate with leading wearables and health apps. You can also input data manually if you prefer.'
+    }
+  ];
 
   return (
     <div className="min-h-screen">
@@ -160,7 +234,7 @@ const HomePage: React.FC = () => {
         </div>
       </nav>
       
-      {/* Hero Section with consistent styling - add top padding for fixed nav */}
+      {/* Hero Section */}
       <section className="relative pt-24 pb-32 overflow-hidden text-gray-900 border-b gradient-subtle border-gray-200/30 dark:border-gray-700/30 dark:text-white sm:pt-28 sm:pb-40 md:pt-32 md:pb-48">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
@@ -170,77 +244,57 @@ const HomePage: React.FC = () => {
         
         <div className="max-w-6xl mx-auto mobile-container">
           <motion.div 
-            className="relative z-10 max-w-4xl mx-auto"
+            className="relative z-10 max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <a 
-              href="#evidence-based-health" 
-              className="inline-block px-6 py-2 mb-8 text-sm font-medium tracking-wide transition-all duration-200 cursor-pointer surface-glass rounded-2xl hover:shadow-md"
-            >
-              <span className="text-gray-700 dark:text-gray-300">Evidence-based health optimization</span>
-            </a>
-            <h1 className="mb-8 text-5xl font-bold leading-tight tracking-tighter text-left sm:text-6xl md:text-7xl text-balance">
-              <span>Your Personal </span>
+            <h1 className="mb-8 text-5xl font-bold leading-tight tracking-tighter sm:text-6xl md:text-7xl text-balance">
+              A Suite of Specialized{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                Health Coach
+                Smart Coaches
               </span>
             </h1>
-            <p className="max-w-3xl mb-12 text-xl leading-relaxed tracking-wide text-left sm:text-2xl sm:mb-16 text-text-light text-balance">
-              Optimize your everyday.
+            <p className="max-w-3xl mx-auto mb-8 text-xl leading-relaxed tracking-wide sm:text-2xl text-text-light text-balance">
+              Each with a unique personality and scientific expertise—delivering research‑backed, personalized guidance. Powered by advanced AI, secured with enterprise‑grade encryption, and built for your privacy.
             </p>
             
-            {/* Biowell AI Suite Description */}
-            <motion.div 
-              className="max-w-4xl mb-12 sm:mb-16"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-            >
-              <div className="p-6 rounded-2xl surface-glass border border-gray-200/20 dark:border-gray-700/20">
-                <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 text-center sm:text-base">
-                  <span className="font-semibold text-primary">Biowell</span> for overall health and performance. <span className="font-semibold text-primary">Ubergene</span> for reproductive health and fertility. <span className="font-semibold text-primary">Metaflex</span> for metabolism and joint health. <span className="font-semibold text-primary">Metaflex Nutrition</span> for personalized nutrition to elevate health and performance — all powered by advanced AI, secured with enterprise-grade encryption, and built with your privacy in mind.
-                </p>
-              </div>
-            </motion.div>
+            {/* Microproof */}
+            <div className="inline-block px-6 py-2 mb-12 text-sm font-medium tracking-wide transition-all duration-200 cursor-default surface-glass rounded-2xl">
+              <span className="text-gray-700 dark:text-gray-300">Backed by peer‑reviewed research and rigorous data practices</span>
+            </div>
             
             <motion.div 
-              className="flex flex-col gap-6 mb-16 sm:flex-row sm:gap-8"
+              className="flex flex-col gap-6 mb-12 sm:flex-row sm:gap-8 sm:justify-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                 <Link
-                 to="/signup"
+                  to="/signup"
                   className="gradient-primary text-white px-10 sm:px-12 py-4 rounded-2xl font-semibold hover:shadow-xl hover:-translate-y-1 transition-all duration-200 inline-flex items-center justify-center text-lg min-w-[200px] tracking-wide shadow-lg"
                 >
-                 Get Started
+                  Get Started
                   <ArrowRight className="w-5 h-5 ml-3" />
                 </Link>
               </motion.div>
               <Link
-                to="/login"
+                to="#how-it-works"
                 className="font-medium tracking-wide text-gray-600 underline transition-colors duration-200 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light underline-offset-4"
               >
-                Already have an account? Sign in
+                Learn More
               </Link>
             </motion.div>
-            
-            <div className="flex flex-wrap gap-8 text-sm tracking-wide text-text-light">
-              <div className="flex items-center">
-                <CheckCircle className="w-4 h-4 mr-2 text-primary" />
-                <span>Personalized recommendations</span>
-              </div>
-              <div className="flex items-center">
-                <CheckCircle className="w-4 h-4 mr-2 text-primary" />
-                <span>Science-backed approach</span>
-              </div>
-              <div className="flex items-center">
-                <CheckCircle className="w-4 h-4 mr-2 text-primary" />
-                <span>AI-powered coaching</span>
-              </div>
+
+            {/* Trust Badges */}
+            <div className="flex flex-wrap justify-center gap-6 text-sm tracking-wide text-text-light">
+              {trustBadges.map((badge, index) => (
+                <div key={index} className="flex items-center">
+                  <div className="mr-2 text-primary">{badge.icon}</div>
+                  <span>{badge.text}</span>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
