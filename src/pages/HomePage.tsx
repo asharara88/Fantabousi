@@ -48,13 +48,124 @@ const HomePage: React.FC = () => {
   const toggleCard = (index: number) => {
     setExpandedCard(expandedCard === index ? null : index);
   };
+
   return (
     <div className="min-h-screen">
-      {/* Theme Toggle */}
-      <ThemeToggle />
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-md dark:bg-gray-900/80 border-b border-gray-200/30 dark:border-gray-700/30">
+        <div className="max-w-7xl mx-auto mobile-container">
+          <div className="flex items-center justify-between h-16 sm:h-20">
+            {/* Logo */}
+            <motion.div 
+              className="flex items-center"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Link to="/" className="flex items-center space-x-3">
+                <img 
+                  src={getBiowellLogo(actualTheme)}
+                  alt="Biowell" 
+                  className="object-contain w-auto h-8 sm:h-10" 
+                />
+                <span className="text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">
+                  Biowell
+                </span>
+              </Link>
+            </motion.div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden space-x-8 md:flex">
+              {navigationItems.map((item, index) => (
+                <motion.a
+                  key={item.name}
+                  href={item.href}
+                  className="font-medium text-gray-700 transition-colors duration-200 hover:text-primary dark:text-gray-300 dark:hover:text-primary-light"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                >
+                  {item.name}
+                </motion.a>
+              ))}
+            </div>
+
+            {/* Desktop Actions */}
+            <div className="hidden space-x-4 md:flex">
+              <ThemeToggle />
+              <Link
+                to="/login"
+                className="font-medium text-gray-700 transition-colors duration-200 hover:text-primary dark:text-gray-300 dark:hover:text-primary-light"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/signup"
+                className="px-6 py-2 font-semibold text-white transition-all duration-200 rounded-lg gradient-primary hover:shadow-lg hover:-translate-y-0.5"
+              >
+                Get Started
+              </Link>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="flex items-center space-x-3 md:hidden">
+              <ThemeToggle />
+              <button
+                onClick={toggleMenu}
+                className="p-2 text-gray-700 transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Menu */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="md:hidden border-t border-gray-200/30 dark:border-gray-700/30"
+              >
+                <div className="py-4 space-y-4">
+                  {navigationItems.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="block font-medium text-gray-700 transition-colors duration-200 hover:text-primary dark:text-gray-300 dark:hover:text-primary-light"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </a>
+                  ))}
+                  <div className="pt-4 border-t border-gray-200/30 dark:border-gray-700/30">
+                    <Link
+                      to="/login"
+                      className="block mb-3 font-medium text-gray-700 transition-colors duration-200 hover:text-primary dark:text-gray-300 dark:hover:text-primary-light"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      to="/signup"
+                      className="block w-full px-6 py-3 font-semibold text-center text-white transition-all duration-200 rounded-lg gradient-primary hover:shadow-lg"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </nav>
       
-      {/* Hero Section with consistent styling */}
-      <section className="relative py-32 overflow-hidden text-gray-900 border-b gradient-subtle border-gray-200/30 dark:border-gray-700/30 dark:text-white sm:py-40 md:py-48">
+      {/* Hero Section with consistent styling - add top padding for fixed nav */}
+      <section className="relative pt-20 pb-32 overflow-hidden text-gray-900 border-b gradient-subtle border-gray-200/30 dark:border-gray-700/30 dark:text-white sm:pt-24 sm:pb-40 md:pt-28 md:pb-48">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute rounded-full top-1/4 left-1/4 w-96 h-96 bg-primary/5 blur-3xl animate-pulse"></div>
@@ -125,7 +236,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Features Section with responsive spacing */}
-      <section className="relative py-24 overflow-hidden transition-all duration-300 sm:py-28 md:py-32 gradient-subtle">
+      <section id="features" className="relative py-24 overflow-hidden transition-all duration-300 sm:py-28 md:py-32 gradient-subtle">
         {/* Background accent */}
         <div className="absolute top-0 right-0 w-1/3 rounded-bl-full h-1/3 bg-gradient-to-br from-primary/10 to-secondary/10 blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-1/4 rounded-tr-full h-1/4 bg-gradient-to-tr from-tertiary/10 to-primary/10 blur-3xl"></div>
