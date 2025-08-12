@@ -81,12 +81,12 @@ const Layout: React.FC = () => {
               <img
                 src="/logos/biowell-light.svg"
                 alt="Biowell Logo"
-                className="h-24 w-auto dark:hidden opacity-70"
+                className="h-48 w-auto dark:hidden opacity-70"
               />
               <img
                 src="/logos/biowell-dark.svg"
                 alt="Biowell Logo"
-                className="h-24 w-auto hidden dark:block opacity-70"
+                className="h-48 w-auto hidden dark:block opacity-70"
               />
             </div>
             <div className="text-left md:text-right">
