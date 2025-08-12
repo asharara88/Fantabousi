@@ -6,6 +6,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Poppins', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'sans-serif'],
+        poppins: ['Poppins', 'sans-serif'],
       },
       spacing: {
         '18': '4.5rem',
