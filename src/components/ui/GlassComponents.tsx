@@ -392,7 +392,7 @@ export const GlassFeatureCard: React.FC<GlassFeatureCardProps> = ({
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
           {[...Array(6)].map((_, i) => (
             <motion.div
-              key={`particle-${i}`}
+              key={`particle-${i}-${Math.random()}`}
               className="absolute w-1 h-1 bg-primary/60 rounded-full"
               style={{
                 left: `${15 + i * 12}%`,
