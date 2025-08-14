@@ -412,11 +412,12 @@ const HomePage: React.FC = () => {
             {howItWorksSteps.map((step, index) => (
               <motion.div
                 key={index}
-                className="text-center"
+                className="glass-card glass-subtle text-center p-8 rounded-2xl"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.2, duration: 0.8 }}
                 viewport={{ once: true }}
+                whileHover={{ y: -5, scale: 1.02 }}
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 mb-6 text-white rounded-2xl gradient-primary">
                   {step.icon}
