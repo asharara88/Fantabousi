@@ -25,22 +25,22 @@ const HomePage: React.FC = () => {
       name: 'Biowell',
       logo: getBiowellLogo(actualTheme),
       specialty: 'Comprehensive Health & Performance',
-      description: 'Complete health optimization including fitness, sleep, and mental & cognitive health. Features cognitive exercises, breathwork, meditation, and tailored supplements/nutrition.',
-      features: ['Fitness Optimization', 'Sleep Enhancement', 'Mental Health', 'Cognitive Exercises', 'Breathwork & Meditation']
+      description: 'A unified hub for optimizing fitness, sleep, mental wellness, and cognitive performance. Delivers personalized routines, breathwork, and supplement protocols for peak daily performance.',
+      features: ['Fitness Optimization', 'Sleep Enhancement', 'Cognitive & Mental Wellness', 'Breathwork & Meditation']
     },
     {
       name: 'Ubergene',
       logo: 'https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/ubergene/Dark%20theme.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1YmVyZ2VuZS9EYXJrIHRoZW1lLnN2ZyIsImlhdCI6MTc1NTE1Mzg0OCwiZXhwIjoxODMyOTEzODQ4fQ.88nkhyEnPZuSNvTqnUzcx775VP75gRP0CbDrSKI-bJw',
       specialty: 'Reproductive Health & Fertility',
-      description: 'Specialized reproductive health and fertility support with targeted fitness routines to optimize fertility. Includes nutrition and supplements specific to reproductive goals.',
-      features: ['Fertility Optimization', 'Reproductive Health', 'Specialized Fitness', 'Targeted Nutrition', 'Hormone Support']
+      description: 'Couples-focused fertility coaching with synchronized male and female insights. Includes tailored nutrition, supplements, and guidance to align both partners toward shared reproductive goals.',
+      features: ['Fertility Optimization', 'Male & Female Insights', 'Targeted Nutrition & Supplements', 'Hormone & Cycle Support']
     },
     {
       name: 'Metaflex',
       logo: 'https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/metaflexlogos/metaflexlogo.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZXRhZmxleGxvZ29zL21ldGFmbGV4bG9nby5zdmciLCJpYXQiOjE3NTUxNTM4MDUsImV4cCI6MTgyNDE4NzQwNX0.Ci5Q0wdvIeQuq8pLd2A0KVsNac-JqTWSHOgQY0r_Wsc',
       specialty: 'Nutrition & Metabolic Health',
-      description: 'Advanced nutrition and metabolic health optimization with CGM trend analysis. Features metabolic optimization activities like pre-meal workouts, post-meal exercises, and walks.',
-      features: ['CGM Analysis', 'Metabolic Flexibility', 'Nutrition Timing', 'Activity Optimization', 'Blood Sugar Management']
+      description: 'Data-driven metabolic health support with CGM trend analysis and precise nutrition timing. Provides supplement strategies and routines to optimize energy, flexibility, and blood sugar balance.',
+      features: ['CGM Analysis', 'Nutrition Timing', 'Metabolic Flexibility', 'Blood Sugar Optimization']
     }
   ];
 
