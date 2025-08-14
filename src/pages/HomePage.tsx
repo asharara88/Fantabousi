@@ -261,7 +261,7 @@ const HomePage: React.FC = () => {
             </p>
             
             {/* Microproof */}
-            <div className="inline-block px-6 py-2 mb-12 text-sm font-medium tracking-wide transition-all duration-200 cursor-default surface-glass rounded-2xl">
+            <div className="glass-card glass-subtle inline-block px-6 py-2 mb-12 text-sm font-medium tracking-wide transition-all duration-200 cursor-default rounded-2xl">
               <span className="text-gray-700 dark:text-gray-300">Backed by peer‑reviewed research and rigorous data practices</span>
             </div>
             
