@@ -23,21 +23,21 @@ const HomePage: React.FC = () => {
   const smartCoaches = [
     {
       name: 'Biowell',
-      icon: <Heart className="w-8 h-8" style={{ color: '#00ff88' }} />,
+      logo: getBiowellLogo(actualTheme),
       specialty: 'Comprehensive Health & Performance',
       description: 'Complete health optimization including fitness, sleep, and mental & cognitive health. Features cognitive exercises, breathwork, meditation, and tailored supplements/nutrition.',
       features: ['Fitness Optimization', 'Sleep Enhancement', 'Mental Health', 'Cognitive Exercises', 'Breathwork & Meditation']
     },
     {
       name: 'Ubergene',
-      icon: <Baby className="w-8 h-8" style={{ color: '#00ff88' }} />,
+      logo: 'https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/ubergene/Dark%20theme.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1YmVyZ2VuZS9EYXJrIHRoZW1lLnN2ZyIsImlhdCI6MTc1NTE1Mzg0OCwiZXhwIjoxODMyOTEzODQ4fQ.88nkhyEnPZuSNvTqnUzcx775VP75gRP0CbDrSKI-bJw',
       specialty: 'Reproductive Health & Fertility',
       description: 'Specialized reproductive health and fertility support with targeted fitness routines to optimize fertility. Includes nutrition and supplements specific to reproductive goals.',
       features: ['Fertility Optimization', 'Reproductive Health', 'Specialized Fitness', 'Targeted Nutrition', 'Hormone Support']
     },
     {
       name: 'Metaflex',
-      icon: <Zap className="w-8 h-8" style={{ color: '#00ff88' }} />,
+      logo: 'https://leznzqfezoofngumpiqf.supabase.co/storage/v1/object/sign/metaflexlogos/metaflexlogo.svg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjcyOGVhMS1jMTdjLTQ2MTYtOWFlYS1mZmI3MmEyM2U5Y2EiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZXRhZmxleGxvZ29zL21ldGFmbGV4bG9nby5zdmciLCJpYXQiOjE3NTUxNTM4MDUsImV4cCI6MTgyNDE4NzQwNX0.Ci5Q0wdvIeQuq8pLd2A0KVsNac-JqTWSHOgQY0r_Wsc',
       specialty: 'Nutrition & Metabolic Health',
       description: 'Advanced nutrition and metabolic health optimization with CGM trend analysis. Features metabolic optimization activities like pre-meal workouts, post-meal exercises, and walks.',
       features: ['CGM Analysis', 'Metabolic Flexibility', 'Nutrition Timing', 'Activity Optimization', 'Blood Sugar Management']
@@ -127,7 +127,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b bg-white/80 backdrop-blur-md dark:bg-gray-900/80 border-gray-200/30 dark:border-gray-700/30">
+      <nav className="glass-nav fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div className="mx-auto max-w-7xl mobile-container">
           <div className="flex items-center justify-between h-20 sm:h-24">
             {/* Logo */}
@@ -303,7 +303,7 @@ const HomePage: React.FC = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-12 overflow-hidden"
                 >
-                  <div className="max-w-4xl p-8 mx-auto border border-gray-200/30 surface-glass rounded-3xl dark:border-gray-700/30">
+                  <div className="glass-card glass-frosted max-w-4xl p-8 mx-auto rounded-3xl">
                     <div className="mb-8 text-center">
                       <h3 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">
                         Purpose-Built AI — Not Your Average Chatbot
@@ -324,25 +324,25 @@ const HomePage: React.FC = () => {
 
                     {/* Key Trust Badges - Inline Row */}
                     <div className="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-2 lg:grid-cols-4">
-                      <div className="p-4 text-center border rounded-xl bg-white/50 dark:bg-gray-800/50 border-gray-200/30 dark:border-gray-700/30">
+                      <div className="glass-card glass-subtle p-4 text-center rounded-xl">
                         <div className="mb-2 text-2xl">🧪</div>
                         <h5 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Science-Backed</h5>
                         <p className="text-xs text-text-light">Peer-reviewed protocols only</p>
                       </div>
                       
-                      <div className="p-4 text-center border rounded-xl bg-white/50 dark:bg-gray-800/50 border-gray-200/30 dark:border-gray-700/30">
+                      <div className="glass-card glass-subtle p-4 text-center rounded-xl">
                         <div className="mb-2 text-2xl">📊</div>
                         <h5 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Data-Driven</h5>
                         <p className="text-xs text-text-light">Powered by your wearables, CGM & smart scale</p>
                       </div>
                       
-                      <div className="p-4 text-center border rounded-xl bg-white/50 dark:bg-gray-800/50 border-gray-200/30 dark:border-gray-700/30">
+                      <div className="glass-card glass-subtle p-4 text-center rounded-xl">
                         <div className="mb-2 text-2xl">🔒</div>
                         <h5 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Private by Design</h5>
                         <p className="text-xs text-text-light">Your data stays yours</p>
                       </div>
                       
-                      <div className="p-4 text-center border rounded-xl bg-white/50 dark:bg-gray-800/50 border-gray-200/30 dark:border-gray-700/30">
+                      <div className="glass-card glass-subtle p-4 text-center rounded-xl">
                         <div className="mb-2 text-2xl">💡</div>
                         <h5 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Specialized Intelligence</h5>
                         <p className="text-xs text-text-light">Domain-tuned AI for your goals</p>
@@ -455,20 +455,21 @@ const HomePage: React.FC = () => {
             {smartCoaches.map((coach, index) => (
               <motion.div
                 key={index}
-                className="p-8 border border-gray-200/30 surface-glass rounded-3xl dark:border-gray-700/30"
+                className="glass-card glass-elevated p-8 rounded-3xl"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.8 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -5 }}
+                whileHover={{ y: -5, scale: 1.02 }}
               >
                 <div className="mb-6">
-                  <div className="inline-flex items-center justify-center w-16 h-16 mb-4 text-white rounded-2xl gradient-primary">
-                    {coach.icon}
+                  <div className="flex items-center justify-center w-20 h-20 mb-6 p-4 glass-subtle rounded-2xl">
+                    <img 
+                      src={coach.logo} 
+                      alt={`${coach.name} logo`}
+                      className="w-full h-full object-contain"
+                    />
                   </div>
-                  <h3 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
-                    {coach.name}
-                  </h3>
                   <p className="mb-4 text-lg font-medium text-primary">
                     {coach.specialty}
                   </p>
@@ -512,11 +513,12 @@ const HomePage: React.FC = () => {
             {coreMethodologies.map((methodology, index) => (
               <motion.div
                 key={index}
-                className="p-8 border border-gray-200/30 surface-glass rounded-3xl dark:border-gray-700/30"
+                className="glass-card glass-elevated p-8 rounded-3xl"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.8 }}
                 viewport={{ once: true }}
+                whileHover={{ y: -5, scale: 1.02 }}
               >
                 <div className="inline-flex items-center justify-center w-12 h-12 mb-4 text-white rounded-xl gradient-primary">
                   {methodology.icon}
@@ -555,11 +557,12 @@ const HomePage: React.FC = () => {
             {faqs.map((faq, index) => (
               <motion.div
                 key={index}
-                className="p-6 border border-gray-200/30 surface-glass rounded-2xl dark:border-gray-700/30"
+                className="glass-card glass-subtle p-6 rounded-2xl"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.8 }}
                 viewport={{ once: true }}
+                whileHover={{ y: -2 }}
               >
                 <h3 className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
                   {faq.question}
@@ -593,11 +596,12 @@ const HomePage: React.FC = () => {
           
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <motion.div
-              className="p-6 text-center border border-gray-200/30 surface-glass rounded-2xl dark:border-gray-700/30"
+              className="glass-card glass-subtle p-6 text-center rounded-2xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
+              whileHover={{ y: -3, scale: 1.02 }}
             >
               <Shield className="w-8 h-8 mx-auto mb-4 text-primary" />
               <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
@@ -609,11 +613,12 @@ const HomePage: React.FC = () => {
             </motion.div>
             
             <motion.div
-              className="p-6 text-center border border-gray-200/30 surface-glass rounded-2xl dark:border-gray-700/30"
+              className="glass-card glass-subtle p-6 text-center rounded-2xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.8 }}
               viewport={{ once: true }}
+              whileHover={{ y: -3, scale: 1.02 }}
             >
               <Database className="w-8 h-8 mx-auto mb-4 text-primary" />
               <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
@@ -625,11 +630,12 @@ const HomePage: React.FC = () => {
             </motion.div>
             
             <motion.div
-              className="p-6 text-center border border-gray-200/30 surface-glass rounded-2xl dark:border-gray-700/30"
+              className="glass-card glass-subtle p-6 text-center rounded-2xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
               viewport={{ once: true }}
+              whileHover={{ y: -3, scale: 1.02 }}
             >
               <CheckCircle className="w-8 h-8 mx-auto mb-4 text-primary" />
               <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
@@ -641,11 +647,12 @@ const HomePage: React.FC = () => {
             </motion.div>
             
             <motion.div
-              className="p-6 text-center border border-gray-200/30 surface-glass rounded-2xl dark:border-gray-700/30"
+              className="glass-card glass-subtle p-6 text-center rounded-2xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
               viewport={{ once: true }}
+              whileHover={{ y: -3, scale: 1.02 }}
             >
               <Award className="w-8 h-8 mx-auto mb-4 text-primary" />
               <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
