@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import { useTheme } from '../contexts/ThemeContext'
 import { getBiowellLogo } from '../constants/branding'
+import { GlassCard } from '../components/ui/GlassComponents'
 
 const HomePage: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -200,7 +201,7 @@ const HomePage: React.FC = () => {
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
-                className="border-t md:hidden border-gray-200/30 dark:border-gray-700/30"
+                className="glass-panel border-t md:hidden border-gray-200/30 dark:border-gray-700/30"
               >
                 <div className="py-4 space-y-4">
                   {navigationItems.map((item) => (
@@ -362,7 +363,7 @@ const HomePage: React.FC = () => {
                         
                         <button
                           onClick={() => setIsLearnMoreExpanded(!isLearnMoreExpanded)}
-                          className="inline-flex items-center justify-center px-6 py-4 text-lg font-medium transition-all duration-300 border-2 text-primary border-primary rounded-xl hover:bg-primary hover:text-white"
+                          className="glass-interactive inline-flex items-center justify-center px-6 py-4 text-lg font-medium transition-all duration-300 border-2 text-primary border-primary rounded-xl hover:bg-primary hover:text-white"
                         >
                           See How It Works
                         </button>
