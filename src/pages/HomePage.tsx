@@ -127,8 +127,8 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-md dark:bg-gray-900/80 border-b border-gray-200/30 dark:border-gray-700/30">
-        <div className="max-w-7xl mx-auto mobile-container">
+      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b bg-white/80 backdrop-blur-md dark:bg-gray-900/80 border-gray-200/30 dark:border-gray-700/30">
+        <div className="mx-auto max-w-7xl mobile-container">
           <div className="flex items-center justify-between h-20 sm:h-24">
             {/* Logo */}
             <motion.div 
@@ -200,7 +200,7 @@ const HomePage: React.FC = () => {
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
-                className="md:hidden border-t border-gray-200/30 dark:border-gray-700/30"
+                className="border-t md:hidden border-gray-200/30 dark:border-gray-700/30"
               >
                 <div className="py-4 space-y-4">
                   {navigationItems.map((item) => (
@@ -282,7 +282,7 @@ const HomePage: React.FC = () => {
               </motion.div>
               <button
                 onClick={() => setIsLearnMoreExpanded(!isLearnMoreExpanded)}
-                className="font-medium tracking-wide text-gray-600 transition-colors duration-200 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light inline-flex items-center gap-2"
+                className="inline-flex items-center gap-2 font-medium tracking-wide text-gray-600 transition-colors duration-200 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light"
               >
                 Learn More
                 {isLearnMoreExpanded ? (
@@ -303,43 +303,74 @@ const HomePage: React.FC = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-12 overflow-hidden"
                 >
-                  <div className="max-w-4xl mx-auto p-8 border border-gray-200/30 surface-glass rounded-3xl dark:border-gray-700/30">
-                    <h3 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
-                      How Our Smart Coaches Transform Your Health
-                    </h3>
-                    <div className="grid gap-6 md:grid-cols-2">
-                      <div>
-                        <h4 className="mb-3 text-lg font-semibold text-primary">
-                          🧬 Personalized Science
-                        </h4>
-                        <p className="text-text-light leading-relaxed">
-                          Each Smart Coach analyzes your unique health data, goals, and preferences to create personalized recommendations backed by the latest research in their specialty area.
-                        </p>
+                  <div className="max-w-4xl p-8 mx-auto border border-gray-200/30 surface-glass rounded-3xl dark:border-gray-700/30">
+                    <div className="mb-8 text-center">
+                      <h3 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">
+                        Purpose-Built AI — Not Your Average Chatbot
+                      </h3>
+                      <p className="text-lg leading-relaxed text-text-light">
+                        Evidence-based, personalized health coaching built on your data.
+                      </p>
+                    </div>
+                    
+                    <div className="mb-8">
+                      <h4 className="mb-4 text-xl font-semibold text-center text-gray-900 dark:text-white">
+                        The Science Behind Your Smart Coach
+                      </h4>
+                      <p className="max-w-3xl mx-auto leading-relaxed text-center text-text-light">
+                        Biowell's Smart Coaches are fine-tuned and parameterized using peer-reviewed research, real-time biometric data from wearables, and proprietary supplement protocols. Every recommendation is grounded in science — and built for your goals, not generic answers.
+                      </p>
+                    </div>
+
+                    {/* Key Trust Badges - Inline Row */}
+                    <div className="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-2 lg:grid-cols-4">
+                      <div className="p-4 text-center border rounded-xl bg-white/50 dark:bg-gray-800/50 border-gray-200/30 dark:border-gray-700/30">
+                        <div className="mb-2 text-2xl">🧪</div>
+                        <h5 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Science-Backed</h5>
+                        <p className="text-xs text-text-light">Peer-reviewed protocols only</p>
                       </div>
-                      <div>
-                        <h4 className="mb-3 text-lg font-semibold text-primary">
-                          🎯 Specialized Expertise
-                        </h4>
-                        <p className="text-text-light leading-relaxed">
-                          Unlike generic wellness apps, our coaches specialize in specific health domains—from metabolic optimization to reproductive health—providing deep, targeted guidance.
-                        </p>
+                      
+                      <div className="p-4 text-center border rounded-xl bg-white/50 dark:bg-gray-800/50 border-gray-200/30 dark:border-gray-700/30">
+                        <div className="mb-2 text-2xl">📊</div>
+                        <h5 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Data-Driven</h5>
+                        <p className="text-xs text-text-light">Powered by your wearables, CGM & smart scale</p>
                       </div>
-                      <div>
-                        <h4 className="mb-3 text-lg font-semibold text-primary">
-                          🔄 Continuous Learning
-                        </h4>
-                        <p className="text-text-light leading-relaxed">
-                          Your coaches adapt and evolve their recommendations as they learn more about your responses, preferences, and progress toward your health goals.
-                        </p>
+                      
+                      <div className="p-4 text-center border rounded-xl bg-white/50 dark:bg-gray-800/50 border-gray-200/30 dark:border-gray-700/30">
+                        <div className="mb-2 text-2xl">🔒</div>
+                        <h5 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Private by Design</h5>
+                        <p className="text-xs text-text-light">Your data stays yours</p>
                       </div>
-                      <div>
-                        <h4 className="mb-3 text-lg font-semibold text-primary">
-                          🔒 Privacy First
-                        </h4>
-                        <p className="text-text-light leading-relaxed">
-                          All your health data is encrypted and stays under your control. You decide what to share and can revoke access at any time.
-                        </p>
+                      
+                      <div className="p-4 text-center border rounded-xl bg-white/50 dark:bg-gray-800/50 border-gray-200/30 dark:border-gray-700/30">
+                        <div className="mb-2 text-2xl">💡</div>
+                        <h5 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Specialized Intelligence</h5>
+                        <p className="text-xs text-text-light">Domain-tuned AI for your goals</p>
                       </div>
+                    </div>
+
+                    {/* Call to Action */}
+                    <div className="space-y-4 text-center">
+                      <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                        <Link
+                          to="/dashboard"
+                          className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all duration-300 transform shadow-lg bg-gradient-to-r from-primary to-primary-dark rounded-xl hover:shadow-xl hover:scale-105 group"
+                        >
+                          Get Started
+                          <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                        
+                        <button
+                          onClick={() => setIsLearnMoreExpanded(!isLearnMoreExpanded)}
+                          className="inline-flex items-center justify-center px-6 py-4 text-lg font-medium transition-all duration-300 border-2 text-primary border-primary rounded-xl hover:bg-primary hover:text-white"
+                        >
+                          See How It Works
+                        </button>
+                      </div>
+                      
+                      <p className="text-sm text-text-light">
+                        Take the 2-minute quiz to meet your Smart Coach
+                      </p>
                     </div>
                   </div>
                 </motion.div>
