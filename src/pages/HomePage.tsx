@@ -227,9 +227,11 @@ const HomePage: React.FC = () => {
                         const targetId = item.href.substring(1);
                         const targetElement = document.getElementById(targetId);
                         if (targetElement) {
-                          targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
+                          const navHeight = 100; // Account for fixed nav height
+                          const targetPosition = targetElement.offsetTop - navHeight;
+                          window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
                           });
                         }
                       }}
