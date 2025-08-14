@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import { useTheme } from '../contexts/ThemeContext'
 import { getBiowellLogo } from '../constants/branding'
-import { GlassCard } from '../components/ui/GlassComponents'
 
 const HomePage: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -697,7 +696,7 @@ const HomePage: React.FC = () => {
               </Link>
               <Link
                 to="/login"
-                className="px-10 py-4 font-semibold text-gray-700 transition-all duration-200 border-2 border-gray-300 dark:text-gray-300 dark:border-gray-600 rounded-2xl hover:border-primary dark:hover:border-primary-light hover:text-primary dark:hover:text-primary-light sm:px-12"
+                className="glass-interactive px-10 py-4 font-semibold text-gray-700 transition-all duration-200 border-2 border-gray-300 dark:text-gray-300 dark:border-gray-600 rounded-2xl hover:border-primary dark:hover:border-primary-light hover:text-primary dark:hover:text-primary-light sm:px-12"
               >
                 Sign In
               </Link>
