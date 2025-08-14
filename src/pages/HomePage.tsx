@@ -156,6 +156,19 @@ const HomePage: React.FC = () => {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1, duration: 0.6 }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const targetId = item.href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                      const navHeight = 100; // Account for fixed nav height
+                      const targetPosition = targetElement.offsetTop - navHeight;
+                      window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                      });
+                    }
+                  }}
                 >
                   {item.name}
                 </motion.a>
@@ -208,7 +221,18 @@ const HomePage: React.FC = () => {
                       key={item.name}
                       href={item.href}
                       className="block font-medium text-gray-700 transition-colors duration-200 hover:text-primary dark:text-gray-300 dark:hover:text-primary-light"
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsMenuOpen(false);
+                        const targetId = item.href.substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                          targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                          });
+                        }
+                      }}
                     >
                       {item.name}
                     </a>
@@ -435,7 +459,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Smart Coach Section */}
-      <section className="py-24 border-t border-gray-200/30 dark:border-gray-700/30 sm:py-32">
+      <section id="smart-coaches" className="py-24 border-t border-gray-200/30 dark:border-gray-700/30 sm:py-32">
         <div className="max-w-6xl mx-auto mobile-container">
           <motion.div 
             className="max-w-4xl mx-auto mb-16 text-center"
@@ -541,7 +565,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 border-t border-gray-200/30 dark:border-gray-700/30 sm:py-32">
+      <section id="faq" className="py-24 border-t border-gray-200/30 dark:border-gray-700/30 sm:py-32">
         <div className="max-w-4xl mx-auto mobile-container">
           <motion.div 
             className="mb-16 text-center"
@@ -582,7 +606,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Security & Privacy Section */}
-      <section className="py-24 border-t border-gray-200/30 dark:border-gray-700/30 sm:py-32 gradient-subtle">
+      <section id="security" className="py-24 border-t border-gray-200/30 dark:border-gray-700/30 sm:py-32 gradient-subtle">
         <div className="max-w-6xl mx-auto mobile-container">
           <motion.div 
             className="max-w-4xl mx-auto mb-16 text-center"
