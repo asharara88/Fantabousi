@@ -445,10 +445,10 @@ const HomePage: React.FC = () => {
             viewport={{ once: true }}
           >
             <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl dark:text-white">
-              Meet Your Smart Coaches
+              Meet Our SmartCoach Apps Suite
             </h2>
             <p className="text-xl leading-relaxed text-text-light text-balance">
-              Each coach has a unique personality and scientific expertise
+              Specialized AI coaches for every aspect of your health journey
             </p>
           </motion.div>
           
@@ -464,11 +464,15 @@ const HomePage: React.FC = () => {
                 whileHover={{ y: -5, scale: 1.02 }}
               >
                 <div className="mb-6">
-                  <div className="flex items-center justify-center w-20 h-20 mb-6 p-4 glass-subtle rounded-2xl">
+                  <div className="flex items-center justify-center w-24 h-24 mb-6 p-4 glass-subtle rounded-2xl">
                     <img 
                       src={coach.logo} 
                       alt={`${coach.name} logo`}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain filter transition-all duration-300"
+                      onError={(e) => {
+                        console.log(`Failed to load ${coach.name} logo:`, coach.logo);
+                        e.currentTarget.style.display = 'none';
+                      }}
                     />
                   </div>
                   <p className="mb-4 text-lg font-medium text-primary">
