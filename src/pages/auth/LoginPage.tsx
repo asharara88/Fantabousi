@@ -107,7 +107,7 @@ const LoginPage: React.FC = () => {
               Or{' '}
               <Link
                 to="/signup"
-                className="font-medium text-primary hover:text-primary-dark transition-colors"
+                className="font-medium transition-colors text-primary hover:text-primary-dark"
               >
                 create a new account
               </Link>
@@ -126,7 +126,7 @@ const LoginPage: React.FC = () => {
               />
               
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-text-light mb-2">
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-text-light">
                   Password
                 </label>
                 <div className="relative">
@@ -145,9 +145,9 @@ const LoginPage: React.FC = () => {
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <EyeOff className="w-4 h-4 text-text-light hover:text-text transition-colors" />
+                      <EyeOff className="w-4 h-4 transition-colors text-text-light hover:text-text" />
                     ) : (
-                      <Eye className="w-4 h-4 text-text-light hover:text-text transition-colors" />
+                      <Eye className="w-4 h-4 transition-colors text-text-light hover:text-text" />
                     )}
                   </button>
                 </div>
@@ -155,7 +155,7 @@ const LoginPage: React.FC = () => {
             </div>
 
             {error && (
-              <div className="p-3 mt-4 text-sm text-error rounded-lg bg-error/10 border border-error/20">
+              <div className="p-3 mt-4 text-sm border rounded-lg text-error bg-error/10 border-error/20">
                 {error}
               </div>
             )}
@@ -166,7 +166,7 @@ const LoginPage: React.FC = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                  className="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                 />
                 <label htmlFor="remember-me" className="block ml-2 text-sm text-text">
                   Remember me
@@ -176,7 +176,7 @@ const LoginPage: React.FC = () => {
               <div className="text-sm">
                 <button 
                   type="button"
-                  className="font-medium text-primary underline bg-transparent border-none cursor-pointer hover:text-primary-dark transition-colors"
+                  className="font-medium underline transition-colors bg-transparent border-none cursor-pointer text-primary hover:text-primary-dark"
                   onClick={() => alert('Password reset functionality will be implemented soon.')}
                 >
                   Forgot your password?
