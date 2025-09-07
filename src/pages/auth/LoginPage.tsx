@@ -19,21 +19,19 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
     if (!formData.email || !formData.password) {
       setError('Please enter both email and password')
       return
     }
-    
     setIsLoading(true)
     setError(null)
-    
     try {
-      // Debug: Log the attempt
+      // Debug: Log the attempt and config
       console.log('Attempting login with Supabase...')
       console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
-      console.log('Has Anon Key:', !!import.meta.env.VITE_SUPABASE_ANON_KEY)
-      
+      console.log('Supabase Anon Key:', import.meta.env.VITE_SUPABASE_ANON_KEY)
+      console.log('Supabase client config:', supabase)
+
       // Test basic connectivity first
       try {
         const healthCheck = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/rest/v1/`, {
@@ -43,35 +41,33 @@ const LoginPage: React.FC = () => {
           }
         })
         console.log('Health check status:', healthCheck.status)
+        const healthText = await healthCheck.text();
+        console.log('Health check response:', healthText)
       } catch (healthError) {
         console.error('Health check failed:', healthError)
         throw new Error('Cannot connect to Supabase. Please check your internet connection and try again.')
       }
-      
+
+      // Try sign in
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password
       })
-      
       console.log('Sign in response:', { data, error: signInError })
-      
       if (signInError) {
+        console.error('Supabase signInWithPassword error:', signInError)
         throw signInError;
       }
-      
       if (data?.user) {
         console.log('Login successful, redirecting...')
-        // Successful login, redirect to dashboard
         navigate('/dashboard')
       } else {
         throw new Error('Login succeeded but no user data received')
       }
     } catch (err: any) {
-      console.error('Login error:', err)
-      
-      // More specific error messages
+      // Log the full error object
+      console.error('Login error (full object):', err)
       let errorMessage = 'Failed to sign in. Please try again.';
-      
       if (err.name === 'AuthRetryableFetchError' || err.message?.includes('Failed to fetch')) {
         errorMessage = 'Network connection failed. Please check your internet connection and try again.';
       } else if (err.message?.includes('Invalid login credentials')) {
@@ -82,8 +78,9 @@ const LoginPage: React.FC = () => {
         errorMessage = err.message;
       } else if (err.message) {
         errorMessage = err.message;
+      } else {
+        errorMessage = JSON.stringify(err);
       }
-      
       setError(errorMessage);
     } finally {
       setIsLoading(false)
