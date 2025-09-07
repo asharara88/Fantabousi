@@ -9,7 +9,32 @@ import { getBiowellLogo } from '../constants/branding'
 const HomePage: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isLearnMoreExpanded, setIsLearnMoreExpanded] = React.useState(false);
+  const [activeSection, setActiveSection] = React.useState('');
   const { actualTheme } = useTheme();
+
+  // Track active section for navigation highlighting
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['how-it-works', 'smart-coaches', 'security', 'faq'];
+      const scrollPosition = window.scrollY + 150; // Offset for navigation
+
+      for (const sectionId of sections) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          const { offsetTop, offsetHeight } = section;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial state
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navigationItems = [
     { name: 'How It Works', href: '#how-it-works' },
@@ -148,31 +173,38 @@ const HomePage: React.FC = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden space-x-8 md:flex">
-              {navigationItems.map((item, index) => (
-                <motion.a
-                  key={item.name}
-                  href={item.href}
-                  className="font-medium text-gray-700 transition-colors duration-200 hover:text-primary dark:text-gray-300 dark:hover:text-primary-light"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const targetId = item.href.substring(1);
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                      const navHeight = 100; // Account for fixed nav height
-                      const targetPosition = targetElement.offsetTop - navHeight;
-                      window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                      });
-                    }
-                  }}
-                >
-                  {item.name}
-                </motion.a>
-              ))}
+              {navigationItems.map((item, index) => {
+                const isActive = activeSection === item.href.substring(1);
+                return (
+                  <motion.a
+                    key={item.name}
+                    href={item.href}
+                    className={`font-medium transition-colors duration-200 ${
+                      isActive 
+                        ? 'text-primary dark:text-primary-light' 
+                        : 'text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary-light'
+                    }`}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.6 }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const targetId = item.href.substring(1);
+                      const targetElement = document.getElementById(targetId);
+                      if (targetElement) {
+                        const navHeight = 100; // Account for fixed nav height
+                        const targetPosition = targetElement.offsetTop - navHeight;
+                        window.scrollTo({
+                          top: targetPosition,
+                          behavior: 'smooth'
+                        });
+                      }
+                    }}
+                  >
+                    {item.name}
+                  </motion.a>
+                );
+              })}
             </div>
 
             {/* Desktop Actions */}
@@ -216,29 +248,36 @@ const HomePage: React.FC = () => {
                 className="glass-panel border-t md:hidden border-gray-200/30 dark:border-gray-700/30"
               >
                 <div className="py-4 space-y-4">
-                  {navigationItems.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="block font-medium text-gray-700 transition-colors duration-200 hover:text-primary dark:text-gray-300 dark:hover:text-primary-light"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setIsMenuOpen(false);
-                        const targetId = item.href.substring(1);
-                        const targetElement = document.getElementById(targetId);
-                        if (targetElement) {
-                          const navHeight = 100; // Account for fixed nav height
-                          const targetPosition = targetElement.offsetTop - navHeight;
-                          window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                          });
-                        }
-                      }}
-                    >
-                      {item.name}
-                    </a>
-                  ))}
+                  {navigationItems.map((item) => {
+                    const isActive = activeSection === item.href.substring(1);
+                    return (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        className={`block font-medium transition-colors duration-200 ${
+                          isActive 
+                            ? 'text-primary dark:text-primary-light' 
+                            : 'text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary-light'
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setIsMenuOpen(false);
+                          const targetId = item.href.substring(1);
+                          const targetElement = document.getElementById(targetId);
+                          if (targetElement) {
+                            const navHeight = 100; // Account for fixed nav height
+                            const targetPosition = targetElement.offsetTop - navHeight;
+                            window.scrollTo({
+                              top: targetPosition,
+                              behavior: 'smooth'
+                            });
+                          }
+                        }}
+                      >
+                        {item.name}
+                      </a>
+                    );
+                  })}
                   <div className="pt-4 border-t border-gray-200/30 dark:border-gray-700/30">
                     <Link
                       to="/login"
